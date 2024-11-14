@@ -15,17 +15,21 @@ import BackToTopButton from "../../components/Navigate/BackToTopNavigate";
 export default function DetailPageBox({ method, similarity, data }) {
 
     console.log(similarity)
+
     const renderContent = () => {
         if (!method) {
             return <p>Pilih Fungsi Similarity untuk {method}.</p>;
         } else if (!similarity) {
-            return (<p className='flex items-center text-xl font-semibold font-poppins text-red-600 '>
-                <SdCardAlertIcon className='mr-2' /> {/* Adjust margin as needed */}
-                Silakan pilih metode dan fungsi similarity terlebih dahulu.
-            </p>);
+            return (
+                <p className='flex items-center text-xl font-semibold font-poppins text-red-600'>
+                    <SdCardAlertIcon className='mr-2' /> {/* Adjust margin as needed */}
+                    Silakan pilih metode dan fungsi similarity terlebih dahulu.
+                </p>
+            );
         } else if (data.length === 0) {
             return (
-                <p>Silakan isi data terlebih dahulu.</p>);
+                <p>Silakan isi data terlebih dahulu.</p>
+            );
         }
 
         const initialData = getInitialData(data, method.toLowerCase());
@@ -55,12 +59,10 @@ export default function DetailPageBox({ method, similarity, data }) {
         )
     };
 
-
     return (
-
         <React.Fragment>
             <CssBaseline />
-            <Container maxWidth="max-w-5xl">
+            <Container maxWidth="lg">
                 <Box
                     sx={{
                         bgcolor: '#FDF9ED',
@@ -75,20 +77,19 @@ export default function DetailPageBox({ method, similarity, data }) {
                         alignItems: 'flex-start',
                     }}
                 >
-                    <section className='max-w-4xl mx-auto  text-center'>
+                    <section className='max-w-3xl mx-auto text-center'>
 
-                        {/* <h1 className='text-2xl font-bold font-poppins py-5'>Langkah-Langkah {method} dan
-                            Metode {similarity}</h1> */}
-                        <h1 className="text-xl sm:text-xl md:text-2xl font-bold font-poppins py-5 leading-snug">
+                        {/* Menggunakan `break-words` untuk mencegah teks melimpah */}
+                        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold font-poppins py-5 leading-snug break-words">
                             Langkah-Langkah Penerapan <i>{method} Collaborative Filtering</i> dengan
                             Metode
                             <span className="italic">{similarity}</span>
                         </h1>
 
-                        <div className='text-sm px-10 py-5 font-sm font-poppins'>
+                        <div className='text-sm sm:text-base md:text-lg px-4 sm:px-10 py-5 font-poppins'>
                             {/* Tempat untuk ganti-ganti similarity untuk sesuai metode yang di submit */}
                             {renderContent()}
-                            <BackToTopButton/>
+                            <BackToTopButton />
                         </div>
                     </section>
                 </Box>
@@ -96,7 +97,6 @@ export default function DetailPageBox({ method, similarity, data }) {
         </React.Fragment>
     );
 }
-
 
 export function HasilPerhitunganSimilaritas() {
     return (

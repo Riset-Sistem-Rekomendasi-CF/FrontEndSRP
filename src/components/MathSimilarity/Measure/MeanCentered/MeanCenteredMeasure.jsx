@@ -107,7 +107,7 @@ const MeanCenteredMeasure = ({ opsional, similarity, initialData }) => {
             </MathJaxContext>
             <FunctionMeasureDropdown DetailRumus={FormulaMeanCentered.detail_formula} />
             <div className=' px-10 py-5'>
-                <h1 className='text-xl font-semibold font-poppins underline underline-offset-8 decoration-4 decoration-card_blue_primary'>Hasil
+                <h1 className='text-lg font-semibold font-poppins underline underline-offset-8 decoration-4 decoration-card_blue_primary'>Hasil
                     Mean-Centered <span className='italic'>{opsional.replace("-", " ").toLowerCase().replace(/\b[a-z]/g, (letter) => letter.toUpperCase())}</span> </h1>
                 <RenderTabelMeanCentered />
             </div>

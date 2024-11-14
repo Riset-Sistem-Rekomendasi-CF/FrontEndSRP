@@ -60,30 +60,49 @@ export const TabelRatingData = ({ data, opsional }) => {
             />
 
 
-            <table className="w-[100%] h-[100%] border border-collapse border-black mt-4 mr-3 text-center overflow-auto">
-                <thead>
+            <div
+                className="overflow-x-auto mt-4 mr-2"> {/* Membuat tabel dapat digulir secara
+                 horizontal */}
+                <table className="w-full border border-collapse border-black text-center">
+                    <thead>
                     <tr className="bg-card_blue_primary text-white">
-                        <th className="relative px-4 py-2">
+                        {/* Kolom Pembatas: User */}
+                        <th className="relative px-4 py-2 border-r-2 border-black"> {/* Border kanan untuk pemisah */}
                             <span className="absolute p-1 top-0 right-0 text-xs italic">Item</span>
                             <span className="absolute p-1 bottom-0 left-0 text-xs italic">User</span>
                             <div className="absolute top-0 left-0 w-[105%] h-full border-t border-black rotate-[19deg] origin-top-left"></div>
                         </th>
-                        {Array.from({ length: item }, (_, index) => (
+                        {Array.from({length: item}, (_, index) => (
                             <th key={index} className="border border-black px-4 py-2">
-                                {!isNotation ? (index + 1) : <span className='italic font-serif'>i<sub>{index + 1}</sub></span>}
+                                {/* Conditional rendering for notation */}
+                                {!isNotation ? (
+                                    index + 1
+                                ) : (
+                                    <span
+                                        className="italic font-serif">i<sub>{index + 1}</sub></span>
+                                )}
                             </th>
                         ))}
                     </tr>
-                </thead>
-                <tbody>
+                    </thead>
+                    <tbody>
                     {dataOnly.map((row, rowIndex) => (
                         <tr key={rowIndex}>
-                            <td className="border border-black px-4 py-2 w-20 bg-gray-200">{!isNotation ? (rowIndex + 1) : (<><span className='italic font-serif'>u<sub>{rowIndex + 1}</sub></span></>)}</td>
+                            <td className="border border-black px-4 py-2 w-20 bg-gray-200">
+                                {/* Conditional rendering for notation */}
+                                {!isNotation ? (
+                                    rowIndex + 1
+                                ) : (
+                                    <span
+                                        className="italic font-serif">u<sub>{rowIndex + 1}</sub></span>
+                                )}
+                            </td>
                             {row.map((value, colIndex) => {
-                                const indicatorCell = row.includes(6) ? "bg-" : ""
-                                const cellClass = value === 0
-                                    ? 'border border-black px-4 py-2 text-center w-20 bg-red-200'
-                                    : 'border border-black px-4 py-2 text-center w-20 hover:bg-card_green_primary cursor-pointer';
+                                const indicatorCell = row.includes(6) ? "bg-" : "";
+                                const cellClass =
+                                    value === 0
+                                        ? "border border-black px-4 py-2 text-center w-20 bg-red-200"
+                                        : "border border-black px-4 py-2 text-center w-20 hover:bg-card_green_primary cursor-pointer";
 
                                 return (
                                     <td
@@ -91,56 +110,93 @@ export const TabelRatingData = ({ data, opsional }) => {
                                         className={indicatorCell + cellClass}
                                         onClick={() => handleCellClick(rowIndex, colIndex, value)} // Handle cell click
                                     >
-                                        {!isNotation ? (value.toFixed ? value.toFixed(0) : value)
-                                            : <span className='italic font-serif'>r<sub>{rowIndex + 1}{colIndex + 1}</sub></span>
-                                        }
+                                        {!isNotation
+                                            ? value.toFixed
+                                                ? value.toFixed(0)
+                                                : value
+                                            : <span
+                                                className="italic font-serif">r<sub>{rowIndex + 1}{colIndex + 1}</sub></span>}
                                     </td>
                                 );
                             })}
                         </tr>
                     ))}
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
+
 
             {showModal && (
-                <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
-                    <div className="bg-white p-6 rounded-lg shadow-lg font-poppins">
-                        <h2 className="text-lg font-semibold mb-4">Detail Data Rating r<sub className={'italic'}>ui</sub></h2>
-                        <p className='mb-2 font-semibold text-md text-black'>
-                            r<sub className={'italic'}>{selectedData.user}{selectedData.itemIndex + 1}</sub> = {selectedData.value}
+                <div
+                    className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
+                    <div
+                        className="bg-white p-6 rounded-lg shadow-lg font-poppins max-w-full sm:max-w-lg md:max-w-2xl lg:max-w-3xl">
+                        <h2 className="text-lg sm:text-xl font-semibold mb-4">
+                            Detail Data Rating r<sub className={'italic'}>ui</sub>
+                        </h2>
+                        <p className="mb-2 font-semibold text-md text-black">
+                            r<sub
+                            className={'italic'}>{selectedData.user}{selectedData.itemIndex + 1}</sub> = {selectedData.value}
                         </p>
-                        <p className='my-2 font-medium text-md text-black'>
-                            Rating dari user(u) {selectedData.user} untuk item(i) {selectedData.itemIndex + 1} adalah {selectedData.value}
+                        <p className="my-2 font-medium text-md text-black">
+                            Rating dari user(u) {selectedData.user} untuk
+                            item(i) {selectedData.itemIndex + 1} adalah {selectedData.value}
                         </p>
-                        <button className="mt-4 bg-blue-500 text-white px-4 py-2 rounded" onClick={closeModal}>
+                        <button
+                            className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+                            onClick={closeModal}
+                        >
                             Tutup
                         </button>
                     </div>
                 </div>
+
             )}
             <div>
-                <h3 className="text-lg font-semibold my-2">Informasi Matriks Rating</h3>
-                <h3 className="text-md font-semibold mb-2">Matriks rating dibentuk berdasarkan data rating.</h3>
+                <h3 className="text-lg sm:text-xl md:text-2xl font-semibold my-2">
+                    Informasi Matriks Rating
+                </h3>
+                <h3 className="text-md sm:text-lg font-semibold mb-2">
+                    Matriks rating dibentuk berdasarkan data rating.
+                </h3>
+
 
                 <div className="flex items-start justify-start space-x-6">
 
                     {/* Right Column */}
-                    <div className="w-full space-y-2 text-start ">
-                        <div className="flex justify-between ">
-                            <div className="w-1/2 mx-1">
-                                <p><span className='italic font-serif'>I</span> : {!isNotation ? Array.from({ length: item }, (_, i) => i + 1).join(" , ") : Array.from({ length: item }, (_, i) => i).map(i => <span className='italic font-serif ml-1'>{i !== 0 ? "," : ""}i<sub>{+ (i + 1)}</sub></span>)}</p>
-                                <h2 className='font-medium my-2'> Lihat Himpunan Item yang telah diberi rating oleh user u (<span className='font-serif'>I<sub>u</sub></span>)</h2>
-                                <select value={selectedUser !== null ? selectedUser : ''} onChange={handleUserChange}
+                    <div className="w-full space-y-2 text-start">
+                        <div className="flex flex-col sm:flex-row justify-between sm:space-x-6">
+                            {/* Kolom Kiri */}
+                            <div className="w-full sm:w-1/2 mx-1">
+                                <p>
+                                    <span className='italic font-serif'>I</span> : {!isNotation
+                                    ? Array.from({length: item}, (_, i) => i + 1).join(" , ")
+                                    : Array.from({length: item}, (_, i) => i).map(i =>
+                                        <span key={i}
+                                              className='italic font-serif ml-1'>{i !== 0 ? "," : ""}i<sub>{+(i + 1)}</sub></span>
+                                    )
+                                }
+                                </p>
+                                <h2 className='font-medium my-2'>
+                                    Lihat Himpunan Item yang telah diberi rating oleh user u (<span
+                                    className='font-serif'>I<sub>u</sub></span>)
+                                </h2>
+                                <select
+                                    value={selectedUser !== null ? selectedUser : ''}
+                                    onChange={handleUserChange}
                                     className="border border-gray-400 rounded w-full">
                                     <option value="">Pilih User</option>
-                                    {Array.from({ length: user }, (_, index) => (
-                                        <option key={index} value={index}>{`User ${index + 1}`}</option>
+                                    {Array.from({length: user}, (_, index) => (
+                                        <option key={index}
+                                                value={index}>{`User ${index + 1}`}</option>
                                     ))}
                                 </select>
+
                                 {selectedUser !== null && (
                                     <div>
                                         <p>
-                                            <strong className="italic">I<sub>{selectedUser + 1}</sub> : </strong>
+                                            <strong
+                                                className="italic">I<sub>{selectedUser + 1}</sub> :</strong>
                                             {'{' +
                                                 dataOnly[selectedUser]
                                                     .map((value, index) => value !== 0 ? index + 1 : null)
@@ -149,33 +205,48 @@ export const TabelRatingData = ({ data, opsional }) => {
                                                 '}'}
                                         </p>
                                         <p>
-                                            <strong className="italic">r<sub>{selectedUser + 1}*</sub> :
-                                            </strong> {dataOnly[selectedUser]
-                                                .filter(value => value !== 0) // Filter out values that are 0
-                                                .join(', ')
-                                            }
+                                            <strong
+                                                className="italic">r<sub>{selectedUser + 1}*</sub> :</strong>
+                                            {dataOnly[selectedUser]
+                                                .filter(value => value !== 0)
+                                                .join(', ')}
                                         </p>
-
                                     </div>
-
                                 )}
                             </div>
 
-                            <div className="w-1/2 mx-1">
-                                <p><span className='italic font-serif'>U</span> : {!isNotation ? Array.from({ length: user }, (_, i) => i + 1).join(" , ") : Array.from({ length: user }, (_, i) => i).map(i => <span className='italic font-serif ml-1'>{i !== 0 ? "," : ""}u<sub>{+ (i + 1)}</sub></span>)}</p>
+                            {/* Kolom Kanan */}
+                            <div className="w-full sm:w-1/2 mx-1 mt-6 sm:mt-0">
+                                <p>
+                                    <span className='italic font-serif'>U</span> : {!isNotation
+                                    ? Array.from({length: user}, (_, i) => i + 1).join(" , ")
+                                    : Array.from({length: user}, (_, i) => i).map(i =>
+                                        <span key={i}
+                                              className='italic font-serif ml-1'>{i !== 0 ? "," : ""}u<sub>{+(i + 1)}</sub></span>
+                                    )
+                                }
+                                </p>
 
-                                <h2 className='font-medium my-2'>Lihat Himpunan User yang telah memberi rating item i (<span className='font-serif'>U<sub>i</sub></span>)</h2>
-                                <select value={selectedItem !== null ? selectedItem : ''} onChange={handleItemChange}
+                                <h2 className='font-medium my-2'>
+                                    Lihat Himpunan User yang telah memberi rating item i (<span
+                                    className='font-serif'>U<sub>i</sub></span>)
+                                </h2>
+                                <select
+                                    value={selectedItem !== null ? selectedItem : ''}
+                                    onChange={handleItemChange}
                                     className="border border-gray-400 rounded w-full">
                                     <option value="">Pilih Item</option>
-                                    {Array.from({ length: item }, (_, index) => (
-                                        <option key={index} value={index}>{`Item ${index + 1}`}</option>
+                                    {Array.from({length: item}, (_, index) => (
+                                        <option key={index}
+                                                value={index}>{`Item ${index + 1}`}</option>
                                     ))}
                                 </select>
+
                                 {selectedItem !== null && (
                                     <div>
                                         <p>
-                                            <strong className="italic">U<sub>{selectedItem + 1} </sub> : </strong>
+                                            <strong
+                                                className="italic">U<sub>{selectedItem + 1}</sub> :</strong>
                                             {'{' +
                                                 transposeMatrix(dataOnly)[selectedItem]
                                                     .map((value, index) => value !== 0 ? index + 1 : null)
@@ -184,21 +255,18 @@ export const TabelRatingData = ({ data, opsional }) => {
                                                 '}'}
                                         </p>
                                         <p>
-                                            <strong className="italic">r<sub>*{selectedItem + 1} </sub> : </strong>
+                                            <strong
+                                                className="italic">r<sub>*{selectedItem + 1}</sub> :</strong>
                                             {dataOnly
                                                 .map(row => row[selectedItem])
-                                                .filter(value => value !== 0) // Filter out the values that are 0
-                                                .join(', ')
-                                            }
+                                                .filter(value => value !== 0)
+                                                .join(', ')}
                                         </p>
                                     </div>
-
                                 )}
                             </div>
-
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -206,7 +274,7 @@ export const TabelRatingData = ({ data, opsional }) => {
 };
 
 
-export const NotationCard = ({ data, opsional }) => {
+export const NotationCard = ({data, opsional}) => {
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -215,24 +283,28 @@ export const NotationCard = ({ data, opsional }) => {
     };
     return (
         <div className="bg-white shadow-md rounded-lg my-10 p-6 max-w-4xl mx-auto">
-            <h2 className="text-xl font-semibold mb-5 text-center underline underline-offset-8 decoration-4 decoration-card_blue_primary">Notasi dan Penjelasan</h2>
-            <div className="flex space-x-6">
+            <h2 className="text-xl sm:text-2xl font-semibold mb-5 text-center underline underline-offset-8 decoration-4 decoration-card_blue_primary">
+                Notasi dan Penjelasan
+            </h2>
+            <div className="flex flex-col sm:flex-row sm:space-x-6 space-y-4 sm:space-y-0">
                 {/* Left Column */}
-                <div className="w-1/2 space-y-2 font-poppins text-start">
+                <div className="w-full sm:w-1/2 space-y-2 font-poppins text-start">
                     <p><strong><i>m</i></strong> : Jumlah <span className="italic">user</span></p>
                     <p><strong><i>n</i></strong> : Jumlah <span className="italic">item</span></p>
                     <p><strong><i>U</i></strong> : Himpunan <span className="italic">user</span></p>
                     <p><strong><i>I</i></strong> : Himpunan <span className="italic">item</span></p>
-                    <p><strong><i>I<sub>u</sub></i></strong> : Himpunan <span className="italic">item</span> yang telah diberi
-                        rating oleh <span className="italic">user</span> <em>u</em></p>
+                    <p><strong><i>I<sub>u</sub></i></strong> : Himpunan <span
+                        className="italic">item</span> yang telah diberi rating oleh <span
+                        className="italic">user</span> <em>u</em></p>
                 </div>
 
                 {/* Right Column */}
-                <div className="w-1/2 space-y-2 font-poppins text-start">
-                    <p><strong><i>U<sub>i</sub></i></strong> : Himpunan <span className="italic">User</span> yang telah memberi
-                        rating <br /> <span className="italic">item</span> <em>i</em></p>
-                    <p><strong><em>R ∈ ℝ<sup> m×n</sup></em></strong> : Matriks yang berisi bilangan asli dengan panjang m dan lebar n
-                    </p>
+                <div className="w-full sm:w-1/2 space-y-2 font-poppins text-start">
+                    <p><strong><i>U<sub>i</sub></i></strong> : Himpunan <span
+                        className="italic">User</span> yang telah memberi rating <br/> <span
+                        className="italic">item</span> <em>i</em></p>
+                    <p><strong><em>R ∈ ℝ<sup> m×n</sup></em></strong> : Matriks yang berisi bilangan
+                        asli dengan panjang m dan lebar n</p>
                     <p><strong>r<sub>ui</sub></strong> : rating <span className="italic">user</span>
                         <em> u</em> terhadap <span className="italic">item</span> <em>i</em></p>
                 </div>
@@ -243,14 +315,14 @@ export const NotationCard = ({ data, opsional }) => {
                 className="mt-6 w-full bg-card_blue_primary text-white px-4 py-3 rounded-lg flex justify-center items-center font-poppins font-semibold"
                 onClick={toggleDropdown}
             >
-                <FaChevronDown className="mr-2 " />
-                {isOpen ? 'Sembunyikan Detail Matriks Rating ' : 'Tampilkan Detail Matriks Rating'}
+                <FaChevronDown className="mr-2"/>
+                {isOpen ? 'Sembunyikan Detail Matrik Rating' : 'Tampilkan Detail Matrik Rating'}
             </button>
 
             {/* Dropdown Card */}
             {isOpen && (
                 <div className="mt-4 bg-gray-100 shadow rounded-lg p-4">
-                    <TabelRatingData data={data} opsional={opsional} />
+                    <TabelRatingData data={data} opsional={opsional}/>
                 </div>
             )}
         </div>

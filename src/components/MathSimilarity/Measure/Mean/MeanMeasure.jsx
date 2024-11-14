@@ -91,27 +91,31 @@ export default function MeanMeasure({ opsional, similarity, initialData }) {
 
     return (
         <div className='mt-5'>
-            <div id="mean-rating-section" className="flex items-center">
-                <div className="border-l-4 border-card_blue_primary h-10 mr-4" />
-                {/* Vertical Line */}
-                <h1 className='font-poppins text-xl font-semibold text-black'>Mencari Mean Rating <i>{opsional.replace("-", " ").toLowerCase().replace(/\b[a-z]/g, (letter) => letter.toUpperCase())}</i></h1>
+            <div id="mean-rating-section" className="flex items-center justify-start mb-4">
+                {/* Garis Vertikal */}
+                <div className="border-l-4 border-card_blue_primary h-10 mr-4"/>
+                <h1 className='font-poppins text-xl sm:text-2xl font-semibold text-black'>
+                    Mencari Mean Rating{' '}
+                    <i>{opsional.replace("-", " ").toLowerCase().replace(/\b[a-z]/g, (letter) => letter.toUpperCase())}</i>
+                </h1>
             </div>
             <MathJaxContext options={mathjaxConfig}>
-                <div className='flex justify-start items-start flex-col px-10'>
-
+                <div className='flex justify-start items-start flex-col px-5 sm:px-10'>
                     <MathJax>
                         {meanFormula.formula}
                     </MathJax>
                 </div>
             </MathJaxContext>
-            <FunctionMeasureDropdown DetailRumus={meanFormula.formula_detail} />
+            <FunctionMeasureDropdown DetailRumus={meanFormula.formula_detail}/>
 
-            <div className=' px-10 py-5'>
-                <h1 className='text-xl font-semibold font-poppins underline underline-offset-8 decoration-4 decoration-card_blue_primary'>Hasil
-                    Mean Rating <i>{opsionalModify}</i></h1>
-                {/*    call api */}
-                <RenderTableMean />
+            <div className='px-5 sm:px-10 py-5'>
+                <h1 className='text-lg sm:text-xl font-semibold font-poppins underline underline-offset-8 decoration-4 decoration-card_blue_primary'>
+                    Hasil Mean Rating <i>{opsionalModify}</i>
+                </h1>
+                {/* Render tabel mean rating */}
+                <RenderTableMean/>
             </div>
         </div>
+
     )
 }

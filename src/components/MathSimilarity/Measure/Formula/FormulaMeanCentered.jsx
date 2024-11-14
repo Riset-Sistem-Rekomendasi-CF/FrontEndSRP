@@ -7,24 +7,25 @@ export const getFormulaMeanCentered = (opsional) => {
             return {
                 formula: `\\[ S_{ui} = r_{ui} -\\mu_{i}  \\ \\ \\  \\forall u \\in \\left\\{1...m\\right\\} \\]`,
                 detail_formula: [
-                    `\\[ S_{ui} = \\text{Rata-rata pada user u} \\] `,
-                    `\\[ r_{ui} = \\text{Rating user u terhadap item i} \\]`,
-                    `\\[ \\mu_{i} = \\text{Rata-rata pada user u} \\] `,
+                    `\\[ S_{ui} = \\text{Mean-Centered pada } \\textit{user} \\ u \\] `,
+                    `\\[ r_{ui} = \\textit{Rating } \\textit{user} \\ u \\text{ terhadap } \\textit{item} \\ i \\]`,
+                    `\\[ \\mu_{i} = \\text{Mean } \\textit{ rating } \\text{pada} \\textit{user} \\ u \\] `
                 ]
             }
         case "item-based":
             return {
                 formula: `\\[ S_{ui} = r_{ui} -\\mu_{i}  \\ \\ \\  \\forall i \\in \\left\\{1...m\\right\\}  \\]`,
                 detail_formula: [
-                    `\\[ S_{ui} = \\text{Rata-rata pada user u} \\] `,
-                    `\\[ r_{ui} = \\text{Rating user u terhadap item i} \\]`,
-                    `\\[ \\mu_{i} = \\text{Rata-rata pada user i} \\] `,
+                    `\\[ S_{ui} = \\text{Mean-Centered pada } \\textit{user} \\ u \\] `,
+                    `\\[ r_{ui} = \\textit{Rating } \\textit{user} \\ u \\text{ terhadap } \\textit{item} \\ i \\]`,
+                    `\\[ \\mu_{i} =\\text{Mean } \\textit{ rating } \\text{pada} \\textit{item} \\ i \\] `
                 ]
             }
         default:
             return;
     }
 }
+
 
 export const getFormulaMeanCenteredIndex = (rowIndex, colIndex, opsional) => {
     switch (opsional) {

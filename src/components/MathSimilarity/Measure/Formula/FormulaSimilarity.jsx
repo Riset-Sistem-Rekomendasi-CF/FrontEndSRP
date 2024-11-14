@@ -1,94 +1,94 @@
 export const getFormulaSimilarity = (similarity, opsional) => {
   switch (similarity) {
-    case "Pearson Correlation Coefficient (PCC)":
-      switch (opsional) {
-        case "user-based":
-          return {
-            formula: `\\[ PCC(u,v) = \\frac{\\sum_{i\\in I_{u} \\cap I_{v}} S_{ui} S_{vi}}{\\sqrt{\\sum_{i\\in I_{u} \\cap I_{i}} S_{ui}^{2}}\\sqrt{\\sum_{i\\in I_{v} \\cap I_{i}} S_{vi}^{2}}} \\]`,
-            detail_formula: [
-              `\\[ I_{u} = \\text{Himpunan item yang telah diberi rating oleh user u} \\]`,
-              `\\[ S_{ui} = \\text{Nilai mean-centered dari rating item i yang telah dinilai oleh user u } \\]`,
-            ],
-          };
-        case "item-based":
-          return {
-            formula: `\\[ PCC(i,j) = \\frac{\\sum_{u\\in U_{i} \\cap U_{j}} S_{ui} S_{uj}}{\\sqrt{\\sum_{u\\in U_{i} \\cap U_{j}} S^{2}_{ui}}\\sqrt{\\sum_{u\\in U_{i} \\cap U_{j}} S^{2}_{uj}}} \\]`,
-            detail_formula: [
-              `\\[ U_{ij} = \\text{Kumpulan user yang telah merating pada item yang sama user u dan v} \\]`,
-              `\\[ S_{ui} = \\text{Nilai mean-centered dari rating item i yang telah dinilai oleh user u } \\]`,
-            ],
-          };
-        default:
-          return;
-      }
+      case "Pearson Correlation Coefficient (PCC)":
+          switch (opsional) {
+              case "user-based":
+                  return {
+                      formula: `\\[ PCC(u,v) = \\frac{\\sum_{i\\in I_{u} \\cap I_{v}} S_{ui} S_{vi}}{\\sqrt{\\sum_{i\\in I_{u} \\cap I_{i}} S_{ui}^{2}}\\sqrt{\\sum_{i\\in I_{v} \\cap I_{i}} S_{vi}^{2}}} \\]`,
+                      detail_formula: [
+                          `\\[ I_{u} = \\text{Himpunan } \\textit{item} \\text{ yang telah diberi } \\textit{ rating } \\text{oleh } \\textit{user} \\ u \\]`,
+                          `\\[ S_{ui} = \\text{Nilai mean-centered dari } \\textit{ rating } \\textit{item} \\ i \\text{ yang telah dinilai oleh } \\textit{user} \\ u \\]`,
+                      ],
+                  };
+              case "item-based":
+                  return {
+                      formula: `\\[ PCC(i,j) = \\frac{\\sum_{u\\in U_{i} \\cap U_{j}} S_{ui} S_{uj}}{\\sqrt{\\sum_{u\\in U_{i} \\cap U_{j}} S^{2}_{ui}}\\sqrt{\\sum_{u\\in U_{i} \\cap U_{j}} S^{2}_{uj}}} \\]`,
+                      detail_formula: [
+                          `\\[ U_{ij} = \\text{Kumpulan } \\textit{user} \\text{ yang telah merating pada } \\textit{item} \\text{ yang sama oleh } \\textit{user} \\ u \\text{ dan } \\textit{user} \\ v \\]`,
+                          `\\[ S_{ui} = \\text{Nilai mean-centered dari } \\textit{ rating } \\textit{item} \\ i \\text{ yang telah dinilai oleh } \\textit{user} \\ u \\]`,
+                      ],
+                  };
+              default:
+                  return;
+          }
 
-    case "Vector Cosine":
-      switch (opsional) {
-        case "user-based":
-          return {
-            formula: `\\[ Cosine\\left(u,v\\right) = \\frac{\\sum_{i\\in I_{u} \\cap I_{v}}r_{ui}r_{vi}}{\\sqrt{\\sum_{u\\in I_{u}}r^{2}_{ui}}\\sqrt{\\sum_{u\\in I_{v}}r^{2}_{vi}}} \\]`,
-            detail_formula: [
-              `\\[ I_{u} = \\text{Himpunan item yang telah diberi rating oleh user u} \\] `,
-              `\\[ r_{ui} = \\text{Rating user u terhadap item i} \\]`,
-            ],
-          };
-        case "item-based":
-          return {
-            formula: `\\[  Cosine\\left(i,j\\right) = \\frac{\\sum_{u\\in U_{ij}}r_{ui}r_{uj}}{\\sqrt{\\sum_{u\\in U_{i}}r^{2}_{ui}}\\sqrt{\\sum_{u\\in U_{j}}r^{2}_{uj}}} \\]`,
-            detail_formula: [
-              `\\[ U_{i} = \\text{Himpunan user yang telah memberi rating item i} \\]`,
-              `\\[ r_{ui} = \\text{Nilai rating pada user u pada item pada item i} \\]`,
-            ],
-          };
-        default:
-          return;
-      }
-    case "Adjusted Vector Cosine":
-      switch (opsional) {
-        case "user-based":
-          return {
-            formula: `\\[ ACosine(u,v) = \\frac{\\sum_{i\\in I_{u} \\cap I_{v}} S_{ui} S_{vi}}{\\sqrt{\\sum_{u \\in I_{u} \\cap I_{v}} S_{ui}^{2}}\\sqrt{\\sum_{i \\in I_{u} \\cap I_{v}} S_{vi}^{2}}} \\]`,
-            detail_formula: [
-              `\\[ S_{ui} = \\text{Nilai mean-centered dari user u pada item i} \\] `,
-              `\\[ I_{u} = \\text{Himpunan item yang telah diberi rating oleh user u} \\]`,
-            ],
-          };
-        case "item-based":
-          return {
-            formula: `\\[ ACosine(i,j) = \\frac{\\sum_{u\\in U_{i} \\cap U_{j}} S_{ui} S_{uj}}{\\sqrt{\\sum_{u \\in U_{i} \\cap U_{j}} S_{ui}^{2}}\\sqrt{\\sum_{i \\in U_{i} \\cap U_{j}} S_{uj}^{2}}} \\]`,
-            detail_formula: [
-              `\\[ S_{ui} = \\text{Nilai mean-centered dari user u pada item i} \\] `,
-              `\\[ U_{i} = \\text{Himpunan user yang memberi rating item i} \\]`,
-            ],
-          };
+      case "Vector Cosine":
+          switch (opsional) {
+              case "user-based":
+                  return {
+                      formula: `\\[ Cosine\\left(u,v\\right) = \\frac{\\sum_{i\\in I_{u} \\cap I_{v}}r_{ui}r_{vi}}{\\sqrt{\\sum_{u\\in I_{u}}r^{2}_{ui}}\\sqrt{\\sum_{u\\in I_{v}}r^{2}_{vi}}} \\]`,
+                      detail_formula: [
+                          `\\[ I_{u} = \\text{Himpunan } \\textit{item} \\text{ yang telah diberi } \\textit{rating } \\text{oleh } \\textit{user} \\ u \\]`,
+                          `\\[ r_{ui} = \\textit{Rating} \\textit{user} \\ u \\text{ terhadap } \\textit{item} \\ i \\]`,
+                      ],
+                  };
+              case "item-based":
+                  return {
+                      formula: `\\[  Cosine\\left(i,j\\right) = \\frac{\\sum_{u\\in U_{ij}}r_{ui}r_{uj}}{\\sqrt{\\sum_{u\\in U_{i}}r^{2}_{ui}}\\sqrt{\\sum_{u\\in U_{j}}r^{2}_{uj}}} \\]`,
+                      detail_formula: [
+                          `\\[ U_{i} = \\text{Himpunan } \\textit{user} \\text{ yang telah memberi } \\textit{ rating } \\textit{item} \\ i \\]`,
+                          `\\[ r_{ui} = \\text{Nilai } \\textit{rating } \\text{pada}  \\textit{user} \\ u \\text{ pada } \\textit{item} \\ i \\]`,
+                      ],
+                  };
+              default:
+                  return;
+          }
+      case "Adjusted Vector Cosine":
+          switch (opsional) {
+              case "user-based":
+                  return {
+                      formula: `\\[ ACosine(u,v) = \\frac{\\sum_{i\\in I_{u} \\cap I_{v}} S_{ui} S_{vi}}{\\sqrt{\\sum_{u \\in I_{u} \\cap I_{v}} S_{ui}^{2}}\\sqrt{\\sum_{i \\in I_{u} \\cap I_{v}} S_{vi}^{2}}} \\]`,
+                      detail_formula: [
+                          `\\[ S_{ui} = \\text{Nilai mean-centered dari } \\textit{user } \\ u \\text{ pada } \\textit{item } \\ i \\]`,
+                          `\\[ I_{u} = \\text{Himpunan } \\textit{item } \\text{ yang telah diberi } \\textit{ rating } \\text{oleh} \\textit{user} \\ u \\]`,
+                      ],
+                  };
+              case "item-based":
+                  return {
+                      formula: `\\[ ACosine(i,j) = \\frac{\\sum_{u\\in U_{i} \\cap U_{j}} S_{ui} S_{uj}}{\\sqrt{\\sum_{u \\in U_{i} \\cap U_{j}} S_{ui}^{2}}\\sqrt{\\sum_{i \\in U_{i} \\cap U_{j}} S_{uj}^{2}}} \\]`,
+                      detail_formula: [
+                          `\\[ S_{ui} = \\text{Nilai mean-centered dari } \\textit{user } \\ u \\text{ pada } \\textit{item} \\ i \\]`,
+                          `\\[ U_{i} = \\text{Himpunan } \\textit{user} \\text{ yang memberi } \\textit{rating } \\textit{item} \\ i \\]`,
+                      ],
+                  };
 
-        default:
-          return;
-      }
-    case "Bhattacharyya Coefficient Similarity (BC)":
-      switch (opsional) {
-        case "user-based":
-          return {
-            formula: `\\[  BC(u,v) = \\sum_a \\sqrt{P\\left(r_{u*}=a\\right)\\times P\\left(r_{v*}=a\\right)} \\]`,
-            detail_formula: [
-              `\\[ a = \\text{mewakili semua nilai dalam distribusi atau seluruh nilai rating} \\] `,
-              `\\[ P = \\text{Menghitung probabilitas } \\]`,
-              `\\[ r_{i*} = \\text{Seluruh nilai rating item yang telah diberi oleh user i} \\]`,
-            ],
-          };
-        case "item-based":
-          return {
-            formula: `\\[ BC(i,j) = \\sum_a \\sqrt{P\\left(r_{*i}=a\\right)\\times P\\left(r_{*j}=a\\right)}  \\]`,
-            detail_formula: [
-              `\\[ a = \\text{mewakili semua nilai dalam distribusi atau seluruh nilai rating} \\] `,
-              `\\[ P = \\text{Menghitung probabilitas } \\]`,
-              `\\[ r_{*i} = \\text{Seluruh nilai rating item yang telah diberi oleh user i} \\]`,
-            ],
-          };
-        default:
-          return;
-      }
-    default:
+              default:
+                  return;
+          }
+      case "Bhattacharyya Coefficient Similarity (BC)":
+          switch (opsional) {
+              case "user-based":
+                  return {
+                      formula: `\\[  BC(u,v) = \\sum_a \\sqrt{P\\left(r_{u*}=a\\right)\\times P\\left(r_{v*}=a\\right)} \\]`,
+                      detail_formula: [
+                          `\\[ a = \\text{mewakili semua nilai dalam distribusi atau seluruh nilai } \\textit{rating } \\]`,
+                          `\\[ P = \\text{Menghitung probabilitas} \\]`,
+                          `\\[ r_{i*} = \\text{Seluruh nilai } \\textit{rating } \\textit{item} \\text{ yang telah diberi oleh } \\textit{user} \\ i \\]`,
+                      ],
+                  };
+              case "item-based":
+                  return {
+                      formula: `\\[ BC(i,j) = \\sum_a \\sqrt{P\\left(r_{*i}=a\\right)\\times P\\left(r_{*j}=a\\right)}  \\]`,
+                      detail_formula: [
+                          `\\[ a = \\text{mewakili semua nilai dalam distribusi atau seluruh nilai } \\textit{rating } \\]`,
+                          `\\[ P = \\text{Menghitung probabilitas} \\]`,
+                          `\\[ r_{*i} = \\text{Seluruh nilai } \\textit{rating } \\textit{item} \\text{ yang telah diberi oleh } \\textit{user} \\ i \\]`,
+                      ],
+                  };
+              default:
+                  return;
+          }
+      default:
       return;
   }
 };

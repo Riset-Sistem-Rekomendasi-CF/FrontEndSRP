@@ -12,9 +12,11 @@ function TabelView() {
     const headers = ['U/I', '1', '2', '3', '4', '5', '6'];
 
     return (
-        <div className="flex flex-col items-center justify-center">
-            <table className="min-w-full border-collapse border border-black">
-                <thead>
+        <div className="flex flex-col items-center justify-center p-4">
+            {/* Contain the table in a scrollable wrapper */}
+            <div className="overflow-x-auto w-full">
+                <table className="min-w-full border-collapse border border-black">
+                    <thead>
                     <tr>
                         {headers.map((header, index) => (
                             <th key={index} className="border border-black px-4 py-2 bg-yellow-btn-primary">
@@ -22,8 +24,8 @@ function TabelView() {
                             </th>
                         ))}
                     </tr>
-                </thead>
-                <tbody>
+                    </thead>
+                    <tbody>
                     {data.map((row, rowIndex) => (
                         <tr key={rowIndex}>
                             {row.map((cell, colIndex) => {
@@ -41,11 +43,14 @@ function TabelView() {
                             })}
                         </tr>
                     ))}
-                </tbody>
-            </table>
-            <div className="mt-4 text-left">
+                    </tbody>
+                </table>
+            </div>
+
+            {/* Keterangan Section */}
+            <div className="mt-6 text-left w-full">
                 <p className="font-bold text-xl ">Keterangan:</p>
-                <ul className="flex space-x-4">
+                <ul className="flex flex-col sm:flex-row space-x-0 sm:space-x-4 sm:space-y-0 space-y-4">
                     <li className="flex items-center">
                         <div
                             className="w-10 h-5 bg-red-300 border border-1 border-black mr-2 flex items-center justify-center text-black">
@@ -61,7 +66,6 @@ function TabelView() {
                         <div className="w-10 h-5 bg-yellow-btn-primary border border-1 border-black mr-2"></div>
                         Index Item
                     </li>
-
                 </ul>
             </div>
         </div>

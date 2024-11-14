@@ -29,7 +29,7 @@ const Tutorial = () => {
 
     const form = [
         {
-            header: "Pilih Metode Sistem Rekomendasi",
+            header: "Pilih Sistem Rekomendasi",
             element: <DropdownMethodBased
                 onChange={(method) => {
                     setSelectedMethod(method);
@@ -37,7 +37,7 @@ const Tutorial = () => {
                 }} />
         },
         {
-            header: "Pilih Fungsi Similaritas",
+            header: "Pilih Metode Similaritas",
             element: <DropdownSimilarityMeasure
                 onChange={(similaritas) => {
                     setSelectedSimilarity(similaritas);
@@ -65,18 +65,6 @@ const Tutorial = () => {
     ]);
     const [selectedMethod, setSelectedMethod] = useState('');
     const [selectedSimilarity, setSelectedSimilarity] = useState('');
-
-    const handleClick = (label) => {
-        console.log(`${label} clicked`);
-    };
-
-    // const scrollToMeanRating = () => {
-    //     // Menggunakan window.scrollTo() dengan smooth behavior
-    //     const element = document.getElementById('mean-rating-section');
-    //     if (element) {
-    //         element.scrollIntoView({ behavior: 'smooth' });
-    //     }
-    // };
 
     const scrollToSection = (sectionId) => {
         // Mencari elemen berdasarkan ID dan melakukan scroll halus
@@ -141,43 +129,43 @@ const Tutorial = () => {
 
             <section className='max-w-6xl mx-auto text-center my-10 py-10 relative'>
                 <button onClick={toggleDescription}
-                        className="w-70 font-semibold font-poppins bg-card_green_primary border-2 border-black text-center text-white px-6 py-3 rounded-full hover:bg-blue-700 shadow-md">
+                        className="w-full sm:w-auto font-semibold font-poppins bg-card_green_primary border-2 border-black text-center text-white px-4 py-2 sm:px-6 sm:py-3 rounded-full hover:bg-blue-700 shadow-md flex items-center justify-center mx-auto">
                     Cek Hasil Perhitungan Similaritas
                     {isDescriptionVisible ? <ExpandLessIcon className="ml-2 text-lg"/> :
                         <ExpandMoreIcon className="ml-2 text-lg"/>}
                 </button>
+
+
                 {isDescriptionVisible && (
-                    <div className='flex flex-row '>
+                    <div className='mt-8'>
                         <section className='max-w-4xl mx-auto text-center py-10'>
-                            <h1 id="topMenuSim" className='text-5xl font-bold font-poppins py-10 '>Hasil dan
-                                Pembahasan</h1>
-                            <div
-                                className="flex space-x-2 items-center justify-center mx-auto">
-                                {/* Mean Rating */}
+                            <h1 id="topMenuSim"
+                                className="text-4xl sm:text-3xl md:text-4xl lg:text-5xl font-bold font-poppins py-5 sm:py-6 md:py-8 lg:py-10">
+                                Hasil dan Pembahasan :
+                            </h1>
+
+                            {/* Flex container for chips */}
+                            <div className="flex flex-wrap justify-center gap-2">
+                                {/* Chip components */}
                                 <Chip
                                     label="Mean Rating"
                                     icon={<Star/>}
-                                    // onClick={() => handleClick('Mean Rating')}
                                     onClick={() => scrollToSection('mean-rating-section')}
                                     color="success"
                                     variant="outlined"
                                     clickable
-                                    className="cursor-pointer"
+                                    className="cursor-pointer w-full sm:w-auto sm:rounded-md rounded-full sm:flex sm:items-center sm:justify-center flex items-center justify-center"
+                                    iconOnlyClass="sm:flex"
                                 />
-
-                                {/* Mean-Centered */}
                                 <Chip
                                     label="Mean-Centered"
                                     icon={<ShowChart/>}
                                     onClick={() => scrollToSection('mean-cen-section')}
-                                    // onClick={scrollToMeanRating}
                                     color="primary"
                                     variant="outlined"
                                     clickable
-                                    className="cursor-pointer"
+                                    className="cursor-pointer w-full sm:w-auto sm:rounded-md rounded-full sm:flex sm:items-center sm:justify-center flex items-center justify-center"
                                 />
-
-                                {/* Similaritas */}
                                 <Chip
                                     label="Similaritas"
                                     icon={<People/>}
@@ -185,10 +173,8 @@ const Tutorial = () => {
                                     color="warning"
                                     variant="outlined"
                                     clickable
-                                    className="cursor-pointer"
+                                    className="cursor-pointer w-full sm:w-auto sm:rounded-md rounded-full sm:flex sm:items-center sm:justify-center flex items-center justify-center"
                                 />
-
-                                {/* Prediksi */}
                                 <Chip
                                     label="Prediksi"
                                     icon={<Lightbulb/>}
@@ -196,10 +182,8 @@ const Tutorial = () => {
                                     color="success"
                                     variant="outlined"
                                     clickable
-                                    className="cursor-pointer"
+                                    className="cursor-pointer w-full sm:w-auto sm:rounded-md rounded-full sm:flex sm:items-center sm:justify-center flex items-center justify-center"
                                 />
-
-                                {/* Top-N */}
                                 <Chip
                                     label="Top-N"
                                     icon={<AssignmentTurnedInIcon/>}
@@ -207,11 +191,12 @@ const Tutorial = () => {
                                     color="secondary"
                                     variant="outlined"
                                     clickable
-                                    className="cursor-pointer"
+                                    className="cursor-pointer w-full sm:w-auto sm:rounded-md rounded-full sm:flex sm:items-center sm:justify-center flex items-center justify-center"
                                 />
                             </div>
 
-                            <div>
+                            {/* Display the details */}
+                            <div className="mt-8">
                                 <DetailPageBox
                                     method={selectedMethod}
                                     similarity={selectedSimilarity}
@@ -220,9 +205,7 @@ const Tutorial = () => {
                             </div>
                         </section>
                     </div>
-
                 )}
-
             </section>
 
 

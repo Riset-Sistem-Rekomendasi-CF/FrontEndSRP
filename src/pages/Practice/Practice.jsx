@@ -19,6 +19,8 @@ import {
     Star
 } from "@mui/icons-material";
 import Chip from "@mui/material/Chip";
+import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
+import BodyTutorial from "../Layout/Tutorial/BodyTutorial";
 
 function Practice() {
     const [isDescriptionVisible, setDescriptionVisible] = useState(false);
@@ -54,27 +56,32 @@ function Practice() {
         setData(data)
     };
 
+    const scrollToSection = (sectionId) => {
+        // Mencari elemen berdasarkan ID dan melakukan scroll halus
+        const element = document.getElementById(sectionId);
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
     return (
         <div className="p-4">
             {/* Section Of Navigate */}
             <Navigator/>
 
-            <section className='max-w-4xl mx-auto text-center py-10'>
-                <h1 className='text-5xl font-bold font-poppins py-10 '>Practice Fungsi
-                    Similaritas</h1>
-                <p className='font-sm font-poppins'>Pada Page Practice ini pengguna bisa
-                    berexplorasi dan ingin melakukan experiment tentang perhitungan Fungsi
-                    Similaritas untuk pemahaman yang lebih lanjut.</p>
-            </section>
+            <BodyTutorial
+                header={"Practice Fungsi Similaritas"}
+                subheader={"Pada Page Practice ini pengguna bisa  berexplorasi dan ingin melakukan experiment tentang perhitungan Fungsi Similaritas untuk pemahaman yang lebih lanjut. "}
+            />
 
 
             <VidioTutorialModal/>
 
-            <section className='max-w-4xl mx-auto text-center py-10'>
-                <h1 className='text-4xl font-bold font-poppins py-10 '>Langkah-langkah</h1>
-                <p className='font-sm font-poppins'>Langkah-langkah untuk menghitung fungsi
-                    similaritas data rating yang akan di gunakan yaitu :</p>
-            </section>
+            <BodyTutorial
+                header={"Langkah-langkah"}
+                subheader={"Berikut adalah langkah-langkah yang perlu diikuti untuk menghitung fungsi similaritas berdasarkan data rating yang akan digunakan:"}
+
+            />
 
 
             <section className="max-w-5xl mx-auto p-6 text-center">
@@ -117,29 +124,33 @@ function Practice() {
                 <NotationCard opsional={selectedMethod.toLowerCase()} data={data}/>
             </section>
 
-            <section className='max-w-6xl mx-auto text-center py-5'>
-                <h1 className='text-4xl font-semibold font-poppins py-10 underline underline-offset-8 decoration-4 decoration-card_blue_primary '>Pilih Sistem Rekomendasi dan Metode Similaritas</h1>
-                <div className='flex justify-around'>
+            <section className="max-w-6xl mx-auto text-center py-5">
+                <h1 className="text-3xl sm:text-4xl font-semibold font-poppins py-10 underline underline-offset-8 decoration-4 decoration-card_blue_primary">
+                    Pilih Sistem Rekomendasi dan Metode Similaritas
+                </h1>
+                <div
+                    className="flex flex-col sm:flex-row justify-center sm:justify-around gap-8 sm:gap-10">
 
-                    <div className='flex flex-col items-center'>
-
-                        <div className='flex flex-row items-center'>
+                    {/* First Column */}
+                    <div className="flex flex-col items-center w-full sm:w-auto">
+                        <div className="flex flex-row items-center">
                             <div
-                                className='w-10 h-10 font-poppins rounded-full bg-green-500 text-white flex items-center justify-center text-lg'>3
+                                className="w-10 h-10 font-poppins rounded-full bg-green-500 text-white flex items-center justify-center text-lg">3
                             </div>
-                            <h1 className='text-2xl font-bold font-poppins py-10 px-3'>PPilih Metode Sistem Rekomendasi </h1>
+                            <h1 className="text-xl sm:text-2xl font-bold font-poppins py-5 sm:py-10 px-3">Pilih Sistem
+                                 Rekomendasi</h1>
                         </div>
                         <DropdownMethodBased onChange={handleMethodChange}/>
                     </div>
 
-                    <div className='flex flex-col items-center'>
-
-                        <div className='flex flex-row items-center'>
+                    {/* Second Column */}
+                    <div className="flex flex-col items-center w-full sm:w-auto">
+                        <div className="flex flex-row items-center">
                             <div
-                                className='w-10 h-10 font-poppins rounded-full bg-green-500 text-white flex items-center justify-center text-lg'>4
+                                className="w-10 h-10 font-poppins rounded-full bg-green-500 text-white flex items-center justify-center text-lg">4
                             </div>
-                            <h1 className='text-2xl font-bold font-poppins py-10 px-3'>Pilih Metode
-                                Similaritas</h1>
+                            <h1 className="text-xl sm:text-2xl font-bold font-poppins py-5 sm:py-10 px-3">Pilih
+                                Metode Similaritas</h1>
                         </div>
                         <DropdownSimilarityMeasure onChange={handleSimilarityChange}/>
                     </div>
@@ -156,65 +167,70 @@ function Practice() {
                 </button>
                 {isDescriptionVisible && (
                     <section className='max-w-4xl mx-auto text-center my-10 py-10'>
-                        <h1 className='text-4xl font-semibold font-poppins m-10'>Hasil dan
-                            Pembahasan :</h1>
+                        <h1 id="topMenuSim"
+                            className="text-4xl sm:text-3xl md:text-4xl lg:text-5xl font-bold font-poppins py-5 sm:py-6 md:py-8 lg:py-10">
+                            Hasil dan Pembahasan :
+                        </h1>
+
                         <div
-                            className="flex space-x-2 items-center justify-center mx-auto">
+                            className="flex flex-wrap space-x-2 space-y-2 items-center justify-center mx-auto">
                             {/* Mean Rating */}
                             <Chip
                                 label="Mean Rating"
                                 icon={<Star/>}
-                                onClick={() => handleClick('Mean Rating')}
+                                onClick={() => scrollToSection('mean-rating-section')}
                                 color="success"
                                 variant="outlined"
                                 clickable
-                                className="cursor-pointer"
+                                className="cursor-pointer w-full sm:w-auto sm:rounded-md rounded-full sm:flex sm:items-center sm:justify-center flex items-center justify-center"
+                                iconOnlyClass="sm:flex"
                             />
 
                             {/* Mean-Centered */}
                             <Chip
                                 label="Mean-Centered"
                                 icon={<ShowChart/>}
-                                onClick={() => handleClick('Mean-Centered')}
+                                onClick={() => scrollToSection('mean-cen-section')}
                                 color="primary"
                                 variant="outlined"
                                 clickable
-                                className="cursor-pointer"
+                                className="cursor-pointer w-full sm:w-auto sm:rounded-md rounded-full sm:flex sm:items-center sm:justify-center flex items-center justify-center"
                             />
 
                             {/* Similaritas */}
                             <Chip
                                 label="Similaritas"
                                 icon={<People/>}
-                                onClick={() => handleClick('Similaritas')}
+                                onClick={() => scrollToSection('sim-section')}
                                 color="warning"
                                 variant="outlined"
                                 clickable
-                                className="cursor-pointer"
+                                className="cursor-pointer w-full sm:w-auto sm:rounded-md rounded-full sm:flex sm:items-center sm:justify-center flex items-center justify-center"
                             />
 
                             {/* Prediksi */}
                             <Chip
                                 label="Prediksi"
                                 icon={<Lightbulb/>}
-                                onClick={() => handleClick('Prediksi')}
+                                onClick={() => scrollToSection('pred-section')}
                                 color="success"
                                 variant="outlined"
                                 clickable
-                                className="cursor-pointer"
+                                className="cursor-pointer w-full sm:w-auto sm:rounded-md rounded-full sm:flex sm:items-center sm:justify-center flex items-center justify-center"
                             />
 
                             {/* Top-N */}
                             <Chip
                                 label="Top-N"
-                                icon={<SportsMotorsports/>}
-                                onClick={() => handleClick('Top-N')}
+                                icon={<AssignmentTurnedInIcon/>}
+                                onClick={() => scrollToSection('topN-section')}
                                 color="secondary"
                                 variant="outlined"
                                 clickable
-                                className="cursor-pointer"
+                                className="cursor-pointer w-full sm:w-auto sm:rounded-md rounded-full sm:flex sm:items-center sm:justify-center flex items-center justify-center"
                             />
                         </div>
+
 
                         <DetailPageBox method={selectedMethod} similarity={selectedSimilarity}
                                        data={data}/>
