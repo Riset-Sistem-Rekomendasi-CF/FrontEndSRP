@@ -1,31 +1,50 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
+import LegendTable from "../tabelData/LegendTable";
 
 
 
-export function ScatterPlotData({result}){
+export function ScatterPlotData({opsional, result}){
     const similarityData = result['reduced-data'];
     console.log("ini adalh reduce data ", similarityData)
     // Mengubah objek menjadi array 2D
     const dataPlotVisual = Object.entries(similarityData).map(([key, value]) => [parseFloat(key), parseFloat(value)]);
-    // console.log("ini array 2d", dataPlotVisual)
-     const ScatterPlot = () => {
-        // Updated data
+    const ScatterPlot = () => {
+        // Create a reference for the container
+        const containerRef = useRef(null);
+        const [size, setSize] = useState({ width: 400, height: 400 });
 
-        const size = 400;
-        const margin = { top: 20, right: 20, bottom: 30, left: 40 };
-        const width = size - margin.left - margin.right;
-        const height = size - margin.top - margin.bottom;
+        useEffect(() => {
+            // Function to update size based on window width
+            const updateSize = () => {
+                const width = containerRef.current?.offsetWidth || 500;
+                const height = width; // Keep the aspect ratio 1:1
+                setSize({ width, height });
+            };
+
+            // Initial size update
+            updateSize();
+
+            // Resize event listener
+            window.addEventListener('resize', updateSize);
+
+            // Clean up the event listener on unmount
+            return () => window.removeEventListener('resize', updateSize);
+        }, []);
 
         useEffect(() => {
             // Clear previous SVG if present
             d3.select('#scatterplot').select('svg').remove();
 
+            const margin = { top: 20, right: 20, bottom: 30, left: 40 };
+            const width = size.width - margin.left - margin.right;
+            const height = size.height - margin.top - margin.bottom;
+
             const svg = d3.select('#scatterplot')
                 .append('svg')
-                .attr('width', size)
-                .attr('height', size)
+                .attr('width', size.width)
+                .attr('height', size.height)
                 .append('g')
                 .attr('transform', `translate(${margin.left},${margin.top})`);
 
@@ -33,7 +52,7 @@ export function ScatterPlotData({result}){
             const data = dataPlotVisual.map((row, index) => ({
                 x: row[0],  // Using first element of row for x
                 y: row[1],  // Using second element of row for y
-                label: `User ${index + 1}`
+                label: `${opsional === "user-based" ? "user" : "item"}-${index + 1}`
             }));
 
             // Create scales
@@ -120,36 +139,93 @@ export function ScatterPlotData({result}){
                 .attr('fill', 'black')
                 .text(d => d.label);
 
-        }, []);
+        }, [size]); // Re-run effect when size changes
 
         return (
-            <div id="scatterplot" style={{ margin: '0 auto' }} />
+            <>
+                <div id="scatterplot" ref={containerRef}
+                     style={{width: '100%', maxWidth: '600px', margin: '0 auto'}}/>
+                <div className="mt-6 text-center w-full">
+                    <p className="font-bold text-xl mb-4">Keterangan:</p>
+                    <ul className="flex flex-col sm:flex-row space-x-0 sm:space-x-4 sm:space-y-0 space-y-4 justify-center">
+                        <li className="flex items-center">
+                            <div
+                                className="w-5 h-5 rounded-full bg-blue-200 border border-1 border-black mr-2"></div>
+                            Titik <span className="italic"> {opsional}</span>
+                        </li>
+                    </ul>
+                </div>
+
+
+            </>
+
         );
     };
 
-    const ExplanationSectionScatterPlot = () => (
-        <div className="mt-6 text-justify max-w-xl">
-            <h2 className="text-xl text-center font-bold mb-3">Cara Membaca Scatter Plot 2D</h2>
-            <p className='text-sm mb-2'>
-                Plot ini menggunakan <b> <i> Multidimensional Scaling (MDS)</i></b> , yaitu teknik reduksi dimensi yang mengubah data kompleks ke dalam dimensi lebih rendah (misalnya 2D atau 3D) sambil mempertahankan jarak antar objek. MDS membantu memvisualisasikan kemiripan antar objek, sehingga memudahkan analisis hubungan antar user.
-                <a className='no-underline hover:underline text-card_blue_primary decoration-card_blue_primary ' href="https://scikit-learn.org/stable/modules/generated/sklearn.manifold.MDS.html" target="_blank"
-                   rel="noopener noreferrer">
-                    [Link Refrensi MDS Sklearn]
-                </a>
-            </p>
-            <p className="text-sm mb-2">
-                Scatter plot ini menunjukkan hubungan antara dua variabel yang diambil dari data kemiripan pengguna.
-                Setiap titik mewakili pengguna, dan posisi titik tersebut menunjukkan posisi dari variabel yang dipilih.
-            </p>
-            <p className="text-sm">
-                Tooltip akan muncul ketika Anda mengarahkan kursor ke setiap titik, menampilkan label <span className='italic'>user</span> atau <span className='italic'>item</span>.
-            </p>
-        </div>
-    );
+
+    // console.log("ini array 2d", dataPlotVisual)
 
 
+    const ExplanationSectionScatterPlot = () => {
+        const [isExpanded, setIsExpanded] = useState(false);
 
-    return(
+        // Fungsi untuk toggle teks
+        const toggleText = () => setIsExpanded(!isExpanded);
+
+        return (
+            <div className="mt-6 text-justify max-w-full md:max-w-xl mx-auto px-4">
+                <h2 className="text-xl text-center font-bold mb-3">
+                    Cara Membaca Scatter Plot 2D
+                </h2>
+                <p className={`text-sm mb-2 ${isExpanded ? '' : 'line-clamp-3'}`}>
+                    Plot ini menggunakan <b>
+                    <a className='no-underline hover:underline text-card_blue_primary decoration-card_blue_primary '
+                       href="https://scikit-learn.org/stable/modules/generated/sklearn.manifold.MDS.html"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        Multidimensional Scaling (MDS)
+                    </a></b>, yaitu teknik reduksi dimensi yang mengubah data kompleks ke dalam
+                    dimensi
+                    lebih rendah (misalnya 2D atau 3D) sambil mempertahankan jarak antar objek. MDS
+                    membantu memvisualisasikan kemiripan antar objek, sehingga memudahkan analisis
+                    hubungan antar <i>user</i>.
+                </p>
+                <p className={`text-sm mb-2 ${isExpanded ? '' : 'line-clamp-3'}`}>
+                    Scatter plot ini menunjukkan hubungan antara dua variabel yang diambil dari data
+                    kemiripan pengguna.
+                    Setiap titik mewakili <i>user</i>, dan posisi titik tersebut menunjukkan posisi dari
+                    variabel yang dipilih.
+                </p>
+                <p className={`text-sm ${isExpanded ? '' : 'line-clamp-3'}`}>
+                    Tooltip akan muncul ketika Anda mengarahkan kursor ke setiap titik, menampilkan
+                    label <span className='italic'>user</span> atau <span className='italic'>item</span>.
+                </p>
+
+                {/* Tampilkan tombol jika teks belum lengkap */}
+                {!isExpanded && (
+                    <button
+                        className="text-card_blue_primary mt-2 text-sm"
+                        onClick={toggleText}
+                    >
+                        Baca Selengkapnya
+                    </button>
+                )}
+
+                {/* Tombol untuk menutup teks */}
+                {isExpanded && (
+                    <button
+                        className="text-card_blue_primary mt-2 text-sm"
+                        onClick={toggleText}
+                    >
+                        Tampilkan Lebih Sedikit
+                    </button>
+                )}
+            </div>
+        );
+    };
+
+
+    return (
         <div>
             <div className='flex flex-col my-5 font-poppins items-center'>
                 <ScatterPlot/>
@@ -160,11 +236,7 @@ export function ScatterPlotData({result}){
 };
 
 
-
-
-
-
-export function ScatterPlotDataFilter({result}){
+export function ScatterPlotDataFilter({opsional, result}) {
     const similarityDataFilter = result['reduced-data'];
     console.log("ini adalh reduce data ", similarityDataFilter)
     // Mengubah objek menjadi array 2D
@@ -174,7 +246,7 @@ export function ScatterPlotDataFilter({result}){
 
 
         const size = 400;
-        const margin = { top: 20, right: 20, bottom: 30, left: 40 };
+        const margin = {top: 20, right: 20, bottom: 30, left: 40};
         const width = size - margin.left - margin.right;
         const height = size - margin.top - margin.bottom;
 
@@ -193,7 +265,7 @@ export function ScatterPlotDataFilter({result}){
             const data = dataFilterPlot.map((row, index) => ({
                 x: row[0],
                 y: row[1],
-                label: `User ${index + 1}`
+                label: `${opsional === "user-based" ? "user" : "item"}-${index + 1} `
             }));
 
             // Calculate Euclidean distance between points (except for the selected user)
@@ -306,33 +378,93 @@ export function ScatterPlotDataFilter({result}){
         }, []);
 
         return (
-            <div id="scatterplot" style={{ margin: '0 auto' }} />
-        );
+            <>
+                <div id="scatterplot" style={{margin: '0 auto'}}/>
+                <div className="mt-6 text-center w-full">
+                    <p className="font-bold text-xl mb-4">Keterangan:</p>
+                    <ul className="flex flex-col sm:flex-row space-x-0 sm:space-x-4 sm:space-y-0 space-y-4 justify-center">
+
+                        <li className="flex items-center">
+                            <div
+                                className="w-5 h-5 rounded-full bg-red-500 border border-1 border-black mr-2"></div>
+                            Titik <span className="italic">user</span> target
+                        </li>
+                        <li className="flex items-center">
+                            <div
+                                className="w-5 h-5 rounded-full bg-blue-200 border border-1 border-black mr-2"></div>
+                            Titik <span className="italic">User</span>
+                        </li>
+
+                        <li className="flex items-center">
+                            <div
+                                className="w-5 h-5 rounded-full bg-green-500 border border-1 border-black mr-2"></div>
+                            Titik tetangga terdekat
+                        </li>
+                    </ul>
+                </div>
+            </>
+
+
+        )
+            ;
     };
 
-    const ExplanationSectionScatterPlotFilter = () => (
-        <div className="mt-6 text-justify max-w-xl">
-            <h2 className="text-xl text-center font-bold mb-3">Cara Membaca Scatter Plot 2D</h2>
+    const ExplanationSectionScatterPlotFilter = () => {
+        const [isExpanded, setIsExpanded] = useState(false);
 
-            <p className="text-sm mb-2">
-                Scatter plot ini menggunakan <b><i>Multidimensional Scaling (MDS)</i></b>, yaitu teknik reduksi dimensi yang mengubah data kompleks menjadi dimensi lebih rendah (seperti 2D atau 3D) sambil mempertahankan jarak antar objek. MDS memudahkan kita untuk melihat hubungan dan kemiripan antar pengguna.
-                <a className='no-underline hover:underline text-card_blue_primary decoration-card_blue_primary'
-                   href="https://scikit-learn.org/stable/modules/generated/sklearn.manifold.MDS.html"
-                   target="_blank"
-                   rel="noopener noreferrer">
-                    [Referensi MDS Sklearn]
-                </a>
-            </p>
+        // Fungsi untuk toggle teks
+        const toggleText = () => setIsExpanded(!isExpanded);
 
-            <p className="text-sm mb-2">
-                Setiap titik pada scatter plot mewakili seorang <span className='italic'>user</span> atau <span className='italic'>item</span>, dengan posisinya yang menunjukkan hubungan antar variabel kemiripan. Titik yang lebih dekat berarti lebih mirip, sedangkan titik yang lebih jauh menunjukkan perbedaan yang lebih besar.
-            </p>
+        return (
+            <div className="mt-6 text-justify max-w-full md:max-w-xl mx-auto px-4">
+                <h2 className="text-xl text-center font-bold mb-3">
+                    Cara Membaca Scatter Plot 2D
+                </h2>
+                <p className={`text-sm mb-2 ${isExpanded ? '' : 'line-clamp-3'}`}>
+                    Plot ini menggunakan <b>
+                    <a className='no-underline hover:underline text-card_blue_primary decoration-card_blue_primary '
+                       href="https://scikit-learn.org/stable/modules/generated/sklearn.manifold.MDS.html"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        Multidimensional Scaling (MDS)
+                    </a></b>, yaitu teknik reduksi dimensi yang mengubah data kompleks ke dalam dimensi
+                    lebih rendah (misalnya 2D atau 3D) sambil mempertahankan jarak antar objek. MDS
+                    membantu memvisualisasikan kemiripan antar objek, sehingga memudahkan analisis
+                    hubungan antar <i>user</i>.
+                </p>
+                <p className={`text-sm mb-2 ${isExpanded ? '' : 'line-clamp-3'}`}>
+                    Scatter plot ini menunjukkan hubungan antara dua variabel yang diambil dari data
+                    kemiripan pengguna.
+                    Setiap titik mewakili <i>user</i>, dan posisi titik tersebut menunjukkan posisi dari
+                    variabel yang dipilih.
+                </p>
+                <p className={`text-sm ${isExpanded ? '' : 'line-clamp-3'}`}>
+                    Tooltip akan muncul ketika Anda mengarahkan kursor ke setiap titik, menampilkan
+                    label <span className='italic'>user</span> atau <span className='italic'>item</span>.
+                </p>
 
-            <p className="text-sm">
-                Tooltip akan muncul saat Anda mengarahkan kursor ke titik, menampilkan label untuk <span className='italic'>user</span> atau <span className='italic'>item</span> tersebut.
-            </p>
-        </div>
-    );
+                {/* Tampilkan tombol jika teks belum lengkap */}
+                {!isExpanded && (
+                    <button
+                        className="text-card_blue_primary mt-2 text-sm"
+                        onClick={toggleText}
+                    >
+                        Baca Selengkapnya
+                    </button>
+                )}
+
+                {/* Tombol untuk menutup teks */}
+                {isExpanded && (
+                    <button
+                        className="text-card_blue_primary mt-2 text-sm"
+                        onClick={toggleText}
+                    >
+                        Tampilkan Lebih Sedikit
+                    </button>
+                )}
+            </div>
+        );
+    };
 
 
     return (

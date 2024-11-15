@@ -4,7 +4,7 @@ export const getFormulaMean = (opsional) => {
             return {
                 formula: `\\[ \\mu_{u} = \\frac{\\sum_{j\\in I_{u}} r_{uj}}{\\left|I_{u}\\right|} \\ \\ \\  \\forall u\\in\\left\\{1...m\\right\\} \\]`,
                 formula_detail: [
-                    `\\[ \\mu_{u} = \\text{Mean} \\textit{rating } \\text{pada} \\textit{user} \\ u \\] `,
+                    `\\[ \\mu_{u} = \\text{Mean } \\textit{rating } \\text{pada } \\textit{user} \\ u \\] `,
                     `\\[ I_{u} = \\text{Himpunan } \\textit{item} \\text{ yang telah diberi } \\textit{ rating } \\text{oleh } \\textit{user} \\ u \\] `,
                     `\\[ r_{uj} = \\textit{Rating } \\textit{user} \\ u \\text{ terhadap } \\textit{item} \\ j \\]`
                 ]
@@ -13,7 +13,7 @@ export const getFormulaMean = (opsional) => {
             return {
                 formula: `\\[ \\mu_{i} = \\frac{\\sum_{I\\in U_{i}} r_{ui}}{\\left|U_{i}\\right|}  \\ \\ \\   \\forall u\\in\\left\\{1...m\\right\\} \\]`,
                 formula_detail: [
-                    `\\[ \\mu_{i} = \\text{Mean} \\textit{rating } \\text{pada} \\textit{item} \\ i \\] `,
+                    `\\[ \\mu_{i} = \\text{Mean } \\textit{rating } \\text{ }  \\textit{item} \\ i \\] `,
                     `\\[ U_{i} = \\text{Himpunan } \\textit{user} \\text{ yang telah memberikan} \\textit{rating } \\text{pada} \\textit{item} \\ i \\] `,
                     `\\[ r_{ui} = \\textit{Rating } \\textit{user} \\ u \\text{ terhadap } \\textit{item} \\ i \\]`
                 ]

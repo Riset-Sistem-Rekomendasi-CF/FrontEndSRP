@@ -43,18 +43,25 @@ const ModalPredictionMeasure = ({ opsional, similarity, topSimilarities, selecte
     }
 
     return (
-        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
-            <div className="bg-white p-6 rounded-lg shadow-lg max-auto max-h-[80%] overflow-y-auto ">
-                <h2 className="text-lg font-semibold mb-4">Detail Perhitungan Prediksi </h2>
+        <div
+            className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
+            <div
+                className="bg-white p-6 rounded-lg shadow-lg w-full sm:w-11/12 md:w-8/12 lg:w-6/12 xl:w-5/12 max-h-[80%] overflow-y-auto m-6">
+                <h2 className="text-xl font-semibold mb-4">Detail Perhitungan Prediksi</h2>
+
+                {/* Switch Toggle */}
                 <SwitchToggle
                     title={"Tampilkan Notasi"}
                     changeToggle={handleIsNotation}
                 />
-                <div className="overflow-x-auto">
-                    <div className="flex gap-5">
+
+                <div className="overflow-x-auto mt-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                        {/* Matrik Rating */}
                         <div>
-                            <h2 className='font-semibold'>Matrik Rating</h2>
-                            <table className="border border-black mt-4 mx-auto text-center">
+                            <h2 className='font-semibold text-lg'>Matrik Data <i> Rating </i></h2>
+                            <table className="border border-black mt-4 mx-auto text-center w-full">
                                 <thead>
                                 <tr className="bg-gray-200">
                                     <th className="border border-black px-4 py-2">{opsional === "item-based" ? "Item" : "User"}</th>
@@ -64,19 +71,14 @@ const ModalPredictionMeasure = ({ opsional, similarity, topSimilarities, selecte
                                 </thead>
                                 <tbody>
                                 {data.map((row, rowIndex) => {
-                                    const IsZero = opsional === "item-based" ? data[rowIndex][selectedIndex[0]] === 0 : data[rowIndex][selectedIndex[1]] === 0
-                                    console.log(opsional === "user-based");
-
-
+                                    const IsZero = opsional === "item-based" ? data[rowIndex][selectedIndex[0]] === 0 : data[rowIndex][selectedIndex[1]] === 0;
                                     return (
                                         <tr key={rowIndex}>
                                             <td className="border border-black px-4 py-2 bg-gray-200">{rowIndex + 1}</td>
-                                            <td
-                                                className={`border border-black px-4 py-2 text-center ${IsZero ? 'bg-red-200' : ''}`}
-                                            >
-                                                {!isNotation ? row[selectedIndex[opsional === "item-based" ? 0 : 1]]?.toFixed(1) : <>
+                                            <td className={`border border-black px-4 py-2 text-center ${IsZero ? 'bg-red-200' : ''}`}>
+                                                {!isNotation ? row[selectedIndex[opsional === "item-based" ? 0 : 1]]?.toFixed(1) :
                                                     <span
-                                                        className="italic font-serif">r<sub>{opsional === "user-based" ? `${rowIndex + 1}${selectedIndex[0] + 1}` : `${selectedIndex[1] + 1}${rowIndex + 1}`}</sub></span></>} {/* Tampilkan nilai mean-centered untuk item yang dipilih */}
+                                                        className="italic font-serif">r<sub>{opsional === "user-based" ? `${rowIndex + 1}${selectedIndex[0] + 1}` : `${selectedIndex[1] + 1}${rowIndex + 1}`}</sub></span>}
                                             </td>
                                         </tr>
                                     );
@@ -85,9 +87,11 @@ const ModalPredictionMeasure = ({ opsional, similarity, topSimilarities, selecte
                             </table>
                         </div>
 
+                        {/* Matriks Mean-Centered */}
                         <div>
-                            <h2 className='font-semibold'>Matrik <span className='italic'>Mean-Centered</span>  Rating</h2>
-                            <table className="border border-black mt-4 mx-auto text-center">
+                            <h2 className='font-semibold text-lg'>Matrik <span
+                                className='italic'>Mean-Centered</span> <i> Rating </i></h2>
+                            <table className="border border-black mt-4 mx-auto text-center w-full">
                                 <thead>
                                 <tr className="bg-gray-200">
                                     <th className="border border-black px-4 py-2">U</th>
@@ -96,11 +100,10 @@ const ModalPredictionMeasure = ({ opsional, similarity, topSimilarities, selecte
                                 </thead>
                                 <tbody>
                                 {resultMean.map((mean, index) => {
-                                    const isActiveUser = index === selectedIndex[opsional === "user-based" ? 0 : 1]; // Highlight the active user in the mean rating table
-
+                                    const isActiveUser = index === selectedIndex[opsional === "user-based" ? 0 : 1];
                                     return (
                                         <tr key={index}
-                                            className={isActiveUser ? 'bg-green-200' : ''}> {/* Highlight active user */}
+                                            className={isActiveUser ? 'bg-green-200' : ''}>
                                             <td className="border border-black px-4 py-2">{index + 1}</td>
                                             <td className="border border-black px-4 py-2">
                                                 <div className="text-center">
@@ -115,9 +118,10 @@ const ModalPredictionMeasure = ({ opsional, similarity, topSimilarities, selecte
                             </table>
                         </div>
 
+                        {/* Nilai Similarity */}
                         <div>
-                            <h2 className='font-semibold'>Nilai Similarity</h2>
-                            <table className="border border-black mt-4 mx-auto text-center ">
+                            <h2 className='font-semibold text-lg'>Nilai Similaritas</h2>
+                            <table className="border border-black mt-4 mx-auto text-center w-full">
                                 <thead>
                                 <tr className="bg-gray-200">
                                     <th className="border border-black px-4 py-2">{opsional.replace("-", " ").toLowerCase().replace(/\b[a-z]/g, (letter) => letter.toUpperCase()).split(" ")[0]}</th>
@@ -127,54 +131,50 @@ const ModalPredictionMeasure = ({ opsional, similarity, topSimilarities, selecte
                                 </thead>
                                 <tbody>
                                 {resultMeanCentered.map((row, rowIndex) => {
-                                    const IsZero = opsional === "item-based" ? data[rowIndex][selectedIndex[0]] === 0 : data[rowIndex][selectedIndex[1]] === 0 === 0
-                                    const isTopSimilarity = topSimilarities.some(top => top.index === rowIndex && !IsZero)
-
+                                    const IsZero = opsional === "item-based" ? data[rowIndex][selectedIndex[0]] === 0 : data[rowIndex][selectedIndex[1]] === 0;
+                                    const isTopSimilarity = topSimilarities.some(top => top.index === rowIndex && !IsZero);
                                     return (
                                         <tr key={rowIndex}>
                                             <td className="border border-black px-4 py-2 bg-gray-200">{rowIndex + 1}</td>
-                                            <td className={`border border-black px-4 py-2 text-center w-20 ${IsZero ? 'bg-red-200' : ''} ${isTopSimilarity ? 'bg-green-200' : ''}`}>
+                                            <td className={`border border-black px-4 py-2 text-center ${IsZero ? 'bg-red-200' : ''} ${isTopSimilarity ? 'bg-green-200' : ''}`}>
                                                 {!isNotation ? (row[selectedIndex[opsional === "item-based" ? 0 : 1]]?.toFixed(2) || 'N/A') :
                                                     <span
-                                                        className="italic font-serif">S<sub>{opsional === "item-based" ? (`${selectedIndex[opsional === "item-based" ? 0 : 1] + 1}${rowIndex + 1}`) : (`${rowIndex + 1}${selectedIndex[opsional === "item-based" ? 0 : 1] + 1}`)}</sub></span>} {/* Display mean-centered value */}
+                                                        className="italic font-serif">S<sub>{opsional === "item-based" ? (`${selectedIndex[opsional === "item-based" ? 0 : 1] + 1}${rowIndex + 1}`) : (`${rowIndex + 1}${selectedIndex[opsional === "item-based" ? 0 : 1] + 1}`)}</sub></span>}
                                             </td>
                                         </tr>
                                     );
                                 })}
-
                                 </tbody>
                             </table>
                         </div>
 
+                        {/* Nilai Top-K */}
                         {selectedIndex[opsional === "user-based" ? 0 : 1] < result['similarity'].length ? (
-
                             <div>
-                                <h2 className='font-semibold'>Nilai Top-K</h2>
-                                <table className="border border-black mt-4 mx-auto text-center">
+                                <h2 className='font-semibold text-lg'>Nilai Top-K</h2>
+                                <table
+                                    className="border border-black mt-4 mx-auto text-center w-full">
                                     <thead>
                                     <tr className="bg-gray-200">
                                         <th className="border border-black px-4 py-2">{opsional === "item-based" ? "Item" : "User"}</th>
-                                        <th className="border border-black px-4 py-2 italic font-serif">Sim{
-                                            <sub>{(`${selectedIndex[opsional === "item-based" ? 0 : 1] + 1}*`)}</sub>}
+                                        <th className="border border-black px-4 py-2 italic font-serif">Sim<sub>{(`${selectedIndex[opsional === "item-based" ? 0 : 1] + 1}*`)}</sub>
                                         </th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     {result['similarity'].map((row, colIndex) => {
-                                        const isTopSimilarity = topSimilarities.some(top => top.index === colIndex); // Check if this row is in the top similarities
-
+                                        const isTopSimilarity = topSimilarities.some(top => top.index === colIndex);
                                         return (
                                             <tr key={colIndex}>
                                                 <td className="border border-black px-4 py-2 bg-gray-200">{colIndex + 1}</td>
-                                                <td className={`border border-black px-4 py-2 text-center  ${isTopSimilarity ? 'bg-green-200' : ''}`}>
+                                                <td className={`border border-black px-4 py-2 text-center ${isTopSimilarity ? 'bg-green-200' : ''}`}>
                                                     {!isNotation ? (row[selectedIndex[opsional === "user-based" ? 0 : 1]]?.toFixed(4) || 'N/A') :
                                                         <span
-                                                            className="italic font-serif">Sim<sub>{opsional === "item-based" ? (`${selectedIndex[opsional === "item-based" ? 0 : 1] + 1}${colIndex + 1}`) : (`${colIndex + 1}${selectedIndex[opsional === "item-based" ? 0 : 1] + 1}`)}</sub></span>} {/* Display similarity value */}
+                                                            className="italic font-serif">Sim<sub>{opsional === "item-based" ? (`${selectedIndex[opsional === "item-based" ? 0 : 1] + 1}${colIndex + 1}`) : (`${colIndex + 1}${selectedIndex[opsional === "item-based" ? 0 : 1] + 1}`)}</sub></span>}
                                                 </td>
                                             </tr>
                                         );
                                     })}
-
                                     </tbody>
                                 </table>
                             </div>
@@ -182,35 +182,30 @@ const ModalPredictionMeasure = ({ opsional, similarity, topSimilarities, selecte
                             <p>Data for this user is not available.</p>
                         )}
                     </div>
-
                 </div>
 
+                {/* Legend Table */}
                 <div>
                     <LegendTable
                         list={[
                             {
                                 color: "bg-green-200",
-                                description: "Menandakan Data Rating yang akan dihitung",
+                                description: <>Menandakan Data <i> Rating </i> yang akan dihitung</>
                             },
                             {
                                 color: "bg-yellow-200",
-                                description: <>
-                                    Menandakan Data <span className="font-serif ml-1 mr-1">Mean</span> Rating yang akan
-                                    dihitung
-                                </>,
+                                description: <>Menandakan Data Mean <i> Rating </i> yang akan
+                                    dihitung</>
                             },
                             {
                                 color: "bg-red-200",
-                                description: <>
-                                    Menandakan Data Rating yang tidak diketahui
-                                </>,
+                                description: <>Menandakan Data <i> Rating </i> yang tidak diketahui</>
                             },
                         ]}
                     />
                 </div>
 
-                {/* Menampilkan perhitungan manual */}
-
+                {/* Perhitungan Manual */}
                 <MathJaxContext options={mathjaxConfig}>
                     <div className='flex justify-center items-center flex-col px-10'>
                         {selectedIndex ? (
@@ -260,16 +255,20 @@ const ModalPredictionMeasure = ({ opsional, similarity, topSimilarities, selecte
                     </div>
                 </MathJaxContext>
 
-
-                <p className="text-xl font-bold text-gray-700">Hasil prediksi rating <span className='italic'>Item </span>
-                    target {selectedIndex[1] + 1} terhadap
-                    <span className='italic'> item </span>  {selectedIndex[1] + 1} adalah = {selectedValue.toFixed(3)}</p>
+                <p className="text-xl font-bold text-gray-700 mt-5">Hasil prediksi <i> rating </i>
+                    <span
+                        className='italic'> Item </span>
+                    target {selectedIndex[1] + 1} terhadap <span
+                        className='italic'>item</span> {selectedIndex[1] + 1} adalah
+                    = {selectedValue.toFixed(3)}</p>
 
                 <h1 className='font-semibold text-xl my-5 underline underline-offset-8 decoration-4 decoration-card_blue_primary'>
-                    Grafik Prediksi Top-K</h1>
-                <div className='flex flex-center my-3'>
-                        <ScatterPlotDataFilter result={result}/>
+                    Grafik Prediksi Top-K
+                </h1>
+                <div className='flex justify-center my-3'>
+                    <ScatterPlotDataFilter result={result}/>
                 </div>
+
                 <button
                     className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
                     onClick={close}
@@ -278,6 +277,7 @@ const ModalPredictionMeasure = ({ opsional, similarity, topSimilarities, selecte
                 </button>
             </div>
         </div>
+
     )
 }
 

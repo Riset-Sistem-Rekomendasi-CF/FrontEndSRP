@@ -166,7 +166,7 @@ function Practice() {
                         <ExpandMoreIcon className="ml-2 text-lg"/>}
                 </button>
                 {isDescriptionVisible && (
-                    <section className='max-w-4xl mx-auto text-center my-10 py-10'>
+                    <section className='max-w-6xl mx-auto text-center my-10 py-10'>
                         <h1 id="topMenuSim"
                             className="text-4xl sm:text-3xl md:text-4xl lg:text-5xl font-bold font-poppins py-5 sm:py-6 md:py-8 lg:py-10">
                             Hasil dan Pembahasan :

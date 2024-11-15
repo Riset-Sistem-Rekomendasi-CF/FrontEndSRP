@@ -27,7 +27,57 @@
 }
 
 
-/*img:hover {*/
-/*    transform: rotate(45deg) scale(1.2);*/
-/*    transition: transform 0.3s ease-in-out;*/
+/*text slider*/
+
+.text-slider {
+    display: inline-block;
+    position: relative;
+    width: fit-content;
+}
+
+.slide-text {
+    display: inline-block;
+    opacity: 0;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.text-slider .slide-text:nth-child(1) {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.text-slider .slide-text:nth-child(2) {
+    opacity: 0;
+    transform: translateX(-100%);
+}
+
+.text-slider .slide-text:nth-child(1).active {
+    opacity: 0;
+    transform: translateX(100%);
+}
+
+.text-slider .slide-text:nth-child(2).active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/*end text sliderr*/
+
+
+/*flip effect */
+
+/*.flip-card-inner {*/
+/*    transform-style: preserve-3d;*/
+/*    transition: transform 0.5s ease-in-out;*/
 /*}*/
+
+/*.flip-card-front, .flip-card-back {*/
+/*    backface-visibility: hidden;*/
+/*}*/
+
+/*!*.flip-card-back {*!*/
+/*!*    transform: rotateY(180deg);*!*/
+/*!*}*!*/
+
+
+/*end flip eefect*/

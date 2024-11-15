@@ -9,7 +9,7 @@ export const getFormulaMeanCentered = (opsional) => {
                 detail_formula: [
                     `\\[ S_{ui} = \\text{Mean-Centered pada } \\textit{user} \\ u \\] `,
                     `\\[ r_{ui} = \\textit{Rating } \\textit{user} \\ u \\text{ terhadap } \\textit{item} \\ i \\]`,
-                    `\\[ \\mu_{i} = \\text{Mean } \\textit{ rating } \\text{pada} \\textit{user} \\ u \\] `
+                    `\\[ \\mu_{i} = \\text{Mean } \\textit{ rating } \\text{pada } \\textit{user} \\ u \\] `
                 ]
             }
         case "item-based":

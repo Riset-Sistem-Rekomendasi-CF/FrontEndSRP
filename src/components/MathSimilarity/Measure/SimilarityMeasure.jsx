@@ -21,7 +21,7 @@ import HeatMapVisualDataSim from "../../Graph/HeatMapVisual";
  */
 const TableSimilarity = ({ children }) => {
     return (<>
-        <table className="border border-black mt-4">{children}</table>
+        <table className="border border-black mt-4 min-w-full">{children}</table>
     </>)
 }
 
@@ -43,7 +43,7 @@ const TrTableSimilarity = ({ children }, key) => {
 
 const TdTableSimilarity = ({ rowIndex, colIndex, onClick, children }, key) => {
     return (
-        <td className={`border border-black px-4 py-2 text-center cursor-pointer hover:bg-card_green_primary ${rowIndex === colIndex ? 'bg-red-200' : ''}`}
+        <td className={`border border-black px-4 py-2 text-center text-xs sm:text-sm cursor-pointer hover:bg-card_green_primary ${rowIndex === colIndex ? 'bg-red-200' : ''}`}
             onClick={onClick}
         >
             {children}
@@ -86,16 +86,17 @@ export default function SimilarityMeasure({ opsional, similarity, initialData })
 
         return (
             <div className='flex justify-center mt-4'>
+                <div className="overflow-x-auto w-full">
                 <TableSimilarity>
                     <HeadTableSimilarity opsional={opsional}>
                         {Array.from({ length: numberOfColumnsSim }, (_, index) => (
-                            <th key={index} className="border border-black px-4 py-2">{index + 1}</th>
+                            <th key={index} className="border border-black px-4 py-2 text-xs sm:text-sm">{index + 1}</th>
                         ))}
                     </HeadTableSimilarity>
                     <tbody>
                         {result['similarity'].map((row, rowIndex) => (
                             <TrTableSimilarity key={rowIndex}>
-                                <td className="border border-black px-4 py-2 bg-gray-200">{rowIndex + 1}</td>
+                                <td className="border border-black px-4 py-2 bg-blue-200 text-xs sm:text-sm">{rowIndex + 1}</td>
                                 {row.map((value, colIndex) => (
                                     <TdTableSimilarity
                                         key={colIndex}
@@ -121,6 +122,7 @@ export default function SimilarityMeasure({ opsional, similarity, initialData })
                         data={result}
                     />
                 )}
+                </div>
             </div>
         );
     }
@@ -131,7 +133,7 @@ export default function SimilarityMeasure({ opsional, similarity, initialData })
                 <div id="sim-section" className="border-l-4 border-card_blue_primary h-10 mr-4" />
                 {/* Vertical Line */}
                 <h1 className='font-poppins text-xl text-start font-semibold text-black'>Mencari Koefisien Korelasi <span className='italic'> {similarity} {opsional.replace("-", " ").toLowerCase().replace(/\b[a-z]/g, (letter) => letter.toUpperCase())}</span>
-                   `</h1>
+                   </h1>
             </div>
             <MathJaxContext options={mathjaxConfig}>
                 <div className='flex justify-start items-start flex-col px-10'>

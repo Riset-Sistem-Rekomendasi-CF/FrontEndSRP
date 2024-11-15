@@ -7,18 +7,18 @@ import HeatMapVisualDataSim from "./HeatMapVisual";
 import {ScatterPlotData} from "./SccaterPlotVisual";
 
 
-const DropdownWithDisplay = ({opsional, result}) => {
-    const [selectedMethod, setSelectedMethod] = useState('Pilih Visualisasi ');
+const DropdownWithDisplay = ({ opsional, result }) => {
+    const [selectedMethod, setSelectedMethod] = useState('Pilih Visualisasi');
     const [visualComponent, setVisualComponent] = useState(null);
 
     const handleChange = (method) => {
         setSelectedMethod(method);
         switch (method) {
             case 'HeatMap':
-                setVisualComponent(<HeatMapVisualDataSim result={result} opsional={opsional}   />);
+                setVisualComponent(<HeatMapVisualDataSim result={result} opsional={opsional} />);
                 break;
             case 'Plot Visual 2D':
-                setVisualComponent(<ScatterPlotData result={result} />);
+                setVisualComponent(<ScatterPlotData result={result} opsional={opsional} />);
                 break;
             default:
                 setVisualComponent(null);
@@ -32,7 +32,7 @@ const DropdownWithDisplay = ({opsional, result}) => {
                 <Menu as="div" className="relative inline-block text-left w-full">
                     <div>
                         <Menu.Button
-                            className="outline outline-1 inline-flex w-full justify-between items-center gap-x-1.5 rounded-md bg-purple-btn-primary px-4 py-2 text-sm font-semibold font-poppins text-white shadow-sm ring-1 ring-inset  ring-gray-300 hover:bg-purple-600"
+                            className="outline outline-1 inline-flex w-full justify-between items-center gap-x-1.5 rounded-md bg-purple-btn-primary px-4 py-2 text-sm font-semibold font-poppins text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-purple-600"
                         >
                             {selectedMethod}
                             <KeyboardArrowDown className="-mr-1 h-5 w-5 text-white" />
@@ -71,9 +71,10 @@ const DropdownWithDisplay = ({opsional, result}) => {
 
             {/* Display selected method below the dropdown */}
             <div className="my-5 text-gray-700">
-                {/*<h1 className='text-xl font-semibold font-poppins'>Hasil Visual Similaritas yang Anda pilih yaitu {selectedMethod} :</h1>*/}
-                <h1 className='text-xl font-semibold font-poppins text-center underline underline-offset-8 decoration-4 decoration-card_blue_primary  '>Grafik {selectedMethod}</h1>
-                <div className="mt-2">{visualComponent}</div> {/* Render komponen yang sesuai */}
+                <h1 className="text-xl font-semibold font-poppins text-center underline underline-offset-8 decoration-4 decoration-card_blue_primary">
+                    Grafik {selectedMethod}
+                </h1>
+                <div className="mt-4">{visualComponent}</div> {/* Render komponen yang sesuai */}
             </div>
         </div>
     );

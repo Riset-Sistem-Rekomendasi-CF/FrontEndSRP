@@ -132,15 +132,15 @@ export const TabelRatingData = ({ data, opsional }) => {
                     <div
                         className="bg-white p-6 rounded-lg shadow-lg font-poppins max-w-full sm:max-w-lg md:max-w-2xl lg:max-w-3xl">
                         <h2 className="text-lg sm:text-xl font-semibold mb-4">
-                            Detail Data Rating r<sub className={'italic'}>ui</sub>
+                            Detail Data <i> rating </i> r<sub className={'italic'}>ui</sub>
                         </h2>
                         <p className="mb-2 font-semibold text-md text-black">
                             r<sub
                             className={'italic'}>{selectedData.user}{selectedData.itemIndex + 1}</sub> = {selectedData.value}
                         </p>
                         <p className="my-2 font-medium text-md text-black">
-                            Rating dari user(u) {selectedData.user} untuk
-                            item(i) {selectedData.itemIndex + 1} adalah {selectedData.value}
+                            <i>Rating </i> dari <i> user</i>(u) {selectedData.user} untuk
+                            <i> item </i>(i) {selectedData.itemIndex + 1} adalah {selectedData.value}
                         </p>
                         <button
                             className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
@@ -154,10 +154,10 @@ export const TabelRatingData = ({ data, opsional }) => {
             )}
             <div>
                 <h3 className="text-lg sm:text-xl md:text-2xl font-semibold my-2">
-                    Informasi Matriks Rating
+                    Informasi Matriks <i> Rating</i>
                 </h3>
                 <h3 className="text-md sm:text-lg font-semibold mb-2">
-                    Matriks rating dibentuk berdasarkan data rating.
+                    Matriks <i> Rating </i> dibentuk berdasarkan data <i>Rating</i>.
                 </h3>
 
 
@@ -178,7 +178,9 @@ export const TabelRatingData = ({ data, opsional }) => {
                                 }
                                 </p>
                                 <h2 className='font-medium my-2'>
-                                    Lihat Himpunan Item yang telah diberi rating oleh user u (<span
+                                    Lihat Himpunan <i> Item </i> yang telah
+                                    diberi <i> Rating </i> oleh <i> User </i> u
+                                    (<span
                                     className='font-serif'>I<sub>u</sub></span>)
                                 </h2>
                                 <select
@@ -228,7 +230,9 @@ export const TabelRatingData = ({ data, opsional }) => {
                                 </p>
 
                                 <h2 className='font-medium my-2'>
-                                    Lihat Himpunan User yang telah memberi rating item i (<span
+                                    Lihat Himpunan <i> User </i> yang telah memberi <i> rating </i>
+                                    <i> item </i> i
+                                    (<span
                                     className='font-serif'>U<sub>i</sub></span>)
                                 </h2>
                                 <select
@@ -294,18 +298,19 @@ export const NotationCard = ({data, opsional}) => {
                     <p><strong><i>U</i></strong> : Himpunan <span className="italic">user</span></p>
                     <p><strong><i>I</i></strong> : Himpunan <span className="italic">item</span></p>
                     <p><strong><i>I<sub>u</sub></i></strong> : Himpunan <span
-                        className="italic">item</span> yang telah diberi rating oleh <span
+                        className="italic">item</span> yang telah diberi <i> rating </i>  oleh <span
                         className="italic">user</span> <em>u</em></p>
                 </div>
 
                 {/* Right Column */}
                 <div className="w-full sm:w-1/2 space-y-2 font-poppins text-start">
                     <p><strong><i>U<sub>i</sub></i></strong> : Himpunan <span
-                        className="italic">User</span> yang telah memberi rating <br/> <span
+                        className="italic">User</span> yang telah memberi <i> rating </i> <br/> <span
                         className="italic">item</span> <em>i</em></p>
                     <p><strong><em>R ∈ ℝ<sup> m×n</sup></em></strong> : Matriks yang berisi bilangan
                         asli dengan panjang m dan lebar n</p>
-                    <p><strong>r<sub>ui</sub></strong> : rating <span className="italic">user</span>
+                    <p><strong>r<sub>ui</sub></strong> : <i> rating </i> <span
+                        className="italic"> user </span>
                         <em> u</em> terhadap <span className="italic">item</span> <em>i</em></p>
                 </div>
             </div>

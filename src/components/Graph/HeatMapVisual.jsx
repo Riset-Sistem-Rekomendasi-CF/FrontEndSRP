@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import * as d3 from 'd3';
 
-export default function HeatMapVisualDataSim({opsional, result}){
+export default function HeatMapVisualDataSim({opsional, result}) {
+
 
     const RenderingHeatMap = () => {
         const similarityDataHeatMap = result['similarity'];
@@ -163,49 +164,74 @@ export default function HeatMapVisualDataSim({opsional, result}){
         );
     };
 
-    const ExplanationSectionHeatMap = () => (
-        <div className="mt-6 text-justify max-w-xl">
-            <h2 className="text-xl text-center font-bold mb-3">Cara Membaca Heatmap Hasil Similaritas</h2>
+    const ExplanationSectionHeatMap = () => {
+        const [isExpanded, setIsExpanded] = useState(false);
 
-            <p className="text-sm mb-4">
-                Heatmap ini digunakan untuk memvisualisasikan tingkat kemiripan antara dua pengguna atau item berdasarkan data mereka. Setiap sel dalam heatmap menunjukkan nilai kemiripan antara dua entitas, dengan skala warna yang membantu kita untuk dengan cepat memahami seberapa mirip atau tidak mirip dua entitas tersebut.
-            </p>
+        // Fungsi untuk toggle teks
+        const toggleText = () => setIsExpanded(!isExpanded);
 
-            <p className="text-sm mb-4">
-                Dalam heatmap ini, setiap sel mewakili pasangan <span className='italic'>user</span> atau <span className='italic'>item</span>, dan nilai di dalam sel tersebut menggambarkan tingkat kemiripan antara keduanya. Semakin terang atau gelap warna yang ditampilkan, semakin mudah kita mengetahui tingkat kesamaan antara dua entitas tersebut.
-            </p>
+        return (
+            <div className="mt-6 text-justify max-w-xl w-full px-4 sm:px-0">
+                <h2 className="text-sm sm:text-lg md:text-xl text-center font-bold mb-3">Cara
+                    Membaca Heatmap Hasil Similaritas</h2>
 
-            {/*<h3 className="font-semibold text-lg mb-2">Skala Warna pada Heatmap</h3>*/}
+                <p className={`text-sm mb-2 ${isExpanded ? '' : 'line-clamp-3'}`}>
+                    <a className='font-bold no-underline hover:underline text-card_blue_primary decoration-card_blue_primary'
+                       href="https://scikit-learn.org/stable/modules/generated/sklearn.manifold.MDS.html"
+                       target="_blank" rel="noopener noreferrer">HeatMap</a> ini digunakan untuk
+                    memvisualisasikan tingkat kemiripan antara dua pengguna atau item berdasarkan
+                    data mereka. Setiap sel dalam heatmap menunjukkan nilai kemiripan antara dua
+                    entitas, dengan skala warna yang membantu kita untuk dengan cepat memahami
+                    seberapa mirip atau tidak mirip dua entitas tersebut.
+                </p>
 
-            {/*<ul className="text-sm text-left mb-4 list-disc list-inside text-justify">*/}
-            {/*    <li><span className="font-semibold ">Warna Merah Tua</span>: Menandakan nilai kemiripan yang sangat tinggi, mendekati <strong>1</strong>. Ini berarti dua entitas (misalnya dua pengguna atau dua item) memiliki kesamaan yang sangat besar, atau sangat mirip satu sama lain.</li>*/}
-            {/*    <li><span className="font-semibold">Warna Hijau Tua</span>: Menandakan nilai kemiripan yang sangat rendah, mendekati <strong>-1</strong>. Ini berarti dua entitas tidak memiliki kemiripan yang signifikan, atau bahkan sangat berbeda satu sama lain.</li>*/}
-            {/*    <li><span className="font-semibold">Warna Putih (atau Kuning)</span>: Menandakan nilai kemiripan yang mendekati <strong>0</strong>. Ini berarti dua entitas tidak memiliki hubungan kemiripan yang jelas, artinya perbedaan atau kemiripan mereka tidak cukup signifikan untuk dianggap sangat mirip atau sangat berbeda.</li>*/}
-            {/*</ul>*/}
+                <p className={`text-sm ${isExpanded ? '' : 'line-clamp-3'}`}>
+                    Dalam heatmap ini, setiap sel mewakili pasangan <span
+                    className='italic'>user</span> atau <span className='italic'>item</span>, dan
+                    nilai di dalam sel tersebut menggambarkan tingkat kemiripan antara keduanya.
+                    Semakin terang atau gelap warna yang ditampilkan, semakin mudah kita mengetahui
+                    tingkat kesamaan antara dua entitas tersebut.
+                </p>
 
+                <p className={`text-sm ${isExpanded ? '' : 'line-clamp-3'}`}>
+                    Heatmap ini sangat berguna untuk memvisualisasikan pola kemiripan dalam dataset
+                    besar, seperti hubungan antara <span className='italic'>pengguna</span> dalam
+                    sistem rekomendasi, atau kesamaan antara <span
+                    className='italic'>item</span> dalam analisis clustering.
+                </p>
 
-            <p className="text-sm">
-                Heatmap ini sangat berguna untuk memvisualisasikan pola kemiripan dalam dataset besar, seperti hubungan antara <span className='italic'>pengguna</span> dalam sistem rekomendasi, atau kesamaan antara <span className='italic'>item</span> dalam analisis clustering.
-            </p>
+                {/* Tampilkan tombol jika teks belum lengkap */}
+                {!isExpanded && (
+                    <button
+                        className="text-card_blue_primary mt-2 text-sm"
+                        onClick={toggleText}
+                    >
+                        Baca Selengkapnya
+                    </button>
+                )}
 
-            <p className="text-sm mt-4">
-                Anda dapat mengklik setiap sel untuk memperbesar atau mendapatkan informasi lebih mendalam mengenai hubungan antara pengguna atau item yang dibandingkan.
-            </p>
+                {/* Tombol untuk menutup teks */}
+                {isExpanded && (
+                    <button
+                        className="text-card_blue_primary mt-2 text-sm"
+                        onClick={toggleText}
+                    >
+                        Tampilkan Lebih Sedikit
+                    </button>
+                )}
 
-            <p className="text-sm">
-                Untuk referensi lebih lanjut tentang cara heatmap digunakan dalam analisis data, Anda dapat membaca lebih lanjut di <a className='no-underline hover:underline text-card_blue_primary decoration-card_blue_primary' href="https://scikit-learn.org/stable/modules/generated/sklearn.manifold.MDS.html" target="_blank" rel="noopener noreferrer">scikit-learn MDS documentation</a>.
-            </p>
+            </div>
+        )
+    };
+
+    return (
+        <div className="flex flex-col my-5 font-poppins items-center">
+            <RenderingHeatMap />
+            <ExplanationSectionHeatMap />
         </div>
     );
-
-
-    return(
-        <div className='flex flex-col my-5 font-poppins items-center'>
-            <RenderingHeatMap/>
-            <ExplanationSectionHeatMap/>
-        </div>
-    )
 };
+
 
 
 

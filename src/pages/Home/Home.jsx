@@ -7,6 +7,7 @@ import CardAnggotaHome from '../../components/Card/Home/CardAnggotaHome.jsx';
 import HeaderHome from '../Layout/Home/HeaderHome.jsx';
 import BodyHome from '../Layout/Home/BodyHome.jsx';
 import BackToTopButton, {BackToTopButtonHome} from "../../components/Navigate/BackToTopNavigate";
+import OverViewRekomendasi from "../../components/Toggle/TypingEffect";
 
 
 
@@ -34,10 +35,16 @@ const Home = () => {
     return (
         <LayoutHome>
 
-            <HeaderHome>Media Pembelajaran Interaktif Sistem Rekomendasi dan Perhitungan Fungsi Similaritas </HeaderHome>
+            <HeaderHome>Media Pembelajaran Interaktif Sistem Rekomendasi dan Perhitungan Fungsi
+                Similaritas </HeaderHome>
+
+            {/*<section id="" className='max-w-4xl mx-auto text-center py-10 px-4'>*/}
+            {/*    <h1 className=' font-bold font-poppins mb-10 md:mb-20 text-3xl sm:text-4xl md:text-5xl'>Apa itu User-Based dan Item-Based </h1>*/}
+            {/*</section>*/}
+            <OverViewRekomendasi/>
 
             <BodyHome
-                idName={"belajar"}
+                // idName={"belajar"}
                 header={"Pilih Tutorial atau Practice Untuk Perhitungan Fungsi Similaritas"}
                 subheader={
                     "Pengguna dapat memilih untuk memulai pembelajaran sistem rekomendasi melalui dua opsi menarik: 'Tutorial Fungsi Similaritas' untuk memahami konsep dasar, atau 'Practice Fungsi Similaritas' untuk mengasah keterampilan dengan latihan langsung."
@@ -51,7 +58,8 @@ const Home = () => {
                     Heading={"Tutorial Fungsi Similaritas"}
                     buttonName={"Tutorial Now"}
                     anchor={"/Tutorial"}
-                > Untuk belajar dan memahami cara perhitungan <span className='bold'>fungsi similaritas</span> bagi baru
+                > Untuk belajar dan memahami cara perhitungan <span className='bold'>fungsi similaritas</span> bagi
+                    baru
                     yang ingin mempelajari sistem rekomendasi.</CardHome>
 
                 <CardHome
@@ -60,7 +68,8 @@ const Home = () => {
                     Heading={"Practice Fungsi Similaritas"}
                     buttonName={"Practice Now"}
                     anchor={"/practice"}
-                > Untuk eksplorasi dan eksperimen dalam perhitungan <span className='bold'>fungsi similaritas</span>  guna pemahaman yang lebih mendalam. </CardHome>
+                > Untuk eksplorasi dan eksperimen dalam perhitungan <span className='bold'>fungsi similaritas</span> guna
+                    pemahaman yang lebih mendalam. </CardHome>
             </BodyHome>
 
             {/* About Section */}
@@ -87,7 +96,8 @@ const Home = () => {
 
             >
                 {listOfSimilarity.map((item, index) => (
-                    <AccordionMeasure key={index} headingMeasure={item.title} descriptionMeasure={item.description} />
+                    <AccordionMeasure key={index} headingMeasure={item.title}
+                                      descriptionMeasure={item.description}/>
                 ))}
             </BodyHome>
 
@@ -127,10 +137,16 @@ const Home = () => {
                 type='casual'
             >
                 <li>
-                    Ifada, N., Rachman, F. H., Wahyuni, S. (2023). Character-based String Matching Similarity Algorithms for Madurese Spelling Correction: A Preliminary Study. In International Conference on Electrical Engineering and Informatics (ICEEI) (pp. 1-6). IEEE. DOI: 10.1109/ICEEI59426.2023.10346716
+                    Ifada, N., Rachman, F. H., Wahyuni, S. (2023). Character-based String Matching
+                    Similarity Algorithms for Madurese Spelling Correction: A Preliminary Study. In
+                    International Conference on Electrical Engineering and Informatics (ICEEI) (pp.
+                    1-6). IEEE. DOI: 10.1109/ICEEI59426.2023.10346716
                 </li>
                 <li>
-                    Ifada, ., Rachman, F. H., Wahyuni, S. (2023). Character-based String Matching Similarity Algorithms for Madurese Spelling Correction: A Preliminary Study. In International Conference on Electrical Engineering and Informatics (ICEEI) (pp. 1-6). IEEE. DOI: 10.1109/ICEEI59426.2023.10346716
+                    Ifada, ., Rachman, F. H., Wahyuni, S. (2023). Character-based String Matching
+                    Similarity Algorithms for Madurese Spelling Correction: A Preliminary Study. In
+                    International Conference on Electrical Engineering and Informatics (ICEEI) (pp.
+                    1-6). IEEE. DOI: 10.1109/ICEEI59426.2023.10346716
                 </li>
             </BodyHome>
 

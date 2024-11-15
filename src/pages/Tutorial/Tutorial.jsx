@@ -74,6 +74,17 @@ const Tutorial = () => {
         }
     };
 
+    const TeksHeader = (
+        <span>
+            <h1>Data <i>Rating</i> Yang Digunakan</h1>
+        </span>
+    )
+    const Tekssubheader = (
+        <span>
+      Data  <i>rating</i> yaitu suatu kumpulan data yang telah diberikan <i>rating</i> pada  <i>item</i> tertentu oleh <i>user</i>.
+    </span>
+    );
+
     return (
         <div className="p-4">
             {/* Section Of Navigate */}
@@ -115,9 +126,11 @@ const Tutorial = () => {
 
 
             <BodyTutorial
-                header={"Data Rating Yang Digunakan"}
 
-                subheader={"Data rating yaitu suatu kumpulan data yang telah diberikan rating pada item tertentu oleh user."}
+
+                header={TeksHeader}
+
+                subheader={Tekssubheader}
             >
                 <TabelView/>
                 <NotationCard opsional={selectedMethod.toLowerCase()} data={data}/>
@@ -138,7 +151,7 @@ const Tutorial = () => {
 
                 {isDescriptionVisible && (
                     <div className='mt-8'>
-                        <section className='max-w-4xl mx-auto text-center py-10'>
+                        <section className='max-w-5xl mx-auto text-center py-10'>
                             <h1 id="topMenuSim"
                                 className="text-4xl sm:text-3xl md:text-4xl lg:text-5xl font-bold font-poppins py-5 sm:py-6 md:py-8 lg:py-10">
                                 Hasil dan Pembahasan :

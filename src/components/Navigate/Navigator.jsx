@@ -12,7 +12,7 @@ const Navigator = () => {
             <ChipNavigate
                 href={"/"}
                 color={"bg-greenDrak-btn-primary text-white"}
-                className="sm:rounded-full sm:p-4 p-3 rounded-full sm:flex-row flex-col items-center transition-all ease-in-out duration-300"
+                className="p-3 sm:rounded-full sm:p-4 flex-col items-center transition-all ease-in-out duration-300"
             >
                 {/* Tampilkan ikon pada perangkat kecil, teks pada perangkat besar */}
                 <div className="sm:hidden">
@@ -27,7 +27,7 @@ const Navigator = () => {
             <ChipNavigate
                 href={"/tutorial"}
                 color={"bg-card_green_primary text-white"}
-                className="sm:rounded-full sm:p-4 p-3 rounded-full sm:flex-row flex-col items-center transition-all ease-in-out duration-300"
+                className="p-3 sm:rounded-full sm:p-4 flex-col items-center transition-all ease-in-out duration-300"
             >
                 {/* Tampilkan ikon pada perangkat kecil, teks pada perangkat besar */}
                 <div className="sm:hidden">
@@ -42,7 +42,7 @@ const Navigator = () => {
             <ChipNavigate
                 href={"/practice"}
                 color={"bg-yellow-btn-primary text-white"}
-                className="sm:rounded-full sm:p-4 p-3 rounded-full sm:flex-row flex-col items-center transition-all ease-in-out duration-300"
+                className="p-3 sm:rounded-full sm:p-4 flex-col items-center transition-all ease-in-out duration-300"
             >
                 {/* Tampilkan ikon pada perangkat kecil, teks pada perangkat besar */}
                 <div className="sm:hidden">
@@ -57,3 +57,4 @@ const Navigator = () => {
 };
 
 export default Navigator;
+

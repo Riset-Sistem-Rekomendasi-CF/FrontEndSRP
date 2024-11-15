@@ -17,17 +17,25 @@ export function FunctionMeasureDropdown({ DetailRumus }) {
     };
 
     return (
-        <div className='px-10'>
+        <div className='px-4 sm:px-6 md:px-10 w-full'>
+            {/* Tombol Keterangan */}
             <button
                 onClick={toggleDropdown}
-                className='flex items-center text-start font-semibold font-poppins text-red-500 mt-4 focus:outline-none'>
+                className='flex items-center text-start font-semibold font-poppins text-red-500 mt-4 focus:outline-none text-sm sm:text-base'>
                 Keterangan
                 {isOpen ? <ExpandLessIcon className="ml-2" /> : <ExpandMoreIcon className="ml-2" />}
             </button>
+
+            {/* Konten Dropdown */}
             {isOpen && (
-                <div className='flex justify-start items-start flex-col px-0 font-normal font-poppins mt-2'>
+                <div className='flex justify-start items-start flex-col px-2 sm:px-6 md:px-8 mt-2 w-full'>
+                    {/* Menampilkan rumus dengan ukuran font responsif */}
                     {DetailRumus.map((math, index) => (
-                        <MathJaxComponent key={index}>{math}</MathJaxComponent>
+                        <MathJaxComponent
+                            key={index}
+                            className="text-xs sm:text-sm md:text-sm leading-relaxed mb-4">
+                            {math}
+                        </MathJaxComponent>
                     ))}
                 </div>
             )}

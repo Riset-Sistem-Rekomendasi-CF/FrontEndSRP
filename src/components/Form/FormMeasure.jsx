@@ -97,7 +97,7 @@ export default function FormMeasure({ onDataChange, onDescriptionChange }) {
           <div className="flex flex-col mb-3 md:col-span-3">
             <div className="flex flex-col mb-3">
               <label className="mb-2 text-2xl text-start font-poppins font-semibold text-gray-900">
-                Jumlah <span className='italic'>User </span> (U):
+                Jumlah <span className='italic'>Item </span> (I):
               </label>
               <div className="outline outline-1 inline-flex items-center rounded-md bg-yellow-primary px-3 py-2 shadow-sm ring-1 ring-inset ring-gray-300">
                 <Input
@@ -126,7 +126,7 @@ export default function FormMeasure({ onDataChange, onDescriptionChange }) {
             {/* Item Input */}
             <div className="flex flex-col mb-3">
               <label className="mb-2 text-2xl text-start font-poppins font-semibold text-gray-900">
-                Jumlah <span className='italic'>Item</span> (I):
+                Jumlah <span className='italic'>User</span> (U):
               </label>
               <div className="outline outline-1 inline-flex items-center rounded-md bg-yellow-primary px-3 py-2 shadow-sm ring-1 ring-inset ring-gray-300">
                 <Input

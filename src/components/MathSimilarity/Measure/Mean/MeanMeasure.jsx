@@ -92,30 +92,32 @@ export default function MeanMeasure({ opsional, similarity, initialData }) {
     return (
         <div className='mt-5'>
             <div id="mean-rating-section" className="flex items-center justify-start mb-4">
-                {/* Garis Vertikal */}
                 <div className="border-l-4 border-card_blue_primary h-10 mr-4"/>
-                <h1 className='font-poppins text-xl sm:text-2xl font-semibold text-black'>
-                    Mencari Mean Rating{' '}
+                <h1 className='font-poppins text-base sm:text-lg md:text-xl lg:text-2xl font-semibold text-black text-start'>
+                    Mencari Mean  <i> Rating </i>{' '}
                     <i>{opsional.replace("-", " ").toLowerCase().replace(/\b[a-z]/g, (letter) => letter.toUpperCase())}</i>
                 </h1>
             </div>
+
             <MathJaxContext options={mathjaxConfig}>
-                <div className='flex justify-start items-start flex-col px-5 sm:px-10'>
-                    <MathJax>
+                <div className='flex justify-start items-start flex-col px-4 sm:px-8 md:px-10'>
+                    <MathJax className='text-xs sm:text-sm md:text-base'>
                         {meanFormula.formula}
                     </MathJax>
                 </div>
             </MathJaxContext>
+
             <FunctionMeasureDropdown DetailRumus={meanFormula.formula_detail}/>
 
-            <div className='px-5 sm:px-10 py-5'>
-                <h1 className='text-lg sm:text-xl font-semibold font-poppins underline underline-offset-8 decoration-4 decoration-card_blue_primary'>
-                    Hasil Mean Rating <i>{opsionalModify}</i>
+            <div className='px-4 sm:px-8 md:px-10 py-5'>
+                <h1 className='text-base sm:text-lg md:text-xl font-semibold font-poppins underline underline-offset-8 decoration-4 decoration-card_blue_primary'>
+                    Hasil Mean <i> Rating </i> <i>{opsionalModify}</i>
                 </h1>
                 {/* Render tabel mean rating */}
                 <RenderTableMean/>
             </div>
         </div>
+
 
     )
 }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import ModalMeanCenteredMeasure from "./ModalMeanCenteredMeasure";
 import { getFormulaMeanCentered } from "../Formula/FormulaMeanCentered";
 import { FunctionMeasureDropdown } from "../../DropdownFunction/FunctionMeasureDropdown";
@@ -40,32 +40,49 @@ const MeanCenteredMeasure = ({ opsional, similarity, initialData }) => {
 
     const RenderTabelMeanCentered = () => {
         if (!result || !result['mean-centered']) return null;
-        const resultModify = similarity === "Adjusted Vector Cosine" ? (transposeMatrix(result['mean-centered'])) : (opsional === "user-based" ? result['mean-centered'] : transposeMatrix(result['mean-centered']))
+
+        const resultModify = similarity === "Adjusted Vector Cosine"
+            ? transposeMatrix(result['mean-centered'])
+            : (opsional === "user-based" ? result['mean-centered'] : transposeMatrix(result['mean-centered']));
+
         const numberOfColumns = resultModify[0].length; // Ambil jumlah kolom dari baris pertama
 
         return (
             <div className='flex justify-center mt-4'>
-                <table className="border border-black mt-4">
-                    <thead>
+                {/* Wrapper dengan overflow-x-auto untuk scroll horizontal */}
+                <div className="overflow-x-auto w-full">
+                    <table className="border border-black mt-4 min-w-full">
+                        <thead>
                         <tr className="bg-gray-200">
-                            <th className="border border-black px-4 py-2">U/I</th>
+                            {/* Kolom pertama (U/I) dengan lebar yang responsif */}
+                            <th className="border border-black px-4 py-2 text-xs sm:text-sm md:text-base w-1/6 min-w-[80px]">U/I</th>
+
                             {Array.from({ length: numberOfColumns }, (_, index) => (
-                                <th key={index} className="border border-black px-4 py-2">{index + 1}</th>
+                                <th key={index} className="border border-black px-4 py-2 text-xs sm:text-sm md:text-base">
+                                    {index + 1}
+                                </th>
                             ))}
                         </tr>
-                    </thead>
-                    <tbody>
+                        </thead>
+                        <tbody>
                         {resultModify.map((row, rowIndex) => (
                             <tr key={rowIndex}>
-                                <td className="border border-black px-4 py-2 bg-gray-200">{rowIndex + 1}</td>
-                                {row.map((value, colIndex) => {
-                                    const OriginalValue = similarity === "Adjusted Vector Cosine" ? (opsional === "user-based" ? dataModify[colIndex][rowIndex] : dataModify[colIndex][rowIndex]) : (opsional === "user-based" ? dataModify[rowIndex][colIndex] : dataModify[colIndex][rowIndex])
+                                {/* Kolom pertama (U/I) dengan padding dan lebar responsif */}
+                                <td className="border border-black px-4 py-2 bg-gray-200 text-xs sm:text-sm md:text-base w-1/6 min-w-[80px]">
+                                    {rowIndex + 1}
+                                </td>
 
+                                {row.map((value, colIndex) => {
+                                    const OriginalValue = similarity === "Adjusted Vector Cosine"
+                                        ? (opsional === "user-based" ? dataModify[colIndex][rowIndex] : dataModify[colIndex][rowIndex])
+                                        : (opsional === "user-based" ? dataModify[rowIndex][colIndex] : dataModify[colIndex][rowIndex]);
 
                                     const IsZero = OriginalValue === 0;
+
                                     return (
-                                        <td key={colIndex}
-                                            className={`border border-black px-4 py-2 text-center cursor-pointer hover:bg-card_green_primary ${IsZero ? 'bg-red-200' : ''}`}
+                                        <td
+                                            key={colIndex}
+                                            className={`border border-black px-4 py-2 text-center cursor-pointer hover:bg-card_green_primary text-xs sm:text-sm md:text-base ${IsZero ? 'bg-red-200' : ''}`}
                                             onClick={() => handleMeanClick(value, rowIndex, colIndex)}
                                         >
                                             {value.toFixed(2)}
@@ -74,8 +91,11 @@ const MeanCenteredMeasure = ({ opsional, similarity, initialData }) => {
                                 })}
                             </tr>
                         ))}
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
+
+                {/* Modal jika ada interaksi */}
                 {showModal && (
                     <ModalMeanCenteredMeasure
                         similarity={similarity}
@@ -86,17 +106,22 @@ const MeanCenteredMeasure = ({ opsional, similarity, initialData }) => {
                         opsional={opsionalModify}
                         close={closeModal}
                     />
-
                 )}
             </div>
         );
     };
+
+
     return (
         <div>
             <div className="flex items-center">
-                <div id="mean-cen-section" className="border-l-4 border-card_blue_primary h-10 mr-4" />
+                <div id="mean-cen-section"
+                     className="border-l-4 border-card_blue_primary h-10 mr-4"/>
                 {/* Vertical Line */}
-                <h1 className='font-poppins text-xl font-semibold text-black'>Mencari Mean-Centered Rating <span className='italic'>{opsional.toLowerCase().replace(/\b[a-z]/g, (letter) => letter.toUpperCase())}</span> </h1>
+                <h1 className='font-poppins text-xl text-start font-semibold text-black'>Mencari
+                    Mean-Centered <i> Rating </i> <span
+                        className='italic'>{opsional.toLowerCase().replace(/\b[a-z]/g, (letter) => letter.toUpperCase())}</span>
+                </h1>
             </div>
             <MathJaxContext options={mathjaxConfig}>
                 <div className='flex justify-start items-start flex-col px-10'>
@@ -105,11 +130,13 @@ const MeanCenteredMeasure = ({ opsional, similarity, initialData }) => {
                     </MathJax>
                 </div>
             </MathJaxContext>
-            <FunctionMeasureDropdown DetailRumus={FormulaMeanCentered.detail_formula} />
-            <div className=' px-10 py-5'>
+            <FunctionMeasureDropdown DetailRumus={FormulaMeanCentered.detail_formula}/>
+            <div className=' px-5 py-5'>
                 <h1 className='text-lg font-semibold font-poppins underline underline-offset-8 decoration-4 decoration-card_blue_primary'>Hasil
-                    Mean-Centered <span className='italic'>{opsional.replace("-", " ").toLowerCase().replace(/\b[a-z]/g, (letter) => letter.toUpperCase())}</span> </h1>
-                <RenderTabelMeanCentered />
+                    Mean-Centered <span
+                        className='italic'>{opsional.replace("-", " ").toLowerCase().replace(/\b[a-z]/g, (letter) => letter.toUpperCase())}</span>
+                </h1>
+                <RenderTabelMeanCentered/>
             </div>
         </div>
     )

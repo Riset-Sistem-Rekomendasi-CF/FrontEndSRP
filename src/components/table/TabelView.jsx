@@ -1,5 +1,7 @@
 // src/App.js
 
+import React from "react";
+
 function TabelView() {
     const data = [
         ['1', '5', '?', '4', '3', '5', '4'],
@@ -56,15 +58,17 @@ function TabelView() {
                             className="w-10 h-5 bg-red-300 border border-1 border-black mr-2 flex items-center justify-center text-black">
                             ?
                         </div>
-                        Data rating yang tidak diketahui
+                        Data <span className='italic'> Rating </span> yang tidak diketahui
                     </li>
                     <li className="flex items-center">
-                        <div className="w-10 h-5 bg-blue-200 border border-1 border-black mr-2"></div>
-                        Index User
+                        <div
+                            className="w-10 h-5 bg-blue-200 border border-1 border-black mr-2"></div>
+                        Index <i> User </i>
                     </li>
                     <li className="flex items-center">
-                        <div className="w-10 h-5 bg-yellow-btn-primary border border-1 border-black mr-2"></div>
-                        Index Item
+                        <div
+                            className="w-10 h-5 bg-yellow-btn-primary border border-1 border-black mr-2"></div>
+                        Index <i> Item </i>
                     </li>
                 </ul>
             </div>
