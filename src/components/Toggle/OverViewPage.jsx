@@ -23,11 +23,11 @@ const CardFlip = () => {
     };
 
     return (
-        <div className="flex justify-center gap-4">
+        <div className="flex flex-col sm:flex-row justify-center gap-4">
             {/* Kartu Kiri */}
             <div
                 onClick={flipLeftCard}
-                className="relative w-80 h-96 perspective-[1000px] cursor-pointer"
+                className="relative w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl h-80 sm:h-96 perspective-[1000px] cursor-pointer"
             >
                 <div
                     className={`absolute w-full h-full transition-transform duration-500 ${
@@ -38,26 +38,24 @@ const CardFlip = () => {
                     <div
                         className="w-full h-full absolute bg-white text-white flex flex-col justify-start items-center p-5 rounded-xl shadow-lg backface-hidden"
                     >
-                        <h2 className="text-2xl font-bold text-black mb-4">User-Based</h2>
+                        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-black mb-2">User-Based</h2>
                         <img
                             src={UserBased}
                             alt="user-based"
-                            className="w-80 h-80 object-cover rounded-lg"
+                            className="w-40 sm:w-60 md:w-80 h-40 sm:h-60 md:h-80 object-cover rounded-lg"
                         />
                     </div>
-
 
                     {/* Back */}
                     <div
                         className={`w-full h-full absolute bg-white text-white flex justify-center items-start p-6 rounded-xl shadow-lg backface-hidden rotate-y-180 overflow-auto`}
                     >
-                        <p className="text-base sm:text-md md:text-lg text-gray-600">
+                        <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 leading-relaxed">
                             Pada <strong><i>user-based filtering</i></strong>, rekomendasi diberikan
                             berdasarkan kesamaan antara pengguna. Jika dua pengguna memiliki pola
                             interaksi yang serupa (misalnya, mereka menyukai materi atau item yang
                             sama), maka sistem akan merekomendasikan item yang disukai oleh pengguna
                             serupa tersebut kepada pengguna yang sedang dipertimbangkan.
-                            Perhitungan.
                         </p>
                     </div>
                 </div>
@@ -66,7 +64,7 @@ const CardFlip = () => {
             {/* Kartu Kanan */}
             <div
                 onClick={flipRightCard}
-                className="relative w-80 h-96 perspective-[1000px] cursor-pointer"
+                className="relative w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl h-80 sm:h-96 perspective-[1000px] cursor-pointer"
             >
                 <div
                     className={`absolute w-full h-full transition-transform duration-500 ${
@@ -77,11 +75,11 @@ const CardFlip = () => {
                     <div
                         className="w-full h-full absolute bg-white text-white flex flex-col justify-start items-center p-5 rounded-xl shadow-lg backface-hidden"
                     >
-                        <h2 className="text-2xl font-bold text-black">Item-Based</h2>
+                        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-black mb-2">Item-Based</h2>
                         <img
                             src={ItemBased}
-                            alt="user-based"
-                            className="w-80 h-80 object-cover rounded-lg"
+                            alt="item-based"
+                            className="w-40 sm:w-60 md:w-80 h-40 sm:h-60 md:h-80 object-cover rounded-lg"
                         />
                     </div>
 
@@ -89,11 +87,14 @@ const CardFlip = () => {
                     <div
                         className={`w-full h-full absolute bg-white text-white flex justify-center items-start p-6 rounded-xl shadow-lg backface-hidden rotate-y-180 overflow-auto`}
                     >
-                        <p className="text-base sm:text-md md:text-lg text-gray-600">
-                            Di sisi lain, <strong><i>item-based filtering</i></strong> mengukur kesamaan
-                            antar item atau materi pembelajaran. Dalam pendekatan ini, rekomendasi
-                            diberikan berdasarkan kesamaan antara item yang telah dipilih atau disukai
-                            oleh pengguna sebelumnya dengan item lainnya. Jika pengguna menyukai item A,
+                        <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 leading-relaxed">
+                            Di sisi lain, <strong><i>item-based filtering</i></strong> mengukur
+                            kesamaan antar item atau materi pembelajaran. Dalam pendekatan ini,
+                            rekomendasi
+                            diberikan berdasarkan kesamaan antara item yang telah dipilih atau
+                            disukai
+                            oleh pengguna sebelumnya dengan item lainnya. Jika pengguna menyukai
+                            item A,
                             dan item B memiliki kesamaan yang tinggi dengan item A, maka item B akan
                             direkomendasikan.
                         </p>
@@ -103,8 +104,6 @@ const CardFlip = () => {
         </div>
     );
 };
-
-
 
 
 const ContentOverview = () => {
@@ -137,7 +136,9 @@ const ContentOverview = () => {
                         proses pembelajaran.
                     </p>
                 </div>
+
             </div>
+
 
         </>
     );
@@ -167,15 +168,24 @@ export default function OverViewRekomendasi() {
 
                 {/* Animasi Ikon atau Gambar */}
                 <div className="absolute inset-0 flex items-center justify-center">
+                    {/* Icon 1 */}
                     <div
-                        className="absolute top-0 -left-10 transform -translate-x-20 sm:-left-5 md:-left-10 lg:-left-10 xl:-left-12">
-                        <img src={Img1} alt="Icon 1"
-                             className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 opacity-100"/>
+                        className="absolute top-0 left-0 transform -translate-x-1/4 sm:-left-5  md:-left-10 lg:-left-12 xl:-left-14">
+                        <img
+                            src={Img1}
+                            alt="Icon 1"
+                            className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 opacity-100"
+                        />
                     </div>
+
+                    {/* Icon 2 */}
                     <div
-                        className="absolute top-10 right-0 transform translate-x-20 sm:translate-x-10 md:translate-x-20 lg:translate-x-20 xl:translate-x-24">
-                        <img src={Img1} alt="Icon 2"
-                             className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 opacity-100"/>
+                        className="absolute top-10 right-0 transform translate-x-1/4 sm:translate-x-10 md:translate-x-20 lg:translate-x-20 xl:translate-x-24">
+                        <img
+                            src={Img1}
+                            alt="Icon 2"
+                            className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 opacity-100"
+                        />
                     </div>
                 </div>
 

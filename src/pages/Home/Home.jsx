@@ -51,17 +51,27 @@ const Home = () => {
                 Media Pembelajaran Interaktif Sistem Rekomendasi dan Perhitungan Fungsi
                 Similaritas
                 <div className="absolute inset-0 flex items-center justify-center">
+                    {/* Icon 1 */}
                     <div
-                        className="absolute top-0 -left-10 transform -translate-x-20 sm:-left-5 md:-left-10 lg:-left-10 xl:-left-12">
-                        <img src={Img1} alt="Icon 1"
-                             className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 opacity-100"/>
+                        className="absolute top-0 left-0 transform -translate-x-1/4 sm:-left-5  md:-left-10 lg:-left-12 xl:-left-14">
+                        <img
+                            src={Img1}
+                            alt="Icon 1"
+                            className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 opacity-100"
+                        />
                     </div>
+
+                    {/* Icon 2 */}
                     <div
-                        className="absolute top-10 right-0 transform translate-x-20 sm:translate-x-10 md:translate-x-20 lg:translate-x-20 xl:translate-x-24">
-                        <img src={Img1} alt="Icon 2"
-                             className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 opacity-100"/>
+                        className="absolute top-10 right-0 transform translate-x-1/4 sm:translate-x-10 md:translate-x-20 lg:translate-x-20 xl:translate-x-24">
+                        <img
+                            src={Img1}
+                            alt="Icon 2"
+                            className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 opacity-100"
+                        />
                     </div>
                 </div>
+
 
             </>
             </HeaderHome>
@@ -159,24 +169,24 @@ const Home = () => {
             </BodyHome>
 
             {/* Reference Section */}
-            <BodyHome
-                header={"Reference"}
-                subheader={""}
-                type='casual'
-            >
-                <li>
-                    Ifada, N., Rachman, F. H., Wahyuni, S. (2023). Character-based String Matching
-                    Similarity Algorithms for Madurese Spelling Correction: A Preliminary Study. In
-                    International Conference on Electrical Engineering and Informatics (ICEEI) (pp.
-                    1-6). IEEE. DOI: 10.1109/ICEEI59426.2023.10346716
-                </li>
-                <li>
-                    Ifada, ., Rachman, F. H., Wahyuni, S. (2023). Character-based String Matching
-                    Similarity Algorithms for Madurese Spelling Correction: A Preliminary Study. In
-                    International Conference on Electrical Engineering and Informatics (ICEEI) (pp.
-                    1-6). IEEE. DOI: 10.1109/ICEEI59426.2023.10346716
-                </li>
-            </BodyHome>
+            {/*<BodyHome*/}
+            {/*    header={"Reference"}*/}
+            {/*    subheader={""}*/}
+            {/*    type='casual'*/}
+            {/*>*/}
+            {/*    <li>*/}
+            {/*        Ifada, N., Rachman, F. H., Wahyuni, S. (2023). Character-based String Matching*/}
+            {/*        Similarity Algorithms for Madurese Spelling Correction: A Preliminary Study. In*/}
+            {/*        International Conference on Electrical Engineering and Informatics (ICEEI) (pp.*/}
+            {/*        1-6). IEEE. DOI: 10.1109/ICEEI59426.2023.10346716*/}
+            {/*    </li>*/}
+            {/*    <li>*/}
+            {/*        Ifada, ., Rachman, F. H., Wahyuni, S. (2023). Character-based String Matching*/}
+            {/*        Similarity Algorithms for Madurese Spelling Correction: A Preliminary Study. In*/}
+            {/*        International Conference on Electrical Engineering and Informatics (ICEEI) (pp.*/}
+            {/*        1-6). IEEE. DOI: 10.1109/ICEEI59426.2023.10346716*/}
+            {/*    </li>*/}
+            {/*</BodyHome>*/}
 
             <BackToTopButtonHome/>
         </LayoutHome>
