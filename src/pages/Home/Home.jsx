@@ -9,6 +9,8 @@ import BodyHome from '../Layout/Home/BodyHome.jsx';
 import BackToTopButton, {BackToTopButtonHome} from "../../components/Navigate/BackToTopNavigate";
 import OverViewRekomendasi from "../../components/Toggle/OverViewPage";
 import Img1 from '../../assets/images/img1.png';
+import Img2 from '../../assets/images/img2.png';
+import Img7 from '../../assets/images/img7.png';
 
 
 const Home = () => {
@@ -63,13 +65,23 @@ const Home = () => {
 
                     {/* Icon 2 */}
                     <div
-                        className="absolute top-10 right-0 transform translate-x-1/4 sm:translate-x-10 md:translate-x-20 lg:translate-x-20 xl:translate-x-24">
+                        className=" absolute top-10 right-0 transform translate-x-1/4 sm:translate-x-10 md:translate-x-20 lg:translate-x-20 xl:translate-x-24">
                         <img
-                            src={Img1}
+                            src={Img7}
                             alt="Icon 2"
                             className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 opacity-100"
                         />
                     </div>
+
+
+                    {/*<div*/}
+                    {/*    className=" animate-bounce absolute top-60 right-0 transform translate-x-1/2 sm:translate-x-10 md:translate-x-10 lg:translate-x-10 xl:-translate-x-20">*/}
+                    {/*    <img*/}
+                    {/*        src={Img2}*/}
+                    {/*        alt="Icon 2"*/}
+                    {/*        className="w-20 h-20 sm:w-24 sm:h-20 md:w-20 md:h-24 lg:w-28 lg:h-28 opacity-100"*/}
+                    {/*    />*/}
+                    {/*</div>*/}
                 </div>
 
 

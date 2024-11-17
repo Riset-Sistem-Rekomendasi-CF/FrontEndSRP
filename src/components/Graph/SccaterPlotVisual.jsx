@@ -35,13 +35,13 @@ export function ScatterPlotData({opsional, result}){
 
         useEffect(() => {
             // Clear previous SVG if present
-            d3.select('#scatterplot').select('svg').remove();
+            d3.select(containerRef.current).select('svg').remove();
 
             const margin = { top: 20, right: 20, bottom: 30, left: 40 };
             const width = size.width - margin.left - margin.right;
             const height = size.height - margin.top - margin.bottom;
 
-            const svg = d3.select('#scatterplot')
+            const svg = d3.select(containerRef.current)
                 .append('svg')
                 .attr('width', size.width)
                 .attr('height', size.height)
@@ -139,12 +139,12 @@ export function ScatterPlotData({opsional, result}){
                 .attr('fill', 'black')
                 .text(d => d.label);
 
-        }, [size]); // Re-run effect when size changes
+        }, [size, dataPlotVisual, opsional]); // Re-run effect when size, data, or opsional change
 
         return (
             <>
-                <div id="scatterplot" ref={containerRef}
-                     style={{width: '100%', maxWidth: '600px', margin: '0 auto'}}/>
+                <div ref={containerRef}
+                     style={{ width: '100%', maxWidth: '600px', margin: '0 auto' }} />
                 <div className="mt-6 text-center w-full">
                     <p className="font-bold text-xl mb-4">Keterangan:</p>
                     <ul className="flex flex-col sm:flex-row space-x-0 sm:space-x-4 sm:space-y-0 space-y-4 justify-center">
@@ -155,10 +155,7 @@ export function ScatterPlotData({opsional, result}){
                         </li>
                     </ul>
                 </div>
-
-
             </>
-
         );
     };
 

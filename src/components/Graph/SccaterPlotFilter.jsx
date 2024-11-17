@@ -1,24 +1,42 @@
 import React, {useEffect, useState} from "react";
 import * as d3 from "d3";
 
-export function ScatterPlotDataFilter({opsional, result}) {
+export function ScatterPlotDataFilter({opsional, result, topSimilarities, selectedValue, selectedIndex}) {
     const similarityDataFilter = result['reduced-data'];
     console.log("ini adalh reduce data ", similarityDataFilter)
+    const PredictionDataSet = result['prediction']
+    console.log("ini adalh prediciton in plot", PredictionDataSet)
+
+    // const FindTopSimInPlot = result['similarity'].map((row, colIndex)){
+    //
+    //     // yang digunakan untuk titik terdekat yang digunakan
+    //     const isTopSimilarity = topSimilarities.some(top => top.index === colIndex);
+    //
+    // }
+
+
     // Mengubah objek menjadi array 2D
     const dataFilterPlot = Object.entries(similarityDataFilter).map(([key, value]) => [parseFloat(key), parseFloat(value)]);
     // console.log("ini array 2d", dataFilterPlot)
     const ScatterPlotFilter = () => {
-
-
-        const size = 400;
-        const margin = {top: 20, right: 20, bottom: 30, left: 40};
+        // State untuk ukuran plot, bisa dikelola secara terpisah di masing-masing komponen
+        const [size] = useState(400);
+        const margin = { top: 20, right: 20, bottom: 30, left: 40 };
         const width = size - margin.left - margin.right;
         const height = size - margin.top - margin.bottom;
+
+        // Data untuk scatter plot, disesuaikan dengan kebutuhan
+        const data = dataFilterPlot.map((row, index) => ({
+            x: row[0],
+            y: row[1],
+            label: `${opsional === "user-based" ? "user" : "item"}-${index + 1} `
+        }));
 
         useEffect(() => {
             // Clear previous SVG if present
             d3.select('#scatterplot').select('svg').remove();
 
+            // Buat SVG baru
             const svg = d3.select('#scatterplot')
                 .append('svg')
                 .attr('width', size)
@@ -26,34 +44,25 @@ export function ScatterPlotDataFilter({opsional, result}) {
                 .append('g')
                 .attr('transform', `translate(${margin.left},${margin.top})`);
 
-            // Prepare the data for scatter plot
-            const data = dataFilterPlot.map((row, index) => ({
-                x: row[0],
-                y: row[1],
-                label: `${opsional === "user-based" ? "user" : "item"}-${index + 1} `
-            }));
+            // Fungsi untuk menghitung jarak Euclidean
+            const calculateDistance = (d1, d2) => Math.sqrt(Math.pow(d1.x - d2.x, 2) + Math.pow(d1.y - d2.y, 2));
 
-            // Calculate Euclidean distance between points (except for the selected user)
-            const calculateDistance = (d1, d2) => {
-                return Math.sqrt(Math.pow(d1.x - d2.x, 2) + Math.pow(d1.y - d2.y, 2));
-            };
-
-            // Select the index of the user (e.g., User 3, which is index 2)
+            // Pemilihan user atau item untuk analisis
             const selectedUserIndex = 2;
 
-            // Find the distances to the selected user and sort them
+            // Menghitung jarak dari titik yang dipilih
             const distances = data.map((d, i) => ({
                 index: i,
                 distance: calculateDistance(data[selectedUserIndex], d)
             }));
 
-            // Sort the distances and find the nearest neighbors
+            // Mengurutkan dan memilih 2 tetangga terdekat
             const nearestNeighbors = distances
-                .filter(d => d.index !== selectedUserIndex) // Remove the selected user itself
+                .filter(d => d.index !== selectedUserIndex) // Menghapus user yang dipilih dari daftar
                 .sort((a, b) => a.distance - b.distance)
-                .slice(0, 2); // Get 2 nearest neighbors
+                .slice(0, 2); // Ambil 2 tetangga terdekat
 
-            // Create scales
+            // Membuat skala untuk sumbu X dan Y
             const xScale = d3.scaleLinear()
                 .domain(d3.extent(data, d => d.x))
                 .range([0, width]);
@@ -62,16 +71,16 @@ export function ScatterPlotDataFilter({opsional, result}) {
                 .domain(d3.extent(data, d => d.y))
                 .range([height, 0]);
 
-            // Add x-axis
+            // Menambahkan sumbu X
             svg.append('g')
                 .attr('transform', `translate(0, ${height})`)
                 .call(d3.axisBottom(xScale));
 
-            // Add y-axis
+            // Menambahkan sumbu Y
             svg.append('g')
                 .call(d3.axisLeft(yScale));
 
-            // Add grid lines
+            // Menambahkan garis grid
             const xGrid = d3.axisBottom(xScale)
                 .ticks(10)
                 .tickSize(-height)
@@ -91,7 +100,7 @@ export function ScatterPlotDataFilter({opsional, result}) {
                 .attr('class', 'grid')
                 .call(yGrid);
 
-            // Add circles for each data point
+            // Menambahkan titik-titik ke scatter plot
             svg.selectAll('circle')
                 .data(data)
                 .enter()
@@ -100,12 +109,12 @@ export function ScatterPlotDataFilter({opsional, result}) {
                 .attr('cy', d => yScale(d.y))
                 .attr('r', 5)
                 .attr('fill', (d, i) => {
-                    if (i === selectedUserIndex) return 'red'; // Highlight selected user
-                    if (nearestNeighbors.some(n => n.index === i)) return 'green'; // Nearest neighbors
-                    return 'steelblue'; // Default color
+                    if (i === selectedUserIndex) return 'red'; // Warna untuk user yang dipilih
+                    if (nearestNeighbors.some(n => n.index === i)) return 'green'; // Warna untuk tetangga terdekat
+                    return 'steelblue'; // Warna default
                 })
                 .on('mouseover', function (event, d) {
-                    d3.select(this).attr('fill', 'orange'); // Change color on hover
+                    d3.select(this).attr('fill', 'orange'); // Ubah warna saat hover
                     svg.append('text')
                         .attr('x', xScale(d.x) + 10)
                         .attr('y', yScale(d.y) - 10)
@@ -113,10 +122,10 @@ export function ScatterPlotDataFilter({opsional, result}) {
                         .text(d.label);
                 })
                 .on('mouseout', function () {
-                    svg.selectAll('.tooltip').remove(); // Remove tooltip
+                    svg.selectAll('.tooltip').remove(); // Hapus tooltip saat mouseout
                 });
 
-            // Draw lines from (0, 0) to each point
+            // Menambahkan garis dari titik origin (0,0) ke setiap titik
             data.forEach(d => {
                 svg.append('line')
                     .attr('x1', xScale(0))
@@ -127,51 +136,45 @@ export function ScatterPlotDataFilter({opsional, result}) {
                     .attr('stroke-width', 1);
             });
 
-            // Add labels around the nodes (circles)
+            // Menambahkan label di sekitar setiap titik
             svg.selectAll('text.label')
                 .data(data)
                 .enter()
                 .append('text')
                 .attr('x', d => xScale(d.x))
-                .attr('y', d => yScale(d.y) - 10) // Position label slightly above the node
+                .attr('y', d => yScale(d.y) - 10) // Posisi label sedikit di atas titik
                 .attr('class', 'label')
-                .attr('text-anchor', 'middle')  // Center the text horizontally
+                .attr('text-anchor', 'middle')  // Rata tengah horizontal
                 .attr('font-size', '12px')
                 .attr('fill', 'black')
                 .text(d => d.label);
 
-        }, []);
+        }, []); // Tidak ada dependency, hanya pertama kali render
 
         return (
             <>
-                <div id="scatterplot" style={{margin: '0 auto'}}/>
+                <div id="scatterplot" style={{ margin: '0 auto' }} />
                 <div className="mt-6 text-center w-full">
                     <p className="font-semibold text-lg sm:text-xl mb-4">Keterangan:</p>
                     <ul className="flex flex-col sm:flex-row space-x-0 sm:space-x-4 sm:space-y-0 space-y-4 justify-center px-4">
                         <li className="flex items-center text-sm sm:text-base">
-                            <div
-                                className="w-5 h-5 rounded-full bg-red-500 border border-1 border-black mr-2"></div>
+                            <div className="w-5 h-5 rounded-full bg-red-500 border border-1 border-black mr-2"></div>
                             Titik <span className="italic">{opsional}</span> target
                         </li>
                         <li className="flex items-center text-sm sm:text-base">
-                            <div
-                                className="w-5 h-5 rounded-full bg-blue-200 border border-1 border-black mr-2"></div>
-                            Titik <span className="italic ">{opsional}</span>
+                            <div className="w-5 h-5 rounded-full bg-blue-200 border border-1 border-black mr-2"></div>
+                            Titik <span className="italic">{opsional}</span>
                         </li>
                         <li className="flex items-center text-sm sm:text-base">
-                            <div
-                                className="w-5 h-5 rounded-full bg-green-500 border border-1 border-black mr-2"></div>
+                            <div className="w-5 h-5 rounded-full bg-green-500 border border-1 border-black mr-2"></div>
                             Titik tetangga terdekat
                         </li>
                     </ul>
                 </div>
-
             </>
-
-
-        )
-            ;
+        );
     };
+
 
     const ExplanationSectionScatterPlotFilter = () => {
         const [isExpanded, setIsExpanded] = useState(false);

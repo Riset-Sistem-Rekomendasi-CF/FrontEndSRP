@@ -22,7 +22,9 @@ import {
     People,
     SportsMotorsports, Lightbulb,
 
-} from '@mui/icons-material'; // Import ikon MUI
+} from '@mui/icons-material';
+import Img1 from "../../assets/images/img1.png";
+import Img2 from "../../assets/images/img2.png"; // Import ikon MUI
 
 
 const Tutorial = () => {
@@ -93,7 +95,9 @@ const Tutorial = () => {
             <BodyTutorial
                 header={"Tutorial Fungsi Similaritas"}
                 subheader={" Pada Page tutorial ini pengguna akan diberikan tutorial tentang perhitungan fungsi similaritas dalam Sistem Rekomendasi. Sehingga pengguna paham tentang perhitungan Fungsi Similaritas dengan berbagai metode yang bisa digunakan "}
+
             />
+
 
             <VideoTutorialModal/>
 

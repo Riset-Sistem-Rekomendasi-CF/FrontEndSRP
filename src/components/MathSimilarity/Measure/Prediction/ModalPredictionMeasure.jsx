@@ -279,7 +279,14 @@ const ModalPredictionMeasure = ({ opsional, similarity, topSimilarities, selecte
                     Grafik Prediksi Top-N
                 </h1>
                 <div className='flex justify-center my-3'>
-                    <ScatterPlotDataFilter result={result} opsional={opsional}/>
+                    <ScatterPlotDataFilter
+                        result={result}
+                        opsional={opsional}
+                        topSimilarities={topSimilarities}
+                        selectedIndex={selectedIndex}
+                        selectedValue={selectedValue}
+
+                    />
                 </div>
 
                 <button

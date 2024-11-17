@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import '../../index.css';
-// import UserBased from '../../assets/images/userbased.png';
-// import ItemBased from '../../assets/images/itembased.png';
 import UserBased from '../../assets/vidioAsset/userBasedGif.gif';
 import ItemBased from '../../assets/vidioAsset/itemBasedGif.gif';
 
 import Img1 from '../../assets/images/img1.png';
+import Img8 from '../../assets/images/img8.png';
+
 
 const CardFlip = () => {
     // State terpisah untuk kartu kiri dan kanan
@@ -111,31 +111,19 @@ const ContentOverview = () => {
         <>
             <CardFlip/>
             {/* Bottom Section: Single Column */}
-            <div className="bg-white shadow-lg rounded-xl p-6 md:p-10 mt-6 max-w-2xl mx-auto">
-                <h1 className="text-lg font-semibold font-poppins underline underline-offset-8 decoration-4 decoration-card_blue_primary mb-5">
-                    Collaborative Filtering dalam Sistem Rekomendasi
+            <div className="bg-white shadow-lg rounded-xl p-6 md:p-10 mt-6 max-w-4xl mx-auto">
+                <h1 className="animate-bounce text-xl font-semibold font-poppins underline underline-offset-8 decoration-4 decoration-card_blue_primary mb-5">
+                    Collaborative Filtering
                 </h1>
-                <p className="text-base sm:text-md md:text-lg text-gray-600">
-                    <strong>Collaborative Filtering</strong> adalah metode yang digunakan dalam
-                    sistem rekomendasi untuk memberikan saran atau rekomendasi berdasarkan
-                    preferensi pengguna dan interaksi mereka dengan item sebelumnya. Teknik ini
-                    terbagi menjadi dua pendekatan utama: <span className="font-semibold"><i>user-based filtering</i></span> dan <span
-                    className="font-semibold"><i>item-based filtering</i></span>. Keduanya bekerja
-                    dengan menganalisis pola perilaku pengguna dan kesamaan antar pengguna atau item
-                    untuk menghasilkan rekomendasi yang relevan dan personal.
+                <p className="text-base sm:text-md md:text-lg text-gray-600 text-justify">
+                    <a href="https://www.researchgate.net/publication/365477302_Sistem_Rekomendasi_Produk_Aplikasi_Marketplace_Berdasarkan_Karakteristik_Pembeli_Menggunakan_Metode_User_Based_Collaborative_Filtering" className='text-italic font-semibold no-underline hover:underline text-card_blue_primary decoration-card_blue_primary ' target="_blank" rel="noopener noreferrer">Collaborative Filtering</a> adalah metode yang digunakan dalam
+                    sistem rekomendasi yang menghasilkan rekomendasi khusus kepada
+                    <i> user </i> tentang <i> item </i>  berdasarkan pola penilaian atau
+                    penggunaan. Teknik ini
+                    terbagi menjadi dua pendekatan utama: <span className="font-semibold"><i>user-based </i></span> dan <span
+                    className="font-semibold"><i>item-based </i></span>. Metode ini menghasilkan prediksi atau rekomendasi untuk
+                    pengguna tertentu untuk satu atau banyak <i> item </i>.
                 </p>
-
-                <div className="mt-6">
-                    <p className="text-base sm:text-md md:text-lg text-gray-600">
-                        Dengan menggunakan metode <strong>Collaborative Filtering</strong>,
-                        baik <i>user-based</i> maupun <i>item-based</i>, sistem rekomendasi dapat
-                        memberikan pengalaman belajar yang lebih terpersonalisasi. Pembelajaran
-                        menjadi lebih efektif dan menarik karena materi yang disarankan sesuai
-                        dengan preferensi dan gaya belajar individu. Rekomendasi yang tepat dapat
-                        memotivasi pengguna untuk terus belajar, sehingga meningkatkan keterlibatan pengguna dalam
-                        proses pembelajaran.
-                    </p>
-                </div>
 
             </div>
 
@@ -172,7 +160,7 @@ export default function OverViewRekomendasi() {
                     <div
                         className="absolute top-0 left-0 transform -translate-x-1/4 sm:-left-5  md:-left-10 lg:-left-12 xl:-left-14">
                         <img
-                            src={Img1}
+                            src={Img8}
                             alt="Icon 1"
                             className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 opacity-100"
                         />
