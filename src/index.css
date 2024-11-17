@@ -66,18 +66,20 @@
 
 /*flip effect */
 
-/*.flip-card-inner {*/
-/*    transform-style: preserve-3d;*/
-/*    transition: transform 0.5s ease-in-out;*/
-/*}*/
-
-/*.flip-card-front, .flip-card-back {*/
-/*    backface-visibility: hidden;*/
-/*}*/
-
-/*!*.flip-card-back {*!*/
-/*!*    transform: rotateY(180deg);*!*/
-/*!*}*!*/
+@layer utilities {
+    .rotate-y-180 {
+        transform: rotateY(180deg);
+    }
+    .backface-hidden {
+        backface-visibility: hidden;
+    }
+    .perspective-[max] {
+    perspective: 1000px;
+}
+    .transform-style-preserve-3d {
+        transform-style: preserve-3d;
+    }
+}
 
 
 /*end flip eefect*/

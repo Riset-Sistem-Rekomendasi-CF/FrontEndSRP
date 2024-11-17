@@ -3,19 +3,19 @@ import { getACosine, getBC, getCosine, getPearsonPC } from './api';
 
 export const getInitialData = (data, opsional) => ({
     data: data,
-    k: 3,
+    k: 2,
     opsional: opsional
 });
 
 const handleSimilarityFunction = similarity => {
     switch (similarity) {
-        case "Pearson Correlation Coefficient (PCC)":
+        case "Pearson Correlation Coefficient":
             return getPearsonPC
         case "Vector Cosine":
             return getCosine
         case "Adjusted Vector Cosine":
             return getACosine
-        case "Bhattacharyya Coefficient Similarity (BC)":
+        case "Bhattacharyya Coefficient Similarity":
             return getBC
         default:
             return

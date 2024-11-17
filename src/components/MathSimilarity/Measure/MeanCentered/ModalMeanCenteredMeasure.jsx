@@ -130,7 +130,7 @@ const ModalMeanCenteredMeasure = ({ similarity, selectedIndex, selectedValue, da
                                 description: <>
                                     Menandakan Data <span
                                     className="font-serif ml-1 mr-1">Mean</span>
-                                    <i> Rating </i> yang akan
+                                    <i className='mx-1'> Rating </i> yang akan
                                     dihitung
                                 </>
                             },
@@ -138,7 +138,7 @@ const ModalMeanCenteredMeasure = ({ similarity, selectedIndex, selectedValue, da
                                 color: "bg-yellow-200",
                                 description: <>
                                     Menandakan Data <span
-                                    className="font-serif ml-1 mr-1">Mean</span>
+                                    className="font-serif mx-1">Mean</span>
                                     yang akan
                                     dihitung
                                 </>,
@@ -146,7 +146,7 @@ const ModalMeanCenteredMeasure = ({ similarity, selectedIndex, selectedValue, da
                             {
                                 color: "bg-red-200",
                                 description: <>
-                                    Menandakan Data <i> Rating </i> yang tidak diketahui
+                                    Menandakan Data <i className='mx-1'> Rating </i> yang tidak diketahui
                                 </>,
                             },
                         ]}
@@ -188,12 +188,13 @@ const ModalMeanCenteredMeasure = ({ similarity, selectedIndex, selectedValue, da
                     </div>
                 )}
 
-                <h2 className='font-semibold text-xl text-gray-700'>
+                <p className="text-xl font-bold text-gray-700 mt-5 sm:text-md md:text-lg lg:text-xl xl:text-2xl">
                     Hasil dari <span className='italic'>Mean-Centered</span> adalah dari
-                     <span className='italic'> {opsional.split("-")[0]}{" "}
-                        </span>   {selectedIndex[0] + 1}  dan
-                    <span className='italic'> item { selectedIndex[1] + 1}</span>  = {selectedValue.toFixed(2)}
-                </h2>
+                    <span className='italic'> {opsional.split("-")[0]}{" "}
+                        </span> {selectedIndex[0] + 1} dan
+                    <span
+                        className='italic'> item {selectedIndex[1] + 1}</span> = {selectedValue.toFixed(2)}
+                </p>
 
                 <button
                     className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"

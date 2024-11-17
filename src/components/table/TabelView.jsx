@@ -58,18 +58,19 @@ function TabelView() {
                             className="w-10 h-5 bg-red-300 border border-1 border-black mr-2 flex items-center justify-center text-black">
                             ?
                         </div>
-                        Data <span className='italic'> Rating </span> yang tidak diketahui
+                        Data <span className='italic mx-1 '>Rating </span> yang tidak diketahui
                     </li>
                     <li className="flex items-center">
                         <div
                             className="w-10 h-5 bg-blue-200 border border-1 border-black mr-2"></div>
-                        Index <i> User </i>
+                        Index <i className="ml-1">User</i>
                     </li>
                     <li className="flex items-center">
                         <div
                             className="w-10 h-5 bg-yellow-btn-primary border border-1 border-black mr-2"></div>
-                        Index <i> Item </i>
+                        Index <i className="ml-1">Item</i>
                     </li>
+
                 </ul>
             </div>
         </div>

@@ -72,7 +72,7 @@ const SimilarityValue = ({
 
   const dataSimilarity =
     similarity !== "Vector Cosine"
-      ? similarity === "Bhattacharyya Coefficient Similarity (BC)"
+      ? similarity === "Bhattacharyya Coefficient Similarity"
         ? data["probability"]
         : similarity === "Adjusted Vector Cosine"
         ? transposeMatrix(data["mean-centered"])
@@ -82,7 +82,7 @@ const SimilarityValue = ({
   if (!dataSimilarity || dataSimilarity.length === 0) return null;
 
   const dataSimilarityRow =
-    similarity === "Bhattacharyya Coefficient Similarity (BC)"
+    similarity === "Bhattacharyya Coefficient Similarity"
       ? data["probability"][rowIndex + 1]
       : intersection.map((i) =>
           similarity === "Adjusted Vector Cosine"
@@ -93,7 +93,7 @@ const SimilarityValue = ({
         );
 
   const dataSimilarityCol =
-    similarity === "Bhattacharyya Coefficient Similarity (BC)"
+    similarity === "Bhattacharyya Coefficient Similarity"
       ? data["probability"][rowIndex + 1]
       : intersection.map((i) =>
           similarity === "Adjusted Vector Cosine"
@@ -182,7 +182,7 @@ const ModalSimilarity = ({
 }) => {
   const dataModify =
     similarity !== "Vector Cosine" &&
-    similarity !== "Bhattacharyya Coefficient Similarity (BC)"
+    similarity !== "Bhattacharyya Coefficient Similarity"
       ? similarity === "Adjusted Vector Cosine" || opsional === "item-based"
         ? transposeMatrix(data["mean-centered"])
         : data["mean-centered"]
@@ -268,7 +268,7 @@ const ModalSimilarity = ({
                                 <span className="font-serif">
                         {`${
                             similarity !== "Vector Cosine" &&
-                            similarity !== "Bhattacharyya Coefficient Similarity (BC)"
+                            similarity !== "Bhattacharyya Coefficient Similarity"
                                 ? "s"
                                 : "r"
                         }`}
@@ -291,11 +291,11 @@ const ModalSimilarity = ({
                 list={[
                   {
                     color: "bg-green-200",
-                    description: <>Menandakan Data <i> Rating </i> yang akan dihitung</>
+                    description: <>Menandakan Data <i className='mx-1'> Rating </i> yang akan dihitung</>
                   },
                   {
                     color: "bg-red-200",
-                    description: <>Menandakan Data <i> Rating </i> yang tidak diketahui</>,
+                    description: <>Menandakan Data <i className='mx-1'>   Rating </i> yang tidak diketahui</>,
                   },
                 ]}
             />
@@ -307,7 +307,7 @@ const ModalSimilarity = ({
                 className="overflow-x-auto mt-6 flex justify-center items-center flex-col px-4 sm:px-10">
               {selectedIndex ? (
                   <>
-                    <div className="w-full min-w-[300px]">
+                    <div className="w-full min-w-[200px]">
                       <SimilarityIndex
                           rowIndex={selectedIndex[0]}
                           colIndex={selectedIndex[1]}
@@ -317,8 +317,8 @@ const ModalSimilarity = ({
                           similarity={similarity}
                       />
                     </div>
-                    {similarity !== "Bhattacharyya Coefficient Similarity (BC)" ? (
-                        <div className="w-full min-w-[300px]">
+                    {similarity !== "Bhattacharyya Coefficient Similarity" ? (
+                        <div className="w-full min-w-[200px]">
                           <SimilarityIndexNonZero
                               rowIndex={selectedIndex[0]}
                               colIndex={selectedIndex[1]}
@@ -343,7 +343,7 @@ const ModalSimilarity = ({
                 className="overflow-x-auto mt-6 flex justify-center items-center flex-col px-4 sm:px-10">
               {selectedIndex && dataOnly ? (
                   <>
-                    <div className="w-full min-w-[300px]">
+                    <div className="w-full min-w-[200px]">
                       <SimilarityValue
                           rowIndex={selectedIndex[0]}
                           colIndex={selectedIndex[1]}
@@ -362,11 +362,13 @@ const ModalSimilarity = ({
             </div>
           </MathJaxContext>
 
-          <p className="text-xl font-bold text-gray-700 mt-4">
+
+          <p className="text-xl font-bold text-gray-700 mt-5 sm:text-md md:text-lg lg:text-xl xl:text-2xl">
             Hasil Similaritas antara <span className="italic">{opsional.split("-")[0]}{" "}
             {selectedIndex[0] + 1} dan user {selectedIndex[1] + 1} ={" "}
             {selectedMean.toFixed(4)}</span>
           </p>
+
 
           <button
               className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"

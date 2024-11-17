@@ -38,7 +38,7 @@ export function PredictionMeasure({ opsional, similarity, initialData }) {
     // Ambil prediksi untuk user yang dipilih berdasarkan userIndex
     const predictions = result["top-n"][userIndex]; // Mengakses berdasarkan userIndex
 
-    console.log("ii adalh top n ", predictions)
+    console.log("ini adalah top n ", predictions)
     if (!predictions) {
       return null;
     }
@@ -218,12 +218,16 @@ export function PredictionMeasure({ opsional, similarity, initialData }) {
         </p>
 
         <MathJaxContext options={mathjaxConfig}>
-          <div className="flex flex-col sm:flex-row justify-start items-start my-5 pl-5">
-            <div className="border-2 py-3 px-3 border-black rounded-lg mb-4 sm:mb-0">
-              <MathJax>{formula.arg_max}</MathJax>
+          <div className="flex flex-col sm:flex-row my-5 pl-5">
+            {/* MathJax Container */}
+            <div className="border-2 py-3 px-3 border-black rounded-lg w-full sm:w-auto overflow-x-auto sm:overflow-x-visible">
+              <MathJax className="text-xs sm:text-sm md:text-base leading-relaxed">
+                {formula.arg_max}
+              </MathJax>
             </div>
 
-            <p className="ml-4 text-red-500 font-semibold text-xs sm:text-sm md:text-base text-justify">
+            {/* Deskripsi */}
+            <p className="mt-4 sm:mt-0 sm:ml-4 items-center text-red-500 font-semibold text-justify">
               Di mana himpunan didapatkan berdasarkan urutan nilai similaritas
               (dari yang terbesar ke yang terkecil)
             </p>
@@ -249,8 +253,13 @@ export function PredictionMeasure({ opsional, similarity, initialData }) {
         </h1>
       </div>
       <MathJaxContext options={mathjaxConfig}>
-        <div className="flex justify-start items-start flex-col px-10">
-          <MathJax>{formula.formula}</MathJax>
+        <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
+          {/* Membungkus MathJax dengan overflow dan responsif */}
+          <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
+            <MathJax className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
+              {formula.formula}
+            </MathJax>
+          </div>
         </div>
       </MathJaxContext>
       <FunctionMeasureDropdown DetailRumus={formula.detail_formula}/>
@@ -309,14 +318,18 @@ export function PredictionMeasure({ opsional, similarity, initialData }) {
 
           {/* MathJaxContext untuk Render Matematika */}
           <MathJaxContext options={mathjaxConfig}>
-            <div className="flex justify-start items-start flex-row my-5 pl-5">
-              <div className="border-2 py-3 px-3 border-black rounded-lg">
-                <MathJax>{formula.TopN}</MathJax>
+            <div className="flex flex-col sm:flex-row my-5 pl-5">
+              {/* MathJax Container */}
+              <div className="border-2 py-3 px-3 border-black rounded-lg w-full sm:w-auto overflow-x-auto sm:overflow-x-visible">
+                <MathJax className="text-xs sm:text-sm md:text-base leading-relaxed">
+                  {formula.TopN}
+                </MathJax>
               </div>
 
-              <p className="ml-4 items-center text-red-500 font-semibold text-justify">
+              {/* Deskripsi */}
+              <p className="mt-4 sm:mt-0 sm:ml-4 items-center text-red-500 font-semibold text-justify">
                 Dimana himpunan didapatkan berdasarkan urutan nilai yang telah
-                di prediksi (dari yang terbesar ke yang terkecil)
+                diprediksi (dari yang terbesar ke yang terkecil)
               </p>
             </div>
           </MathJaxContext>
@@ -365,7 +378,7 @@ export function PredictionMeasure({ opsional, similarity, initialData }) {
                           {selectedUserTopN}
                           {index + 1}
                         </sub>{" "}
-                        = {prediction}
+                        = {prediction.toFixed(4)}
                       </li>
                   ))}
                 </ul>

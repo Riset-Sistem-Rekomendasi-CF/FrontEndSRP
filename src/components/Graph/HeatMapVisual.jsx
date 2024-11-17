@@ -93,7 +93,14 @@ export default function HeatMapVisualDataSim({opsional, result}) {
                 .attr('dy', '.35em')
                 .attr('text-anchor', 'middle')
                 .text(d => d.toFixed(4))
-                .attr('fill', 'black');
+                .attr('fill', 'black')
+                .style('font-size', (d, i)=>{
+                    const cellWidth = x.bandwidth();
+                    const cellHeight = y.bandwidth();
+                    const fontSize = Math.min(cellWidth, cellHeight) * 0.2; // Adjust font size
+                    // based on cell size
+                    return `${fontSize}px`;
+                });
 
             // Append x and y axes
             svg.append('g')
@@ -145,7 +152,7 @@ export default function HeatMapVisualDataSim({opsional, result}) {
             // Add axis for color bar
             const colorScaleBar = d3.scaleLinear()
                 .range([colorBarHeight, 0])
-                .domain([-1, 1]);
+                .domain([-1, 0, 1]);
 
             const colorBarAxis = d3.axisRight(colorScaleBar).ticks(5).tickFormat(d3.format('.1f'));
 
@@ -179,13 +186,14 @@ export default function HeatMapVisualDataSim({opsional, result}) {
                     <a className='font-bold no-underline hover:underline text-card_blue_primary decoration-card_blue_primary'
                        href="https://scikit-learn.org/stable/modules/generated/sklearn.manifold.MDS.html"
                        target="_blank" rel="noopener noreferrer">HeatMap</a> ini digunakan untuk
-                    memvisualisasikan tingkat kemiripan antara dua pengguna atau item berdasarkan
-                    data mereka. Setiap sel dalam heatmap menunjukkan nilai kemiripan antara dua
-                    entitas, dengan skala warna yang membantu kita untuk dengan cepat memahami
+                    memvisualisasikan tingkat kemiripan antara <span
+                    className='italic'>{opsional}</span> berdasarkan
+                    data. Setiap sel dalam heatmap menunjukkan nilai kemiripan antara dua
+                    entitas, dengan skala warna yang membantu agar cepat memahami
                     seberapa mirip atau tidak mirip dua entitas tersebut.
                 </p>
 
-                <p className={`text-sm ${isExpanded ? '' : 'line-clamp-3'}`}>
+                <p className={`text-sm mb-2 ${isExpanded ? '' : 'line-clamp-3'}`}>
                     Dalam heatmap ini, setiap sel mewakili pasangan <span
                     className='italic'>user</span> atau <span className='italic'>item</span>, dan
                     nilai di dalam sel tersebut menggambarkan tingkat kemiripan antara keduanya.
@@ -193,12 +201,6 @@ export default function HeatMapVisualDataSim({opsional, result}) {
                     tingkat kesamaan antara dua entitas tersebut.
                 </p>
 
-                <p className={`text-sm ${isExpanded ? '' : 'line-clamp-3'}`}>
-                    Heatmap ini sangat berguna untuk memvisualisasikan pola kemiripan dalam dataset
-                    besar, seperti hubungan antara <span className='italic'>pengguna</span> dalam
-                    sistem rekomendasi, atau kesamaan antara <span
-                    className='italic'>item</span> dalam analisis clustering.
-                </p>
 
                 {/* Tampilkan tombol jika teks belum lengkap */}
                 {!isExpanded && (

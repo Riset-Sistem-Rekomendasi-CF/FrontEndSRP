@@ -97,7 +97,9 @@ const BackToTopButton = () => {
             <div className="fixed bottom-10 right-10 flex flex-col items-center space-y-3">
                 {/* Menu Options with Smooth Transition */}
                 <div
-                    className={`flex flex-col items-center space-y-4 transition-all duration-300 ease-in-out ${isMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+                    className={`flex flex-col items-center space-y-4 transition-opacity duration-300 ${
+                        isMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+                    }`}
                 >
                     {/* Option - Back to Top */}
                     <div className="relative flex items-center">

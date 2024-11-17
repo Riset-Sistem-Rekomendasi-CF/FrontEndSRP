@@ -86,10 +86,10 @@ export function DropdownSimilarityMeasure({ onChange }) {
                         <Menu.Item>
                             {({ active }) => (
                                 <button
-                                    onClick={() => handleChange('Pearson Correlation Coefficient (PCC)')}
+                                    onClick={() => handleChange('Pearson Correlation Coefficient')}
                                     className={`block w-full text-left px-4 py-2 text-sm ${active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'}`}
                                 >
-                                    Pearson Correlation Coefficient (PCC)
+                                    Pearson Correlation Coefficient
                                 </button>
                             )}
 
@@ -117,10 +117,10 @@ export function DropdownSimilarityMeasure({ onChange }) {
                         <Menu.Item>
                             {({ active }) => (
                                 <button
-                                    onClick={() => handleChange('Bhattacharyya Coefficient Similarity (BC)')}
+                                    onClick={() => handleChange('Bhattacharyya Coefficient Similarity')}
                                     className={`block w-full text-left px-4 py-2 text-sm ${active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'}`}
                                 >
-                                    Bhattacharyya Coefficient Similarity (BC)
+                                    Bhattacharyya Coefficient Similarity
                                 </button>
                             )}
                         </Menu.Item>

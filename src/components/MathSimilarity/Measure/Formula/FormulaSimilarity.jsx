@@ -1,6 +1,6 @@
 export const getFormulaSimilarity = (similarity, opsional) => {
   switch (similarity) {
-      case "Pearson Correlation Coefficient (PCC)":
+      case "Pearson Correlation Coefficient":
           switch (opsional) {
               case "user-based":
                   return {
@@ -65,7 +65,7 @@ export const getFormulaSimilarity = (similarity, opsional) => {
               default:
                   return;
           }
-      case "Bhattacharyya Coefficient Similarity (BC)":
+      case "Bhattacharyya Coefficient Similarity":
           switch (opsional) {
               case "user-based":
                   return {
@@ -110,7 +110,7 @@ export const FormulaSimilarityIndex = (
   isNotation
 ) => {
   switch (similarity) {
-    case "Pearson Correlation Coefficient (PCC)":
+    case "Pearson Correlation Coefficient":
       switch (opsional) {
         case "user-based":
           return !isNotation
@@ -273,7 +273,7 @@ export const FormulaSimilarityIndex = (
         default:
           return;
       }
-    case "Bhattacharyya Coefficient Similarity (BC)":
+    case "Bhattacharyya Coefficient Similarity":
       const ratings = [1, 2, 3, 4, 5]; // Daftar rating
       const sumTerms = ratings
         .map(
@@ -307,7 +307,7 @@ export const FormulaSimilarityNonZero = (
 ) => {
   console.log("intersection", intersection);
   switch (similarity) {
-    case "Pearson Correlation Coefficient (PCC)":
+    case "Pearson Correlation Coefficient":
       switch (opsional) {
         case "user-based":
           return {
@@ -503,7 +503,7 @@ export const FormulaSimilarityValue = (
   isNotation
 ) => {
   switch (similarity) {
-    case "Pearson Correlation Coefficient (PCC)":
+    case "Pearson Correlation Coefficient":
       switch (opsional) {
         case "user-based":
           return {
@@ -737,7 +737,7 @@ export const FormulaSimilarityValue = (
         default:
           return;
       }
-    case "Bhattacharyya Coefficient Similarity (BC)":
+    case "Bhattacharyya Coefficient Similarity":
       const ratings = [1, 2, 3, 4, 5]; // Daftar rating
       const sumTerms = ratings
         .map((rating) => {

@@ -5,7 +5,8 @@ import { transposeMatrix } from "../../../../helper/helper"
 import LegendTable from "../../../tabelData/LegendTable"
 import { useState } from "react"
 import SwitchToggle from "../../../Toggle/SwitchToggle"
-import {ScatterPlotDataFilter} from "../../../Graph/SccaterPlotVisual";
+import {ScatterPlotDataFilter} from "../../../Graph/SccaterPlotFilter";
+
 
 
 const ModalPredictionMeasure = ({ opsional, similarity, topSimilarities, selectedValue, selectedIndex, data, result, close }) => {
@@ -190,16 +191,17 @@ const ModalPredictionMeasure = ({ opsional, similarity, topSimilarities, selecte
                         list={[
                             {
                                 color: "bg-green-200",
-                                description: <>Menandakan Data <i> Rating </i> yang akan dihitung</>
+                                description: <>Menandakan Data <i className='mx-1'> Rating </i> yang akan dihitung</>
                             },
                             {
                                 color: "bg-yellow-200",
-                                description: <>Menandakan Data Mean <i> Rating </i> yang akan
+                                description: <>Menandakan Data Mean <i className='mx-1'> Rating </i> yang akan
                                     dihitung</>
                             },
                             {
                                 color: "bg-red-200",
-                                description: <>Menandakan Data <i> Rating </i> yang tidak diketahui</>
+                                description: <>Menandakan Data <i className='mx-1'> Rating </i> yang tidak
+                                    diketahui</>
                             },
                         ]}
                     />
@@ -207,15 +209,18 @@ const ModalPredictionMeasure = ({ opsional, similarity, topSimilarities, selecte
 
                 {/* Perhitungan Manual */}
                 <MathJaxContext options={mathjaxConfig}>
-                    <div className='flex justify-center items-center flex-col px-10'>
+                    <div
+                        className='overflow-x-auto mt-6 flex justify-center items-center flex-col px-4 sm:px-10'>
                         {selectedIndex ? (
-                            <ArgMaxNeighbor
-                                rowIndex={selectedIndex[0]}
-                                colIndex={selectedIndex[1]}
-                                opsional={opsional}
-                                similarity={similarity}
-                                topSimilarity={topSimilarities}
-                            />
+                            <div className="w-full min-w-[300px]">
+                                <ArgMaxNeighbor
+                                    rowIndex={selectedIndex[0]}
+                                    colIndex={selectedIndex[1]}
+                                    opsional={opsional}
+                                    similarity={similarity}
+                                    topSimilarity={topSimilarities}
+                                />
+                            </div>
                         ) : (
                             <p>No expression selected.</p>
                         )}
@@ -223,14 +228,17 @@ const ModalPredictionMeasure = ({ opsional, similarity, topSimilarities, selecte
                 </MathJaxContext>
 
                 <MathJaxContext options={mathjaxConfig}>
-                    <div className='flex justify-center items-center flex-col px-10'>
+                    <div
+                        className='overflow-x-auto mt-6 flex justify-center items-center flex-col px-4 sm:px-10'>
                         {selectedIndex ? (
-                            <PredictionIndex
-                                rowIndex={selectedIndex[0]}
-                                colIndex={selectedIndex[1]}
-                                opsional={opsional}
-                                similarity={similarity}
-                            />
+                            <div className="w-full min-w-[300px]">
+                                <PredictionIndex
+                                    rowIndex={selectedIndex[0]}
+                                    colIndex={selectedIndex[1]}
+                                    opsional={opsional}
+                                    similarity={similarity}
+                                />
+                            </div>
                         ) : (
                             <p>No expression selected.</p>
                         )}
@@ -238,35 +246,40 @@ const ModalPredictionMeasure = ({ opsional, similarity, topSimilarities, selecte
                 </MathJaxContext>
 
                 <MathJaxContext options={mathjaxConfig}>
-                    <div className='flex justify-center items-center flex-col px-10'>
+                    <div
+                        className='overflow-x-auto mt-6 flex justify-center items-center flex-col px-4 sm:px-10'>
                         {selectedIndex ? (
-                            <PredictionValue
-                                rowIndex={selectedIndex[0]}
-                                colIndex={selectedIndex[1]}
-                                similarValues={topSimilarities}
-                                result={result}
-                                opsional={opsional}
-                                similarity={similarity}
-                                isNotation={isNotation}
-                            />
+                            <div className="w-full min-w-[200px]">
+                                <PredictionValue
+                                    rowIndex={selectedIndex[0]}
+                                    colIndex={selectedIndex[1]}
+                                    similarValues={topSimilarities}
+                                    result={result}
+                                    opsional={opsional}
+                                    similarity={similarity}
+                                    isNotation={isNotation}
+                                />
+                            </div>
                         ) : (
                             <p>No expression selected.</p>
                         )}
                     </div>
                 </MathJaxContext>
 
-                <p className="text-xl font-bold text-gray-700 mt-5">Hasil prediksi <i> rating </i>
-                    <span
-                        className='italic'> Item </span>
+                <p className="text-xl font-bold text-gray-700 mt-5 sm:text-md md:text-lg lg:text-xl xl:text-2xl">
+                    Hasil prediksi <i>rating</i>
+                    <span className='italic'> Item </span>
                     target {selectedIndex[1] + 1} terhadap <span
-                        className='italic'>item</span> {selectedIndex[1] + 1} adalah
-                    = {selectedValue.toFixed(3)}</p>
+                    className='italic'>item</span> {selectedIndex[1] + 1} adalah
+                    = {selectedValue.toFixed(3)}
+                </p>
+
 
                 <h1 className='font-semibold text-xl my-5 underline underline-offset-8 decoration-4 decoration-card_blue_primary'>
-                    Grafik Prediksi Top-K
+                    Grafik Prediksi Top-N
                 </h1>
                 <div className='flex justify-center my-3'>
-                    <ScatterPlotDataFilter result={result}/>
+                    <ScatterPlotDataFilter result={result} opsional={opsional}/>
                 </div>
 
                 <button

@@ -123,11 +123,15 @@ const MeanCenteredMeasure = ({ opsional, similarity, initialData }) => {
                         className='italic'>{opsional.toLowerCase().replace(/\b[a-z]/g, (letter) => letter.toUpperCase())}</span>
                 </h1>
             </div>
+
             <MathJaxContext options={mathjaxConfig}>
-                <div className='flex justify-start items-start flex-col px-10'>
-                    <MathJax>
-                        {FormulaMeanCentered.formula}
-                    </MathJax>
+                <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
+                    {/* Membungkus MathJax dengan overflow dan responsif */}
+                    <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
+                        <MathJax className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
+                            {FormulaMeanCentered.formula}
+                        </MathJax>
+                    </div>
                 </div>
             </MathJaxContext>
             <FunctionMeasureDropdown DetailRumus={FormulaMeanCentered.detail_formula}/>

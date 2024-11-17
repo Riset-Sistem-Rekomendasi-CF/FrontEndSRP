@@ -1,59 +1,57 @@
+import React, {useEffect, useState} from "react";
+import * as d3 from "d3";
 
-import React, { useEffect, useRef, useState } from 'react';
-import * as d3 from 'd3';
-import LegendTable from "../tabelData/LegendTable";
-
-
-
-export function ScatterPlotData({opsional, result}){
-    const similarityData = result['reduced-data'];
-    console.log("ini adalh reduce data ", similarityData)
+export function ScatterPlotDataFilter({opsional, result}) {
+    const similarityDataFilter = result['reduced-data'];
+    console.log("ini adalh reduce data ", similarityDataFilter)
     // Mengubah objek menjadi array 2D
-    const dataPlotVisual = Object.entries(similarityData).map(([key, value]) => [parseFloat(key), parseFloat(value)]);
-    const ScatterPlot = () => {
-        // Create a reference for the container
-        const containerRef = useRef(null);
-        const [size, setSize] = useState({ width: 400, height: 400 });
+    const dataFilterPlot = Object.entries(similarityDataFilter).map(([key, value]) => [parseFloat(key), parseFloat(value)]);
+    // console.log("ini array 2d", dataFilterPlot)
+    const ScatterPlotFilter = () => {
 
-        useEffect(() => {
-            // Function to update size based on window width
-            const updateSize = () => {
-                const width = containerRef.current?.offsetWidth || 500;
-                const height = width; // Keep the aspect ratio 1:1
-                setSize({ width, height });
-            };
 
-            // Initial size update
-            updateSize();
-
-            // Resize event listener
-            window.addEventListener('resize', updateSize);
-
-            // Clean up the event listener on unmount
-            return () => window.removeEventListener('resize', updateSize);
-        }, []);
+        const size = 400;
+        const margin = {top: 20, right: 20, bottom: 30, left: 40};
+        const width = size - margin.left - margin.right;
+        const height = size - margin.top - margin.bottom;
 
         useEffect(() => {
             // Clear previous SVG if present
             d3.select('#scatterplot').select('svg').remove();
 
-            const margin = { top: 20, right: 20, bottom: 30, left: 40 };
-            const width = size.width - margin.left - margin.right;
-            const height = size.height - margin.top - margin.bottom;
-
             const svg = d3.select('#scatterplot')
                 .append('svg')
-                .attr('width', size.width)
-                .attr('height', size.height)
+                .attr('width', size)
+                .attr('height', size)
                 .append('g')
                 .attr('transform', `translate(${margin.left},${margin.top})`);
 
             // Prepare the data for scatter plot
-            const data = dataPlotVisual.map((row, index) => ({
-                x: row[0],  // Using first element of row for x
-                y: row[1],  // Using second element of row for y
-                label: `${opsional === "user-based" ? "user" : "item"}-${index + 1}`
+            const data = dataFilterPlot.map((row, index) => ({
+                x: row[0],
+                y: row[1],
+                label: `${opsional === "user-based" ? "user" : "item"}-${index + 1} `
             }));
+
+            // Calculate Euclidean distance between points (except for the selected user)
+            const calculateDistance = (d1, d2) => {
+                return Math.sqrt(Math.pow(d1.x - d2.x, 2) + Math.pow(d1.y - d2.y, 2));
+            };
+
+            // Select the index of the user (e.g., User 3, which is index 2)
+            const selectedUserIndex = 2;
+
+            // Find the distances to the selected user and sort them
+            const distances = data.map((d, i) => ({
+                index: i,
+                distance: calculateDistance(data[selectedUserIndex], d)
+            }));
+
+            // Sort the distances and find the nearest neighbors
+            const nearestNeighbors = distances
+                .filter(d => d.index !== selectedUserIndex) // Remove the selected user itself
+                .sort((a, b) => a.distance - b.distance)
+                .slice(0, 2); // Get 2 nearest neighbors
 
             // Create scales
             const xScale = d3.scaleLinear()
@@ -93,7 +91,7 @@ export function ScatterPlotData({opsional, result}){
                 .attr('class', 'grid')
                 .call(yGrid);
 
-            // Add circles for each data point and a line to each point
+            // Add circles for each data point
             svg.selectAll('circle')
                 .data(data)
                 .enter()
@@ -101,7 +99,11 @@ export function ScatterPlotData({opsional, result}){
                 .attr('cx', d => xScale(d.x))
                 .attr('cy', d => yScale(d.y))
                 .attr('r', 5)
-                .attr('fill', 'steelblue')
+                .attr('fill', (d, i) => {
+                    if (i === selectedUserIndex) return 'red'; // Highlight selected user
+                    if (nearestNeighbors.some(n => n.index === i)) return 'green'; // Nearest neighbors
+                    return 'steelblue'; // Default color
+                })
                 .on('mouseover', function (event, d) {
                     d3.select(this).attr('fill', 'orange'); // Change color on hover
                     svg.append('text')
@@ -111,7 +113,6 @@ export function ScatterPlotData({opsional, result}){
                         .text(d.label);
                 })
                 .on('mouseout', function () {
-                    d3.select(this).attr('fill', 'steelblue'); // Reset color
                     svg.selectAll('.tooltip').remove(); // Remove tooltip
                 });
 
@@ -139,34 +140,40 @@ export function ScatterPlotData({opsional, result}){
                 .attr('fill', 'black')
                 .text(d => d.label);
 
-        }, [size]); // Re-run effect when size changes
+        }, []);
 
         return (
             <>
-                <div id="scatterplot" ref={containerRef}
-                     style={{width: '100%', maxWidth: '600px', margin: '0 auto'}}/>
+                <div id="scatterplot" style={{margin: '0 auto'}}/>
                 <div className="mt-6 text-center w-full">
-                    <p className="font-bold text-xl mb-4">Keterangan:</p>
-                    <ul className="flex flex-col sm:flex-row space-x-0 sm:space-x-4 sm:space-y-0 space-y-4 justify-center">
-                        <li className="flex items-center">
+                    <p className="font-semibold text-lg sm:text-xl mb-4">Keterangan:</p>
+                    <ul className="flex flex-col sm:flex-row space-x-0 sm:space-x-4 sm:space-y-0 space-y-4 justify-center px-4">
+                        <li className="flex items-center text-sm sm:text-base">
+                            <div
+                                className="w-5 h-5 rounded-full bg-red-500 border border-1 border-black mr-2"></div>
+                            Titik <span className="italic">{opsional}</span> target
+                        </li>
+                        <li className="flex items-center text-sm sm:text-base">
                             <div
                                 className="w-5 h-5 rounded-full bg-blue-200 border border-1 border-black mr-2"></div>
-                            Titik <span className="italic mx-1"> {opsional}</span>
+                            Titik <span className="italic ">{opsional}</span>
+                        </li>
+                        <li className="flex items-center text-sm sm:text-base">
+                            <div
+                                className="w-5 h-5 rounded-full bg-green-500 border border-1 border-black mr-2"></div>
+                            Titik tetangga terdekat
                         </li>
                     </ul>
                 </div>
 
-
             </>
 
-        );
+
+        )
+            ;
     };
 
-
-    // console.log("ini array 2d", dataPlotVisual)
-
-
-    const ExplanationSectionScatterPlot = () => {
+    const ExplanationSectionScatterPlotFilter = () => {
         const [isExpanded, setIsExpanded] = useState(false);
 
         // Fungsi untuk toggle teks
@@ -177,25 +184,24 @@ export function ScatterPlotData({opsional, result}){
                 <h2 className="text-xl text-center font-bold mb-3">
                     Cara Membaca Scatter Plot 2D
                 </h2>
+
                 <p className={`text-sm mb-2 ${isExpanded ? '' : 'line-clamp-3'}`}>
-                    Plot ini menggunakan <b>
-                    <a className='no-underline hover:underline text-card_blue_primary decoration-card_blue_primary '
-                       href="https://scikit-learn.org/stable/modules/generated/sklearn.manifold.MDS.html"
-                       target="_blank"
-                       rel="noopener noreferrer">
-                        Multidimensional Scaling (MDS)
-                    </a></b>, yaitu teknik reduksi dimensi yang mengubah data kompleks ke dalam
-                    dimensi
-                    lebih rendah (misalnya 2D atau 3D) sambil mempertahankan jarak antar objek. MDS
-                    membantu memvisualisasikan kemiripan antar objek, sehingga memudahkan analisis
-                    hubungan antar <i>user</i>.
+                    Scatter plot ini memvisualisasikan kemiripan antar <i>={opsional}</i>, dengan
+                    warna
+                    yang menunjukkan kelompok <i>{opsional}</i>:
+                    <br/>
+                    <strong>Merah:</strong> Titik merah mewakili pengguna <i>target</i> yang sedang
+                    dianalisis. Posisi titik merah menunjukkan posisi pengguna yang sedang dicari.
+                    <br/>
+                    <strong>Hijau:</strong> Titik hijau menunjukkan <b>tetangga terdekat</b> dari
+                    pengguna target. Ini adalah pengguna yang paling mirip dengan pengguna target
+                    dalam hal preferensi atau perilaku.
+                    <br/>
+                    <strong>Biru:</strong> Titik biru mewakili pengguna lain dalam sistem yang
+                    <b>berbeda</b> atau memiliki kemiripan yang lebih rendah dibandingkan dengan
+                    pengguna target.
                 </p>
-                <p className={`text-sm mb-2 ${isExpanded ? '' : 'line-clamp-3'}`}>
-                    Scatter plot ini menunjukkan hubungan antara dua variabel yang diambil dari data
-                    kemiripan pengguna.
-                    Setiap titik mewakili <i>user</i>, dan posisi titik tersebut menunjukkan posisi dari
-                    variabel yang dipilih.
-                </p>
+
 
                 {/* Tampilkan tombol jika teks belum lengkap */}
                 {!isExpanded && (
@@ -222,13 +228,11 @@ export function ScatterPlotData({opsional, result}){
 
 
     return (
-        <div>
-            <div className='flex flex-col my-5 font-poppins items-center'>
-                <ScatterPlot/>
-                <ExplanationSectionScatterPlot/>
-            </div>
+        <div className='flex flex-col my-5 font-poppins items-center mx-auto'>
+            <ScatterPlotFilter/>
+            <ExplanationSectionScatterPlotFilter/>
         </div>
     )
-};
+}
 
 

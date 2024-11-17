@@ -100,10 +100,13 @@ export default function MeanMeasure({ opsional, similarity, initialData }) {
             </div>
 
             <MathJaxContext options={mathjaxConfig}>
-                <div className='flex justify-start items-start flex-col px-4 sm:px-8 md:px-10'>
-                    <MathJax className='text-xs sm:text-sm md:text-base'>
-                        {meanFormula.formula}
-                    </MathJax>
+                <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
+                    {/* Membungkus MathJax dengan overflow dan responsif */}
+                    <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
+                        <MathJax className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
+                            {meanFormula.formula}
+                        </MathJax>
+                    </div>
                 </div>
             </MathJaxContext>
 

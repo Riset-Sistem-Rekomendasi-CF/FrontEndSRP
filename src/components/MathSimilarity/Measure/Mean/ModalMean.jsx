@@ -91,11 +91,15 @@ const ModalMean = ({ opsional, similarity, data, selectedIndex, selectedMean, cl
                         list={[
                             {
                                 color: "bg-green-200",
-                                description: "Menandakan Data Rating yang akan dihitung",
+                                description: <>
+                                    Menandakan Data <i className='mx-1'> Rating </i> yang akan dihitung
+                                </>
                             },
                             {
                                 color: "bg-red-200",
-                                description: "Menandakan Data Rating yang tidak diketahui",
+                                description: <>
+                                    Menandakan Data <i className='mx-1'> Rating </i> yang tidak diketahui
+                                </>
                             },
                         ]}
                     />
@@ -141,7 +145,7 @@ const ModalMean = ({ opsional, similarity, data, selectedIndex, selectedMean, cl
                 </MathJaxContext>
 
                 {/* Menampilkan perhitungan manual */}
-                <p className="text-xl font-bold text-gray-700 text-center">Hasil <i>mean</i> nilai
+                <p className="text-xl font-bold text-gray-700 mt-5 sm:text-md md:text-lg lg:text-xl xl:text-2xl">Hasil <i>mean</i> nilai
                     <i> rating </i> dari
                     <span className="italic"> user</span> {selectedIndex[0] + 1} adalah
                     = {selectedMean}

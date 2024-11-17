@@ -7,27 +7,39 @@ import CardAnggotaHome from '../../components/Card/Home/CardAnggotaHome.jsx';
 import HeaderHome from '../Layout/Home/HeaderHome.jsx';
 import BodyHome from '../Layout/Home/BodyHome.jsx';
 import BackToTopButton, {BackToTopButtonHome} from "../../components/Navigate/BackToTopNavigate";
-import OverViewRekomendasi from "../../components/Toggle/TypingEffect";
-
+import OverViewRekomendasi from "../../components/Toggle/OverViewPage";
+import Img1 from '../../assets/images/img1.png';
 
 
 const Home = () => {
     const listOfSimilarity = [
         {
             title: 'Pearson Coefficient Correlation (PCC)',
-            description: 'Metode ini digunakan untuk mengukur kekuatan hubungan linier antara dua variabel, seperti rating pengguna terhadap item. Dalam sistem rekomendasi, Pearson Coefficient Correlation (PCC) digunakan untuk menghitung kesamaan antara pengguna berdasarkan preferensi mereka. Nilai PCC berkisar antara -1 hingga 1: nilai 1 menunjukkan kesamaan penuh (korelasi positif), nilai -1 menunjukkan kebalikan sempurna (korelasi negatif), dan nilai 0 menunjukkan tidak ada hubungan sama sekali.'
+            description: <>
+                <a href="https://www.sciencedirect.com/science/article/pii/S1319157821002652" className='font-bold no-underline hover:underline text-card_blue_primary decoration-card_blue_primary'>Pearson Coefficient Correlation (PCC)</a> Metode ini digunakan untuk mengukur kekuatan hubungan linier
+                antara
+                dua variabel, seperti rating pengguna terhadap item. Dalam sistem rekomendasi, Pearson Coefficient Correlation (PCC) digunakan untuk menghitung kesamaan antara pengguna berdasarkan preferensi mereka. Nilai PCC berkisar antara -1 hingga 1: nilai 1 menunjukkan kesamaan penuh (korelasi positif), nilai -1 menunjukkan kebalikan sempurna (korelasi negatif), dan nilai 0 menunjukkan tidak ada hubungan sama sekali.
+            </>
         },
         {
             title: 'Vector Similarity (Cosine)',
-            description: 'Cosine Similarity digunakan dalam sistem rekomendasi untuk mengukur kesamaan antara dua vektor, yang mewakili rating atau preferensi pengguna terhadap item. Dalam pendekatan ini, baik pengguna maupun item diwakili sebagai vektor dalam ruang dimensi tinggi. Cosine similarity menghitung sudut antara dua vektor untuk menentukan seberapa mirip keduanya. Nilai cosine similarity mendekati 1 menunjukkan bahwa dua vektor sangat mirip, sementara nilai mendekati 0 berarti kedua vektor tidak memiliki kesamaan (variabel independen).'
+            description: <>
+                <a href="https://rifqimulyawan.com/kamus/cosine-similarity/#:~:text=Contoh%20penerapan%20Cosine%20Similarity%20adalah%20pada%20sistem%20rekomendasi,pengguna%20dengan%20film-film%20yang%20tersedia%20di%20dalam%20database." className='font-bold no-underline hover:underline text-card_blue_primary decoration-card_blue_primary'>Cosine Similarity</a>  digunakan dalam sistem rekomendasi untuk mengukur kesamaan atau kemiripan antara dua objek, seperti pengguna, item, atau dokumen. Dalam konteks sistem rekomendasi, cosine similarity digunakan untuk membandingkan kesamaan antara preferensi pengguna atau kesamaan antara item. Nilai yang mendekati 1 menunjukkan korelasi yang kuat antara kedua variabel, sementara nilai yang mendekati 0 menunjukkan tidak adanya korelasi, yang berarti kedua variabel bersifat independen.
+            </>
         },
         {
             title: 'Adjusted Vector Cosine',
-            description: 'Adjusted Vector Cosine adalah variasi dari cosine similarity yang dirancang untuk mengurangi bias dalam data, misalnya ketika beberapa pengguna hanya memberikan rating pada sebagian kecil item. Dengan metode ini, nilai rating pengguna disesuaikan dengan rata-rata rating mereka, sehingga memungkinkan perbandingan yang lebih adil antara pengguna yang memiliki pola pemberian rating yang berbeda-beda.'
+            description: <>
+                <a href="https://medium.com/@sujathamudadla1213/what-is-the-difference-between-cosine-similarity-and-adjusted-cosine-similarity-eb2b71f2236c" className='font-bold no-underline hover:underline text-card_blue_primary decoration-card_blue_primary'>Adjusted Vector Cosine</a>  adalah variasi dari cosine similarity yang dirancang untuk mengurangi bias dalam data, misalnya ketika beberapa pengguna hanya memberikan rating pada sebagian kecil item. Yang memperhitungkan perbedaan skala penilaian antara pengguna. Umumnya digunakan dalam sistem rekomendasi untuk membandingkan kesamaan antara penilaian pengguna. <a
+                href="https://www.sciencedirect.com/science/article/pii/S1319157821002652" className='font-bold no-underline hover:underline text-card_blue_primary decoration-card_blue_primary'>Nilai adjusted cosine similarity</a>  berkisar antara -1 hingga 1. Nilai 1 menunjukkan korelasi positif yang kuat, nilai -1 menunjukkan korelasi negatif yang kuat, dan nilai 0 menunjukkan tidak ada korelasi sama sekali
+            </>
         },
         {
             title: 'Bhattacharyya Coefficient Similarity (BC)',
-            description: 'Dalam konteks sistem rekomendasi, Bhattacharyya Coefficient digunakan untuk mengukur kesamaan antara dua distribusi probabilitas, seperti distribusi rating pengguna terhadap berbagai item. Metode ini sangat berguna untuk membandingkan dua pengguna atau dua item dengan distribusi rating yang berbeda, dan membantu memberikan rekomendasi yang lebih relevan dengan memperhitungkan kemiripan distribusi preferensi mereka. Nilai yang lebih tinggi menunjukkan kesamaan yang lebih besar antara distribusi.'
+            description: <>
+                <a href="https://medium.com/@yoavyeledteva/bhattacharyya-distance-from-statistics-to-application-in-data-science-8eb5ccdbba62" className='font-bold no-underline hover:underline text-card_blue_primary decoration-card_blue_primary'>Bhattacharyya Coefficient Similarity</a>  adalah cara untuk mengukur perbedaan antara dua distribusi probabilitas. Ini memberi tahu kita berapa banyak tumpang tindih yang ada antara dua distribusi, dan dapat membantu kita menentukan seberapa mirip atau berbeda mereka. Nilai Bhattacharyya Coefficient Similarity Nilai 1 menunjukkan kesamaan yang sempurna (tumpang tindih penuh), sementara nilai 0 menunjukkan tidak ada kesamaan sama sekali (tidak ada tumpang tindih).
+            </>
+
         }
     ];
 
@@ -35,8 +47,24 @@ const Home = () => {
     return (
         <LayoutHome>
 
-            <HeaderHome>Media Pembelajaran Interaktif Sistem Rekomendasi dan Perhitungan Fungsi
-                Similaritas </HeaderHome>
+            <HeaderHome><>
+                Media Pembelajaran Interaktif Sistem Rekomendasi dan Perhitungan Fungsi
+                Similaritas
+                <div className="absolute inset-0 flex items-center justify-center">
+                    <div
+                        className="absolute top-0 -left-10 transform -translate-x-20 sm:-left-5 md:-left-10 lg:-left-10 xl:-left-12">
+                        <img src={Img1} alt="Icon 1"
+                             className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 opacity-100"/>
+                    </div>
+                    <div
+                        className="absolute top-10 right-0 transform translate-x-20 sm:translate-x-10 md:translate-x-20 lg:translate-x-20 xl:translate-x-24">
+                        <img src={Img1} alt="Icon 2"
+                             className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 opacity-100"/>
+                    </div>
+                </div>
+
+            </>
+            </HeaderHome>
 
             {/*<section id="" className='max-w-4xl mx-auto text-center py-10 px-4'>*/}
             {/*    <h1 className=' font-bold font-poppins mb-10 md:mb-20 text-3xl sm:text-4xl md:text-5xl'>Apa itu User-Based dan Item-Based </h1>*/}
@@ -90,7 +118,7 @@ const Home = () => {
                 hirarki='1'
                 type='space'
                 subheader={
-                    "Ini adalah platform pembelajaran berbasis website yang mengajarkan cara menghitung Fungsi Similaritas, baik untuk sistem rekomendasi berbasis pengguna (user-based) maupun berbasis item (item-based). Melalui aplikasi ini, pengguna dapat memahami secara mendalam bagaimana algoritma rekomendasi bekerja untuk memberikan saran yang relevan dan personal."
+                    "Ini adalah platform pembelajaran berbasis website yang mengajarkan cara menghitung Fungsi Similaritas, baik untuk sistem rekomendasi berbasis pengguna (user-based) maupun berbasis item (item-based). Melalui aplikasi ini, pengguna dapat memahami secara mendalam bagaimana algoritma rekomendasi bekerja."
                 }
 
 
