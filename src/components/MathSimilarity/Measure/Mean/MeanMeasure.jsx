@@ -6,6 +6,9 @@ import { MathJaxContext, MathJax } from "better-react-mathjax";
 import mathjaxConfig from "../../../../mathjax-config";
 import { FunctionMeasureDropdown } from "../../DropdownFunction/FunctionMeasureDropdown";
 import { AllSimilaritas } from "../../../../api/getDataSet";
+import {IconButton} from "@mui/material";
+import InfoIcon from "@mui/icons-material/Info";
+import MeanGif from "../../../../assets/vidioAsset/MeanGif.gif";
 
 
 export default function MeanMeasure({ opsional, similarity, initialData }) {
@@ -23,6 +26,8 @@ export default function MeanMeasure({ opsional, similarity, initialData }) {
     const [selectedMean, setSelectedMean] = useState(null); // State untuk menyimpan mean yang dipilih
     const [selectedIndex, setSelectedIndex] = useState([]); // State untuk menyimpan user yang dipilih
     const [showModal, setShowModal] = useState(false); // State untuk menampilkan modal
+    const [showModalTutorial, setShowModalTutorial] = useState(false); // State untuk menampilkan
+    // modal
 
 
     const handleMeanClick = (mean, index) => {
@@ -112,12 +117,59 @@ export default function MeanMeasure({ opsional, similarity, initialData }) {
 
             <FunctionMeasureDropdown DetailRumus={meanFormula.formula_detail}/>
 
-            <div className='px-4 sm:px-8 md:px-10 py-5'>
-                <h1 className='text-base sm:text-lg md:text-xl font-semibold font-poppins underline underline-offset-8 decoration-4 decoration-card_blue_primary'>
-                    Hasil Mean <i> Rating </i> <i>{opsionalModify}</i>
+            <div className="px-4 sm:px-8 md:px-10 py-5">
+                <h1 className="text-base sm:text-lg md:text-xl font-semibold font-poppins underline underline-offset-8 decoration-4 decoration-card_blue_primary">
+                    Hasil Mean <i>Rating</i> <i>{opsionalModify}</i>
                 </h1>
-                {/* Render tabel mean rating */}
+
+                {/* Tombol dengan ikon */}
+                <div
+                    className="flex items-center justify-end my-4 bg-card_blue_primary p-4 rounded-lg cursor-pointer hover:bg-blue-500 transition-all w-[130px] h-[35px] shadow-md outline outline-2 outline-white"
+                    onClick={() => setShowModalTutorial(true)}
+                >
+                    {/* Info Button */}
+                    <IconButton
+                        className="text-white hover:text-green-500 transition-colors duration-300"
+                        aria-label="Info"
+                    >
+                        <InfoIcon className="text-white hover:text-green-500" />
+                    </IconButton>
+
+
+                    {/* Tutorial Title */}
+                    <h1 className="text-md font-medium text-white">
+                        Tutorial
+                    </h1>
+                </div>
+                {/* Tabel mean rating */}
                 <RenderTableMean/>
+
+                {/* Modal pop-up */}
+                {showModalTutorial && (
+                    <div
+                        className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+                        <div className="bg-white rounded-lg p-6 shadow-lg w-[600px]">
+                            <h2 className="text-xl font-semibold mb-4">Tutorial Mean Measure</h2>
+                            <img
+                                src={MeanGif}
+                                alt="Video Tutorial Cover"
+                                className="w-full h-full object-cover"
+                            />
+                            <p className="text-gray-700 text-justify font-semibold my-2">
+                                Ini adalah tutorial untuk memberikan informasi tambahan terkait
+                                Mean Rating cara perhitungan.
+                            </p>
+                            <div className="mt-6 flex justify-end">
+                                <button
+                                    className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                                    onClick={() => setShowModalTutorial(false)}
+                                >
+                                    Tutup
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
 

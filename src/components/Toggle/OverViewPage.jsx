@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../../index.css';
-import UserBased from '../../assets/vidioAsset/userBasedGif.gif';
-import ItemBased from '../../assets/vidioAsset/itemBasedGif.gif';
+import UserBased from '../../assets/vidioAsset/userBased.gif';
+import ItemBased from '../../assets/vidioAsset/itemBased.gif';
 
 import Img1 from '../../assets/images/img1.png';
 import Img8 from '../../assets/images/img8.png';
