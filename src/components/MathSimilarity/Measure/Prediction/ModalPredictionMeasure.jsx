@@ -283,8 +283,8 @@ const ModalPredictionMeasure = ({ opsional, similarity, topSimilarities, selecte
                         result={result}
                         opsional={opsional}
                         topSimilarities={topSimilarities}
-                        selectedIndex={selectedIndex}
-                        selectedValue={selectedValue}
+                        rowIndex={selectedIndex[0]}
+                        colIndex={selectedIndex[1]}
 
                     />
                 </div>

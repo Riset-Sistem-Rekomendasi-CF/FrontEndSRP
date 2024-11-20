@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import * as d3 from 'd3';
 
-export default function HeatMapVisualDataSim({opsional, result}) {
+export default function HeatMapVisualDataSim({opsional, result, similarity}) {
 
 
     const RenderingHeatMap = () => {
@@ -22,6 +22,8 @@ export default function HeatMapVisualDataSim({opsional, result}) {
             const usersIndex = Array.from({ length: similarityDataHeatMap.length }, (_, i) => {
                 return `${opsional === "user-based" ? "user" : "item"}-${i + 1}`;
             });
+
+            // data color bar
 
 
             // Create the SVG element
@@ -46,7 +48,10 @@ export default function HeatMapVisualDataSim({opsional, result}) {
             // Create color scale for heatmap
             const colorScale = d3.scaleLinear()
                 .range(["#69b3a2", "#6A5AE0", "#FCC822"])
-                .domain([-1, 0, 1]);
+                .domain(
+                    (similarity === 'Vector Cosine && Bhattacharyya Coefficient Similarity') ? [0, 1] : [-1, 0, 1]
+                );
+
 
             // Create tooltip
             const tooltip = d3.select('body').append('div')

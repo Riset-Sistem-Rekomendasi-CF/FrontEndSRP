@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import * as d3 from "d3";
 
-export function ScatterPlotDataFilter({opsional, result, topSimilarities, selectedValue, selectedIndex}) {
+export function ScatterPlotDataFilter({opsional, result, topSimilarities, rowIndex, colIndex}) {
     const similarityDataFilter = result['reduced-data'];
     console.log("ini adalh reduce data ", similarityDataFilter)
     const PredictionDataSet = result['prediction']

@@ -11,6 +11,10 @@ import OverViewRekomendasi from "../../components/Toggle/OverViewPage";
 import Img1 from '../../assets/images/img1.png';
 import Img2 from '../../assets/images/img2.png';
 import Img7 from '../../assets/images/img7.png';
+import tutorialPage from '../../assets/images/tutorialPage.png';
+import woman from '../../assets/images/woman.png';
+import man from '../../assets/images/man.png';
+
 
 
 const Home = () => {
@@ -18,7 +22,7 @@ const Home = () => {
         {
             title: 'Pearson Coefficient Correlation (PCC)',
             description: <>
-                <a href="https://www.sciencedirect.com/science/article/pii/S1319157821002652" className='font-bold no-underline hover:underline text-card_blue_primary decoration-card_blue_primary'>Pearson Coefficient Correlation (PCC)</a> Metode ini digunakan untuk mengukur kekuatan hubungan linier
+                <a href="https://www.sciencedirect.com/science/article/pii/S1319157821002652" className='font-bold no-underline hover:underline text-card_blue_primary decoration-card_blue_primary' target="_blank" rel="noopener noreferrer">Pearson Coefficient Correlation (PCC)</a> Metode ini digunakan untuk mengukur kekuatan hubungan linier
                 antara
                 dua variabel, seperti rating pengguna terhadap item. Dalam sistem rekomendasi, Pearson Coefficient Correlation (PCC) digunakan untuk menghitung kesamaan antara pengguna berdasarkan preferensi mereka. Nilai PCC berkisar antara -1 hingga 1: nilai 1 menunjukkan kesamaan penuh (korelasi positif), nilai -1 menunjukkan kebalikan sempurna (korelasi negatif), dan nilai 0 menunjukkan tidak ada hubungan sama sekali.
             </>
@@ -26,14 +30,14 @@ const Home = () => {
         {
             title: 'Vector Similarity (Cosine)',
             description: <>
-                <a href="https://rifqimulyawan.com/kamus/cosine-similarity/#:~:text=Contoh%20penerapan%20Cosine%20Similarity%20adalah%20pada%20sistem%20rekomendasi,pengguna%20dengan%20film-film%20yang%20tersedia%20di%20dalam%20database." className='font-bold no-underline hover:underline text-card_blue_primary decoration-card_blue_primary'>Cosine Similarity</a>  digunakan dalam sistem rekomendasi untuk mengukur kesamaan atau kemiripan antara dua objek, seperti pengguna, item, atau dokumen. Dalam konteks sistem rekomendasi, cosine similarity digunakan untuk membandingkan kesamaan antara preferensi pengguna atau kesamaan antara item. Nilai yang mendekati 1 menunjukkan korelasi yang kuat antara kedua variabel, sementara nilai yang mendekati 0 menunjukkan tidak adanya korelasi, yang berarti kedua variabel bersifat independen.
+                <a href="https://rifqimulyawan.com/kamus/cosine-similarity/#:~:text=Contoh%20penerapan%20Cosine%20Similarity%20adalah%20pada%20sistem%20rekomendasi,pengguna%20dengan%20film-film%20yang%20tersedia%20di%20dalam%20database." target="_blank" rel="noopener noreferrer" className='font-bold no-underline hover:underline text-card_blue_primary decoration-card_blue_primary'>Cosine Similarity</a>  digunakan dalam sistem rekomendasi untuk mengukur kesamaan atau kemiripan antara dua objek, seperti pengguna, item, atau dokumen. Dalam konteks sistem rekomendasi, cosine similarity digunakan untuk membandingkan kesamaan antara preferensi pengguna atau kesamaan antara item. Nilai yang mendekati 1 menunjukkan korelasi yang kuat antara kedua variabel, sementara nilai yang mendekati 0 menunjukkan tidak adanya korelasi, yang berarti kedua variabel bersifat independen.
             </>
         },
         {
             title: 'Adjusted Vector Cosine',
             description: <>
-                <a href="https://medium.com/@sujathamudadla1213/what-is-the-difference-between-cosine-similarity-and-adjusted-cosine-similarity-eb2b71f2236c" className='font-bold no-underline hover:underline text-card_blue_primary decoration-card_blue_primary'>Adjusted Vector Cosine</a>  adalah variasi dari cosine similarity yang dirancang untuk mengurangi bias dalam data, misalnya ketika beberapa pengguna hanya memberikan rating pada sebagian kecil item. Yang memperhitungkan perbedaan skala penilaian antara pengguna. Umumnya digunakan dalam sistem rekomendasi untuk membandingkan kesamaan antara penilaian pengguna. <a
-                href="https://www.sciencedirect.com/science/article/pii/S1319157821002652" className='font-bold no-underline hover:underline text-card_blue_primary decoration-card_blue_primary'>Nilai adjusted cosine similarity</a>  berkisar antara -1 hingga 1. Nilai 1 menunjukkan korelasi positif yang kuat, nilai -1 menunjukkan korelasi negatif yang kuat, dan nilai 0 menunjukkan tidak ada korelasi sama sekali
+                <a href="https://medium.com/@sujathamudadla1213/what-is-the-difference-between-cosine-similarity-and-adjusted-cosine-similarity-eb2b71f2236c" className='font-bold no-underline hover:underline text-card_blue_primary decoration-card_blue_primary' target="_blank" rel="noopener noreferrer">Adjusted Vector Cosine</a>  adalah variasi dari cosine similarity yang dirancang untuk mengurangi bias dalam data, misalnya ketika beberapa pengguna hanya memberikan rating pada sebagian kecil item. Yang memperhitungkan perbedaan skala penilaian antara pengguna. Umumnya digunakan dalam sistem rekomendasi untuk membandingkan kesamaan antara penilaian pengguna. <a
+                href="https://www.sciencedirect.com/science/article/pii/S1319157821002652" className='font-bold no-underline hover:underline text-card_blue_primary decoration-card_blue_primary' target="_blank" rel="noopener noreferrer">Nilai adjusted cosine similarity</a>  berkisar antara -1 hingga 1. Nilai 1 menunjukkan korelasi positif yang kuat, nilai -1 menunjukkan korelasi negatif yang kuat, dan nilai 0 menunjukkan tidak ada korelasi sama sekali
             </>
         },
         {
@@ -103,7 +107,7 @@ const Home = () => {
                 type="grid"
             >
                 <CardHome
-                    Image={ImageAs}
+                    Image={tutorialPage}
                     bgColor={"bg-card_blue_primary"}
                     Heading={"Tutorial Fungsi Similaritas"}
                     buttonName={"Tutorial Now"}
@@ -113,7 +117,7 @@ const Home = () => {
                     yang ingin mempelajari sistem rekomendasi.</CardHome>
 
                 <CardHome
-                    Image={ImageAs}
+                    Image={tutorialPage}
                     bgColor={"bg-card_green_primary"}
                     Heading={"Practice Fungsi Similaritas"}
                     buttonName={"Practice Now"}
@@ -159,21 +163,21 @@ const Home = () => {
                 type='grid'
             >
                 <CardAnggotaHome
-                    Image={ImageAs}
+                    Image={woman}
                     Color={"bg-card_blue_primary"}
                     Nama={"Dr. Noor Ifada, S.T., MISD."}
                     Identitas={"NIDN : 0017037802 "}
                 />
 
                 <CardAnggotaHome
-                    Image={ImageAs}
+                    Image={man}
                     Color={"bg-card_green_primary"}
                     Nama={"Alfi Nur danialin"}
                     Identitas={"NIM : 210411100059"}
                 />
 
                 <CardAnggotaHome
-                    Image={ImageAs}
+                    Image={man}
                     Color={"bg-card_pink_primary"}
                     Nama={"Dimas Dliyaur Rahman"}
                     Identitas={"NIM : 210411100080"}

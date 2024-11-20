@@ -28,7 +28,7 @@ const VideoTutorialModal = () => {
 
                 <h2 className="mt-4 text-lg sm:text-2xl font-semibold text-bold">
                     <InfoIcon className="mr-2 text-blue-500" />
-                    Tekan pada setiap sel yang memiliki nilai untuk melihat detail perhitungan!
+                    Tekan pada setiap cell yang memiliki nilai untuk melihat detail perhitungan!
                 </h2>
 
                 {/* Card container */}

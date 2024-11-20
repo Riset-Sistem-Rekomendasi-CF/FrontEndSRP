@@ -109,23 +109,44 @@ const CardFlip = () => {
 const ContentOverview = () => {
     return (
         <>
-            <CardFlip/>
+            <div className="bg-white shadow-lg rounded-xl p-6 md:p-10 mb-6 max-w-4xl mx-auto">
+                <h1 className="animate-bounce text-xl font-semibold font-poppins underline underline-offset-8 decoration-4 decoration-card_blue_primary mb-5">
+                    Sistem Rekomendasi
+                </h1>
+                <p className="text-base sm:text-md md:text-lg text-gray-600 text-justify">
+                    <a href="https://www.bing.com/ck/a?!&&p=024c8e5d90fb32c16daaec06b7404838325313e0097f7340e2a37bb95b0a5cadJmltdHM9MTczMjA2MDgwMA&ptn=3&ver=2&hsh=4&fclid=333afb95-0e41-6f3e-3613-eb710fbc6e24&psq=IMPLEMENTASI+METODE+COLLABORATIVE+FILTERING+UNTUK+SISTEM+REKOMENDASI+PENJUALAN+PADA+TOKO+MEBEL&u=a1aHR0cHM6Ly9lam91cm5hbC5ic2kuYWMuaWQvZWp1cm5hbC9pbmRleC5waHAva2hhdHVsaXN0aXdhL2FydGljbGUvZG93bmxvYWQvOTg1OS80ODcz&ntb=1"
+                       className='text-italic font-semibold no-underline hover:underline text-card_blue_primary decoration-card_blue_primary '
+                       target="_blank" rel="noopener noreferrer">Sistem Rekomendasi</a> merupakan sistem
+                    atau aplikasi yang dibuat untuk dapat
+                    menyediakan dan memberikan rekomendasi
+                    dari suatu <i>item</i> untuk membuat suatu
+                    keputusan yang diinginkan oleh <i>user</i>  pada
+                    sistem.
+                </p>
+
+            </div>
             {/* Bottom Section: Single Column */}
-            <div className="bg-white shadow-lg rounded-xl p-6 md:p-10 mt-6 max-w-4xl mx-auto">
+            <div className="bg-white shadow-lg rounded-xl p-6 md:p-10 mb-6 max-w-4xl mx-auto">
                 <h1 className="animate-bounce text-xl font-semibold font-poppins underline underline-offset-8 decoration-4 decoration-card_blue_primary mb-5">
                     Collaborative Filtering
                 </h1>
                 <p className="text-base sm:text-md md:text-lg text-gray-600 text-justify">
-                    <a href="https://www.researchgate.net/publication/365477302_Sistem_Rekomendasi_Produk_Aplikasi_Marketplace_Berdasarkan_Karakteristik_Pembeli_Menggunakan_Metode_User_Based_Collaborative_Filtering" className='text-italic font-semibold no-underline hover:underline text-card_blue_primary decoration-card_blue_primary ' target="_blank" rel="noopener noreferrer">Collaborative Filtering</a> adalah metode yang digunakan dalam
+                    <a href="https://www.researchgate.net/publication/365477302_Sistem_Rekomendasi_Produk_Aplikasi_Marketplace_Berdasarkan_Karakteristik_Pembeli_Menggunakan_Metode_User_Based_Collaborative_Filtering"
+                       className='text-italic font-semibold no-underline hover:underline text-card_blue_primary decoration-card_blue_primary '
+                       target="_blank" rel="noopener noreferrer">Collaborative Filtering</a> adalah
+                    metode yang digunakan dalam
                     sistem rekomendasi yang menghasilkan rekomendasi khusus kepada
-                    <i> user </i> tentang <i> item </i>  berdasarkan pola penilaian atau
+                    <i> user </i> tentang <i> item </i> berdasarkan pola penilaian atau
                     penggunaan. Teknik ini
-                    terbagi menjadi dua pendekatan utama: <span className="font-semibold"><i>user-based </i></span> dan <span
-                    className="font-semibold"><i>item-based </i></span>. Metode ini menghasilkan prediksi atau rekomendasi untuk
+                    terbagi menjadi dua pendekatan utama: <span
+                    className="font-semibold"><i>user-based </i></span> dan <span
+                    className="font-semibold"><i>item-based </i></span>. Metode ini menghasilkan
+                    prediksi atau rekomendasi untuk
                     pengguna tertentu untuk satu atau banyak <i> item </i>.
                 </p>
 
             </div>
+            <CardFlip/>
 
 
         </>

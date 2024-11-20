@@ -7,7 +7,7 @@ import HeatMapVisualDataSim from "./HeatMapVisual";
 import {ScatterPlotData} from "./SccaterPlotVisual";
 
 
-const DropdownWithDisplay = ({ opsional, result }) => {
+const DropdownWithDisplay = ({ opsional, result, similarity }) => {
     const [selectedMethod, setSelectedMethod] = useState('Pilih Visualisasi');
     const [visualComponent, setVisualComponent] = useState(null);
 
@@ -15,7 +15,7 @@ const DropdownWithDisplay = ({ opsional, result }) => {
         setSelectedMethod(method);
         switch (method) {
             case 'HeatMap':
-                setVisualComponent(<HeatMapVisualDataSim result={result} opsional={opsional} />);
+                setVisualComponent(<HeatMapVisualDataSim result={result} opsional={opsional} similarity={similarity} />);
                 break;
             case 'Plot Visual 2D':
                 setVisualComponent(<ScatterPlotData result={result} opsional={opsional} />);

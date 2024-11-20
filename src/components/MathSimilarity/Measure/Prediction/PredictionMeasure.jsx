@@ -477,7 +477,7 @@ export function PredictionMeasure({ opsional, similarity, initialData }) {
                           Top -{" "}
                           {getTopPredictions(selectedUserTopN - 1)[0] >
                           getTopPredictions(selectedUserTopN - 1)[1]
-                              ? "3"
+                              ? "2"
                               : "1"}{" "}
                           lebih direkomendasikan kepada <i>User </i> {selectedUserTopN} ,{" "}
                         </>

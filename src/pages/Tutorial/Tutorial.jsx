@@ -94,7 +94,8 @@ const Tutorial = () => {
 
             <BodyTutorial
                 header={"Tutorial Fungsi Similaritas"}
-                subheader={" Pada Page tutorial ini pengguna akan diberikan tutorial tentang perhitungan fungsi similaritas dalam Sistem Rekomendasi. Sehingga pengguna paham tentang perhitungan Fungsi Similaritas dengan berbagai metode yang bisa digunakan "}
+                subheader={" Pada Page Tutorial ini pengguna akan diberikan tutorial tentang" +
+                    " perhitungan fungsi similaritas dalam Sistem Rekomendasi. Sehingga pengguna paham tentang perhitungan Fungsi Similaritas dengan berbagai metode yang bisa digunakan "}
 
             />
 
