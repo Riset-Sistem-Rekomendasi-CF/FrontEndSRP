@@ -6,6 +6,9 @@ import React, { useState } from "react";
 import { AllSimilaritas } from "../../../../api/getDataSet";
 import { MathJax, MathJaxContext } from "better-react-mathjax";
 import { transposeMatrix } from "../../../../helper/helper";
+import {IconButton} from "@mui/material";
+import InfoIcon from "@mui/icons-material/Info";
+import PrediksiGif from "../../../../assets/vidioAsset/prediksiGIf.gif";
 
 export function PredictionMeasure({ opsional, similarity, initialData }) {
   const [data] = useState(initialData);
@@ -21,6 +24,8 @@ export function PredictionMeasure({ opsional, similarity, initialData }) {
 
   const [selectedValue, setSelectedValue] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [showModalTutorial, setShowModalTutorial] = useState(false); // State untuk menampilkan
+  // modal
 
   const [selectedIndex, setSelectedIndex] = useState([]);
 
@@ -263,131 +268,179 @@ export function PredictionMeasure({ opsional, similarity, initialData }) {
         </div>
       </MathJaxContext>
       <FunctionMeasureDropdown DetailRumus={formula.detail_formula}/>
-      <div className=" px-10 py-5">
-        <h1 className="text-lg font-semibold font-poppins underline underline-offset-8 decoration-4 decoration-card_blue_primary">
-          Hasil Prediksi{" "}
-          <span className="italic">
+        <div className="px-4 sm:px-8 md:px-10 py-5">
+          <h1 className="text-lg font-semibold font-poppins underline underline-offset-8 decoration-4 decoration-card_blue_primary">
+            Hasil Prediksi{" "}
+            <span className="italic">
             {opsional
                 .replace("-", " ")
                 .toLowerCase()
                 .replace(/\b[a-z]/g, (letter) => letter.toUpperCase())}
           </span>{" "}
-        </h1>
-        {/* memilih top-k */}
-
-        {/*    call api */}
-        <RenderTabelPrediksi/>
-        <div id="topN-section" className="flex items-center my-5">
-          <div className="border-l-4 border-card_blue_primary h-10 mr-4"/>
-          {/* Vertical Line */}
-          <h1 className="font-poppins text-start text-xl font-semibold text-black">
-            Menghasilkan Top-N Rekomendasi{" "}
           </h1>
-        </div>
-        <div className="text-start">
-          {/* Penjelasan Rekomendasi Top-N */}
-          <p className={`text-gray-700 font-medium ml-5 text-justify ${isExpanded ? '' : 'line-clamp-3'}`}>
-            Rekomendasi <span className="italic">Top-N</span> untuk <i>user</i>{" "}
-            target dihasilkan dengan cara mengurutkan nilai prediksi{" "}
-            <span className="italic">rating</span> dari <i>user</i> target
-            terhadap daftar
-            <i> item </i> yang belum diberikan <i>rating</i>. Semakin tinggi nilai
-            prediksi rating suatu <i>item</i>, maka semakin di
-            direkomendasikan <i>item</i> tersebut untuk <i>user</i> target.
-          </p>
 
-          {/* Tampilkan tombol jika teks belum lengkap */}
-          {!isExpanded && (
-              <button
-                  className="ml-5 text-card_blue_primary mt-2 text-sm text-start"
-                  onClick={toggleText}
-              >
-                Baca Selengkapnya
-              </button>
-          )}
-
-          {/* Tombol untuk menutup teks */}
-          {isExpanded && (
-              <button
-                  className=" ml-5 text-card_blue_primary mt-2 text-sm text-start"
-                  onClick={toggleText}
-              >
-                Tampilkan Lebih Sedikit
-              </button>
-          )}
-
-          {/* MathJaxContext untuk Render Matematika */}
-          <MathJaxContext options={mathjaxConfig}>
-            <div className="flex flex-col sm:flex-row my-5 pl-5">
-              {/* MathJax Container */}
-              <div className="border-2 py-3 px-3 border-black rounded-lg w-full sm:w-auto overflow-x-auto sm:overflow-x-visible">
-                <MathJax className="text-xs sm:text-sm md:text-base leading-relaxed">
-                  {formula.TopN}
-                </MathJax>
-              </div>
-
-              {/* Deskripsi */}
-              <p className="mt-4 sm:mt-0 sm:ml-4 items-center text-red-500 font-semibold text-justify">
-                Dimana himpunan didapatkan berdasarkan urutan nilai yang telah
-                diprediksi (dari yang terbesar ke yang terkecil)
-              </p>
-            </div>
-          </MathJaxContext>
-
-          {/* Dropdown untuk memilih user */}
-          <div className="mt-4">
-            <label
-                htmlFor="user-dropdown"
-                className="font-semibold text-lg ml-5 block"
+          {/* Tombol dengan ikon */}
+          <div
+              className="flex items-center justify-end my-4 bg-card_blue_primary p-4 rounded-lg cursor-pointer hover:bg-blue-500 transition-all w-[130px] h-[35px] shadow-md outline outline-2 outline-white"
+              onClick={() => setShowModalTutorial(true)}
+          >
+            {/* Info Button */}
+            <IconButton
+                className="text-white hover:text-green-500 transition-colors duration-300"
+                aria-label="Info"
             >
-              Lihat TopN Prediksinya
-            </label>
-            <select
-                id="user-dropdown"
-                className="ml-5 mt-3 p-2 w-full sm:w-auto border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                value={selectedUserTopN || ""}
-                onChange={(e) => setSelectedUserTopN(Number(e.target.value))} // Mengurangi 1 karena index dimulai dari 0
-            >
-              <option value="">Pilih User</option>
-              <option value={1}>User 1</option>
-              <option value={2}>User 2</option>
-              <option value={3}>User 3</option>
-              <option value={4}>User 4</option>
-              <option value={5}>User 5</option>
-            </select>
+              <InfoIcon className="text-white hover:text-green-500"/>
+            </IconButton>
+
+
+            {/* Tutorial Title */}
+            <h1 className="text-md font-medium text-white">
+              Tutorial
+            </h1>
           </div>
+          {/*    call api */}
+          <RenderTabelPrediksi/>
 
+          {/* Modal pop-up */}
+          {showModalTutorial && (
+              <div
+                  className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+                <div className="bg-white rounded-lg p-6 shadow-lg w-[600px]">
+                  <h2 className="text-xl font-semibold mb-4">Tutorial Prediksi </h2>
+                  <img
+                      src={PrediksiGif}
+                      alt="Video Tutorial Cover"
+                      className="w-full h-full object-cover"
+                  />
+                  <p className="text-gray-700 text-justify font-semibold my-2">
+                    Ini adalah tutorial untuk memberikan informasi tambahan terkait
+                    Prediksi cara perhitungan.
+                  </p>
+                  <div className="mt-6 flex justify-end">
+                    <button
+                        className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                        onClick={() => setShowModalTutorial(false)}
+                    >
+                      Tutup
+                    </button>
+                  </div>
+                </div>
+              </div>
+          )}
+        </div>
+        <div>
+          <div id="topN-section" className="flex items-center my-5">
+            <div className="border-l-4 border-card_blue_primary h-10 mr-4"/>
+            {/* Vertical Line */}
+            <h1 className="font-poppins text-start text-xl font-semibold text-black">
+              Menghasilkan Top-N Rekomendasi{" "}
+            </h1>
+          </div>
+          <div className="text-start">
+            {/* Penjelasan Rekomendasi Top-N */}
+            <p className={`text-gray-700 font-medium ml-5 text-justify ${isExpanded ? '' : 'line-clamp-3'}`}>
+              Rekomendasi <span className="italic">Top-N</span> untuk <i>user</i>{" "}
+              target dihasilkan dengan cara mengurutkan nilai prediksi{" "}
+              <span className="italic">rating</span> dari <i>user</i> target
+              terhadap daftar
+              <i> item </i> yang belum diberikan <i>rating</i>. Semakin tinggi nilai
+              prediksi rating suatu <i>item</i>, maka semakin di
+              direkomendasikan <i>item</i> tersebut untuk <i>user</i> target.
+            </p>
 
-          {/* Menampilkan Hasil Prediksi dan Penjelasan Ranking hanya setelah memilih user */}
-          {selectedUserTopN !== null && (
-              <>
-                <p className="ml-5 font-semibold text-lg sm:text-xl mt-5">
-                  Hasil Prediksi <span className="italic">rating</span> untuk{" "}
-                  <span className="italic">user</span> target {selectedUserTopN} :
+            {/* Tampilkan tombol jika teks belum lengkap */}
+            {!isExpanded && (
+                <button
+                    className="ml-5 text-card_blue_primary mt-2 text-sm text-start"
+                    onClick={toggleText}
+                >
+                  Baca Selengkapnya
+                </button>
+            )}
+
+            {/* Tombol untuk menutup teks */}
+            {isExpanded && (
+                <button
+                    className=" ml-5 text-card_blue_primary mt-2 text-sm text-start"
+                    onClick={toggleText}
+                >
+                  Tampilkan Lebih Sedikit
+                </button>
+            )}
+
+            {/* MathJaxContext untuk Render Matematika */}
+            <MathJaxContext options={mathjaxConfig}>
+              <div className="flex flex-col sm:flex-row my-5 pl-5">
+                {/* MathJax Container */}
+                <div
+                    className="border-2 py-3 px-3 border-black rounded-lg w-full sm:w-auto overflow-x-auto sm:overflow-x-visible">
+                  <MathJax className="text-xs sm:text-sm md:text-base leading-relaxed">
+                    {formula.TopN}
+                  </MathJax>
+                </div>
+
+                {/* Deskripsi */}
+                <p className="mt-4 sm:mt-0 sm:ml-4 items-center text-red-500 font-semibold text-justify">
+                  Dimana himpunan didapatkan berdasarkan urutan nilai yang telah
+                  diprediksi (dari yang terbesar ke yang terkecil)
                 </p>
+              </div>
+            </MathJaxContext>
 
-                <ul className="ml-5 my-2 font-semibold text-lg sm:text-xl">
-                  {/* Akses prediksi dengan indeks yang benar */}
-                  {getTopPredictions(selectedUserTopN - 1).map((prediction, index) => (
-                      <li key={index} className="my-1">
+            {/* Dropdown untuk memilih user */}
+            <div className="mt-4">
+              <label
+                  htmlFor="user-dropdown"
+                  className="font-semibold text-lg ml-5 block"
+              >
+                Lihat TopN Prediksinya
+              </label>
+              <select
+                  id="user-dropdown"
+                  className="ml-5 mt-3 p-2 w-full sm:w-auto border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  value={selectedUserTopN || ""}
+                  onChange={(e) => setSelectedUserTopN(Number(e.target.value))} // Mengurangi 1 karena index dimulai dari 0
+              >
+                <option value="">Pilih User</option>
+                <option value={1}>User 1</option>
+                <option value={2}>User 2</option>
+                <option value={3}>User 3</option>
+                <option value={4}>User 4</option>
+                <option value={5}>User 5</option>
+              </select>
+            </div>
+
+
+            {/* Menampilkan Hasil Prediksi dan Penjelasan Ranking hanya setelah memilih user */}
+            {selectedUserTopN !== null && (
+                <>
+                  <p className="ml-5 font-semibold text-lg sm:text-xl mt-5">
+                    Hasil Prediksi <span className="italic">rating</span> untuk{" "}
+                    <span className="italic">user</span> target {selectedUserTopN} :
+                  </p>
+
+                  <ul className="ml-5 my-2 font-semibold text-lg sm:text-xl">
+                    {/* Akses prediksi dengan indeks yang benar */}
+                    {getTopPredictions(selectedUserTopN - 1).map((prediction, index) => (
+                        <li key={index} className="my-1">
         <span className="relative inline-block">
           <sup className="absolute top-0 left-0 text-xs">^</sup>
           <span>r</span>
         </span>
-                        <sub>
-                          {selectedUserTopN}
-                          {index + 1}
-                        </sub>{" "}
-                        = {prediction.toFixed(4)}
-                      </li>
-                  ))}
-                </ul>
+                          <sub>
+                            {selectedUserTopN}
+                            {index + 1}
+                          </sub>{" "}
+                          = {prediction.toFixed(4)}
+                        </li>
+                    ))}
+                  </ul>
 
-                {/* Penjelasan Ranking */}
-                <p className="font-semibold text-md sm:text-lg ml-5 my-4 text-justify">
-                  Karena
-                  {getTopPredictions(selectedUserTopN - 1).map((prediction, index) => (
-                      <>
+                  {/* Penjelasan Ranking */}
+                  <p className="font-semibold text-md sm:text-lg ml-5 my-4 text-justify">
+                    Karena
+                    {getTopPredictions(selectedUserTopN - 1).map((prediction, index) => (
+                        <>
         <span
             key={index}
             className={`p-1 rounded-lg font-bold 
@@ -406,37 +459,38 @@ export function PredictionMeasure({ opsional, similarity, initialData }) {
             {index + 1}
           </sub>
         </span>
-                        {/* Menambahkan tanda ">" jika bukan prediksi terakhir */}
-                        {index <
-                            getTopPredictions(selectedUserTopN - 1).length - 1 &&
-                            " > "}
-                      </>
-                  ))}
-                  , maka rekomendasi:
-                  {getTopPredictions(selectedUserTopN - 1).length === 1 ? (
-                      <>
-                        <i>User </i> {selectedUserTopN} lebih direkomendasikan
-                        kepada <i> User </i>{" "}
-                        {selectedUserTopN}
-                      </>
-                  ) : (
-                      <>
-                        Top -{" "}
-                        {getTopPredictions(selectedUserTopN - 1)[0] >
-                        getTopPredictions(selectedUserTopN - 1)[1]
-                            ? "3"
-                            : "1"}{" "}
-                        lebih direkomendasikan kepada <i>User </i> {selectedUserTopN} ,{" "}
-                      </>
-                  )}
-                  jika dibandingkan dengan <i>User </i> target yang lainnya.
-                </p>
-              </>
-          )}
+                          {/* Menambahkan tanda ">" jika bukan prediksi terakhir */}
+                          {index <
+                              getTopPredictions(selectedUserTopN - 1).length - 1 &&
+                              " > "}
+                        </>
+                    ))}
+                    , maka rekomendasi:
+                    {getTopPredictions(selectedUserTopN - 1).length === 1 ? (
+                        <>
+                          <i>User </i> {selectedUserTopN} lebih direkomendasikan
+                          kepada <i> User </i>{" "}
+                          {selectedUserTopN}
+                        </>
+                    ) : (
+                        <>
+                          Top -{" "}
+                          {getTopPredictions(selectedUserTopN - 1)[0] >
+                          getTopPredictions(selectedUserTopN - 1)[1]
+                              ? "3"
+                              : "1"}{" "}
+                          lebih direkomendasikan kepada <i>User </i> {selectedUserTopN} ,{" "}
+                        </>
+                    )}
+                    jika dibandingkan dengan <i>User </i> target yang lainnya.
+                  </p>
+                </>
+            )}
+          </div>
         </div>
       </div>
-    </div>
-  );
-}
+      )
+      ;
+      }
 
-export default PredictionMeasure;
+      export default PredictionMeasure;

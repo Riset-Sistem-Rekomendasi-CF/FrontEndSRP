@@ -71,7 +71,9 @@ function Practice() {
 
             <BodyTutorial
                 header={"Practice Fungsi Similaritas"}
-                subheader={"Pada Page Practice ini pengguna bisa  berexplorasi dan ingin melakukan experiment tentang perhitungan Fungsi Similaritas untuk pemahaman yang lebih lanjut. "}
+                subheader={"Pada Page Practice pengguna bisa  bereksplorasi dan ingin melakukan" +
+                    " eksperiment tentang perhitungan Fungsi Similaritas untuk pemahaman yang" +
+                    " lebih lanjut. "}
             />
 
 

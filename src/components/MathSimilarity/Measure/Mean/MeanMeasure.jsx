@@ -157,7 +157,7 @@ export default function MeanMeasure({ opsional, similarity, initialData }) {
                             />
                             <p className="text-gray-700 text-justify font-semibold my-2">
                                 Ini adalah tutorial untuk memberikan informasi tambahan terkait
-                                Mean Rating cara perhitungan.
+                                Mean <i> Rating </i> cara perhitungan.
                             </p>
                             <div className="mt-6 flex justify-end">
                                 <button

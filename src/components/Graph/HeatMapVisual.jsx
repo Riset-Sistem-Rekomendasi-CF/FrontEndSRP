@@ -238,3 +238,6 @@ export default function HeatMapVisualDataSim({opsional, result}) {
 
 
 
+
+
+

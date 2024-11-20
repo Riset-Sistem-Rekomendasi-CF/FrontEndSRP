@@ -38,7 +38,7 @@ const CardFlip = () => {
                     <div
                         className="w-full h-full absolute bg-white text-white flex flex-col justify-start items-center p-5 rounded-xl shadow-lg backface-hidden"
                     >
-                        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-black mb-2">User-Based</h2>
+                        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-black mb-2 italic">User-Based</h2>
                         <img
                             src={UserBased}
                             alt="user-based"
@@ -75,7 +75,7 @@ const CardFlip = () => {
                     <div
                         className="w-full h-full absolute bg-white text-white flex flex-col justify-start items-center p-5 rounded-xl shadow-lg backface-hidden"
                     >
-                        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-black mb-2">Item-Based</h2>
+                        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-black mb-2 italic">Item-Based</h2>
                         <img
                             src={ItemBased}
                             alt="item-based"
