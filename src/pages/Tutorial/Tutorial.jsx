@@ -162,7 +162,8 @@ const Tutorial = () => {
                             </h1>
 
                             {/* Flex container for chips */}
-                            <div className="flex flex-wrap justify-center gap-2">
+                            <div className="flex flex-wrap justify-center gap-2 font-poppins">
+                                <h1 className='text-lg justify-center font-semibold underline underline-offset-4 decoration-3 decoration-card_blue_primary'>Daftar Isi : </h1>
                                 {/* Chip components */}
                                 <Chip
                                     label="Mean Rating"

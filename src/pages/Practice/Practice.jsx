@@ -176,6 +176,7 @@ function Practice() {
 
                         <div
                             className="flex flex-wrap space-x-2 space-y-2 items-center justify-center mx-auto">
+                            <h1 className='text-lg justify-center my-3'>Daftar Isi : </h1>
                             {/* Mean Rating */}
                             <Chip
                                 label="Mean Rating"
