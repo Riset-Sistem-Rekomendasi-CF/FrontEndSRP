@@ -56,24 +56,27 @@ export const getFormulaPredictionIndex = (rowIndex, colIndex, similarity, opsion
     }
 }
 
-export const getFormulaPredictionValue = (rowIndex, colIndex, similarValues, result, similarity, opsional, isNotation) => {
-    console.log(rowIndex, colIndex, similarValues, result, similarity, opsional, isNotation)
+export const getFormulaPredictionValue = (rowIndex, colIndex, similarValues, result, dataRating, similarity, opsional, isNotation) => {
     const resultMeanCentered = similarity === "Adjusted Vector Cosine" ? transposeMatrix(result["mean-centered-brother"]) : result["mean-centered"]
+    const resultDataRating = similarity === "Adjusted Vector Cosine" ? transposeMatrix(dataRating) : (opsional === "user-based" ? dataRating : transposeMatrix(dataRating))
+    console.log(resultDataRating, resultMeanCentered);
+
     const resultMean = similarity === "Adjusted Vector Cosine" ? (result["mean-list-brother"]) : result["mean-list"]
+    console.log("similarValue", similarValues);
 
 
     switch (opsional) {
         case "user-based":
             if (!isNotation) {
-                return `\\[ {\\widetilde{r_{${rowIndex + 1}${colIndex + 1}}}} = {${resultMean[rowIndex].toFixed(3)}} + \\frac{${similarValues.filter(sim => resultMeanCentered[sim.index][colIndex] !== 0)
+                return `\\[ {\\widetilde{r_{${rowIndex + 1}${colIndex + 1}}}} = {${resultMean[rowIndex].toFixed(3)}} + \\frac{${similarValues.filter(sim => resultDataRating[sim.index][colIndex] !== 0)
                     .map(sim => (`\\left(${sim.value.toFixed(4)} \\times \\left(${resultMeanCentered[sim.index][colIndex].toFixed(2)}\\right)\\right)`
-                    )).join(' + ')}}{${similarValues.filter(sim => resultMeanCentered[sim.index][colIndex] !== 0)
+                    )).join(' + ')}}{${similarValues.filter(sim => resultDataRating[sim.index][colIndex] !== 0)
                         .map(sim => `\\mid ${sim.value.toFixed(4)} \\mid`)
                         .join(' + ')}} \\]`;
             } else {
-                return `\\[ {\\widetilde{r_{${rowIndex + 1}${colIndex + 1}}}} = {\\mu_{${rowIndex + 1}}} + \\frac{${similarValues.filter(sim => resultMeanCentered[sim.index][colIndex] !== 0)
+                return `\\[ {\\widetilde{r_{${rowIndex + 1}${colIndex + 1}}}} = {\\mu_{${rowIndex + 1}}} + \\frac{${similarValues.filter(sim => resultDataRating[sim.index][colIndex] !== 0)
                     .map(sim => (`\\left(Sim_{${sim.index + 1}${(colIndex + 1)}} \\times \\left(S_{${sim.index + 1}${(colIndex + 1)}}\\right)\\right)`
-                    )).join(' + ')}}{${similarValues.filter(sim => resultMeanCentered[sim.index][colIndex] !== 0)
+                    )).join(' + ')}}{${similarValues.filter(sim => resultDataRating[sim.index][colIndex] !== 0)
                         .map(sim => `\\mid Sim_{${sim.index + 1}${(colIndex + 1)}} \\mid`)
                         .join(' + ')}} \\]`;
             }
@@ -81,15 +84,15 @@ export const getFormulaPredictionValue = (rowIndex, colIndex, similarValues, res
         case "item-based":
             if (!isNotation) {
 
-                return `\\[ {\\widetilde{r_{${rowIndex + 1}${colIndex + 1}}}} = {${resultMean[colIndex].toFixed(3)}} + \\frac{${similarValues.filter(sim => resultMeanCentered[sim.index][rowIndex] !== 0)
+                return `\\[ {\\widetilde{r_{${rowIndex + 1}${colIndex + 1}}}} = {${resultMean[colIndex].toFixed(3)}} + \\frac{${similarValues.filter(sim => resultDataRating[sim.index][rowIndex] !== 0)
                     .map(sim => (`\\left(${sim.value.toFixed(4)} \\times \\left(${resultMeanCentered[sim.index][rowIndex].toFixed(2)}\\right)\\right)`))
-                    .join(' + ')}}{${similarValues.filter(sim => resultMeanCentered[sim.index][rowIndex] !== 0)
+                    .join(' + ')}}{${similarValues.filter(sim => resultDataRating[sim.index][rowIndex] !== 0)
                         .map(sim => `\\mid ${sim.value.toFixed(4)} \\mid`)
                         .join(' + ')}} \\]`
             } else {
-                return `\\[ {\\widetilde{r_{${rowIndex + 1}${colIndex + 1}}}} = {\\mu_{${rowIndex + 1}}} + \\frac{${similarValues.filter(sim => resultMeanCentered[sim.index][colIndex] !== 0)
+                return `\\[ {\\widetilde{r_{${rowIndex + 1}${colIndex + 1}}}} = {\\mu_{${rowIndex + 1}}} + \\frac{${similarValues.filter(sim => resultDataRating[sim.index][colIndex] !== 0)
                     .map(sim => (`\\left(Sim_{${(rowIndex + 1)}${sim.index + 1}} \\times \\left(S_{${(rowIndex + 1)}${sim.index + 1}}\\right)\\right)`
-                    )).join(' + ')}}{${similarValues.filter(sim => resultMeanCentered[sim.index][colIndex] !== 0)
+                    )).join(' + ')}}{${similarValues.filter(sim => resultDataRating[sim.index][colIndex] !== 0)
                         .map(sim => `\\mid Sim_{${(rowIndex + 1)}${sim.index + 1}} \\mid`)
                         .join(' + ')}} \\]`;
             }

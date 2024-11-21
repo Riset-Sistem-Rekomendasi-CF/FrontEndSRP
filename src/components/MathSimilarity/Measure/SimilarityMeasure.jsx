@@ -6,7 +6,7 @@ import { AllSimilaritas } from "../../../api/getDataSet.js";
 import { getFormulaSimilarity } from './Formula/FormulaSimilarity.jsx';
 import ModalSimilarity from './ModalSimilarityMeasure.jsx';
 import DropdownWithDisplay from "../../Graph/DropdownVisual";
-import {IconButton} from "@mui/material";
+import { IconButton } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import simGif from "../../../assets/vidioAsset/simGif.gif";
 
@@ -93,41 +93,41 @@ export default function SimilarityMeasure({ opsional, similarity, initialData })
         return (
             <div className='flex justify-center mt-4'>
                 <div className="overflow-x-auto w-full">
-                <TableSimilarity>
-                    <HeadTableSimilarity opsional={opsional}>
-                        {Array.from({ length: numberOfColumnsSim }, (_, index) => (
-                            <th key={index} className="border border-black px-4 py-2 text-xs sm:text-sm">{index + 1}</th>
-                        ))}
-                    </HeadTableSimilarity>
-                    <tbody>
-                        {result['similarity'].map((row, rowIndex) => (
-                            <TrTableSimilarity key={rowIndex}>
-                                <td className="border border-black px-4 py-2 bg-blue-200 text-xs sm:text-sm">{rowIndex + 1}</td>
-                                {row.map((value, colIndex) => (
-                                    <TdTableSimilarity
-                                        key={colIndex}
-                                        rowIndex={rowIndex}
-                                        colIndex={colIndex}
-                                        onClick={() => handleMeanClick(value, rowIndex, colIndex)}
-                                    >
-                                        {value.toFixed(4)}
-                                    </TdTableSimilarity>
-                                ))}
-                            </TrTableSimilarity>
-                        ))}
-                    </tbody>
-                </TableSimilarity>
-                {showModal && (
-                    <ModalSimilarity
-                        similarity={similarity}
-                        opsional={opsional}
-                        close={closeModal}
-                        selectedIndex={selectedIndex}
-                        selectedMean={selectedMean}
-                        dataOnly={dataOnly}
-                        data={result}
-                    />
-                )}
+                    <TableSimilarity>
+                        <HeadTableSimilarity opsional={opsional}>
+                            {Array.from({ length: numberOfColumnsSim }, (_, index) => (
+                                <th key={index} className="border border-black px-4 py-2 text-xs sm:text-sm">{index + 1}</th>
+                            ))}
+                        </HeadTableSimilarity>
+                        <tbody>
+                            {result['similarity'].map((row, rowIndex) => (
+                                <TrTableSimilarity key={rowIndex}>
+                                    <td className="border border-black px-4 py-2 bg-blue-200 text-xs sm:text-sm">{rowIndex + 1}</td>
+                                    {row.map((value, colIndex) => (
+                                        <TdTableSimilarity
+                                            key={colIndex}
+                                            rowIndex={rowIndex}
+                                            colIndex={colIndex}
+                                            onClick={() => handleMeanClick(value, rowIndex, colIndex)}
+                                        >
+                                            {value.toFixed(4)}
+                                        </TdTableSimilarity>
+                                    ))}
+                                </TrTableSimilarity>
+                            ))}
+                        </tbody>
+                    </TableSimilarity>
+                    {showModal && (
+                        <ModalSimilarity
+                            similarity={similarity}
+                            opsional={opsional}
+                            close={closeModal}
+                            selectedIndex={selectedIndex}
+                            selectedMean={selectedMean}
+                            dataOnly={dataOnly}
+                            data={result}
+                        />
+                    )}
                 </div>
             </div>
         );
@@ -136,7 +136,7 @@ export default function SimilarityMeasure({ opsional, similarity, initialData })
     return (
         <div>
             <div className="flex items-center">
-                <div id="sim-section" className="border-l-4 border-card_blue_primary h-10 mr-4"/>
+                <div id="sim-section" className="border-l-4 border-card_blue_primary h-10 mr-4" />
                 {/* Vertical Line */}
                 <h1 className='font-poppins text-xl text-start font-semibold text-black'>Mencari
                     Fungsi Similaritas <span
@@ -156,7 +156,7 @@ export default function SimilarityMeasure({ opsional, similarity, initialData })
                 </div>
             </MathJaxContext>
 
-            <FunctionMeasureDropdown DetailRumus={FormulaSimilarity.detail_formula}/>
+            <FunctionMeasureDropdown DetailRumus={FormulaSimilarity.detail_formula} />
 
             <div className="px-4 sm:px-8 md:px-10 py-5">
                 <h1 className='text-lg font-semibold font-poppins underline underline-offset-8 decoration-4 decoration-card_blue_primary'>Hasil
@@ -174,7 +174,7 @@ export default function SimilarityMeasure({ opsional, similarity, initialData })
                         className="text-white hover:text-green-500 transition-colors duration-300"
                         aria-label="Info"
                     >
-                        <InfoIcon className="text-white hover:text-green-500"/>
+                        <InfoIcon className="text-white hover:text-green-500" />
                     </IconButton>
 
 
@@ -185,7 +185,7 @@ export default function SimilarityMeasure({ opsional, similarity, initialData })
                 </div>
                 {/* Tabel similaritas rating */}
                 <RenderTabelSimilarity result={result} handleMeanClick={handleMeanClick}
-                                       closeModal={closeModal}/>
+                    closeModal={closeModal} />
 
                 {/* Modal pop-up */}
                 {showModalTutorial && (
@@ -219,7 +219,7 @@ export default function SimilarityMeasure({ opsional, similarity, initialData })
             <div>
                 <h1 className='font-semibold text-xl my-5 underline underline-offset-8 decoration-4 decoration-card_blue_primary'>PILIH
                     VISUALISASI FUNGSI SIMILARITAS </h1>
-                <DropdownWithDisplay result={result} opsional={opsional}/>
+                <DropdownWithDisplay result={result} opsional={opsional} />
             </div>
 
         </div>

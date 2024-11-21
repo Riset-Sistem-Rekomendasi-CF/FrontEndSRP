@@ -20,11 +20,9 @@ import {
     Star,
     ShowChart,
     People,
-    SportsMotorsports, Lightbulb,
+    Lightbulb,
 
 } from '@mui/icons-material';
-import Img1 from "../../assets/images/img1.png";
-import Img2 from "../../assets/images/img2.png"; // Import ikon MUI
 
 
 const Tutorial = () => {
@@ -83,14 +81,14 @@ const Tutorial = () => {
     )
     const Tekssubheader = (
         <span>
-      Data  <i>rating</i> yaitu suatu kumpulan data yang telah diberikan <i>rating</i> pada  <i>item</i> tertentu oleh <i>user</i>.
-    </span>
+            Data  <i>rating</i> yaitu suatu kumpulan data yang telah diberikan <i>rating</i> pada  <i>item</i> tertentu oleh <i>user</i>.
+        </span>
     );
 
     return (
         <div className="p-4">
             {/* Section Of Navigate */}
-            <Navigator/>
+            <Navigator />
 
             <BodyTutorial
                 header={"Tutorial Fungsi Similaritas"}
@@ -100,7 +98,7 @@ const Tutorial = () => {
             />
 
 
-            <VideoTutorialModal/>
+            <VideoTutorialModal />
 
             <BodyTutorial
                 header={"Langkah-langkah"}
@@ -114,17 +112,17 @@ const Tutorial = () => {
                     <CardSteps
                         heading="Menyiapkan Data Rating"
                         description="Menyiapkan data rating yang akan digunakan untuk perhitungan fungsi similaritas."
-                        icon={<RateReview className="w-8 h-8"/>} // Ikon untuk langkah 1
+                        icon={<RateReview className="w-8 h-8" />} // Ikon untuk langkah 1
                     />
                     <CardSteps
                         heading="Memilih Metode Digunakan"
                         description="Memilih metode yang ingin digunakan, apakah User-Based atau Item-Based."
-                        icon={<Build className="w-8 h-8"/>} // Ikon untuk langkah 2
+                        icon={<Build className="w-8 h-8" />} // Ikon untuk langkah 2
                     />
                     <CardSteps
                         heading="Memilih Fungsi Similaritas"
                         description="Memilih fungsi similaritas yang akan digunakan untuk menghitung kemiripan."
-                        icon={<FilterList className="w-8 h-8"/>} // Ikon untuk langkah 3
+                        icon={<FilterList className="w-8 h-8" />} // Ikon untuk langkah 3
                     />
                 </div>
             </section>
@@ -137,8 +135,8 @@ const Tutorial = () => {
 
                 subheader={Tekssubheader}
             >
-                <TabelView/>
-                <NotationCard opsional={selectedMethod.toLowerCase()} data={data}/>
+                <TabelView />
+                <NotationCard opsional={selectedMethod.toLowerCase()} data={data} />
             </BodyTutorial>
             <FormLayoutTutorial
                 data={form}
@@ -147,10 +145,10 @@ const Tutorial = () => {
 
             <section className='max-w-6xl mx-auto text-center my-10 py-10 relative'>
                 <button onClick={toggleDescription}
-                        className="w-full sm:w-auto font-semibold font-poppins bg-card_green_primary border-2 border-black text-center text-white px-4 py-2 sm:px-6 sm:py-3 rounded-full hover:bg-blue-700 shadow-md flex items-center justify-center mx-auto">
+                    className="w-full sm:w-auto font-semibold font-poppins bg-card_green_primary border-2 border-black text-center text-white px-4 py-2 sm:px-6 sm:py-3 rounded-full hover:bg-blue-700 shadow-md flex items-center justify-center mx-auto">
                     Cek Hasil Perhitungan Similaritas
-                    {isDescriptionVisible ? <ExpandLessIcon className="ml-2 text-lg"/> :
-                        <ExpandMoreIcon className="ml-2 text-lg"/>}
+                    {isDescriptionVisible ? <ExpandLessIcon className="ml-2 text-lg" /> :
+                        <ExpandMoreIcon className="ml-2 text-lg" />}
                 </button>
 
 
@@ -168,7 +166,7 @@ const Tutorial = () => {
                                 {/* Chip components */}
                                 <Chip
                                     label="Mean Rating"
-                                    icon={<Star/>}
+                                    icon={<Star />}
                                     onClick={() => scrollToSection('mean-rating-section')}
                                     color="success"
                                     variant="outlined"
@@ -178,7 +176,7 @@ const Tutorial = () => {
                                 />
                                 <Chip
                                     label="Mean-Centered"
-                                    icon={<ShowChart/>}
+                                    icon={<ShowChart />}
                                     onClick={() => scrollToSection('mean-cen-section')}
                                     color="primary"
                                     variant="outlined"
@@ -187,7 +185,7 @@ const Tutorial = () => {
                                 />
                                 <Chip
                                     label="Similaritas"
-                                    icon={<People/>}
+                                    icon={<People />}
                                     onClick={() => scrollToSection('sim-section')}
                                     color="warning"
                                     variant="outlined"
@@ -196,7 +194,7 @@ const Tutorial = () => {
                                 />
                                 <Chip
                                     label="Prediksi"
-                                    icon={<Lightbulb/>}
+                                    icon={<Lightbulb />}
                                     onClick={() => scrollToSection('pred-section')}
                                     color="success"
                                     variant="outlined"
@@ -205,7 +203,7 @@ const Tutorial = () => {
                                 />
                                 <Chip
                                     label="Top-N"
-                                    icon={<AssignmentTurnedInIcon/>}
+                                    icon={<AssignmentTurnedInIcon />}
                                     onClick={() => scrollToSection('topN-section')}
                                     color="secondary"
                                     variant="outlined"

@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { getACosine, getBC, getCosine, getPearsonPC } from './api';
 
-export const getInitialData = (data, opsional) => ({
+export const getInitialData = (data, opsional, k = 2) => ({
     data: data,
-    k: 2,
+    k: k,
     opsional: opsional
 });
 

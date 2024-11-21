@@ -1,11 +1,9 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import * as d3 from "d3";
 
-export function ScatterPlotDataFilter({opsional, result, topSimilarities, rowIndex, colIndex}) {
+export function ScatterPlotDataFilter({ opsional, result, topSimilarities, rowIndex, colIndex }) {
     const similarityDataFilter = result['reduced-data'];
-    console.log("ini adalh reduce data ", similarityDataFilter)
     const PredictionDataSet = result['prediction']
-    console.log("ini adalh prediciton in plot", PredictionDataSet)
 
     // const FindTopSimInPlot = result['similarity'].map((row, colIndex)){
     //
@@ -48,7 +46,7 @@ export function ScatterPlotDataFilter({opsional, result, topSimilarities, rowInd
             const calculateDistance = (d1, d2) => Math.sqrt(Math.pow(d1.x - d2.x, 2) + Math.pow(d1.y - d2.y, 2));
 
             // Pemilihan user atau item untuk analisis
-            const selectedUserIndex = 2;
+            const selectedUserIndex = opsional === "user-based" ? rowIndex : colIndex;
 
             // Menghitung jarak dari titik yang dipilih
             const distances = data.map((d, i) => ({
@@ -192,14 +190,14 @@ export function ScatterPlotDataFilter({opsional, result, topSimilarities, rowInd
                     Scatter plot ini memvisualisasikan kemiripan antar <i>={opsional}</i>, dengan
                     warna
                     yang menunjukkan kelompok <i>{opsional}</i>:
-                    <br/>
+                    <br />
                     <strong>Merah:</strong> Titik merah mewakili pengguna <i>target</i> yang sedang
                     dianalisis. Posisi titik merah menunjukkan posisi pengguna yang sedang dicari.
-                    <br/>
+                    <br />
                     <strong>Hijau:</strong> Titik hijau menunjukkan <b>tetangga terdekat</b> dari
                     pengguna target. Ini adalah pengguna yang paling mirip dengan pengguna target
                     dalam hal preferensi atau perilaku.
-                    <br/>
+                    <br />
                     <strong>Biru:</strong> Titik biru mewakili pengguna lain dalam sistem yang
                     <b>berbeda</b> atau memiliki kemiripan yang lebih rendah dibandingkan dengan
                     pengguna target.
@@ -232,8 +230,8 @@ export function ScatterPlotDataFilter({opsional, result, topSimilarities, rowInd
 
     return (
         <div className='flex flex-col my-5 font-poppins items-center mx-auto'>
-            <ScatterPlotFilter/>
-            <ExplanationSectionScatterPlotFilter/>
+            <ScatterPlotFilter />
+            <ExplanationSectionScatterPlotFilter />
         </div>
     )
 }

@@ -12,10 +12,8 @@ import PredictionMeasure from '../../components/MathSimilarity/Measure/Predictio
 import BackToTopButton from "../../components/Navigate/BackToTopNavigate";
 
 
+
 export default function DetailPageBox({ method, similarity, data }) {
-
-    console.log(similarity);
-
     const renderContent = () => {
         if (!method) {
             return <p>Pilih Fungsi Similaritas untuk {method}.</p>;
@@ -31,6 +29,7 @@ export default function DetailPageBox({ method, similarity, data }) {
         }
 
         const initialData = getInitialData(data, method.toLowerCase());
+
         return (
             <>
                 <MeanMeasure
@@ -49,9 +48,9 @@ export default function DetailPageBox({ method, similarity, data }) {
                     initialData={initialData}
                 />
                 <PredictionMeasure
+                    dataRating={data}
                     opsional={method.toLowerCase()}
                     similarity={similarity}
-                    initialData={initialData}
                 />
             </>
         );
@@ -84,7 +83,7 @@ export default function DetailPageBox({ method, similarity, data }) {
                         <h1 className="text-xl sm:text-md md:text-2xl font-bold font-poppins py-5 leading-snug break-words">
                             Langkah-Langkah Penerapan <i>{method} Collaborative Filtering</i> dengan
                             Metode
-                            <span className="italic"> { similarity}</span>
+                            <span className="italic"> {similarity}</span>
                         </h1>
 
                         <div className="text-sm sm:text-base md:text-lg px-4 sm:px-10 py-5 font-poppins flex-1">
@@ -103,7 +102,7 @@ export default function DetailPageBox({ method, similarity, data }) {
 export function HasilPerhitunganSimilaritas() {
     return (
         <React.Fragment>
-            <CssBaseline/>
+            <CssBaseline />
             <Container maxWidth="max-w-5xl">
                 <Box
                     sx={{

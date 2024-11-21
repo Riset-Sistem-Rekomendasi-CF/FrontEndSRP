@@ -5,9 +5,8 @@ import LegendTable from "../tabelData/LegendTable";
 
 
 
-export function ScatterPlotData({opsional, result}){
+export function ScatterPlotData({ opsional, result }) {
     const similarityData = result['reduced-data'];
-    console.log("ini adalh reduce data ", similarityData)
     // Mengubah objek menjadi array 2D
     const dataPlotVisual = Object.entries(similarityData).map(([key, value]) => [parseFloat(key), parseFloat(value)]);
     const ScatterPlot = () => {
@@ -144,7 +143,7 @@ export function ScatterPlotData({opsional, result}){
         return (
             <>
                 <div ref={containerRef}
-                     style={{ width: '100%', maxWidth: '600px', margin: '0 auto' }} />
+                    style={{ width: '100%', maxWidth: '600px', margin: '0 auto' }} />
                 <div className="mt-6 text-center w-full">
                     <p className="font-bold text-xl mb-4">Keterangan:</p>
                     <ul className="flex flex-col sm:flex-row space-x-0 sm:space-x-4 sm:space-y-0 space-y-4 justify-center">
@@ -160,8 +159,6 @@ export function ScatterPlotData({opsional, result}){
     };
 
 
-    // console.log("ini array 2d", dataPlotVisual)
-
 
     const ExplanationSectionScatterPlot = () => {
         const [isExpanded, setIsExpanded] = useState(false);
@@ -176,12 +173,12 @@ export function ScatterPlotData({opsional, result}){
                 </h2>
                 <p className={`text-sm mb-2 ${isExpanded ? '' : 'line-clamp-3'}`}>
                     Plot ini menggunakan <b>
-                    <a className='no-underline hover:underline text-card_blue_primary decoration-card_blue_primary '
-                       href="https://scikit-learn.org/stable/modules/generated/sklearn.manifold.MDS.html"
-                       target="_blank"
-                       rel="noopener noreferrer">
-                        Multidimensional Scaling (MDS)
-                    </a></b>, yaitu teknik reduksi dimensi yang mengubah data kompleks ke dalam
+                        <a className='no-underline hover:underline text-card_blue_primary decoration-card_blue_primary '
+                            href="https://scikit-learn.org/stable/modules/generated/sklearn.manifold.MDS.html"
+                            target="_blank"
+                            rel="noopener noreferrer">
+                            Multidimensional Scaling (MDS)
+                        </a></b>, yaitu teknik reduksi dimensi yang mengubah data kompleks ke dalam
                     dimensi
                     lebih rendah (misalnya 2D atau 3D) sambil mempertahankan jarak antar objek. MDS
                     membantu memvisualisasikan kemiripan antar objek, sehingga memudahkan analisis
@@ -221,8 +218,8 @@ export function ScatterPlotData({opsional, result}){
     return (
         <div>
             <div className='flex flex-col my-5 font-poppins items-center'>
-                <ScatterPlot/>
-                <ExplanationSectionScatterPlot/>
+                <ScatterPlot />
+                <ExplanationSectionScatterPlot />
             </div>
         </div>
     )
