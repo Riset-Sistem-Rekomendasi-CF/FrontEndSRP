@@ -3,7 +3,7 @@ import FormControl from "@mui/material/FormControl";
 import { Menu, MenuButton } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
-export function DropdownMethodBased({ onChange }) {
+export function DropdownMethodBased({ onChange, turnDescription }) {
 
     const [selectMetode, setSelectMetode] = useState('Pilih Metode')
 
@@ -14,7 +14,7 @@ export function DropdownMethodBased({ onChange }) {
 
     return (
 
-        <FormControl>
+        <FormControl onClick={() => turnDescription(false)}>
             <Menu as="div" className="relative inline-block text-left">
                 <div>
                     <MenuButton
@@ -58,7 +58,7 @@ export function DropdownMethodBased({ onChange }) {
 
 
 
-export function DropdownSimilarityMeasure({ onChange }) {
+export function DropdownSimilarityMeasure({ onChange, turnDescription }) {
 
     const [selectSimilarity, setSelectSimilarity] = useState('Pilih Fungsi Similaritas')
 
@@ -68,7 +68,7 @@ export function DropdownSimilarityMeasure({ onChange }) {
     }
 
     return (
-        <FormControl>
+        <FormControl onClick={() => turnDescription(false)}>
             <Menu as="div" className="relative  inline-block text-left ">
                 <div>
                     <MenuButton

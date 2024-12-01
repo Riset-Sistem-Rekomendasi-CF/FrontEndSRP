@@ -138,7 +138,7 @@ function Practice() {
                             <h1 className="text-xl sm:text-2xl font-bold font-poppins py-5 sm:py-10 px-3">Pilih Sistem
                                 Rekomendasi</h1>
                         </div>
-                        <DropdownMethodBased onChange={handleMethodChange} />
+                        <DropdownMethodBased turnDescription={setDescriptionVisible} onChange={handleMethodChange} />
                     </div>
 
                     {/* Second Column */}
@@ -150,7 +150,7 @@ function Practice() {
                             <h1 className="text-xl sm:text-2xl font-bold font-poppins py-5 sm:py-10 px-3">Pilih
                                 Metode Similaritas</h1>
                         </div>
-                        <DropdownSimilarityMeasure onChange={handleSimilarityChange} />
+                        <DropdownSimilarityMeasure turnDescription={setDescriptionVisible} onChange={handleSimilarityChange} />
                     </div>
                 </div>
             </section>

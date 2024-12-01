@@ -1,3 +1,5 @@
+import { sum } from "./Measure"
+
 /**
  * 
  * @param {number} long 
@@ -113,13 +115,6 @@ export const checkEmptyRowOrColumn = (data) => {
 
 
     return false
-}
-
-const sum = (data) => {
-    return data.reduce(
-        (accumulator, currentValue) => accumulator + currentValue,
-        0,
-    )
 }
 
 export const transposeMatrix = data => {

@@ -1,4 +1,4 @@
- const mathjaxConfig = {
+const mathjaxConfig = {
     loader: { load: ['[tex]/amsmath', '[tex]/amsfonts', '[tex]/color'] },
     tex: {
         inlineMath: [['$', '$'], ['\\(', '\\)']],
