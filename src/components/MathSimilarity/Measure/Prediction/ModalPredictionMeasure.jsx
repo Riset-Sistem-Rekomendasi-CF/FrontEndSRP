@@ -9,7 +9,9 @@ import { ScatterPlotDataFilter } from "../../../Graph/SccaterPlotFilter";
 
 
 
-const ModalPredictionMeasure = ({ dataRating, opsional, similarity, topSimilarities, selectedValue, selectedIndex, data, result, close }) => {
+const ModalPredictionMeasure = ({ dataRating, opsional, similarity, topSimilarities, selectedValue, selectedIndex, data, result, kValue, close }) => {
+    console.log("topSimilarities", topSimilarities);
+
     const resultMean = similarity === "Adjusted Vector Cosine" ? (result["mean-list-brother"]) : result["mean-list"]
     const resultMeanCentered = similarity === "Adjusted Vector Cosine" ? transposeMatrix(result["mean-centered-brother"]) : result["mean-centered"]
     const [isNotation, setIsNotation] = useState(false)
@@ -152,7 +154,7 @@ const ModalPredictionMeasure = ({ dataRating, opsional, similarity, topSimilarit
                         {/* Nilai Top-K */}
                         {selectedIndex[opsional === "user-based" ? 0 : 1] < result['similarity'].length ? (
                             <div>
-                                <h2 className='font-semibold text-lg'>Nilai Top-K</h2>
+                                <h2 className='font-semibold text-lg'>Nilai Top-N</h2>
                                 <table
                                     className="border border-black mt-4 mx-auto text-center w-full">
                                     <thead>
@@ -206,7 +208,20 @@ const ModalPredictionMeasure = ({ dataRating, opsional, similarity, topSimilarit
                         ]}
                     />
                 </div>
+                <h1 className='font-semibold text-xl my-5 underline underline-offset-8 decoration-4 decoration-card_blue_primary'>
+                    Grafik Top-N
+                </h1>
+                <div className='flex justify-center my-3'>
+                    <ScatterPlotDataFilter
+                        kValue={kValue}
+                        result={result}
+                        opsional={opsional}
+                        topSimilarities={topSimilarities}
+                        rowIndex={selectedIndex[0]}
+                        colIndex={selectedIndex[1]}
 
+                    />
+                </div>
                 {/* Perhitungan Manual */}
                 <MathJaxContext options={mathjaxConfig}>
                     <div
@@ -276,19 +291,7 @@ const ModalPredictionMeasure = ({ dataRating, opsional, similarity, topSimilarit
                 </p>
 
 
-                <h1 className='font-semibold text-xl my-5 underline underline-offset-8 decoration-4 decoration-card_blue_primary'>
-                    Grafik Prediksi Top-N
-                </h1>
-                <div className='flex justify-center my-3'>
-                    <ScatterPlotDataFilter
-                        result={result}
-                        opsional={opsional}
-                        topSimilarities={topSimilarities}
-                        rowIndex={selectedIndex[0]}
-                        colIndex={selectedIndex[1]}
 
-                    />
-                </div>
 
                 <button
                     className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"

@@ -43,8 +43,7 @@ export const sparsityIndexDeterminate = (data, sparsityPersen) => {
     const totalCells = data.length * data[0].length;
     const sparsityCount = Math.round(totalCells * (sparsityPersen / 100));
 
-    // console.log("Sparsity Count:", sparsityCount, "Total Cells:", totalCells);
-
+    // Buat daftar semua indeks matriks
     const indices = [];
     for (let i = 0; i < data.length; i++) {
         for (let j = 0; j < data[i].length; j++) {
@@ -52,41 +51,78 @@ export const sparsityIndexDeterminate = (data, sparsityPersen) => {
         }
     }
 
-    let resultIndex = Array(data.length).fill().map(() => Array(data[0].length).fill(null));
-
+    // Shuffle (acak) indeks
     const shuffledIndices = indices.sort(() => Math.random() - 0.5);
 
+    // Inisialisasi matriks hasil
+    let resultIndex = Array(data.length).fill().map(() => Array(data[0].length).fill(null));
+
+    // Isi sparsity sesuai dengan jumlah yang dihitung
     for (let k = 0; k < sparsityCount; k++) {
         const [i, j] = shuffledIndices[k];
-        resultIndex[i][j] = j;
+        resultIndex[i][j] = "?"; // Gunakan "?" sebagai tanda sparsity
     }
 
-    for (let i = 0; i < data.length; i++) {
-        for (let j = 0; j < data[i].length; j++) {
-            if (resultIndex[i][j] === null) {
-                resultIndex[i][j] = 0;
-            }
-        }
-    }
-
+    // Kembalikan matriks hasil
     return resultIndex;
 };
 
-export const makeSparsity = (panjang, lebar, sparsityPercent, rangeData) => {
-    const result = makeArray(panjang, lebar, rangeData)
-    const sparsityIndex = sparsityIndexDeterminate(result, sparsityPercent)
+export const makeSparsityArray = (panjang, lebar, sparsityPercent, rangeData) => {
+    // Buat data awal
+    const result = makeArray(panjang, lebar, rangeData);
+
+    // Tentukan indeks sparsity
+    const sparsityIndex = sparsityIndexDeterminate(result, sparsityPercent);
+
+    // Gunakan indeks sparsity untuk mengubah data
     for (let i = 0; i < result.length; i++) {
         for (let j = 0; j < result[i].length; j++) {
-            if (sparsityIndex[i][j] !== 0) {
-                result[i][j] = 0
+            if (sparsityIndex[i][j] === "?") {
+                result[i][j] = 0; // Ubah elemen menjadi 0 jika sparsity
             }
         }
     }
-    return result
+    return result;
+};
+
+export const makeSparsity = (panjang, lebar, sparsityPercent, rangeData) => {
+    let index = 0
+    while (index < 100) {
+        const array = makeSparsityArray(panjang, lebar, sparsityPercent, rangeData)
+        if (!checkEmptyRowOrColumn(array)) {
+            return array
+        }
+        index++
+    }
+    return false
+}
+
+
+export const checkEmptyRowOrColumn = (data) => {
+    for (let i = 0; i < data.length; i++) {
+        if (sum(data[i]) === 0) {
+            return true
+        }
+    }
+
+    for (let i = 0; i < transposeMatrix(data).length; i++) {
+        if (sum(transposeMatrix(data)[i]) === 0) {
+            return true
+        }
+    }
+
+
+    return false
+}
+
+const sum = (data) => {
+    return data.reduce(
+        (accumulator, currentValue) => accumulator + currentValue,
+        0,
+    )
 }
 
 export const transposeMatrix = data => {
-
     return data[0].map((col, i) => {
         return data.map(row => row[i])
     })

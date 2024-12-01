@@ -6,8 +6,8 @@ export const getFormulaPrediction = (similarity, opsional) => {
     switch (opsionalModify) {
         case "user-based":
             return {
-                formula: `\\[ {\\widetilde{r_{ui}}} = \\mu_{u} +\\frac{\\sum_{v\\in  X_{u}(j)} Sim_{uv}* S_{vi}}{\\sum_{v \\in  X_{u}(j)}\\mid Sim_{uv} \\mid} \\]`,
-                arg_max: `\\[  X_u(j)=\\ \\begin{matrix}k\\\\argmax\\ \\\\j\\ \\in\\ \\ U_{i}\\\\\\end{matrix}{Sim_{ju}}\\  \\]`,
+                formula: `\\[ {\\widetilde{r}_{ui}} = \\mu_{u} +\\frac{\\sum_{v\\in  X_{u}(j)} Sim_{uv}* S_{vi}}{\\sum_{v \\in  X_{u}(i)}\\mid Sim_{uv} \\mid} \\]`,
+                arg_max: `\\[  X_{u}(i)=\\ \\begin{matrix}k\\\\argmax\\ \\\\j\\ \\in\\ \\ U_{i}\\\\\\end{matrix}{Sim_{ju}}\\  \\]`,
                 detail_formula: [
                     `\\[ S_{vi} = \\text{Rata-rata } \\textit{rating} \\text{ yang diberikan oleh } \\textit{user} \\ u \\text{ pada seluruh } \\textit{item} \\]`,
                     `\\[ Sim_{uv} = \\text{Nilai } \\textit{similarity} \\text{ antara } \\textit{user} \\ u \\text{ dan } \\textit{user} \\ v \\]`,
@@ -17,8 +17,8 @@ export const getFormulaPrediction = (similarity, opsional) => {
             };
         case "item-based":
             return {
-                formula: `\\[ {\\widetilde{r_{ui}}} = \\mu_{i} +\\frac{\\sum_{j\\in X_{i}(j)} Sim_{uv}* S_{uj}}{\\sum_{j \\in X_{i}(j)}\\mid Sim_{ij} \\mid} \\]`,
-                arg_max: `\\[  N_{i}^u=\\ \\begin{matrix}k\\\\argmax\\ \\\\j\\ \\in\\ I_{i}\\\\\\end{matrix}{ Sim_{ju}}\\  \\]`,
+                formula: `\\[ {\\widetilde{r}_{ui}} = \\mu_{i} +\\frac{\\sum_{j\\in X_{i}(u)} Sim_{uv}* S_{uj}}{\\sum_{j \\in X_{i}(u)}\\mid Sim_{ij} \\mid} \\]`,
+                arg_max: `\\[  X_{i}(u)=\\ \\begin{matrix}k\\\\argmax\\ \\\\j\\ \\in\\ I_{i}\\\\\\end{matrix}{ Sim_{ju}}\\  \\]`,
                 detail_formula: [
                     `\\[ S_{vi} = \\text{Rata-rata } \\textit{rating} \\text{ yang diberikan oleh } \\textit{user} \\ u \\text{ pada seluruh } \\textit{item} \\]`,
                     `\\[ Sim_{uv} = \\text{Nilai } \\textit{similarity} \\text{ antara } \\textit{user} \\ u \\text{ dan } \\textit{user} \\ v \\]`,
@@ -32,12 +32,11 @@ export const getFormulaPrediction = (similarity, opsional) => {
 }
 
 export const getFormulaArgMax = (rowIndex, colIndex, opsional, similarity, topSimilarity) => {
-    console.log(topSimilarity);
     switch (opsional) {
         case "user-based":
-            return `\\[  N_{${(colIndex + 1)}}^{${(rowIndex + 1)}}=\\ \\begin{matrix}2\\\\argmax\\ \\\\u \\in U_{${(colIndex + 1)}} \\end{matrix}Sim(${(rowIndex + 1)},u)\\ = \\{ ${topSimilarity.map(sim => sim.index + 1).join(",")} \\} \\]`
+            return `\\[  X_{${(rowIndex + 1)}}(${(colIndex + 1)})=\\ \\begin{matrix}2\\\\argmax\\ \\\\i \\in I_{${(rowIndex + 1)}} \\end{matrix}Sim(i,${(colIndex + 1)})\\ = \\ \\{ ${topSimilarity.map(sim => sim.index + 1).join(",")} \\} \\]`
         case "item-based":
-            return `\\[  N_{${(rowIndex + 1)}}^{${(colIndex + 1)}}=\\ \\begin{matrix}2\\\\argmax\\ \\\\i \\in I_{${(rowIndex + 1)}} \\end{matrix}Sim(i,${(colIndex + 1)})\\ = \\ \\{ ${topSimilarity.map(sim => sim.index + 1).join(",")} \\} \\]`
+            return `\\[  X_{${(colIndex + 1)}}(${(rowIndex + 1)})=\\ \\begin{matrix}2\\\\argmax\\ \\\\u \\in U_{${(colIndex + 1)}} \\end{matrix}Sim(${(rowIndex + 1)},u)\\ = \\{ ${topSimilarity.map(sim => sim.index + 1).join(",")} \\} \\]`
         default:
             return;
     }
@@ -48,9 +47,9 @@ export const getFormulaPredictionIndex = (rowIndex, colIndex, similarity, opsion
 
     switch (opsionalModify) {
         case "user-based":
-            return `\\[ {\\widetilde{r_{${rowIndex + 1}${colIndex + 1}}}} = \\mu_{${rowIndex + 1}} +\\frac{\\sum_{v\\in N_{${rowIndex + 1}}^{${colIndex + 1}}} Sim_{${rowIndex + 1}v} \\times s_{v${colIndex + 1}}}{\\sum_{v \\in N_{${rowIndex + 1}}^{${colIndex + 1}}}\\mid Sim_{v${colIndex + 1}} \\mid} \\]`
+            return `\\[ {\\widetilde{r}_{${rowIndex + 1}${colIndex + 1}}} = \\mu_{${rowIndex + 1}} +\\frac{\\sum_{v\\in X_{${rowIndex + 1}}(${colIndex + 1})} Sim_{${rowIndex + 1}v} \\times s_{v${colIndex + 1}}}{\\sum_{v \\in X_{${rowIndex + 1}}(${colIndex + 1})}\\mid Sim_{${rowIndex + 1}v} \\mid} \\]`
         case "item-based":
-            return `\\[ {\\widetilde{r_{${rowIndex + 1}${colIndex + 1}}}} = \\mu_{${colIndex + 1}} +\\frac{\\sum_{v\\in N_{${(colIndex + 1)}}^{${(rowIndex + 1)}}} Sim_{v${rowIndex + 1}} \\times s_{${colIndex + 1}v}}{\\sum_{v \\in N_{${(colIndex + 1)}}^{${(rowIndex + 1)}}}\\mid Sim_{${rowIndex + 1}v} \\mid} \\]`
+            return `\\[ {\\widetilde{r}_{${rowIndex + 1}${colIndex + 1}}} = \\mu_{${colIndex + 1}} +\\frac{\\sum_{v\\in X_{${(colIndex + 1)}}(${(rowIndex + 1)})} Sim_{v${rowIndex + 1}} \\times s_{${colIndex + 1}v}}{\\sum_{v \\in X_{${(colIndex + 1)}}(${(rowIndex + 1)})}\\mid Sim_{${rowIndex + 1}v} \\mid} \\]`
         default:
             return;
     }
@@ -59,22 +58,19 @@ export const getFormulaPredictionIndex = (rowIndex, colIndex, similarity, opsion
 export const getFormulaPredictionValue = (rowIndex, colIndex, similarValues, result, dataRating, similarity, opsional, isNotation) => {
     const resultMeanCentered = similarity === "Adjusted Vector Cosine" ? transposeMatrix(result["mean-centered-brother"]) : result["mean-centered"]
     const resultDataRating = similarity === "Adjusted Vector Cosine" ? transposeMatrix(dataRating) : (opsional === "user-based" ? dataRating : transposeMatrix(dataRating))
-    console.log(resultDataRating, resultMeanCentered);
 
     const resultMean = similarity === "Adjusted Vector Cosine" ? (result["mean-list-brother"]) : result["mean-list"]
-    console.log("similarValue", similarValues);
-
 
     switch (opsional) {
         case "user-based":
             if (!isNotation) {
-                return `\\[ {\\widetilde{r_{${rowIndex + 1}${colIndex + 1}}}} = {${resultMean[rowIndex].toFixed(3)}} + \\frac{${similarValues.filter(sim => resultDataRating[sim.index][colIndex] !== 0)
+                return `\\[ {\\widetilde{r}_{${rowIndex + 1}${colIndex + 1}}} = {${resultMean[rowIndex].toFixed(3)}} + \\frac{${similarValues.filter(sim => resultDataRating[sim.index][colIndex] !== 0)
                     .map(sim => (`\\left(${sim.value.toFixed(4)} \\times \\left(${resultMeanCentered[sim.index][colIndex].toFixed(2)}\\right)\\right)`
                     )).join(' + ')}}{${similarValues.filter(sim => resultDataRating[sim.index][colIndex] !== 0)
                         .map(sim => `\\mid ${sim.value.toFixed(4)} \\mid`)
                         .join(' + ')}} \\]`;
             } else {
-                return `\\[ {\\widetilde{r_{${rowIndex + 1}${colIndex + 1}}}} = {\\mu_{${rowIndex + 1}}} + \\frac{${similarValues.filter(sim => resultDataRating[sim.index][colIndex] !== 0)
+                return `\\[ {\\widetilde{r}_{${rowIndex + 1}${colIndex + 1}}} = {\\mu_{${rowIndex + 1}}} + \\frac{${similarValues.filter(sim => resultDataRating[sim.index][colIndex] !== 0)
                     .map(sim => (`\\left(Sim_{${sim.index + 1}${(colIndex + 1)}} \\times \\left(S_{${sim.index + 1}${(colIndex + 1)}}\\right)\\right)`
                     )).join(' + ')}}{${similarValues.filter(sim => resultDataRating[sim.index][colIndex] !== 0)
                         .map(sim => `\\mid Sim_{${sim.index + 1}${(colIndex + 1)}} \\mid`)
@@ -84,7 +80,7 @@ export const getFormulaPredictionValue = (rowIndex, colIndex, similarValues, res
         case "item-based":
             if (!isNotation) {
 
-                return `\\[ {\\widetilde{r_{${rowIndex + 1}${colIndex + 1}}}} = {${resultMean[colIndex].toFixed(3)}} + \\frac{${similarValues.filter(sim => resultDataRating[sim.index][rowIndex] !== 0)
+                return `\\[ {\\widetilde{r}_{${rowIndex + 1}${colIndex + 1}}} = {${resultMean[colIndex].toFixed(3)}} + \\frac{${similarValues.filter(sim => resultDataRating[sim.index][rowIndex] !== 0)
                     .map(sim => (`\\left(${sim.value.toFixed(4)} \\times \\left(${resultMeanCentered[sim.index][rowIndex].toFixed(2)}\\right)\\right)`))
                     .join(' + ')}}{${similarValues.filter(sim => resultDataRating[sim.index][rowIndex] !== 0)
                         .map(sim => `\\mid ${sim.value.toFixed(4)} \\mid`)

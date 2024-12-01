@@ -1,12 +1,12 @@
 import { transposeMatrix } from "../../../../helper/helper"
-import { getFormulaMean, getFormulaMeanIndex, getFormulaMeanExpression, getFormulaMeanValue } from "../Formula/FormulaMean";
+import { getFormulaMean } from "../Formula/FormulaMean";
 import ModalMean from "./ModalMean";
 import React, { useState } from 'react'
 import { MathJaxContext, MathJax } from "better-react-mathjax";
 import mathjaxConfig from "../../../../mathjax-config";
 import { FunctionMeasureDropdown } from "../../DropdownFunction/FunctionMeasureDropdown";
 import { AllSimilaritas } from "../../../../api/getDataSet";
-import {IconButton} from "@mui/material";
+import { IconButton } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import MeanGif from "../../../../assets/vidioAsset/MeanGif.gif";
 
@@ -58,7 +58,7 @@ export default function MeanMeasure({ opsional, similarity, initialData }) {
                     <table className="border border-black mt-4">
                         <thead>
                             <tr className=" bg-gray-200">
-                                <th className="border border-black px-4 py-2">U</th>
+                                <th className="border border-black px-4 py-2">{opsionalModify === "user-based" ? "U" : "I"}</th>
                                 <th className="border border-black px-4 py-2">μ</th>
                             </tr>
                         </thead>
@@ -97,9 +97,9 @@ export default function MeanMeasure({ opsional, similarity, initialData }) {
     return (
         <div className='mt-5'>
             <div id="mean-rating-section" className="flex items-center justify-start mb-4">
-                <div className="border-l-4 border-card_blue_primary h-10 mr-4"/>
+                <div className="border-l-4 border-card_blue_primary h-10 mr-4" />
                 <h1 className='font-poppins text-base sm:text-lg md:text-xl lg:text-2xl font-semibold text-black text-start'>
-                    Mencari Mean  <i> Rating </i>{' '}
+                    Mencari rata-rata <i> Rating </i>{' '}
                     <i>{opsional.replace("-", " ").toLowerCase().replace(/\b[a-z]/g, (letter) => letter.toUpperCase())}</i>
                 </h1>
             </div>
@@ -115,11 +115,11 @@ export default function MeanMeasure({ opsional, similarity, initialData }) {
                 </div>
             </MathJaxContext>
 
-            <FunctionMeasureDropdown DetailRumus={meanFormula.formula_detail}/>
+            <FunctionMeasureDropdown DetailRumus={meanFormula.formula_detail} />
 
             <div className="px-4 sm:px-8 md:px-10 py-5">
                 <h1 className="text-base sm:text-lg md:text-xl font-semibold font-poppins underline underline-offset-8 decoration-4 decoration-card_blue_primary">
-                    Hasil Mean <i>Rating</i> <i>{opsionalModify}</i>
+                    Hasil rata-rata <i>Rating</i> <i>{opsionalModify.replace("-", " ").toLowerCase().replace(/\b[a-z]/g, (letter) => letter.toUpperCase())}</i>
                 </h1>
 
                 {/* Tombol dengan ikon */}
@@ -142,14 +142,14 @@ export default function MeanMeasure({ opsional, similarity, initialData }) {
                     </h1>
                 </div>
                 {/* Tabel mean rating */}
-                <RenderTableMean/>
+                <RenderTableMean />
 
                 {/* Modal pop-up */}
                 {showModalTutorial && (
                     <div
                         className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
                         <div className="bg-white rounded-lg p-6 shadow-lg w-[600px]">
-                            <h2 className="text-xl font-semibold mb-4">Tutorial Mean Measure</h2>
+                            <h2 className="text-xl font-semibold mb-4">Tutorial rata-rata Measure</h2>
                             <img
                                 src={MeanGif}
                                 alt="Video Tutorial Cover"
@@ -157,7 +157,7 @@ export default function MeanMeasure({ opsional, similarity, initialData }) {
                             />
                             <p className="text-gray-700 text-justify font-semibold my-2">
                                 Ini adalah tutorial untuk memberikan informasi tambahan terkait
-                                Mean <i> Rating </i> cara perhitungan.
+                                rata-rata <i> Rating </i> cara perhitungan.
                             </p>
                             <div className="mt-6 flex justify-end">
                                 <button

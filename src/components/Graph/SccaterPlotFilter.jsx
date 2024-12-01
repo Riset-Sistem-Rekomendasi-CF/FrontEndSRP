@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import * as d3 from "d3";
+import { NewReleases } from "@mui/icons-material";
 
-export function ScatterPlotDataFilter({ opsional, result, topSimilarities, rowIndex, colIndex }) {
+export function ScatterPlotDataFilter({ opsional, topSimilarities, result, rowIndex, colIndex, kValue }) {
     const similarityDataFilter = result['reduced-data'];
-    const PredictionDataSet = result['prediction']
 
     // const FindTopSimInPlot = result['similarity'].map((row, colIndex)){
     //
@@ -49,16 +49,31 @@ export function ScatterPlotDataFilter({ opsional, result, topSimilarities, rowIn
             const selectedUserIndex = opsional === "user-based" ? rowIndex : colIndex;
 
             // Menghitung jarak dari titik yang dipilih
-            const distances = data.map((d, i) => ({
-                index: i,
-                distance: calculateDistance(data[selectedUserIndex], d)
-            }));
+            const distances = data.map((d, i) => {
+                console.log(d);
+
+                return ({
+                    index: i,
+                    distance: calculateDistance(data[selectedUserIndex], d)
+                })
+            })
+
+            // Menggabungkan distance dengan Top Similarity
+            const distanceTopSimilarity = distances.filter((v) => {
+                for (let i = 0; i < topSimilarities.length; i++) {
+                    if (topSimilarities[i].index === v.index)
+                        return topSimilarities[i].index === v.index
+                }
+            })
 
             // Mengurutkan dan memilih 2 tetangga terdekat
-            const nearestNeighbors = distances
+            const nearestNeighbors = distanceTopSimilarity
                 .filter(d => d.index !== selectedUserIndex) // Menghapus user yang dipilih dari daftar
                 .sort((a, b) => a.distance - b.distance)
-                .slice(0, 2); // Ambil 2 tetangga terdekat
+            // .slice(0, kValue); // Ambil 2 tetangga terdekat
+
+            console.log("nearest", nearestNeighbors);
+
 
             // Membuat skala untuk sumbu X dan Y
             const xScale = d3.scaleLinear()
@@ -111,7 +126,7 @@ export function ScatterPlotDataFilter({ opsional, result, topSimilarities, rowIn
                     if (nearestNeighbors.some(n => n.index === i)) return 'green'; // Warna untuk tetangga terdekat
                     return 'steelblue'; // Warna default
                 })
-                .on('mouseover', function (event, d) {
+                .on('mouseover', (event, d) => {
                     d3.select(this).attr('fill', 'orange'); // Ubah warna saat hover
                     svg.append('text')
                         .attr('x', xScale(d.x) + 10)
@@ -147,7 +162,7 @@ export function ScatterPlotDataFilter({ opsional, result, topSimilarities, rowIn
                 .attr('fill', 'black')
                 .text(d => d.label);
 
-        }, []); // Tidak ada dependency, hanya pertama kali render
+        }, []); // eslint-disable-line
 
         return (
             <>
@@ -157,11 +172,7 @@ export function ScatterPlotDataFilter({ opsional, result, topSimilarities, rowIn
                     <ul className="flex flex-col sm:flex-row space-x-0 sm:space-x-4 sm:space-y-0 space-y-4 justify-center px-4">
                         <li className="flex items-center text-sm sm:text-base">
                             <div className="w-5 h-5 rounded-full bg-red-500 border border-1 border-black mr-2"></div>
-                            Titik <span className="italic">{opsional}</span> target
-                        </li>
-                        <li className="flex items-center text-sm sm:text-base">
-                            <div className="w-5 h-5 rounded-full bg-blue-200 border border-1 border-black mr-2"></div>
-                            Titik <span className="italic">{opsional}</span>
+                            Titik target
                         </li>
                         <li className="flex items-center text-sm sm:text-base">
                             <div className="w-5 h-5 rounded-full bg-green-500 border border-1 border-black mr-2"></div>
@@ -187,7 +198,7 @@ export function ScatterPlotDataFilter({ opsional, result, topSimilarities, rowIn
                 </h2>
 
                 <p className={`text-sm mb-2 ${isExpanded ? '' : 'line-clamp-3'}`}>
-                    Scatter plot ini memvisualisasikan kemiripan antar <i>={opsional}</i>, dengan
+                    Scatter plot ini memvisualisasikan kemiripan antar <i>{opsional}</i>, dengan
                     warna
                     yang menunjukkan kelompok <i>{opsional}</i>:
                     <br />

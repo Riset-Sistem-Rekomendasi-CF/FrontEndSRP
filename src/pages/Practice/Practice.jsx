@@ -15,7 +15,7 @@ import {
     Lightbulb,
     People,
     RateReview,
-    ShowChart, SportsMotorsports,
+    ShowChart,
     Star
 } from "@mui/icons-material";
 import Chip from "@mui/material/Chip";
@@ -48,10 +48,6 @@ function Practice() {
         setDescriptionVisible(false)
     };
 
-    const handleClick = (label) => {
-        console.log(`${label} clicked`);
-    };
-
     const handleDataChange = (data) => {
         setData(data)
     };
@@ -67,7 +63,7 @@ function Practice() {
     return (
         <div className="p-4">
             {/* Section Of Navigate */}
-            <Navigator/>
+            <Navigator />
 
             <BodyTutorial
                 header={"Practice Fungsi Similaritas"}
@@ -77,7 +73,7 @@ function Practice() {
             />
 
 
-            <VidioTutorialModal/>
+            <VidioTutorialModal />
 
             <BodyTutorial
                 header={"Langkah-langkah"}
@@ -91,17 +87,17 @@ function Practice() {
                     <CardSteps
                         heading="Menyiapkan Data Rating"
                         description="Menyiapkan data rating yang akan digunakan untuk perhitungan fungsi similaritas."
-                        icon={<RateReview className="w-8 h-8"/>} // Ikon untuk langkah 1
+                        icon={<RateReview className="w-8 h-8" />} // Ikon untuk langkah 1
                     />
                     <CardSteps
                         heading="Memilih Metode Digunakan"
                         description="Memilih metode yang ingin digunakan, apakah User-Based atau Item-Based."
-                        icon={<Build className="w-8 h-8"/>} // Ikon untuk langkah 2
+                        icon={<Build className="w-8 h-8" />} // Ikon untuk langkah 2
                     />
                     <CardSteps
                         heading="Memilih Fungsi Similaritas"
                         description="Memilih fungsi similaritas yang akan digunakan untuk menghitung kemiripan."
-                        icon={<FilterList className="w-8 h-8"/>} // Ikon untuk langkah 3
+                        icon={<FilterList className="w-8 h-8" />} // Ikon untuk langkah 3
                     />
                 </div>
             </section>
@@ -123,7 +119,7 @@ function Practice() {
             </section>
 
             <section className='max-w-4xl mx-auto text-center py-5'>
-                <NotationCard opsional={selectedMethod.toLowerCase()} data={data}/>
+                <NotationCard opsional={selectedMethod.toLowerCase()} data={data} />
             </section>
 
             <section className="max-w-6xl mx-auto text-center py-5">
@@ -140,9 +136,9 @@ function Practice() {
                                 className="w-10 h-10 font-poppins rounded-full bg-green-500 text-white flex items-center justify-center text-lg">3
                             </div>
                             <h1 className="text-xl sm:text-2xl font-bold font-poppins py-5 sm:py-10 px-3">Pilih Sistem
-                                 Rekomendasi</h1>
+                                Rekomendasi</h1>
                         </div>
-                        <DropdownMethodBased onChange={handleMethodChange}/>
+                        <DropdownMethodBased onChange={handleMethodChange} />
                     </div>
 
                     {/* Second Column */}
@@ -154,7 +150,7 @@ function Practice() {
                             <h1 className="text-xl sm:text-2xl font-bold font-poppins py-5 sm:py-10 px-3">Pilih
                                 Metode Similaritas</h1>
                         </div>
-                        <DropdownSimilarityMeasure onChange={handleSimilarityChange}/>
+                        <DropdownSimilarityMeasure onChange={handleSimilarityChange} />
                     </div>
                 </div>
             </section>
@@ -162,10 +158,10 @@ function Practice() {
 
             <section className='max-w-4xl mx-auto text-center my-10 py-10 '>
                 <button onClick={toggleDescription}
-                        className=" w-70 font-semibold font-poppins bg-card_green_primary border-2 border-black text-center text-white px-6 py-3 rounded-full hover:bg-blue-700 shadow-md">
+                    className=" w-70 font-semibold font-poppins bg-card_green_primary border-2 border-black text-center text-white px-6 py-3 rounded-full hover:bg-blue-700 shadow-md">
                     Cek Hasil Perhitungan Similaritas
-                    {isDescriptionVisible ? <ExpandLessIcon className="ml-2 text-lg"/> :
-                        <ExpandMoreIcon className="ml-2 text-lg"/>}
+                    {isDescriptionVisible ? <ExpandLessIcon className="ml-2 text-lg" /> :
+                        <ExpandMoreIcon className="ml-2 text-lg" />}
                 </button>
                 {isDescriptionVisible && (
                     <section className='max-w-6xl mx-auto text-center my-10 py-10'>
@@ -180,19 +176,19 @@ function Practice() {
                             {/* Mean Rating */}
                             <Chip
                                 label="Mean Rating"
-                                icon={<Star/>}
+                                icon={<Star />}
                                 onClick={() => scrollToSection('mean-rating-section')}
                                 color="success"
                                 variant="outlined"
                                 clickable
                                 className="cursor-pointer w-full sm:w-auto sm:rounded-md rounded-full sm:flex sm:items-center sm:justify-center flex items-center justify-center"
-                                iconOnlyClass="sm:flex"
+                            // iconOnlyClass="sm:flex"
                             />
 
                             {/* Mean-Centered */}
                             <Chip
                                 label="Mean-Centered"
-                                icon={<ShowChart/>}
+                                icon={<ShowChart />}
                                 onClick={() => scrollToSection('mean-cen-section')}
                                 color="primary"
                                 variant="outlined"
@@ -203,7 +199,7 @@ function Practice() {
                             {/* Similaritas */}
                             <Chip
                                 label="Similaritas"
-                                icon={<People/>}
+                                icon={<People />}
                                 onClick={() => scrollToSection('sim-section')}
                                 color="warning"
                                 variant="outlined"
@@ -214,7 +210,7 @@ function Practice() {
                             {/* Prediksi */}
                             <Chip
                                 label="Prediksi"
-                                icon={<Lightbulb/>}
+                                icon={<Lightbulb />}
                                 onClick={() => scrollToSection('pred-section')}
                                 color="success"
                                 variant="outlined"
@@ -225,7 +221,7 @@ function Practice() {
                             {/* Top-N */}
                             <Chip
                                 label="Top-N"
-                                icon={<AssignmentTurnedInIcon/>}
+                                icon={<AssignmentTurnedInIcon />}
                                 onClick={() => scrollToSection('topN-section')}
                                 color="secondary"
                                 variant="outlined"
@@ -234,10 +230,13 @@ function Practice() {
                             />
                         </div>
 
-
-                        <DetailPageBox method={selectedMethod} similarity={selectedSimilarity}
-                                       data={data}/>
-
+                        {/* Display the details */}
+                        <div className="mt-8">
+                            <DetailPageBox
+                                method={selectedMethod}
+                                similarity={selectedSimilarity}
+                                data={data} />
+                        </div>
                     </section>
                 )}
             </section>

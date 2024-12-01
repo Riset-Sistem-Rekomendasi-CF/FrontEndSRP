@@ -1,9 +1,9 @@
 import { getFormulaMeanCenteredIndex, getFormulaMeanCenteredValue } from "../Formula/FormulaMeanCentered";
-import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import SwitchToggle from "../../../Toggle/SwitchToggle";
 import React, { useState } from "react";
 import LegendTable from "../../../tabelData/LegendTable";
 import MathJaxComponent from "../../../../MathJaxComponent";
+import Warm from "../../../Warm/Warm";
 
 const ModalMeanCenteredMeasure = ({ similarity, selectedIndex, selectedValue, dataOnly, result, opsional, close }) => {
 
@@ -56,39 +56,39 @@ const ModalMeanCenteredMeasure = ({ similarity, selectedIndex, selectedValue, da
                         <h2 className='font-semibold text-lg'>Data <i> Rating </i> (R)</h2>
                         <table className="border border-black mt-4 mr-3 w-full">
                             <thead>
-                            <tr className="bg-gray-200">
-                                <th className="border border-black px-4 py-2">U/I</th>
-                                {Array.from({length: dataModify[0].length}, (_, index) => (
-                                    <th key={index}
-                                        className="border border-black px-4 py-2 w-14">{!isNotation ? (index + 1) :
-                                        <span
-                                            className="font-serif">i<sub>{index + 1}</sub></span>}</th>
-                                ))}
-                            </tr>
+                                <tr className="bg-gray-200">
+                                    <th className="border border-black px-4 py-2">U/I</th>
+                                    {Array.from({ length: dataModify[0].length }, (_, index) => (
+                                        <th key={index}
+                                            className="border border-black px-4 py-2 w-14">{!isNotation ? (index + 1) :
+                                                <span
+                                                    className="font-serif">i<sub>{index + 1}</sub></span>}</th>
+                                    ))}
+                                </tr>
                             </thead>
                             <tbody>
-                            {dataModify.map((row, rowIndex) => (
-                                <tr key={rowIndex + "data-body"}>
-                                    <td className="border border-black px-4 py-2 w-14 bg-gray-200">{!isNotation ? (rowIndex + 1) :
-                                        <span
-                                            className="font-serif">u<sub>{rowIndex + 1}</sub></span>}</td>
-                                    {row.map((value, colIndex) => {
-                                        const isSelected = (opsional === "item-based" ? (selectedIndex[1] === colIndex && selectedIndex[0] === rowIndex) : (selectedIndex[0] === rowIndex && selectedIndex[1] === colIndex));
-                                        const cellClass = value === 0
-                                            ? 'border border-black px-4 py-2 text-center w-14 bg-red-200'
-                                            : 'border border-black px-4 py-2 text-center w-14';
-                                        return (
-                                            <td key={rowIndex + '-' + colIndex}
-                                                className={`${cellClass} ${isSelected ? 'bg-card_green_primary' : ''}`}
-                                                title={isNotation ? (value.toFixed ? value.toFixed(0) : value) : `r${colIndex + 1}${rowIndex + 1}`}>
-                                                {!isNotation ? (value.toFixed ? value.toFixed(0) : value) :
-                                                    <span
-                                                        className="font-serif">r<sub>{colIndex + 1}{rowIndex + 1}</sub></span>}
-                                            </td>
-                                        );
-                                    })}
-                                </tr>
-                            ))}
+                                {dataModify.map((row, rowIndex) => (
+                                    <tr key={rowIndex + "data-body"}>
+                                        <td className="border border-black px-4 py-2 w-14 bg-gray-200">{!isNotation ? (rowIndex + 1) :
+                                            <span
+                                                className="font-serif">u<sub>{rowIndex + 1}</sub></span>}</td>
+                                        {row.map((value, colIndex) => {
+                                            const isSelected = (opsional === "item-based" ? (selectedIndex[1] === colIndex && selectedIndex[0] === rowIndex) : (selectedIndex[0] === rowIndex && selectedIndex[1] === colIndex));
+                                            const cellClass = value === 0
+                                                ? 'border border-black px-4 py-2 text-center w-14 bg-red-200'
+                                                : 'border border-black px-4 py-2 text-center w-14';
+                                            return (
+                                                <td key={rowIndex + '-' + colIndex}
+                                                    className={`${cellClass} ${isSelected ? 'bg-card_green_primary' : ''}`}
+                                                    title={isNotation ? (value.toFixed ? value.toFixed(0) : value) : `r${colIndex + 1}${rowIndex + 1}`}>
+                                                    {!isNotation ? (value.toFixed ? value.toFixed(0) : value) :
+                                                        <span
+                                                            className="font-serif">r<sub>{colIndex + 1}{rowIndex + 1}</sub></span>}
+                                                </td>
+                                            );
+                                        })}
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
                     </div>
@@ -97,26 +97,26 @@ const ModalMeanCenteredMeasure = ({ similarity, selectedIndex, selectedValue, da
                         <h2 className='font-semibold text-lg'>Hasil Mean <i> Rating </i> (μ)</h2>
                         <table className="border border-black mt-4 ml-3 w-full sm:w-auto">
                             <thead>
-                            <tr className="bg-gray-200">
-                                <th className="border border-black px-4 py-2 w-10">{opsional === "user-based" ? "U" : "I"}</th>
-                                <th className="border border-black italic px-4 py-2 w-14 font-serif">μ</th>
-                            </tr>
+                                <tr className="bg-gray-200">
+                                    <th className="border border-black px-4 py-2 w-10">{opsional === "user-based" ? "U" : "I"}</th>
+                                    <th className="border border-black italic px-4 py-2 w-14 font-serif">μ</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            {result['mean-list'].map((mean, index) => (
-                                <tr key={index + "mean-body"}>
-                                    <td className="border border-black px-4 py-2 w-14">{index + 1}</td>
-                                    <td className={`border border-black px-4 py-2 w-20 text-center
+                                {result['mean-list'].map((mean, index) => (
+                                    <tr key={index + "mean-body"}>
+                                        <td className="border border-black px-4 py-2 w-14">{index + 1}</td>
+                                        <td className={`border border-black px-4 py-2 w-20 text-center
                                      ${selectedIndex[opsional === "user-based" ? 0 : 1] === index ? 'bg-yellow-200' : ''}`}>
-                                    <span className='text-center'
-                                          title={isNotation ? (mean.toFixed ? mean.toFixed(0) : mean) : `µ${index + 1}`}>
-                                        {!isNotation ? (mean.toFixed ? mean.toFixed(2) : mean) :
-                                            <span
-                                                className="font-serif">μ<sub>{index + 1}</sub></span>}
-                                    </span>
-                                    </td>
-                                </tr>
-                            ))}
+                                            <span className='text-center'
+                                                title={isNotation ? (mean.toFixed ? mean.toFixed(0) : mean) : `µ${index + 1}`}>
+                                                {!isNotation ? (mean.toFixed ? mean.toFixed(2) : mean) :
+                                                    <span
+                                                        className="font-serif">μ<sub>{index + 1}</sub></span>}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
                     </div>
@@ -129,7 +129,7 @@ const ModalMeanCenteredMeasure = ({ similarity, selectedIndex, selectedValue, da
                                 color: "bg-card_green_primary",
                                 description: <>
                                     Menandakan Data <span
-                                    className="font-serif ml-1 mr-1">Mean</span>
+                                        className="font-serif ml-1 mr-1">Mean</span>
                                     <i className='mx-1'> Rating </i> yang akan
                                     dihitung
                                 </>
@@ -138,7 +138,7 @@ const ModalMeanCenteredMeasure = ({ similarity, selectedIndex, selectedValue, da
                                 color: "bg-yellow-200",
                                 description: <>
                                     Menandakan Data <span
-                                    className="font-serif mx-1">Mean</span>
+                                        className="font-serif mx-1">Mean</span>
                                     yang akan
                                     dihitung
                                 </>,
@@ -154,15 +154,12 @@ const ModalMeanCenteredMeasure = ({ similarity, selectedIndex, selectedValue, da
                 </div>
 
                 {currentValue === 0 ? (
-                    <div className="flex items-center justify-center my-4">
-                        <WarningAmberIcon className="text-yellow-500 mr-2"/>
-                        <h2 className="text-md font-semibold text-center">
-                            Catatan jika ada <span
+                    <Warm>
+                        Catatan jika ada <span
                             className='text-red-600'>data  <i> rating </i> adalah 0 </span> akan
-                            menghasilkan <span className='text-red-600'>nilai 0</span> atau
-                            diabaikan.
-                        </h2>
-                    </div>
+                        menghasilkan <span className='text-red-600'>nilai 0</span> atau
+                        diabaikan.
+                    </Warm>
                 ) : ""}
 
                 {currentValue !== 0 && (
@@ -191,7 +188,7 @@ const ModalMeanCenteredMeasure = ({ similarity, selectedIndex, selectedValue, da
                 <p className="text-xl font-bold text-gray-700 mt-5 sm:text-md md:text-lg lg:text-xl xl:text-2xl">
                     Hasil dari <span className='italic'>Mean-Centered</span> adalah dari
                     <span className='italic'> {opsional.split("-")[0]}{" "}
-                        </span> {selectedIndex[0] + 1} dan
+                    </span> {selectedIndex[0] + 1} dan
                     <span
                         className='italic'> item {selectedIndex[1] + 1}</span> = {selectedValue.toFixed(2)}
                 </p>

@@ -49,5 +49,5 @@ export const getFormulaMeanCenteredValue = (rowIndex, colIndex, data, result, op
 
     const selectedMeanValue = rowIndex !== null ? result['mean-list'][opsional === "user-based" ? rowIndex : colIndex] : null
 
-    return `\\[ S_{${rowIndex + 1}${colIndex + 1}} = ${selectedValue} - ${selectedMeanValue} \\]`
+    return `\\[ S_{${rowIndex + 1}${colIndex + 1}} = ${selectedValue} - ${selectedMeanValue.toFixed(2)} \\]`
 }

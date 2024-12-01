@@ -2,7 +2,7 @@ import mathjaxConfig from "../../../../mathjax-config";
 import ModalPredictionMeasure from "./ModalPredictionMeasure";
 import { getFormulaPrediction } from "../Formula/FormulaPrediction";
 import { FunctionMeasureDropdown } from "../../DropdownFunction/FunctionMeasureDropdown";
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import { AllSimilaritas, getInitialData } from "../../../../api/getDataSet";
 import { MathJax, MathJaxContext } from "better-react-mathjax";
 import { transposeMatrix } from "../../../../helper/helper";
@@ -11,8 +11,9 @@ import InfoIcon from "@mui/icons-material/Info";
 import PrediksiGif from "../../../../assets/vidioAsset/prediksiGIf.gif";
 
 export function PredictionMeasure({ dataRating, opsional, similarity }) {
-  const initialData = getInitialData(dataRating, opsional);
+  const [kValue, setKValue] = useState(2);
 
+  const initialData = getInitialData(dataRating, opsional, kValue !== "" ? kValue : 2);
   const [data] = useState(initialData);
 
   const [dataOnly] = useState(initialData.data);
@@ -31,20 +32,19 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
   const [showModalTutorial, setShowModalTutorial] = useState(false); // State untuk menampilkan
   // modal
 
-  const [kValue, setKValue] = useState(2);
 
   const [selectedIndex, setSelectedIndex] = useState([]);
 
   const [topSimilarities, setTopSimilarities] = useState([]);
 
   const [selectedUserTopN, setSelectedUserTopN] = useState(null);
-
   // Fungsi untuk mendapatkan prediksi terbesar dan item terkait
   const getTopPredictions = (userIndex, result) => {
     // Cek apakah result dan top-n tersedia
     if (!result || !result["top-n"]) {
       return null;
     }
+
 
     // Ambil prediksi untuk user yang dipilih berdasarkan userIndex
     const predictions = result["top-n"][userIndex]; // Mengakses berdasarkan userIndex
@@ -111,12 +111,7 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
   // Fungsi untuk toggle teks
   const toggleText = () => setIsExpanded(!isExpanded);
 
-  const RenderTabelPrediksi = ({ k }) => {
-
-    const initialData = getInitialData(dataRating, opsional, k !== "" ? k : 2);
-    const [data] = useState(initialData);
-    const { result } = AllSimilaritas(data, similarity);
-
+  const RenderTabelPrediksi = memo(({ result }) => {
 
     const [dataOnly] = useState(initialData.data);
     if (!result || !result["prediction"]) return null;
@@ -175,6 +170,7 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
             selectedIndex[1] !== null &&
             selectedIndex[0] !== null && (
               <ModalPredictionMeasure
+                kValue={kValue}
                 opsional={opsional}
                 similarity={similarity}
                 topSimilarities={topSimilarities}
@@ -292,7 +288,7 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
         </div>
       </>
     )
-  };
+  });
 
 
   return (
@@ -417,15 +413,15 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
         </div>
 
         <div className="my-4 flex gap-3 justify-center items-center">
-          <label for="k" className="mb-3 font-bold">Tentukan nilai TopN :</label>
+          <label htmlFor="k" className="mb-3 font-bold">Tentukan nilai TopN :</label>
           <input className="w-[20%] h-5" name="k" onChange={e => setKValue(e.target.value)} placeholder={kValue} />
+
         </div>
         {/*    call api */}
 
         {kValue !== null && (
-          <RenderTabelPrediksi k={kValue} />
-        )
-        }
+          <RenderTabelPrediksi result={result} />
+        )}
         {/* Modal pop-up */}
         {showModalTutorial && (
           <div

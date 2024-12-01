@@ -1,14 +1,20 @@
 import React, { useState } from "react";
-import {getInitialData} from "../../api/getDataSet";
+import { checkEmptyRowOrColumn } from "../../helper/helper";
 
-function InputList({ children, change, disabled, onDeleteAttempt, isLastInRow, isLastInColumn }) {
+function InputList({ children, rowIndex, colIndex, change, disabled, onDeleteAttempt, data }) {
     const handleInputChange = (e) => {
         const value = e.target.value;
+        let dataOnly = data
+        dataOnly[colIndex][rowIndex] = value
+
 
         // If it's the last value in a row or column, prevent deletion (only allow changing the value)
-        if ((isLastInRow || isLastInColumn) && value === "") {
-            onDeleteAttempt(); // Trigger alert to prevent deletion
+        if (checkEmptyRowOrColumn(data) && checkEmptyRowOrColumn(dataOnly)) {
+            onDeleteAttempt("Mohon perbaiki data"); // Trigger alert to prevent deletion
         } else if (/^\d*\.?\d*$/.test(value) && (value === "" || Number(value) <= 5)) {
+            if (checkEmptyRowOrColumn(dataOnly)) {
+                onDeleteAttempt(); // Trigger alert to prevent deletion
+            }
             change(e); // Allow value change
         }
     };
@@ -25,37 +31,10 @@ function InputList({ children, change, disabled, onDeleteAttempt, isLastInRow, i
     );
 }
 
-export default function TableMatrix({ Data, onDataChange, onDescriptionChange, opsional }) {
+export default function TableMatrix({ Data, onDataChange, onDescriptionChange }) {
     const [data, setData] = useState(Data);
-    const initialData = getInitialData(data, opsional);
-    const [dataOnly] = useState(initialData.data);
     const [showAlert, setShowAlert] = useState(false); // State to manage modal visibility
     const [alertMessage, setAlertMessage] = useState("");
-
-    const user = dataOnly.length; // Number of items (rows)
-    const item = dataOnly.length > 0 ? dataOnly[0].length : 0; // Number of users (columns)
-
-    // Function to check if there are empty values in any row or column
-    const checkEmptyRowOrColumn = (data) => {
-        // Check for any empty row
-        for (let i = 0; i < data.length; i++) {
-            if (data[i].every(value => value === 0 || value === "")) {
-                return true; // There is an empty row
-            }
-        }
-        // Check for any empty column
-        for (let j = 0; j < item; j++) {
-            let isColumnEmpty = true;
-            for (let i = 0; i < user; i++) {
-                if (data[i][j] !== 0 && data[i][j] !== "") {
-                    isColumnEmpty = false;
-                    break;
-                }
-            }
-            if (isColumnEmpty) return true; // There is an empty column
-        }
-        return false;
-    };
 
     const changeData = (i, j, value) => {
         let currentData = [...data];
@@ -75,23 +54,14 @@ export default function TableMatrix({ Data, onDataChange, onDescriptionChange, o
         }
     };
 
-    const handleDeleteAttempt = () => {
-        setAlertMessage("Anda tidak dapat menghapus nilai terakhir dalam baris atau kolom.");
+    const handleDeleteAttempt = (msg = "Anda tidak dapat menghapus nilai terakhir dalam baris atau kolom.") => {
+        setAlertMessage(msg);
         setShowAlert(true); // Show alert when the user tries to delete a valid value
     };
 
     const closeAlert = () => {
         setShowAlert(false);
         setAlertMessage("");
-    };
-
-    const handleSubmit = () => {
-        if (checkEmptyRowOrColumn(data)) {
-            setShowAlert(true); // Show the alert modal if there are empty rows or columns
-            setAlertMessage("Tidak boleh ada kolom atau baris yang kosong!");
-        } else {
-            console.log("Data is valid. Proceeding with submission.");
-        }
     };
 
     return (
@@ -103,34 +73,35 @@ export default function TableMatrix({ Data, onDataChange, onDescriptionChange, o
                 <div className="overflow-x-auto w-full"> {/* Pastikan tabel bisa digulir secara horizontal */}
                     <table className="min-w-full border-collapse border border-black">
                         <thead>
-                        <tr>
-                            <th className="border border-black px-4 py-2 text-center bg-card_green_primary">U/I</th>
-                            {Data[0].map((_, index) => (
-                                <th key={index}
-                                    className="border border-black px-4 py-2 bg-yellow-btn-primary text-sm sm:text-base">
-                                    {index + 1}
-                                </th>
-                            ))}
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {Data.map((value, i) => (
-                            <tr key={i}>
-                                <td className="border border-black px-4 py-2 text-center bg-blue-200 text-sm sm:text-base">{i + 1}</td>
-                                {value.map((value1, j) => (
-                                    <td key={j} className="border border-black text-center text-black bg-transparent">
-                                        <InputList
-                                            change={e => changeData(i, j, Number(e.target.value))}
-                                            onDeleteAttempt={handleDeleteAttempt} // Pass the delete attempt handler
-                                            isLastInRow={j === value.length - 1} // Check if it's the last value in the row
-                                            isLastInColumn={i === data.length - 1} // Check if it's the last value in the column
-                                        >
-                                            {value1 === 0 ? "?" : value1}
-                                        </InputList>
-                                    </td>
+                            <tr>
+                                <th className="border border-black px-4 py-2 text-center bg-card_green_primary">U/I</th>
+                                {Data[0].map((_, index) => (
+                                    <th key={index}
+                                        className="border border-black px-4 py-2 bg-yellow-btn-primary text-sm sm:text-base">
+                                        {index + 1}
+                                    </th>
                                 ))}
                             </tr>
-                        ))}
+                        </thead>
+                        <tbody>
+                            {Data.map((value, i) => (
+                                <tr key={i}>
+                                    <td className="border border-black px-4 py-2 text-center bg-blue-200 text-sm sm:text-base">{i + 1}</td>
+                                    {value.map((value1, j) => (
+                                        <td key={j} className="border border-black text-center text-black bg-transparent">
+                                            <InputList
+                                                change={e => changeData(i, j, Number(e.target.value))}
+                                                onDeleteAttempt={handleDeleteAttempt} // Pass the delete attempt handler
+                                                data={data}
+                                                rowIndex={j}
+                                                colIndex={i}
+                                            >
+                                                {value1 === 0 ? "?" : value1}
+                                            </InputList>
+                                        </td>
+                                    ))}
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>

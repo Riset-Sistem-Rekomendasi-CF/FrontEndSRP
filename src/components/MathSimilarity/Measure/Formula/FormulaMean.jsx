@@ -11,7 +11,7 @@ export const getFormulaMean = (opsional) => {
             }
         case "item-based":
             return {
-                formula: `\\[ \\mu_{i} = \\frac{\\sum_{I\\in U_{i}} r_{ui}}{\\left|U_{i}\\right|}  \\ \\ \\   \\forall u\\in\\left\\{1...m\\right\\} \\]`,
+                formula: `\\[ \\mu_{i} = \\frac{\\sum_{u\\in U_{i}} r_{ui}}{\\left|U_{i}\\right|}  \\ \\ \\   \\forall u\\in\\left\\{1...m\\right\\} \\]`,
                 formula_detail: [
                     `\\[ \\mu_{i} = \\text{Mean } \\textit{rating } \\text{ }  \\textit{item} \\ i \\] `,
                     `\\[ U_{i} = \\text{Himpunan } \\textit{user} \\text{ yang telah memberikan} \\textit{rating } \\text{pada} \\textit{item} \\ i \\] `,
@@ -34,7 +34,7 @@ export const getFormulaMeanIndex = (opsional, data) => {
 
         case "item-based":
             return data.map((_, index) => {
-                return `\\[ \\mu_{${index + 1}} = \\frac{\\sum_{i\\in I_{${index + 1}}} r_{${index + 1}i}}{\\left|U_{${index + 1}}\\right|}   \\forall ${index + 1}\\in\\left\\{1...${data.length}\\right\\} \\]`;
+                return `\\[ \\mu_{${index + 1}} = \\frac{\\sum_{i\\in U_{${index + 1}}} r_{${index + 1}i}}{\\left|U_{${index + 1}}\\right|}   \\forall ${index + 1}\\in\\left\\{1...${data.length}\\right\\} \\]`;
             })
         default:
             return

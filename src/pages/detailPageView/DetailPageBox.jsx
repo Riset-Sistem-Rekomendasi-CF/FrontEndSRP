@@ -10,11 +10,15 @@ import MeanCenteredMeasure from '../../components/MathSimilarity/Measure/MeanCen
 import SimilarityMeasure from '../../components/MathSimilarity/Measure/SimilarityMeasure';
 import PredictionMeasure from '../../components/MathSimilarity/Measure/Prediction/PredictionMeasure';
 import BackToTopButton from "../../components/Navigate/BackToTopNavigate";
+import { checkEmptyRowOrColumn } from '../../helper/helper';
 
 
 
 export default function DetailPageBox({ method, similarity, data }) {
     const renderContent = () => {
+        console.log("detailPage", data);
+        console.log("detailPage", data.length === 0);
+
         if (!method) {
             return <p>Pilih Fungsi Similaritas untuk {method}.</p>;
         } else if (!similarity) {
@@ -26,6 +30,9 @@ export default function DetailPageBox({ method, similarity, data }) {
             );
         } else if (data.length === 0) {
             return <p>Silakan isi data terlebih dahulu.</p>;
+        }
+        else if (checkEmptyRowOrColumn(data)) {
+            return <p>Data tidak valid silakan generate lagi. Terdapat baris atau kolom yang tidak terisi</p>;
         }
 
         const initialData = getInitialData(data, method.toLowerCase());
