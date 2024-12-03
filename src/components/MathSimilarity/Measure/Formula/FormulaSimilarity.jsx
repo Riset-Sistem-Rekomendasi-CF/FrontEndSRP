@@ -4,7 +4,7 @@ export const getFormulaSimilarity = (similarity, opsional) => {
       switch (opsional) {
         case "user-based":
           return {
-            formula: `\\[ PCC(u,v) = \\frac{\\sum_{i\\in I_{u} \\cap I_{v}} S_{ui} S_{vi}}{\\sqrt{\\sum_{i\\in I_{u} \\cap I_{i}} S_{ui}^{2}}\\sqrt{\\sum_{i\\in I_{v} \\cap I_{i}} S_{vi}^{2}}} \\]`,
+            formula: `\\[ PCC_{${opsional.split("-")[0]}}(u,v) = \\frac{\\sum_{i\\in I_{u} \\cap I_{v}} S_{ui} S_{vi}}{\\sqrt{\\sum_{i\\in I_{u} \\cap I_{i}} S_{ui}^{2}}\\sqrt{\\sum_{i\\in I_{v} \\cap I_{i}} S_{vi}^{2}}} \\]`,
             detail_formula: [
               `\\[ I_{u} = \\text{Himpunan } \\textit{item} \\text{ yang telah diberi } \\textit{ rating } \\text{oleh } \\textit{user} \\ u \\]`,
               `\\[ S_{ui} = \\text{Nilai mean-centered dari } \\textit{ rating } \\textit{item} \\ i \\text{ yang telah dinilai oleh } \\textit{user} \\ u \\]`,
@@ -12,7 +12,7 @@ export const getFormulaSimilarity = (similarity, opsional) => {
           };
         case "item-based":
           return {
-            formula: `\\[ PCC(i,j) = \\frac{\\sum_{u\\in U_{i} \\cap U_{j}} S_{ui} S_{uj}}{\\sqrt{\\sum_{u\\in U_{i} \\cap U_{j}} S^{2}_{ui}}\\sqrt{\\sum_{u\\in U_{i} \\cap U_{j}} S^{2}_{uj}}} \\]`,
+            formula: `\\[ PCC_{${opsional.split("-")[0]}}(i,j) = \\frac{\\sum_{u\\in U_{i} \\cap U_{j}} S_{ui} S_{uj}}{\\sqrt{\\sum_{u\\in U_{i} \\cap U_{j}} S^{2}_{ui}}\\sqrt{\\sum_{u\\in U_{i} \\cap U_{j}} S^{2}_{uj}}} \\]`,
             detail_formula: [
               `\\[ U_{ij} = \\text{Kumpulan } \\textit{user} \\text{ yang telah merating pada } \\textit{item} \\text{ yang sama oleh } \\textit{user} \\ u \\text{ dan } \\textit{user} \\ v \\]`,
               `\\[ S_{ui} = \\text{Nilai mean-centered dari } \\textit{ rating } \\textit{item} \\ i \\text{ yang telah dinilai oleh } \\textit{user} \\ u \\]`,
@@ -26,7 +26,7 @@ export const getFormulaSimilarity = (similarity, opsional) => {
       switch (opsional) {
         case "user-based":
           return {
-            formula: `\\[ Cosine\\left(u,v\\right) = \\frac{\\sum_{i\\in I_{u} \\cap I_{v}}r_{ui}r_{vi}}{\\sqrt{\\sum_{u\\in I_{u}}r^{2}_{ui}}\\sqrt{\\sum_{u\\in I_{v}}r^{2}_{vi}}} \\]`,
+            formula: `\\[ Cosine_{${opsional.split("-")[0]}}\\left(u,v\\right) = \\frac{\\sum_{i\\in I_{u} \\cap I_{v}}r_{ui}r_{vi}}{\\sqrt{\\sum_{u\\in I_{u}}r^{2}_{ui}}\\sqrt{\\sum_{u\\in I_{v}}r^{2}_{vi}}} \\]`,
             detail_formula: [
               `\\[ I_{u} = \\text{Himpunan } \\textit{item} \\text{ yang telah diberi } \\textit{rating } \\text{oleh } \\textit{user} \\ u \\]`,
               `\\[ r_{ui} = \\textit{Rating } \\textit{user } \\ u \\text{ terhadap } \\textit{item} \\ i \\]`,
@@ -34,7 +34,7 @@ export const getFormulaSimilarity = (similarity, opsional) => {
           };
         case "item-based":
           return {
-            formula: `\\[  Cosine\\left(i,j\\right) = \\frac{\\sum_{u\\in U_{ij}}r_{ui}r_{uj}}{\\sqrt{\\sum_{u\\in U_{i}}r^{2}_{ui}}\\sqrt{\\sum_{u\\in U_{j}}r^{2}_{uj}}} \\]`,
+            formula: `\\[  Cosine_{${opsional.split("-")[0]}}\\left(i,j\\right) = \\frac{\\sum_{u\\in U_{ij}}r_{ui}r_{uj}}{\\sqrt{\\sum_{u\\in U_{i}}r^{2}_{ui}}\\sqrt{\\sum_{u\\in U_{j}}r^{2}_{uj}}} \\]`,
             detail_formula: [
               `\\[ U_{i} = \\text{Himpunan } \\textit{user } \\text{ yang telah memberi } \\textit{ rating } \\textit{item} \\ i \\]`,
               `\\[ r_{ui} = \\text{Nilai } \\textit{rating } \\text{pada}  \\textit{user } \\ u \\text{ pada } \\textit{item} \\ i \\]`,
@@ -47,7 +47,7 @@ export const getFormulaSimilarity = (similarity, opsional) => {
       switch (opsional) {
         case "user-based":
           return {
-            formula: `\\[ ACosine(u,v) = \\frac{\\sum_{i\\in I_{u} \\cap I_{v}} S_{ui} S_{vi}}{\\sqrt{\\sum_{u \\in I_{u} \\cap I_{v}} S_{ui}^{2}}\\sqrt{\\sum_{i \\in I_{u} \\cap I_{v}} S_{vi}^{2}}} \\]`,
+            formula: `\\[ ACosine_{${opsional.split("-")[0]}}(u,v) = \\frac{\\sum_{i\\in I_{u} \\cap I_{v}} S_{ui} S_{vi}}{\\sqrt{\\sum_{u \\in I_{u} \\cap I_{v}} S_{ui}^{2}}\\sqrt{\\sum_{i \\in I_{u} \\cap I_{v}} S_{vi}^{2}}} \\]`,
             detail_formula: [
               `\\[ S_{ui} = \\text{Nilai mean-centered dari } \\textit{user } \\ u \\text{ pada } \\textit{item } \\ i \\]`,
               `\\[ I_{u} = \\text{Himpunan } \\textit{item } \\text{ yang telah diberi } \\textit{ rating } \\text{oleh} \\textit{ user } \\ u \\]`,
@@ -55,7 +55,7 @@ export const getFormulaSimilarity = (similarity, opsional) => {
           };
         case "item-based":
           return {
-            formula: `\\[ ACosine(i,j) = \\frac{\\sum_{u\\in U_{i} \\cap U_{j}} S_{ui} S_{uj}}{\\sqrt{\\sum_{u \\in U_{i} \\cap U_{j}} S_{ui}^{2}}\\sqrt{\\sum_{i \\in U_{i} \\cap U_{j}} S_{uj}^{2}}} \\]`,
+            formula: `\\[ ACosine_{${opsional.split("-")[0]}}(i,j) = \\frac{\\sum_{u\\in U_{i} \\cap U_{j}} S_{ui} S_{uj}}{\\sqrt{\\sum_{u \\in U_{i} \\cap U_{j}} S_{ui}^{2}}\\sqrt{\\sum_{i \\in U_{i} \\cap U_{j}} S_{uj}^{2}}} \\]`,
             detail_formula: [
               `\\[ S_{ui} = \\text{Nilai mean-centered dari } \\textit{user } \\ u \\text{ pada } \\textit{ item } \\ i \\]`,
               `\\[ U_{i} = \\text{Himpunan } \\textit{ user } \\text{ yang memberi } \\textit{rating } \\textit{ item } \\ i \\]`,
@@ -69,7 +69,7 @@ export const getFormulaSimilarity = (similarity, opsional) => {
       switch (opsional) {
         case "user-based":
           return {
-            formula: `\\[  BC(u,v) = \\sum_a \\sqrt{P\\left(r_{u*}=a\\right)\\times P\\left(r_{v*}=a\\right)} \\]`,
+            formula: `\\[  BC_{${opsional.split("-")[0]}}(u,v) = \\sum_a \\sqrt{P\\left(r_{u*}=a\\right)\\times P\\left(r_{v*}=a\\right)} \\]`,
             detail_formula: [
               `\\[ a = \\text{mewakili semua nilai dalam distribusi atau seluruh nilai } \\textit{rating } \\]`,
               `\\[ P = \\text{Menghitung probabilitas} \\]`,
@@ -78,7 +78,7 @@ export const getFormulaSimilarity = (similarity, opsional) => {
           };
         case "item-based":
           return {
-            formula: `\\[ BC(i,j) = \\sum_a \\sqrt{P\\left(r_{*i}=a\\right)\\times P\\left(r_{*j}=a\\right)}  \\]`,
+            formula: `\\[ BC_{${opsional.split("-")[0]}}(i,j) = \\sum_a \\sqrt{P\\left(r_{*i}=a\\right)\\times P\\left(r_{*j}=a\\right)}  \\]`,
             detail_formula: [
               `\\[ a = \\text{mewakili semua nilai dalam distribusi atau seluruh nilai } \\textit{rating } \\]`,
               `\\[ P = \\text{Menghitung probabilitas} \\]`,
@@ -155,7 +155,7 @@ export const FormulaSimilarityIndex = (
             `\\sqrt{P\\left(r_{${opsional === "user-based" ? `${rowIndex + 1}*` : `*${rowIndex + 1}`} }= ${rating}\\right)\\times P\\left(r_{${opsional === "user-based" ? `${colIndex + 1}*` : `*${colIndex + 1}`}}= ${rating}\\right)}`
         ).join(" + ");
 
-      return `\\[  BC(${rowIndex + 1},${colIndex + 1}) =  ${sumTerms} \\]`;
+      return `\\[  BC_{${opsional.split("-")[0]}}(${rowIndex + 1},${colIndex + 1}) =  ${sumTerms} \\]`;
     default:
       return;
   }
@@ -199,7 +199,7 @@ export const FormulaSimilarityNonZero = (
 
         case "item-based":
           return {
-            FormulaWithValue: `\\[ \\text{Karena } U_{${rowIndex + 1}} = \\left\\{ ${nonZeroIndexesCol1.join(", ")} \\right\\} \\text{ dan } U_{${colIndex + 1}} = \\left\\{ ${nonZeroIndexesCol2.join(", ")} \\right\\} \\text{ maka }U_{${rowIndex + 1}} \\cap U_{${colIndex + 1}} = \\left\\{ ${intersection.length !== 0 ? intersection !== 0 ? intersection.join(", ") : `\\text{Tidak ada selisih}` : `0`} \\right\\}\\]`,
+            FormulaWithValue: `\\[ \\text{Karena } U_{${rowIndex + 1}} = \\left\\{ ${nonZeroIndexesCol1.join(", ")} \\right\\} \\text{ dan } U_{${colIndex + 1}} = \\left\\{ ${nonZeroIndexesCol2.join(", ")} \\right\\} \\text{ maka }U_{${rowIndex + 1}} \\cap U_{${colIndex + 1}} = \\left\\{ ${intersection.length !== 0 ? intersection.join(", ") : `\\text{Tidak ada selisih}`} \\right\\}\\]`,
             FormulaWithoutValue: `\\[ \\text{Karena } U_{${rowIndex + 1}} = \\left\\{ ${nonZeroIndexesCol1.map((val) => `u_{${val}}`)} \\right\\} \\text{ dan } U_{${colIndex + 1}} = \\left\\{ ${nonZeroIndexesCol2.map((val) => `u_{${val}}`)} \\right\\} \\text{ maka }U_{${rowIndex + 1}} \\cap U_{${colIndex + 1}} = \\left\\{ ${intersection !== 0 ? intersection.map((val) => `u_{${val}}`) : `\\text{Tidak ada selisih}`} \\right\\}\\]`,
           };
         default:
@@ -209,13 +209,13 @@ export const FormulaSimilarityNonZero = (
       switch (opsional) {
         case "user-based":
           return {
-            FormulaWithValue: `\\[ \\text{Karena } I_{${rowIndex + 1}} = \\left\\{ ${nonZeroIndexesCol1.join(", ")} \\right\\} \\text{ dan } I_{${colIndex + 1}} = \\left\\{ ${nonZeroIndexesCol2.join(", ")} \\right\\} \\text{ maka }I_{${rowIndex + 1}} \\cap I_{${colIndex + 1}} = \\left\\{ ${intersection !== 0 ? intersection.join(", ") : `\\text{Tidakselisih}`} \\right\\}\\]`,
-            FormulaWithoutValue: `\\[ \\text{Karena } I_{${rowIndex + 1}} = \\left\\{ ${nonZeroIndexesCol1.map((val) => `i_{${val}}`)} \\right\\} \\text{ dan } I_{${colIndex + 1}} = \\left\\{ ${nonZeroIndexesCol2.map((val) => `i_{${val}}`)} \\right\\} \\text{ maka }I_{${rowIndex + 1}} \\cap I_{${colIndex + 1}} = \\left\\{ ${intersection !== 0 ? intersection.map((val) => `i_{${val}}`) : `\\text{Tidak ada selisih}`} \\right\\}\\]`,
+            FormulaWithValue: `\\[ \\text{Karena } I_{${rowIndex + 1}} = \\left\\{ ${nonZeroIndexesCol1.join(", ")} \\right\\} \\text{ dan } I_{${colIndex + 1}} = \\left\\{ ${nonZeroIndexesCol2.join(", ")} \\right\\} \\text{ maka }I_{${rowIndex + 1}} \\cap I_{${colIndex + 1}} = \\left\\{ ${intersection.length !== 0 ? intersection.join(", ") : `\\text{Tidak ada selisih}`} \\right\\}\\]`,
+            FormulaWithoutValue: `\\[ \\text{Karena } I_{${rowIndex + 1}} = \\left\\{ ${nonZeroIndexesCol1.map((val) => `i_{${val}}`)} \\right\\} \\text{ dan } I_{${colIndex + 1}} = \\left\\{ ${nonZeroIndexesCol2.map((val) => `i_{${val}}`)} \\right\\} \\text{ maka }I_{${rowIndex + 1}} \\cap I_{${colIndex + 1}} = \\left\\{ ${intersection.length !== 0 ? intersection.map((val) => `i_{${val}}`) : `\\text{Tidak ada selisih}`} \\right\\}\\]`,
           };
         case "item-based":
           return {
-            FormulaWithValue: `\\[ \\text{Karena } U_{${rowIndex + 1}} = \\left\\{ ${nonZeroIndexesCol1.join(", ")} \\right\\} \\text{ dan } U_{${colIndex + 1}} = \\left\\{ ${nonZeroIndexesCol2.join(", ")} \\right\\} \\text{ maka }U_{${rowIndex + 1}} \\cap U_{${colIndex + 1}} = \\left\\{ ${intersection !== 0 ? intersection.join(", ") : `\\text{Tidakselisih}`} \\right\\}\\]`,
-            FormulaWithoutValue: `\\[ \\text{Karena } U_{${rowIndex + 1}} = \\left\\{ ${nonZeroIndexesCol1.map((val) => `u_{${val}}`)} \\right\\} \\text{ dan } U_{${colIndex + 1}} = \\left\\{ ${nonZeroIndexesCol2.map((val) => `u_{${val}}`)} \\right\\} \\text{ maka }U_{${rowIndex + 1}} \\cap U_{${colIndex + 1}} = \\left\\{ ${intersection !== 0 ? intersection.map((val) => `u_{${val}}`) : `\\text{Tidak ada selisih}`} \\right\\}\\]`,
+            FormulaWithValue: `\\[ \\text{Karena } U_{${rowIndex + 1}} = \\left\\{ ${nonZeroIndexesCol1.join(", ")} \\right\\} \\text{ dan } U_{${colIndex + 1}} = \\left\\{ ${nonZeroIndexesCol2.join(", ")} \\right\\} \\text{ maka }U_{${rowIndex + 1}} \\cap U_{${colIndex + 1}} = \\left\\{ ${intersection.length !== 0 ? intersection.join(", ") : `\\text{Tidak ada selisih}`} \\right\\}\\]`,
+            FormulaWithoutValue: `\\[ \\text{Karena } U_{${rowIndex + 1}} = \\left\\{ ${nonZeroIndexesCol1.map((val) => `u_{${val}}`)} \\right\\} \\text{ dan } U_{${colIndex + 1}} = \\left\\{ ${nonZeroIndexesCol2.map((val) => `u_{${val}}`)} \\right\\} \\text{ maka }U_{${rowIndex + 1}} \\cap U_{${colIndex + 1}} = \\left\\{ ${intersection.length !== 0 ? intersection.map((val) => `u_{${val}}`) : `\\text{Tidak ada selisih}`} \\right\\}\\]`,
           };
         default:
           return;
@@ -234,7 +234,9 @@ export const FormulaSimilarityValue = (
   selectedMean,
   similarity,
   opsional,
-  isNotation
+  isNotation,
+  denominator,
+  numerator
 ) => {
   switch (similarity) {
     case "Pearson Correlation Coefficient":
@@ -244,7 +246,8 @@ export const FormulaSimilarityValue = (
             formula: !isNotation
               ? `\\[ PCC_{user}(${rowIndex + 1},${colIndex + 1
               }) = {\\frac{${dataSimilarityRow.length !== 0 ? `${dataSimilarityRow.map((val, idx) => `(${val.toFixed(2)} \\times ${dataSimilarityCol[idx].toFixed(2)})`).join(" + ")}` : `0`}}{${dataSimilarityRow.length !== 0 ? `\\sqrt{${dataSimilarityRow.map((val) => `(${val.toFixed(2)})^2`).join(" + ")}} \\times \\sqrt{${dataSimilarityCol.map((val) => `(${val.toFixed(2)})^2`).join(" + ")}}` : `0`}}} \\newline \\]` : `\\[ PCC_{user}(u_${rowIndex + 1},u_${colIndex + 1}) = \\frac{${intersection.length !== 0 ? `${intersection.map((val) => `(s_{${val + 1}${rowIndex + 1}} \\times s_{${val + 1}${colIndex + 1}})`).join(" + ")}` : `0`}}{${intersection.length !== 0 ? `\\sqrt{${intersection.map((val) => `(s_{${val + 1}${rowIndex + 1}})^2`).join(" + ")}} \\times \\sqrt{${intersection.map((val) => `(s_{${val + 1}${colIndex + 1}})^2`).join(" + ")}}` : `0`}} \\newline \\]`,
-            // process_formula : `\\[  \\]`,
+            process_formula: `\\[ PCC_{user}(${rowIndex + 1},${colIndex + 1
+              }) = \\frac{${numerator.toFixed(2)}}{${denominator.toFixed(2)}}  \\]`,
             result_formula: `\\[ PCC_{user}(${rowIndex + 1},${colIndex + 1}) = ${selectedMean.toFixed(4)} \\]`,
           };
 
@@ -252,6 +255,9 @@ export const FormulaSimilarityValue = (
           return {
             formula: !isNotation
               ? `\\[ PCC_{item}(${rowIndex + 1},${colIndex + 1}) = \\frac{${dataSimilarityRow.length !== 0 ? `${dataSimilarityRow.map((val, idx) => `(${val.toFixed(2)} \\times ${dataSimilarityCol[idx].toFixed(2)})`).join(" + ")}` : `0`}}{${intersection.length !== 0 ? `\\sqrt{${dataSimilarityRow.map((val) => `(${val.toFixed(2)})^2`).join(" + ")}} \\times \\sqrt{${dataSimilarityCol.map((val) => `(${val.toFixed(2)})^2`).join(" + ")}}` : "0"}} \\newline \\]` : `\\[ PCC_{item}(${rowIndex + 1},${colIndex + 1}) = \\frac{${intersection.length === 0 ? "0" : `${intersection.map((val) => `(s_{${rowIndex + 1}${val + 1}} \\times s_{${colIndex + 1}${val + 1}})`).join(" + ")}`}}{${intersection.length === 0 ? "0" : `\\sqrt{${intersection.map((val) => `(s_{${rowIndex + 1}${val + 1}})^2`).join(" + ")}} \\times \\sqrt{${intersection.map((val) => `(r_{${colIndex + 1}${val + 1}})^2`).join(" + ")}`}}} \\newline \\]`,
+            process_formula: `\\[ PCC_{item}(${rowIndex + 1},${colIndex + 1
+              }) = \\frac{${numerator.toFixed(2)}}{${denominator.toFixed(2)}}  \\]`,
+
             result_formula: `\\[ PCC_{item}(${rowIndex + 1},${colIndex + 1}) = ${selectedMean.toFixed(4)} \\]`,
           };
         default:
@@ -263,63 +269,18 @@ export const FormulaSimilarityValue = (
           return {
             formula: !isNotation
               ? `\\[ Cosine_{user}(${rowIndex + 1},${colIndex + 1
-              }) = \\frac{${dataSimilarityRow
-                .map(
-                  (val, idx) =>
-                    `(${val.toFixed(0)} \\times ${dataSimilarityCol[
-                      idx
-                    ].toFixed(0)})`
-                )
-                .join(" + ")}}{\\sqrt{${dataSimilarityRow
-                  .map((val) => `(${val.toFixed(0)})^2`)
-                  .join(" + ")}} \\times \\sqrt{${dataSimilarityCol
-                    .map((val) => `(${val.toFixed(0)})^2`)
-                    .join(" + ")}}} \\newline \\]`
-              : `\\[ Cosine_{user}(${rowIndex + 1},${colIndex + 1
-              }) = \\frac{${intersection
-                .map(
-                  (val) =>
-                    `(r_{${val + 1}${rowIndex + 1}} \\times r_{${val + 1}${colIndex + 1
-                    }})`
-                )
-                .join(" + ")}}{\\sqrt{${intersection
-                  .map((val) => `(r_{${val + 1}${rowIndex + 1}})^2`)
-                  .join(" + ")}} \\times \\sqrt{${intersection
-                    .map((val) => `(r_{${val + 1}${colIndex + 1}})^2`)
-                    .join(" + ")}}} \\newline \\]`,
-            result_formula: `\\[ Sim(${rowIndex + 1},${colIndex + 1
+              }) = \\frac{${dataSimilarityRow.length === 0 ? `0` : `{${dataSimilarityRow.map((val, idx) => `(${val.toFixed(0)} \\times ${dataSimilarityCol[idx].toFixed(0)})`).join(" + ")}}`}}{${dataSimilarityRow.length === 0 ? `0` : `\\sqrt{${dataSimilarityRow.map((val) => `(${val.toFixed(0)})^2`).join(" + ")}} \\times \\sqrt{${dataSimilarityCol.map((val) => `(${val.toFixed(0)})^2`).join(" + ")}}`}} \\newline \\]` : `\\[ Cosine_{user}(${rowIndex + 1},${colIndex + 1}) = \\frac{${intersection.map((val) => `(r_{${val + 1}${rowIndex + 1}} \\times r_{${val + 1}${colIndex + 1}})`).join(" + ")}}{\\sqrt{${intersection.map((val) => `(r_{${val + 1}${rowIndex + 1}})^2`).join(" + ")}} \\times \\sqrt{${intersection.map((val) => `(r_{${val + 1}${colIndex + 1}})^2`).join(" + ")}}} \\newline \\]`,
+            process_formula: `\\[ Cosine_{user}(${rowIndex + 1},${colIndex + 1
+              }) = \\frac{${numerator.toFixed(2)}}{${denominator.toFixed(2)}}  \\]`,
+            result_formula: `\\[ Cosine_{user}(${rowIndex + 1},${colIndex + 1
               }) = ${selectedMean.toFixed(4)} \\]`,
           };
 
         case "item-based":
           return {
-            formula: !isNotation
-              ? `\\[ Cosine_{item}(${rowIndex + 1},${colIndex + 1
-              }) = \\frac{${dataSimilarityRow
-                .map(
-                  (val, idx) =>
-                    `(${val.toFixed(0)} \\times ${dataSimilarityCol[
-                      idx
-                    ].toFixed(0)})`
-                )
-                .join(" + ")}}{\\sqrt{${dataSimilarityRow
-                  .map((val, idx) => `(${val.toFixed(0)})^2`)
-                  .join(" + ")}} \\times \\sqrt{${dataSimilarityCol
-                    .map((val, idx) => `(${val.toFixed(0)})^2`)
-                    .join(" + ")}}} \\newline \\]`
-              : `\\[ Cosine_{item}(${rowIndex + 1},${colIndex + 1
-              }) = \\frac{${intersection
-                .map(
-                  (val) =>
-                    `(r_{${rowIndex + 1}${val + 1}} \\times r_{${colIndex + 1
-                    }${val + 1}})`
-                )
-                .join(" + ")}}{\\sqrt{${intersection
-                  .map((val) => `(r_{${rowIndex + 1}${val + 1}})^2`)
-                  .join(" + ")}} \\times \\sqrt{${intersection
-                    .map((val) => `(r_{${colIndex + 1}${val + 1}})^2`)
-                    .join(" + ")}}} \\newline \\]`,
-            result_formula: `\\[ Sim(${rowIndex + 1},${colIndex + 1
+            formula: !isNotation ? `\\[ Cosine_{item}(${rowIndex + 1},${colIndex + 1}) = \\frac{${dataSimilarityRow.length === 0 ? `0` : `${dataSimilarityRow.map((val, idx) => `(${val.toFixed(0)} \\times ${dataSimilarityCol[idx].toFixed(0)})`).join(" + ")}`}}{${dataSimilarityRow.length === 0 ? `0` : `\\sqrt{${dataSimilarityRow.map((val) => `(${val.toFixed(0)})^2`).join(" + ")}} \\times \\sqrt{${dataSimilarityCol.map((val) => `(${val.toFixed(0)})^2`).join(" + ")}}`}} \\newline \\]` : `\\[ Cosine_{item}(${rowIndex + 1},${colIndex + 1}) = \\frac{${intersection.map((val) => `(r_{${rowIndex + 1}${val + 1}} \\times r_{${colIndex + 1}${val + 1}})`).join(" + ")}}{\\sqrt{${intersection.map((val) => `(r_{${rowIndex + 1}${val + 1}})^2`).join(" + ")}} \\times \\sqrt{${intersection.map((val) => `(r_{${colIndex + 1}${val + 1}})^2`).join(" + ")}}} \\newline \\]`,
+            process_formula: `\\[ Cosine_{user} = \\frac{${numerator.toFixed(2)}}{${denominator.toFixed(2)}}  \\]`,
+            result_formula: `\\[ Cosine_{user}(${rowIndex + 1},${colIndex + 1
               }) = ${selectedMean.toFixed(4)} \\]`,
           };
         default:
@@ -330,69 +291,18 @@ export const FormulaSimilarityValue = (
         case "user-based":
           return {
             formula: !isNotation
-              ? `\\[ ACosine_{user}(${rowIndex + 1},${colIndex + 1
-              }) = \\frac{${dataSimilarityRow
-                .map(
-                  (val, idx) =>
-                    `(${val.toFixed(2)} \\times ${dataSimilarityCol[
-                      idx
-                    ].toFixed(2)})`
-                )
-                .join(" + ")}}{${dataSimilarityRow
-                  .map(
-                    (val, idx) =>
-                      `\\sqrt{(${val.toFixed(2)})^2 +  (${dataSimilarityCol[
-                        idx
-                      ].toFixed(2)})^2}`
-                  )
-                  .join(" \\times ")}} \\]`
-              : `\\[ ACosine_{user}(u_${rowIndex + 1},u_${colIndex + 1
-              }) = \\frac{${intersection
-                .map(
-                  (val) =>
-                    `(s_{${val + 1}${rowIndex + 1}} \\times s_{${val + 1}${colIndex + 1
-                    }})`
-                )
-                .join(" + ")}}{\\sqrt{${intersection
-                  .map((val) => `(s_{${val + 1}${rowIndex + 1}})^2`)
-                  .join(" + ")}} \\times \\sqrt{${intersection
-                    .map((val) => `(s_{${val + 1}${colIndex + 1}})^2`)
-                    .join(" + ")}}} \\newline \\]`,
-            result_formula: `\\[ Sim(${rowIndex + 1},${colIndex + 1
+              ? `\\[ ACosine_{user}(${rowIndex + 1},${colIndex + 1}) = \\frac{${dataSimilarityRow.length !== 0 ? `${dataSimilarityRow.map((val, idx) => `(${val.toFixed(2)} \\times ${dataSimilarityCol[idx].toFixed(2)})`).join(" + ")}` : `0`}}{${dataSimilarityRow.length !== 0 ? `${dataSimilarityRow.map((val, idx) => `\\sqrt{(${val.toFixed(2)})^2} +  \\sqrt{(${dataSimilarityCol[idx].toFixed(2)})^2}`).join(" \\times ")}` : `0`}} \\]` : `\\[ ACosine_{user}(u_${rowIndex + 1},u_${colIndex + 1}) = \\frac{${intersection.length !== 0 ? `${intersection.map((val) => `(s_{${val + 1}${rowIndex + 1}} \\times s_{${val + 1}${colIndex + 1}})`).join(" + ")}` : `0`}}{${intersection.length !== 0 ? `\\sqrt{${intersection.map((val) => `(s_{${val + 1}${rowIndex + 1}})^2`).join(" + ")}} \\times \\sqrt{${intersection.map((val) => `(s_{${val + 1}${colIndex + 1}})^2`).join(" + ")}}` : `0`}} \\newline \\]`,
+            process_formula: `\\[ ACosine_{user}(${rowIndex + 1},${colIndex + 1
+              }) = \\frac{${numerator.toFixed(2)}}{${denominator.toFixed(2)}}  \\]`,
+            result_formula: `\\[ ACosine_{user}(${rowIndex + 1},${colIndex + 1
               }) = ${selectedMean.toFixed(4)} \\]`,
           };
         case "item-based":
           return {
-            formula: !isNotation
-              ? `\\[ ACosine_{item}(${rowIndex + 1},${colIndex + 1
-              }) = \\frac{${dataSimilarityRow
-                .map(
-                  (val, idx) =>
-                    `(${val.toFixed(2)} \\times ${dataSimilarityCol[
-                      idx
-                    ].toFixed(2)})`
-                )
-                .join(" + ")}}{${dataSimilarityRow
-                  .map(
-                    (val, idx) =>
-                      `\\sqrt{(${val.toFixed(2)})^2 +  (${dataSimilarityCol[
-                        idx
-                      ].toFixed(2)})^2}`
-                  )
-                  .join(" \\times ")}} \\]`
-              : `\\[ ACosine_{item}(i_${rowIndex + 1},i_${colIndex + 1
-              }) = \\frac{${intersection
-                .map(
-                  (val) =>
-                    `(s_{${rowIndex + 1}${val + 1}} \\times s_{${colIndex + 1
-                    }${val + 1}})`
-                )
-                .join(" + ")}}{\\sqrt{${intersection
-                  .map((val) => `(s_{${rowIndex + 1}${val + 1}})^2`)
-                  .join(" + ")}} \\times \\sqrt{${intersection
-                    .map((val) => `(r_{${colIndex + 1}${val + 1}})^2`)
-                    .join(" + ")}}} \\newline \\]`,
-            result_formula: `\\[ Sim(${rowIndex + 1},${colIndex + 1
+            formula: !isNotation ? `\\[ ACosine_{item}(${rowIndex + 1},${colIndex + 1}) = \\frac{${dataSimilarityRow.length !== 0 ? `${dataSimilarityRow.map((val, idx) => `(${val.toFixed(2)} \\times ${dataSimilarityCol[idx].toFixed(2)})`).join(" + ")}` : `0`}}{${dataSimilarityRow.length !== 0 ? `${dataSimilarityRow.map((val, idx) => `\\sqrt{(${val.toFixed(2)})^2} + \\sqrt{(${dataSimilarityCol[idx].toFixed(2)})^2}`).join(" \\times ")}` : `0`}} \\]` : `\\[ ACosine_{item}(i_${rowIndex + 1},i_${colIndex + 1}) = \\frac{${intersection.length !== 0 ? `${intersection.map((val) => `(s_{${rowIndex + 1}${val + 1}} \\times s_{${colIndex + 1}${val + 1}})`).join(" + ")}` : `0`}}{\\sqrt{${intersection.length !== 0 ? `${intersection.map((val) => `(s_{${rowIndex + 1}${val + 1}})^2`).join(" + ")}} \\times \\sqrt{${intersection.map((val) => `(r_{${colIndex + 1}${val + 1}})^2`).join(" + ")}` : `0`}}} \\newline \\]`,
+            process_formula: `\\[ ACosine_{item}(${rowIndex + 1},${colIndex + 1
+              }) = \\frac{${numerator.toFixed(2)}}{${denominator.toFixed(2)}}  \\]`,
+            result_formula: `\\[ ACosine_{item}(${rowIndex + 1},${colIndex + 1
               }) = ${selectedMean.toFixed(4)} \\]`,
           };
 
@@ -423,8 +333,8 @@ export const FormulaSimilarityValue = (
         .join(" + ");
 
       return {
-        formula: `\\[  BC(${rowIndex + 1},${colIndex + 1}) = ${sumTerms} \\]`,
-        result_formula: `\\[  BC(${rowIndex + 1},${colIndex + 1
+        formula: `\\[  BC_{${opsional.split("-")[0]}}(${rowIndex + 1},${colIndex + 1}) = ${sumTerms} \\]`,
+        result_formula: `\\[  BC_{${opsional.split("-")[0]}}(${rowIndex + 1},${colIndex + 1
           }) = ${productTerms} \\]`,
       };
     default:
@@ -432,7 +342,7 @@ export const FormulaSimilarityValue = (
   }
 };
 
-export const IndexProbability = (rowIndex, colIndex) => {
+export const IndexProbability = (rowIndex, colIndex, opsional) => {
   const ratings = [1, 2, 3, 4, 5];
   const sumTerms = ratings
     .map(
@@ -443,5 +353,5 @@ export const IndexProbability = (rowIndex, colIndex) => {
     )
     .join(" + "); // Menggabungkan dengan tanda tambah
 
-  return `\\[  BC(${rowIndex + 1},${colIndex + 1}) =  ${sumTerms} \\]`;
+  return `\\[  BC_{${opsional.split("-")[0]}}(${rowIndex + 1},${colIndex + 1}) =  ${sumTerms} \\]`;
 };

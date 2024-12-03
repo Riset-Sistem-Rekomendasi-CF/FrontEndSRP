@@ -13,7 +13,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.7.7",
-    "better-react-mathjax": "^2.0.3",
+    "better-react-mathjax": "^2.0.4-beta1",
     "d3": "^7.9.0",
     "mathjax": "^3.2.2",
     "react": "^18.3.1",

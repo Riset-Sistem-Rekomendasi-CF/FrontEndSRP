@@ -70,11 +70,6 @@ const SimilarityValue = ({
     nonZeroIndexesCol.includes(index)
   );
 
-
-  console.log("intersection", intersection);
-
-
-
   const dataSimilarity =
     similarity !== "Vector Cosine"
       ? similarity === "Bhattacharyya Coefficient Similarity"
@@ -88,7 +83,7 @@ const SimilarityValue = ({
 
   const dataSimilarityRow =
     similarity === "Bhattacharyya Coefficient Similarity"
-      ? data["probability"][rowIndex + 1]
+      ? data["probability"][rowIndex]
       : intersection.map((i) =>
         similarity === "Adjusted Vector Cosine"
           ? opsional === "item-based"
@@ -99,7 +94,7 @@ const SimilarityValue = ({
 
   const dataSimilarityCol =
     similarity === "Bhattacharyya Coefficient Similarity"
-      ? data["probability"][rowIndex + 1]
+      ? data["probability"][colIndex]
       : intersection.map((i) =>
         similarity === "Adjusted Vector Cosine"
           ? opsional === "item-based"
@@ -107,16 +102,14 @@ const SimilarityValue = ({
             : dataSimilarity[colIndex][i]
           : dataSimilarity[colIndex][i]
       );
-  const denominatorArrayMeasure = sum(dataSimilarityRow.map((val, idx) => val.toFixed(2) * dataSimilarityCol[idx].toFixed(2)))
-  const numeratorArrayMeasure = multiply(dataSimilarityRow.map((val, idx) => Math.sqrt(val ** 2) * Math.sqrt(dataSimilarityCol[idx] ** 2)))
 
-  console.log("denom", denominatorArrayMeasure);
-  console.log("numerator", numeratorArrayMeasure);
+  const numeratorArrayMeasure = similarity !== "Bhattacharyya Coefficient Similarity" ? sum(dataSimilarityRow.map((val, idx) => val.toFixed(2) * dataSimilarityCol[idx].toFixed(2))) : null
+  const denominatorArrayMeasure = similarity !== "Bhattacharyya Coefficient Similarity" ? (Math.sqrt(sum(dataSimilarityRow.map((val, idx) => val ** 2))) * Math.sqrt(sum(dataSimilarityCol.map((val, idx) => val ** 2)))) : null
 
 
   if (!dataSimilarityRow || !dataSimilarityCol) return null;
 
-  const { formula, result_formula } = FormulaSimilarityValue(
+  const formula = FormulaSimilarityValue(
     rowIndex,
     colIndex,
     dataSimilarityRow,
@@ -125,15 +118,21 @@ const SimilarityValue = ({
     selectedMean,
     similarity,
     opsional,
-    isNotation
+    isNotation,
+    denominatorArrayMeasure,
+    numeratorArrayMeasure
   );
+
+  // console.log(formula, result_formula);
+
 
   return (
     <>
-      <MathJaxComponent>{formula}</MathJaxComponent>
-      <MathJaxComponent>{result_formula}</MathJaxComponent>
-      {intersection.length === 0 || numeratorArrayMeasure === 0 ?
-        <Warm>{intersection.length === 0 ? <>Jika tidak ada index untuk dihitung</> : numeratorArrayMeasure === 0 ? <>Jika penyebut menghasilkan 0 </> : ""} maka, nilai Similaritas akan diisi dengan -10 agar tidak mempengaruhi proses prediksi</Warm>
+      <MathJaxComponent>{formula.formula}</MathJaxComponent>
+      {(similarity !== "Bhattacharyya Coefficient Similarity" && (dataSimilarityCol.length !== 0 || dataSimilarityRow.length !== 0)) ? <MathJaxComponent>{formula.process_formula}</MathJaxComponent> : null}
+      <MathJaxComponent>{formula.result_formula}</MathJaxComponent>
+      {(intersection.length === 0 || numeratorArrayMeasure === 0) && (numeratorArrayMeasure !== null || denominatorArrayMeasure !== null) ?
+        <Warm>{intersection.length === 0 && !(similarity === "Bhattacharyya Coefficient Similarity" || similarity === "Vector Cosine") ? <>Jika tidak ada index untuk dihitung</> : denominatorArrayMeasure === 0 ? <>Jika penyebut menghasilkan 0 </> : ""} maka, nilai Similaritas akan diisi dengan {similarity === "Bhattacharyya Coefficient Similarity" || similarity === "Vector Cosine" ? `0` : `-10`} agar tidak mempengaruhi proses prediksi</Warm>
         : ""
       }
     </>

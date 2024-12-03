@@ -4,17 +4,18 @@ import mathjaxConfig from './mathjax-config';
 
 const MathJaxComponent = ({ children }) => {
 
-    useEffect(() => {
-        if (window.MathJax) {
-            window.MathJax.typesetPromise && window.MathJax.typesetPromise();
-            console.log("done");
+    // useEffect(() => {
+    //     console.log("undone");
 
-        }
-    }, [children])
+    //     if (window.MathJax) {
+    //         window.MathJax.typesetPromise && window.MathJax.typesetPromise();
+    //         console.log("done");
+    //     }
+    // }, [children])
 
     return (
         <MathJaxContext options={mathjaxConfig}>
-            <MathJax>
+            <MathJax dynamic inline>
                 {children}
             </MathJax>
         </MathJaxContext>

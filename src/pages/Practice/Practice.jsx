@@ -156,40 +156,47 @@ function Practice() {
             </section>
 
 
-            <section className='max-w-4xl mx-auto text-center my-10 py-10 '>
-                <button onClick={toggleDescription}
-                    className=" w-70 font-semibold font-poppins bg-card_green_primary border-2 border-black text-center text-white px-6 py-3 rounded-full hover:bg-blue-700 shadow-md">
+            <section className="max-w-6xl mx-auto text-center my-10 py-10 ">
+                <button
+                    onClick={toggleDescription}
+                    className=" w-70 font-semibold font-poppins bg-card_green_primary border-2 border-black text-center text-white px-6 py-3 rounded-full hover:bg-blue-700 shadow-md"
+                >
                     Cek Hasil Perhitungan Similaritas
-                    {isDescriptionVisible ? <ExpandLessIcon className="ml-2 text-lg" /> :
-                        <ExpandMoreIcon className="ml-2 text-lg" />}
+                    {isDescriptionVisible ? (
+                        <ExpandLessIcon className="ml-2 text-lg" />
+                    ) : (
+                        <ExpandMoreIcon className="ml-2 text-lg" />
+                    )}
                 </button>
                 {isDescriptionVisible && (
-                    <section className='max-w-6xl mx-auto text-center my-10 py-10'>
-                        <h1 id="topMenuSim"
-                            className="text-4xl sm:text-3xl md:text-4xl lg:text-5xl font-bold font-poppins py-5 sm:py-6 md:py-8 lg:py-10">
+                    <section className="max-w-6xl mx-auto text-center my-10 py-10">
+                        <h1
+                            id="topMenuSim"
+                            className="text-4xl sm:text-3xl md:text-4xl lg:text-5xl font-bold font-poppins py-5 sm:py-6 md:py-8 lg:py-10"
+                        >
                             Hasil dan Pembahasan :
                         </h1>
 
-                        <div
-                            className="flex flex-wrap space-x-2 space-y-2 items-center justify-center mx-auto">
-                            <h1 className='text-lg justify-center my-3'>Daftar Isi : </h1>
+                        <div className="flex flex-wrap space-x-2 space-y-2 items-center justify-center mx-auto">
+                            <h1 className="text-lg justify-center font-semibold underline underline-offset-4 decoration-3 decoration-card_blue_primary">
+                                Daftar Isi :{" "}
+                            </h1>
                             {/* Mean Rating */}
                             <Chip
                                 label="Mean Rating"
                                 icon={<Star />}
-                                onClick={() => scrollToSection('mean-rating-section')}
+                                onClick={() => scrollToSection("mean-rating-section")}
                                 color="success"
                                 variant="outlined"
                                 clickable
                                 className="cursor-pointer w-full sm:w-auto sm:rounded-md rounded-full sm:flex sm:items-center sm:justify-center flex items-center justify-center"
-                            // iconOnlyClass="sm:flex"
                             />
 
                             {/* Mean-Centered */}
                             <Chip
                                 label="Mean-Centered"
                                 icon={<ShowChart />}
-                                onClick={() => scrollToSection('mean-cen-section')}
+                                onClick={() => scrollToSection("mean-cen-section")}
                                 color="primary"
                                 variant="outlined"
                                 clickable
@@ -200,7 +207,7 @@ function Practice() {
                             <Chip
                                 label="Similaritas"
                                 icon={<People />}
-                                onClick={() => scrollToSection('sim-section')}
+                                onClick={() => scrollToSection("sim-section")}
                                 color="warning"
                                 variant="outlined"
                                 clickable
@@ -211,7 +218,7 @@ function Practice() {
                             <Chip
                                 label="Prediksi"
                                 icon={<Lightbulb />}
-                                onClick={() => scrollToSection('pred-section')}
+                                onClick={() => scrollToSection("pred-section")}
                                 color="success"
                                 variant="outlined"
                                 clickable
@@ -222,7 +229,7 @@ function Practice() {
                             <Chip
                                 label="Top-N"
                                 icon={<AssignmentTurnedInIcon />}
-                                onClick={() => scrollToSection('topN-section')}
+                                onClick={() => scrollToSection("topN-section")}
                                 color="secondary"
                                 variant="outlined"
                                 clickable
@@ -230,13 +237,11 @@ function Practice() {
                             />
                         </div>
 
-                        {/* Display the details */}
-                        <div className="mt-8">
-                            <DetailPageBox
-                                method={selectedMethod}
-                                similarity={selectedSimilarity}
-                                data={data} />
-                        </div>
+                        <DetailPageBox
+                            method={selectedMethod}
+                            similarity={selectedSimilarity}
+                            data={data}
+                        />
                     </section>
                 )}
             </section>

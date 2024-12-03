@@ -5,6 +5,7 @@ import { getFormulaMeanIndex, getFormulaMeanExpression, getFormulaMeanValue } fr
 import { transposeMatrix } from "../../../../helper/helper";
 import SwitchToggle from "../../../Toggle/SwitchToggle";
 import LegendTable from "../../../tabelData/LegendTable";
+import MathJaxComponent from "../../../../MathJaxComponent";
 
 
 const ModalMean = ({ opsional, similarity, data, selectedIndex, selectedMean, close }) => {
@@ -14,12 +15,47 @@ const ModalMean = ({ opsional, similarity, data, selectedIndex, selectedMean, cl
     const dataModify = similarity === "Adjusted Vector Cosine" ? (opsional === "user-based" ? (data) : transposeMatrix(data)) : (opsional === "user-based" ? (data) : transposeMatrix(data))
 
 
+    const MeanRatingRumusIdx = ({ opsional, data, selectedIndex }) => {
+        const meanRumusIdx = getFormulaMeanIndex(opsional, data, selectedIndex)
 
-    const meanRumusIdx = getFormulaMeanIndex(opsional, data, similarity)
+        return <MathJaxComponent>{meanRumusIdx}</MathJaxComponent>
 
-    const meanIndexExp = getFormulaMeanExpression(opsional, data, selectedIndex[0], isNotation)
+    }
 
-    const meanExpressionsValues = getFormulaMeanValue(opsional, data, isNotation)
+    const MeanRatingIndexExp = ({ opsional, data, selectedIndex, isNotation }) => {
+        const dataMean = data[selectedIndex]
+
+        const nonZeroIndices = dataMean
+            .map((val, idx) => (val !== 0 ? idx + 1 : null))
+            .filter((idx) => idx !== null)
+        const ValueData = dataMean.filter(val => val !== 0)
+        const meanIndexExp = getFormulaMeanExpression(opsional, isNotation, nonZeroIndices, ValueData, selectedIndex)
+
+        return <MathJaxComponent>
+            {meanIndexExp}
+        </MathJaxComponent>
+    }
+
+    const MeanRatingExpressionsValues = ({ opsional, data, selectedIndex, isNotation, selectedMean }) => {
+        const dataMean = data[selectedIndex]
+        const nonZeroIndices = dataMean
+            .map((val, idx) => (val !== 0 ? idx + 1 : null))
+            .filter((idx) => idx !== null)
+
+        const ValueData = dataMean.filter((val) => val !== 0)
+
+        const meanExpressionsValues = getFormulaMeanValue(opsional, isNotation, nonZeroIndices, ValueData, selectedIndex, selectedMean)
+        console.log(meanExpressionsValues);
+
+        return <MathJaxComponent>
+            {meanExpressionsValues.formula}
+            {meanExpressionsValues.process_formal}
+            {meanExpressionsValues.result}
+        </MathJaxComponent>
+    }
+
+
+    // const meanExpressionsValues = getFormulaMeanValue(opsional, data, isNotation)
 
     const toggleIsNotation = () => {
         setIsNotation(!isNotation)
@@ -108,37 +144,33 @@ const ModalMean = ({ opsional, similarity, data, selectedIndex, selectedMean, cl
                 <MathJaxContext options={mathjaxConfig}>
                     <div className="flex justify-center items-center flex-col px-4 sm:px-10">
                         {/* Tampilkan hanya rumus dan hasil untuk user yang dipilih */}
-                        {meanRumusIdx[selectedIndex[0]]?.length > 0 ? (
+                        {<MeanRatingRumusIdx
+                            opsional={opsional}
+                            data={data}
+                            selectedIndex={selectedIndex}
+                        />}
+
+                        {(
                             <div className="text-center">
-                                <MathJax>
-                                    {meanRumusIdx[selectedIndex[0]]}
-                                </MathJax>
+                                <MeanRatingIndexExp
+                                    opsional={opsional}
+                                    data={data}
+                                    selectedIndex={selectedIndex}
+                                    isNotation={isNotation}
+                                />
                             </div>
-                        ) : (
-                            <p className="text-center">Data untuk <i> user </i> ini tidak
-                                tersedia.</p>
                         )}
 
-                        {meanIndexExp[selectedIndex[0]]?.length > 0 ? (
+                        {(
                             <div className="text-center">
-                                <MathJax>
-                                    {meanIndexExp[selectedIndex[0]]}
-                                </MathJax>
+                                <MeanRatingExpressionsValues
+                                    opsional={opsional}
+                                    data={data}
+                                    selectedIndex={selectedIndex}
+                                    isNotation={isNotation}
+                                    selectedMean={selectedMean}
+                                />
                             </div>
-                        ) : (
-                            <p className="text-center">Data untuk <i> user </i> ini tidak
-                                tersedia.</p>
-                        )}
-
-                        {meanExpressionsValues[selectedIndex[0]]?.length > 0 ? (
-                            <div className="text-center">
-                                <MathJax>
-                                    {meanExpressionsValues[selectedIndex[0]]}
-                                </MathJax>
-                            </div>
-                        ) : (
-                            <p className="text-center">Data untuk <i> user </i> ini tidak
-                                tersedia.</p>
                         )}
                     </div>
                 </MathJaxContext>
@@ -147,7 +179,7 @@ const ModalMean = ({ opsional, similarity, data, selectedIndex, selectedMean, cl
                 <p className="text-xl font-bold text-gray-700 mt-5 sm:text-md md:text-lg lg:text-xl xl:text-2xl">Hasil <i>mean</i> nilai
                     <i> rating </i> dari
                     <span className="italic"> user</span> {selectedIndex[0] + 1} adalah
-                    = {selectedMean}
+                    = {selectedMean.toFixed(2)}
                 </p>
 
                 <button

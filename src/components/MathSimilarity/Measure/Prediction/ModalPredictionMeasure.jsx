@@ -154,7 +154,7 @@ const ModalPredictionMeasure = ({ dataRating, opsional, similarity, topSimilarit
                         {/* Nilai Top-K */}
                         {selectedIndex[opsional === "user-based" ? 0 : 1] < result['similarity'].length ? (
                             <div>
-                                <h2 className='font-semibold text-lg'>Nilai Top-N</h2>
+                                <h2 className='font-semibold text-lg'>Nilai Top-K</h2>
                                 <table
                                     className="border border-black mt-4 mx-auto text-center w-full">
                                     <thead>
@@ -209,7 +209,7 @@ const ModalPredictionMeasure = ({ dataRating, opsional, similarity, topSimilarit
                     />
                 </div>
                 <h1 className='font-semibold text-xl my-5 underline underline-offset-8 decoration-4 decoration-card_blue_primary'>
-                    Grafik Top-N
+                    Grafik Top-K
                 </h1>
                 <div className='flex justify-center my-3'>
                     <ScatterPlotDataFilter

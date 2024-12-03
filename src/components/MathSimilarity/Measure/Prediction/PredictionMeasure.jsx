@@ -197,15 +197,9 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
               id="user-dropdown"
               className="ml-5 mt-3 p-2 w-full sm:w-auto border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
               value={selectedUserTopN || ""}
-              onChange={(e) => e.target.value !== "" ? setSelectedUserTopN(Number(e.target.value)) : setSelectedUserTopN(null)
-              }
+              onChange={(e) => e.target.value !== "" ? setSelectedUserTopN(Number(e.target.value)) : setSelectedUserTopN(null)}
             >
-              <option value="">Pilih User</option>
-              <option value={1}>User 1</option>
-              <option value={2}>User 2</option>
-              <option value={3}>User 3</option>
-              <option value={4}>User 4</option>
-              <option value={5}>User 5</option>
+              {dataRating.map((_, i) => <option value={i + 1} key={i}>User {i + 1}</option>)}
             </select>
           </div>
 

@@ -84,13 +84,15 @@ export default function FormMeasure({ onDataChange, onDescriptionChange }) {
     // Proceed with data generation if validation passes
     const result = helper.makeSparsity(n, m, sparsity, range);
 
-    if (result) {
+    if (!result) {
+      setFormErrorMessage("Data Hasil generate tidak valid , Silakan coba lagi atau isi ulang field")
+    } else if (result.length === 1 || result[0].length === 1) {
+      setFormErrorMessage("User atau item tidak boleh berisi 1")
+    } else if (result) {
       setData(result);
       onDataChange(result);
       onDescriptionChange(false);
       handleOneClick();
-    } else {
-      setFormErrorMessage("Data Hasil generate tidak valid , Silakan coba lagi atau isi ulang field")
     }
 
   };

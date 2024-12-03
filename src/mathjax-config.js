@@ -1,5 +1,5 @@
 const mathjaxConfig = {
-    loader: { load: ['[tex]/amsmath', '[tex]/amsfonts', '[tex]/color'] },
+    loader: { load: ['[tex]/amsmath', '[tex]/amsfonts', '[tex]/color', "input/asciimath", "output/chtml"] },
     tex: {
         inlineMath: [['$', '$'], ['\\(', '\\)']],
         displayMath: [['$$', '$$'], ['\\[', '\\]']],

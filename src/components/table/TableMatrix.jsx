@@ -11,7 +11,7 @@ function InputList({ children, rowIndex, colIndex, change, disabled, onDeleteAtt
         // If it's the last value in a row or column, prevent deletion (only allow changing the value)
         if (checkEmptyRowOrColumn(data) && checkEmptyRowOrColumn(dataOnly)) {
             onDeleteAttempt("Mohon perbaiki data"); // Trigger alert to prevent deletion
-        } else if (/^\d*\.?\d*$/.test(value) && (value === "" || Number(value) <= 5)) {
+        } else if (/^\d*\.?\d*$/.test(value) && (value === "" || (Number(value) <= 5))) {
             if (checkEmptyRowOrColumn(dataOnly)) {
                 onDeleteAttempt(); // Trigger alert to prevent deletion
             }

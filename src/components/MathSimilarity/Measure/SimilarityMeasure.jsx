@@ -68,6 +68,8 @@ export default function SimilarityMeasure({ opsional, similarity, initialData })
 
     const { result } = AllSimilaritas(data, similarity);
 
+    console.log("result", result);
+    console.log("dataOnly", dataOnly);
     const FormulaSimilarity = getFormulaSimilarity(similarity, opsional)
 
 

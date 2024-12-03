@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import TabelView from "../../components/table/TabelView.jsx";
 import CardSteps from "../../components/Card/Main/CardSteps.jsx";
-import DropdownMethodBased from '../../components/Form/Tutorial/DropdownMethodBased.jsx';
-import DropdownSimilarityMeasure from '../../components/Form/Tutorial/DropdownSimilarityMeasure.jsx';
+import { DropdownMethodBased, DropdownSimilarityMeasure } from "../../components/Form/form_Practice";
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DetailPageBox from "../detailPageView/DetailPageBox.jsx";
@@ -27,10 +26,12 @@ import {
 
 const Tutorial = () => {
 
+    const [isDescriptionVisible, setDescriptionVisible] = useState(false);
     const form = [
         {
             header: "Pilih Sistem Rekomendasi",
             element: <DropdownMethodBased
+                turnDescription={setDescriptionVisible}
                 onChange={(method) => {
                     setSelectedMethod(method);
                     handleTurnDescription(false)
@@ -39,13 +40,13 @@ const Tutorial = () => {
         {
             header: "Pilih Metode Similaritas",
             element: <DropdownSimilarityMeasure
+                turnDescription={setDescriptionVisible}
                 onChange={(similaritas) => {
                     setSelectedSimilarity(similaritas);
                     handleTurnDescription(false)
                 }} />
         },
     ]
-    const [isDescriptionVisible, setDescriptionVisible] = useState(false);
 
     const toggleDescription = () => {
         setDescriptionVisible(!isDescriptionVisible);
@@ -154,7 +155,7 @@ const Tutorial = () => {
 
                 {isDescriptionVisible && (
                     <div className='mt-8'>
-                        <section className='max-w-5xl mx-auto text-center py-10'>
+                        <section className='max-w-6xl mx-auto text-center py-10'>
                             <h1 id="topMenuSim"
                                 className="text-4xl sm:text-3xl md:text-4xl lg:text-5xl font-bold font-poppins py-5 sm:py-6 md:py-8 lg:py-10">
                                 Hasil dan Pembahasan :
@@ -172,7 +173,6 @@ const Tutorial = () => {
                                     variant="outlined"
                                     clickable
                                     className="cursor-pointer w-full sm:w-auto sm:rounded-md rounded-full sm:flex sm:items-center sm:justify-center flex items-center justify-center"
-                                    iconOnlyClass="sm:flex"
                                 />
                                 <Chip
                                     label="Mean-Centered"
