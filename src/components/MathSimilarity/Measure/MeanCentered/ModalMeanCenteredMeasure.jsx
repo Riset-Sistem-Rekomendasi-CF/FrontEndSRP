@@ -25,11 +25,12 @@ const ModalMeanCenteredMeasure = ({ similarity, selectedIndex, selectedValue, da
         )
     }
 
-    const MeanCenteredValue = ({ rowIndex, colIndex, data, result }) => {
-        const expression = getFormulaMeanCenteredValue(rowIndex, colIndex, data, result, opsional, similarity)
+    const MeanCenteredValue = ({ rowIndex, colIndex, data, result, selectedValue }) => {
+        const expression = getFormulaMeanCenteredValue(rowIndex, colIndex, data, result, opsional, selectedValue)
         return (
             <MathJaxComponent>
-                {expression}
+                {expression.formula}
+                {expression.result}
             </MathJaxComponent>
         )
     }
@@ -178,6 +179,7 @@ const ModalMeanCenteredMeasure = ({ similarity, selectedIndex, selectedValue, da
                                 colIndex={selectedIndex[1]}
                                 data={dataModify}
                                 result={result}
+                                selectedValue={selectedValue}
                             />
                         ) : (
                             <p>No expression selected.</p>

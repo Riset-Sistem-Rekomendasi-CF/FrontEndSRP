@@ -23,23 +23,34 @@ const handleSimilarityFunction = similarity => {
 }
 
 export const AllSimilaritas = (data, similaritas) => {
-    const [result, setResult] = useState(null);
+    const [result, setResult] = useState([]); // Inisialisasi dengan array kosong
     const [error, setError] = useState(null);
 
     useEffect(() => {
+        let isMounted = true; // Untuk mencegah memory leaks
+
         const fetchData = async () => {
             try {
-                const callSimilaritas = handleSimilarityFunction(similaritas)
+                const callSimilaritas = handleSimilarityFunction(similaritas);
                 const response = await callSimilaritas(data);
-                setResult(response.data);
-                setError(null);
+
+                if (isMounted) {
+                    setResult(response.data);
+                    setError(null);
+                }
             } catch (err) {
-                setError(err.response ? err.response.data.detail : 'Something went wrong');
-                setResult(null);
+                if (isMounted) {
+                    setError(err.response ? err.response.data.detail : "Something went wrong");
+                    setResult([]);
+                }
             }
         };
 
         fetchData();
+
+        return () => {
+            isMounted = false;
+        };
     }, [data, similaritas]);
 
     return { result, error };

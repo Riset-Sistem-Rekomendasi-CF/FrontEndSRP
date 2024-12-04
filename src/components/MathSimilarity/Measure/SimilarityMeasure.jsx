@@ -142,7 +142,7 @@ export default function SimilarityMeasure({ opsional, similarity, initialData })
                 {/* Vertical Line */}
                 <h1 className='font-poppins text-xl text-start font-semibold text-black'>Mencari
                     Fungsi Similaritas <span
-                        className='italic'> {similarity} {opsional.replace("-", " ").toLowerCase().replace(/\b[a-z]/g, (letter) => letter.toUpperCase())}</span>
+                        className='italic'> {similarity} {opsional.toLowerCase().replace(/\b[a-z]/g, (letter) => letter.toUpperCase())}</span>
                 </h1>
             </div>
             <MathJaxContext options={mathjaxConfig}>
@@ -163,7 +163,7 @@ export default function SimilarityMeasure({ opsional, similarity, initialData })
             <div className="px-4 sm:px-8 md:px-10 py-5">
                 <h1 className='text-lg font-semibold font-poppins underline underline-offset-8 decoration-4 decoration-card_blue_primary'>Hasil
                     Fungsi Similaritas <span
-                        className='italic'> {opsional.replace("-", " ").toLowerCase().replace(/\b[a-z]/g, (letter) => letter.toUpperCase())}</span>
+                        className='italic'> {opsional.toLowerCase().replace(/\b[a-z]/g, (letter) => letter.toUpperCase())}</span>
                 </h1>
 
                 {/* Tombol dengan ikon */}

@@ -1,4 +1,5 @@
 import { transposeMatrix } from "../../../../helper/helper"
+import { sum } from "../../../../helper/Measure";
 
 export const getFormulaPrediction = (similarity, opsional) => {
     const opsionalModify = similarity === "Adjusted Vector Cosine" ? (opsional === "user-based" ? "item-based" : "user-based") : opsional
@@ -6,10 +7,10 @@ export const getFormulaPrediction = (similarity, opsional) => {
     switch (opsionalModify) {
         case "user-based":
             return {
-                formula: `\\[ {\\widetilde{r}_{ui}} = \\mu_{u} +\\frac{\\sum_{v\\in  X_{u}(j)} Sim_{uv}* S_{vi}}{\\sum_{v \\in  X_{u}(i)}\\mid Sim_{uv} \\mid} \\]`,
+                formula: `\\[ {\\widetilde{r}_{ui}} = \\mu_{u} +\\frac{\\sum_{v\\in  X_{u}(j)} Sim_{uv}* s_{vi}}{\\sum_{v \\in  X_{u}(i)}\\mid Sim_{uv} \\mid} \\]`,
                 arg_max: `\\[  X_{u}(i)=\\ \\begin{matrix}k\\\\argmax\\ \\\\j\\ \\in\\ \\ U_{i}\\\\\\end{matrix}{Sim_{ju}}\\  \\]`,
                 detail_formula: [
-                    `\\[ S_{vi} = \\text{Rata-rata } \\textit{rating} \\text{ yang diberikan oleh } \\textit{user} \\ u \\text{ pada seluruh } \\textit{item} \\]`,
+                    `\\[ s_{vi} = \\text{Rata-rata } \\textit{rating} \\text{ yang diberikan oleh } \\textit{user} \\ u \\text{ pada seluruh } \\textit{item} \\]`,
                     `\\[ Sim_{uv} = \\text{Nilai } \\textit{similarity} \\text{ antara } \\textit{user} \\ u \\text{ dan } \\textit{user} \\ v \\]`,
                     `\\[ X_{u}(j) = \\text{Himpunan tetangga (top-k) dari } \\textit{user} \\ u \\text{ untuk } \\textit{item} \\ i \\]`
                 ],
@@ -17,10 +18,10 @@ export const getFormulaPrediction = (similarity, opsional) => {
             };
         case "item-based":
             return {
-                formula: `\\[ {\\widetilde{r}_{ui}} = \\mu_{i} +\\frac{\\sum_{j\\in X_{i}(u)} Sim_{uv}* S_{uj}}{\\sum_{j \\in X_{i}(u)}\\mid Sim_{ij} \\mid} \\]`,
+                formula: `\\[ {\\widetilde{r}_{ui}} = \\mu_{i} +\\frac{\\sum_{j\\in X_{i}(u)} Sim_{uv}* s_{uj}}{\\sum_{j \\in X_{i}(u)}\\mid Sim_{ij} \\mid} \\]`,
                 arg_max: `\\[  X_{i}(u)=\\ \\begin{matrix}k\\\\argmax\\ \\\\j\\ \\in\\ I_{i}\\\\\\end{matrix}{ Sim_{ju}}\\  \\]`,
                 detail_formula: [
-                    `\\[ S_{vi} = \\text{Rata-rata } \\textit{rating} \\text{ yang diberikan oleh } \\textit{user} \\ u \\text{ pada seluruh } \\textit{item} \\]`,
+                    `\\[ s_{vi} = \\text{Rata-rata } \\textit{rating} \\text{ yang diberikan oleh } \\textit{user} \\ u \\text{ pada seluruh } \\textit{item} \\]`,
                     `\\[ Sim_{uv} = \\text{Nilai } \\textit{similarity} \\text{ antara } \\textit{user} \\ u \\text{ dan } \\textit{user} \\ v \\]`,
                     `\\[ X_{i}(j) = \\text{Himpunan tetangga (top-k) dari } \\textit{item} \\ i \\text{ untuk } \\textit{user} \\ u \\]`
                 ],
@@ -55,43 +56,43 @@ export const getFormulaPredictionIndex = (rowIndex, colIndex, similarity, opsion
     }
 }
 
-export const getFormulaPredictionValue = (rowIndex, colIndex, similarValues, result, dataRating, similarity, opsional, isNotation) => {
+export const getFormulaPredictionValue = (rowIndex, colIndex, similarValues, result, dataRating, similarity, opsional, isNotation, selectedValue) => {
     const resultMeanCentered = similarity === "Adjusted Vector Cosine" ? transposeMatrix(result["mean-centered-brother"]) : result["mean-centered"]
     const resultDataRating = similarity === "Adjusted Vector Cosine" ? transposeMatrix(dataRating) : (opsional === "user-based" ? dataRating : transposeMatrix(dataRating))
 
     const resultMean = similarity === "Adjusted Vector Cosine" ? (result["mean-list-brother"]) : result["mean-list"]
 
+
+
     switch (opsional) {
         case "user-based":
-            if (!isNotation) {
-                return `\\[ {\\widetilde{r}_{${rowIndex + 1}${colIndex + 1}}} = {${resultMean[rowIndex].toFixed(3)}} + \\frac{${similarValues.filter(sim => resultDataRating[sim.index][colIndex] !== 0)
-                    .map(sim => (`\\left(${sim.value.toFixed(4)} \\times \\left(${resultMeanCentered[sim.index][colIndex].toFixed(2)}\\right)\\right)`
-                    )).join(' + ')}}{${similarValues.filter(sim => resultDataRating[sim.index][colIndex] !== 0)
-                        .map(sim => `\\mid ${sim.value.toFixed(4)} \\mid`)
-                        .join(' + ')}} \\]`;
-            } else {
-                return `\\[ {\\widetilde{r}_{${rowIndex + 1}${colIndex + 1}}} = {\\mu_{${rowIndex + 1}}} + \\frac{${similarValues.filter(sim => resultDataRating[sim.index][colIndex] !== 0)
-                    .map(sim => (`\\left(Sim_{${sim.index + 1}${(colIndex + 1)}} \\times \\left(S_{${sim.index + 1}${(colIndex + 1)}}\\right)\\right)`
-                    )).join(' + ')}}{${similarValues.filter(sim => resultDataRating[sim.index][colIndex] !== 0)
-                        .map(sim => `\\mid Sim_{${sim.index + 1}${(colIndex + 1)}} \\mid`)
-                        .join(' + ')}} \\]`;
-            }
+            const numeratorUser = sum(similarValues.filter(sim => resultDataRating[sim.index][colIndex] !== 0).map(sim => sim.value.toFixed(4) * resultMeanCentered[sim.index][colIndex].toFixed(2)))
+            const denominatorUser = sum(similarValues.filter(sim => resultDataRating[sim.index][colIndex] !== 0).map(sim => Math.abs(sim.value.toFixed(4))))
+
+            console.log("resultMean[rowIndex]", resultMean[rowIndex]);
+            console.log("numeratorUser", numeratorUser);
+            console.log("denominatorUser", denominatorUser);
+            return {
+                formula: !isNotation ? `\\[ {\\widetilde{r}_{${rowIndex + 1}${colIndex + 1}}} = {${resultMean[rowIndex].toFixed(3)}} + \\frac{${similarValues.filter(sim => resultDataRating[sim.index][colIndex] !== 0).map(sim => (`\\left(${sim.value.toFixed(4)} \\times \\left(${resultMeanCentered[sim.index][colIndex].toFixed(2)}\\right)\\right)`)).join(' + ')}}{${similarValues.filter(sim => resultDataRating[sim.index][colIndex] !== 0).map(sim => `\\mid ${sim.value.toFixed(4)} \\mid`).join(' + ')}} \\]` : `\\[ {\\widetilde{r}_{${rowIndex + 1}${colIndex + 1}}} = {\\mu_{${rowIndex + 1}}} + \\frac{${similarValues.filter(sim => resultDataRating[sim.index][colIndex] !== 0).map(sim => (`\\left(Sim_{${sim.index + 1}${(colIndex + 1)}} \\times \\left(s_{${sim.index + 1}${(colIndex + 1)}}\\right)\\right)`)).join(' + ')}}{${similarValues.filter(sim => resultDataRating[sim.index][colIndex] !== 0).map(sim => `\\mid Sim_{${sim.index + 1}${(colIndex + 1)}} \\mid`).join(' + ')}} \\]`,
+                proses_formula: `\\[ \\widetilde{r}_{${rowIndex + 1}${colIndex + 1}} = ${resultMean[rowIndex].toFixed(3)} + \\frac{${numeratorUser.toFixed(4)}}{${denominatorUser.toFixed(4)}} \\]`,
+                result: `\\[ \\widetilde{r}_{${rowIndex + 1}${colIndex + 1}} = ${selectedValue.toFixed(3)} \\]`
+            };
+
 
         case "item-based":
-            if (!isNotation) {
 
-                return `\\[ {\\widetilde{r}_{${rowIndex + 1}${colIndex + 1}}} = {${resultMean[colIndex].toFixed(3)}} + \\frac{${similarValues.filter(sim => resultDataRating[sim.index][rowIndex] !== 0)
-                    .map(sim => (`\\left(${sim.value.toFixed(4)} \\times \\left(${resultMeanCentered[sim.index][rowIndex].toFixed(2)}\\right)\\right)`))
-                    .join(' + ')}}{${similarValues.filter(sim => resultDataRating[sim.index][rowIndex] !== 0)
-                        .map(sim => `\\mid ${sim.value.toFixed(4)} \\mid`)
-                        .join(' + ')}} \\]`
-            } else {
-                return `\\[ {\\widetilde{r_{${rowIndex + 1}${colIndex + 1}}}} = {\\mu_{${rowIndex + 1}}} + \\frac{${similarValues.filter(sim => resultDataRating[sim.index][colIndex] !== 0)
-                    .map(sim => (`\\left(Sim_{${(rowIndex + 1)}${sim.index + 1}} \\times \\left(S_{${(rowIndex + 1)}${sim.index + 1}}\\right)\\right)`
-                    )).join(' + ')}}{${similarValues.filter(sim => resultDataRating[sim.index][colIndex] !== 0)
-                        .map(sim => `\\mid Sim_{${(rowIndex + 1)}${sim.index + 1}} \\mid`)
-                        .join(' + ')}} \\]`;
+            const numeratorItem = sum(similarValues.filter(sim => resultDataRating[sim.index][colIndex] !== 0).map(sim => sim.value.toFixed(4) * resultMeanCentered[sim.index][colIndex].toFixed(2)))
+            const denominatorItem = sum(similarValues.filter(sim => resultDataRating[sim.index][colIndex] !== 0).map(sim => Math.abs(sim.value.toFixed(4))))
+            console.log("resultMean[rowIndex]", resultMean[rowIndex]);
+            console.log("numeratorItem", numeratorItem);
+            console.log("denominatorItem", denominatorItem);
+
+            return {
+                formula: !isNotation ? `\\[ {\\widetilde{r}_{${rowIndex + 1}${colIndex + 1}}} = {${resultMean[colIndex].toFixed(3)}} + \\frac{${similarValues.filter(sim => resultDataRating[sim.index][rowIndex] !== 0).map(sim => (`\\left(${sim.value.toFixed(4)} \\times \\left(${resultMeanCentered[sim.index][rowIndex].toFixed(2)}\\right)\\right)`)).join(' + ')}}{${similarValues.filter(sim => resultDataRating[sim.index][rowIndex] !== 0).map(sim => `\\mid ${sim.value.toFixed(4)} \\mid`).join(' + ')}} \\]` : `\\[ {\\widetilde{r_{${rowIndex + 1}${colIndex + 1}}}} = {\\mu_{${rowIndex + 1}}} + \\frac{${similarValues.filter(sim => resultDataRating[sim.index][colIndex] !== 0).map(sim => (`\\left(Sim_{${(rowIndex + 1)}${sim.index + 1}} \\times \\left(s_{${(rowIndex + 1)}${sim.index + 1}}\\right)\\right)`)).join(' + ')}}{${similarValues.filter(sim => resultDataRating[sim.index][colIndex] !== 0).map(sim => `\\mid Sim_{${(rowIndex + 1)}${sim.index + 1}} \\mid`).join(' + ')}} \\]`,
+                proses_formula: `\\[ \\widetilde{r}_{${rowIndex + 1}${colIndex + 1}} = ${resultMean[rowIndex].toFixed(3)} + \\frac{${numeratorItem.toFixed(4)}}{${denominatorItem.toFixed(4)}} \\]`,
+                result: `\\[ \\widetilde{r}_{${rowIndex + 1}${colIndex + 1}} = ${selectedValue.toFixed(3)} \\]`
             }
+
         default:
             return
     }

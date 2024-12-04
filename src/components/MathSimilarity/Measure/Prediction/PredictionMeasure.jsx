@@ -9,15 +9,19 @@ import { transposeMatrix } from "../../../../helper/helper";
 import { IconButton } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import PrediksiGif from "../../../../assets/vidioAsset/prediksiGIf.gif";
+import LegendTable from "../../../tabelData/LegendTable";
+import { Input } from "@headlessui/react";
 
 export function PredictionMeasure({ dataRating, opsional, similarity }) {
   const [kValue, setKValue] = useState(2);
+  const [k, setK] = useState(null);
 
-  const initialData = getInitialData(dataRating, opsional, kValue !== "" ? kValue : 2);
+  const initialData = getInitialData(dataRating, opsional, kValue);
   const [data] = useState(initialData);
 
   const [dataOnly] = useState(initialData.data);
 
+  const { result } = AllSimilaritas(data, similarity);
   const formula = getFormulaPrediction(similarity, opsional);
 
   const dataModify =
@@ -25,7 +29,6 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
       ? transposeMatrix(dataOnly)
       : dataOnly;
 
-  const { result } = AllSimilaritas(data, similarity);
 
   const [selectedValue, setSelectedValue] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -36,8 +39,6 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
   const [selectedIndex, setSelectedIndex] = useState([]);
 
   const [topSimilarities, setTopSimilarities] = useState([]);
-
-  const [selectedUserTopN, setSelectedUserTopN] = useState(null);
   // Fungsi untuk mendapatkan prediksi terbesar dan item terkait
   const getTopPredictions = (userIndex, result) => {
     // Cek apakah result dan top-n tersedia
@@ -111,9 +112,13 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
   // Fungsi untuk toggle teks
   const toggleText = () => setIsExpanded(!isExpanded);
 
-  const RenderTabelPrediksi = memo(({ result }) => {
+  const RenderTabelPrediksi = memo(({ k }) => {
 
+    const initialData = getInitialData(dataRating, opsional, k !== "" ? k : 2);
     const [dataOnly] = useState(initialData.data);
+
+    const [data] = useState(initialData);
+    const { result } = AllSimilaritas(data, similarity);
     if (!result || !result["prediction"]) return null;
 
     return (
@@ -184,105 +189,245 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
             )}
 
         </div>
-        <div>
-          {/* Dropdown untuk memilih user */}
-          <div className="mt-4">
-            <label
-              htmlFor="user-dropdown"
-              className="font-semibold text-lg ml-5 block"
-            >
-              Lihat TopN Prediksinya
-            </label>
-            <select
-              id="user-dropdown"
-              className="ml-5 mt-3 p-2 w-full sm:w-auto border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              value={selectedUserTopN || ""}
-              onChange={(e) => e.target.value !== "" ? setSelectedUserTopN(Number(e.target.value)) : setSelectedUserTopN(null)}
-            >
-              {dataRating.map((_, i) => <option value={i + 1} key={i}>User {i + 1}</option>)}
-            </select>
-          </div>
-
-
-          {/* Menampilkan Hasil Prediksi dan Penjelasan Ranking hanya setelah memilih user */}
-          {selectedUserTopN !== null && (
-            <>
-              <p className="ml-5 font-semibold text-lg sm:text-xl mt-5">
-                Hasil Prediksi <span className="italic">rating</span> untuk{" "}
-                <span className="italic">user</span> target {selectedUserTopN} :
-              </p>
-
-              <ul className="ml-5 my-2 font-semibold text-lg sm:text-xl">
-                {/* Akses prediksi dengan indeks yang benar */}
-                {getTopPredictions(selectedUserTopN - 1, result).map((prediction, index) => (
-                  <li key={index} className="my-1">
-                    <span className="relative inline-block">
-                      <sup className="absolute top-0 left-0 text-xs">^</sup>
-                      <span>r</span>
-                    </span>
-                    <sub>
-                      {selectedUserTopN}
-                      {index + 1}
-                    </sub>{" "}
-                    = {prediction.toFixed(4)}
-                  </li>
-                ))}
-              </ul>
-
-              {/* Penjelasan Ranking */}
-              <p className="font-semibold text-md sm:text-lg ml-5 my-4 text-justify">
-                Karena
-                {getTopPredictions(selectedUserTopN - 1, result).map((_, index) => (
-                  <>
-                    <span
-                      key={index}
-                      className={`p-1 rounded-lg font-bold 
-                      ${index === 0
-                          ? "bg-yellow-300"
-                          : index === 1
-                            ? "bg-blue-300"
-                            : "bg-green-300"}`}
-                    >
-                      <span className="relative inline-block">
-                        <sup className="absolute -top-1 left-0 text-xs">^</sup>
-                        <span>r</span>
-                      </span>
-                      <sub>
-                        {selectedUserTopN}
-                        {index + 1}
-                      </sub>
-                    </span>
-                    {/* Menambahkan tanda ">" jika bukan prediksi terakhir */}
-                    {index <
-                      getTopPredictions(selectedUserTopN - 1, result).length - 1 &&
-                      " > "}
-                  </>
-                ))}
-                , maka rekomendasi:
-                {getTopPredictions(selectedUserTopN - 1, result).length === 1 ? (
-                  <>
-                    <i>User </i> {selectedUserTopN} lebih direkomendasikan
-                    kepada <i> User </i>{" "}
-                    {selectedUserTopN}
-                  </>
-                ) : (
-                  <>
-                    Top -{" "}
-                    {getTopPredictions(selectedUserTopN - 1, result)[0] >
-                      getTopPredictions(selectedUserTopN - 1, result)[1]
-                      ? "2"
-                      : "1"}{" "}
-                    lebih direkomendasikan kepada <i>User </i> {selectedUserTopN} ,{" "}
-                  </>
-                )}
-                jika dibandingkan dengan <i>User </i> target yang lainnya.
-              </p>
-            </>
-          )}
-        </div>
       </>
     )
   });
+
+  const TopNPrediction = ({ k }) => {
+    const initialData = getInitialData(dataRating, opsional, k !== "" ? k : 2);
+    const [data] = useState(initialData);
+    const { result } = AllSimilaritas(data, similarity);
+    const [selectedUserTopN, setSelectedUserTopN] = useState(null); // Menyimpan pilihan user
+
+    // Pastikan result dan result["prediction"] ada
+    if (!result || !result["prediction"]) return null;
+
+    // Ambil kolom pertama sebagai user options berdasarkan indeks
+    const userOptions = result["prediction"].map((_, index) => index);
+
+    // Fungsi untuk mengambil Top-N prediksi berdasarkan user
+    const getTopPredictions = (userIndex, result) => {
+      if (!result || !result["top-n"]) {
+        return null;
+      }
+      const predictions = result["top-n"][userIndex];
+      return predictions || [];
+    };
+
+    console.log("topN dATA", getTopPredictions);
+    // Fungsi untuk memeriksa apakah nilai prediksi ada di dalam Top-N
+    const isInTopN = (value, topNValues) => {
+      return topNValues.includes(value);
+    };
+
+    // Mengambil top N prediksi berdasarkan pemilihan user
+    const topNPredictions =
+      selectedUserTopN !== null
+        ? getTopPredictions(selectedUserTopN, result)
+        : [];
+
+    // Menyimpan indeks item yang berwarna merah (bg-red-200)
+    const highlightedIndexes =
+      selectedUserTopN !== null
+        ? result["prediction"][selectedUserTopN]
+          .map((prediction, index) => {
+            const isHighlighted = isInTopN(prediction, topNPredictions);
+            return isHighlighted
+              ? { index: index + 1, value: prediction } // Simpan index dan nilai
+              : null;
+          })
+          .filter((item) => item !== null) // Hanya ambil yang masuk Top-N
+        : [];
+
+    const sortedRecommendations = [...highlightedIndexes].sort(
+      (a, b) => b.value - a.value
+    );
+
+    return (
+      <>
+        <div>
+          <div id="topN-section" className="flex items-center my-5">
+            <div className="border-l-4 border-card_blue_primary h-10 mr-4" />
+            <h1 className="font-poppins text-start text-xl font-semibold text-black">
+              Menghasilkan Top-N Rekomendasi
+            </h1>
+          </div>
+
+          <div className="text-start">
+            {/* Penjelasan Rekomendasi Top-N */}
+            <p
+              className={`text-gray-700 font-medium ml-5 text-justify ${isExpanded ? "" : "line-clamp-2"
+                }`}
+            >
+              Rekomendasi <span className="italic">Top-N</span> untuk{" "}
+              <i>user</i> target dihasilkan dengan cara mengurutkan nilai
+              prediksi <span className="italic">rating</span> dari <i>user</i>{" "}
+              target terhadap daftar <i>item</i> yang belum diberikan{" "}
+              <i>rating</i>. Semakin tinggi nilai prediksi rating suatu{" "}
+              <i>item</i>, maka semakin direkomendasikan <i>item</i> tersebut
+              untuk <i>user</i> target.
+            </p>
+
+            <div className="flex justify-center items-center">
+              {/* Dropdown untuk memilih user */}
+              <div className="mt-4 w-full max-w-xs">
+                <label
+                  htmlFor="user-dropdown"
+                  className="font-semibold text-lg ml-5 block"
+                >
+                  Lihat Top-N Prediksi
+                </label>
+                <select
+                  id="user-dropdown"
+                  className="ml-5 mt-3 p-2 w-full sm:w-auto border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  value={selectedUserTopN || ""}
+                  onChange={(e) =>
+                    e.target.value !== ""
+                      ? setSelectedUserTopN(Number(e.target.value))
+                      : setSelectedUserTopN(null)
+                  }
+                >
+                  <option value="" key={-1}>Pilih User</option>
+                  {/* Opsi dropdown berdasarkan indeks */}
+                  {userOptions.map((index) => (
+                    <option key={index} value={index}>
+                      User {index + 1}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            {/* Menampilkan Hasil Prediksi dan Penjelasan Ranking hanya setelah memilih user */}
+            {selectedUserTopN !== null && (
+              <>
+                <p className="ml-5 font-semibold text-lg sm:text-xl mt-5">
+                  Hasil Prediksi <span className="italic">rating</span> untuk{" "}
+                  <span className="italic">user</span> target{" "}
+                  {selectedUserTopN + 1} :
+                </p>
+                <table className="ml-5 my-2 font-semibold text-lg sm:text-xl table-auto border-collapse border">
+                  <thead>
+                    <tr>
+                      <th className="border border-black text-left px-3 py-2">
+                        Nilai r
+                      </th>
+                      <th className="border border-black text-left px-3 py-2">
+                        Prediksi
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {/* Menampilkan semua prediksi untuk user yang dipilih */}
+                    {result["prediction"][selectedUserTopN].map(
+                      (prediction, index) => {
+                        const isHighlighted = isInTopN(
+                          prediction,
+                          topNPredictions
+                        );
+                        const rTableDataTopN = `\\[ {\\widehat{r}_{${selectedUserTopN + 1
+                          }${index + 1}}} \\]`;
+                        const hasilTabelTopN = `\\[ ${prediction.toFixed(
+                          4
+                        )} \\]`;
+                        return (
+                          <tr
+                            key={index}
+                            className={`border border-black ${isHighlighted ? "bg-blue-200" : "bg-green-200"
+                              }`}
+                          >
+                            <td className="px-3 py-2">
+                              <MathJaxContext option={mathjaxConfig}>
+                                <MathJax>{rTableDataTopN}</MathJax>
+                              </MathJaxContext>
+                            </td>
+                            <td className="border border-black px-3 py-2">
+                              <MathJaxContext option={mathjaxConfig}>
+                                <MathJax>{hasilTabelTopN}</MathJax>
+                              </MathJaxContext>
+                            </td>
+                          </tr>
+                        );
+                      }
+                    )}
+                  </tbody>
+                </table>
+                <div>
+                  <LegendTable
+                    list={[
+                      {
+                        color: "bg-green-200",
+                        description: (
+                          <>
+                            Menandakan Prediksi Nilai{" "}
+                            <i className="mx-1"> Rating </i> asli.
+                          </>
+                        ),
+                      },
+                      {
+                        color: "bg-blue-200",
+                        description: (
+                          <>
+                            <p>
+                              Menandakan Hasil Prediksi Nilai{" "}
+                              <i className="mx-1"> Rating </i> yang dicari atau
+                              yang belum diketahui sebelumnya .
+                            </p>
+                          </>
+                        ),
+                      },
+                    ]}
+                  />
+                </div>
+                <div className="flex flex-wrap items-center">
+                  <p className="font-semibold text-md sm:text-lg ml-5 my-4 text-justify">
+                    Karena{" "}
+                    {sortedRecommendations
+                      .map((item, idx) => {
+                        const rDataTopN = `\\[ {\\widehat{r}_{${selectedUserTopN + 1
+                          }${item.index}}} = ${item.value.toFixed(4)} \\]`;
+                        return (
+                          <span
+                            key={idx}
+                            className="inline-block p-0.5 rounded-lg font-bold mx-1 my-0.5" // Adjusted padding and background color
+                          >
+                            <MathJaxContext option={mathjaxConfig}>
+                              <MathJax>{rDataTopN}</MathJax>
+                            </MathJaxContext>
+                          </span>
+                        );
+                      })
+                      .reduce((prev, curr, idx, array) => {
+                        if (prev === null) {
+                          return [curr];
+                        }
+                        return [
+                          ...prev,
+                          idx < array.length - 1 ? " > " : " > ",
+                          curr,
+                        ];
+                      }, null)}
+                    , maka ranking rekomendasi:{" "}
+                    {sortedRecommendations.map((item, idx, array) => (
+                      <span key={idx}>
+                        <i>Item {item.index}</i>
+                        {idx === array.length - 2
+                          ? " dan "
+                          : idx === array.length - 1
+                            ? ""
+                            : ", "}
+                      </span>
+                    ))}
+                    .
+                  </p>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      </>
+    );
+  };
 
 
   return (
@@ -359,7 +504,6 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
           Mencari Prediksi{" "}
           <span className="italic">
             {opsional
-              .replace("-", " ")
               .toLowerCase()
               .replace(/\b[a-z]/g, (letter) => letter.toUpperCase())}
           </span>{" "}
@@ -381,7 +525,6 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
           Hasil Prediksi{" "}
           <span className="italic">
             {opsional
-              .replace("-", " ")
               .toLowerCase()
               .replace(/\b[a-z]/g, (letter) => letter.toUpperCase())}
           </span>{" "}
@@ -408,13 +551,22 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
 
         <div className="my-4 flex gap-3 justify-center items-center">
           <label htmlFor="k" className="mb-3 font-bold">Tentukan nilai TopN :</label>
-          <input className="w-[20%] h-5" name="k" onChange={e => setKValue(e.target.value)} placeholder={kValue} />
-
+          <div className="outline outline-1 inline-flex items-center rounded-md bg-yellow-primary px-3 py-2 shadow-sm ring-1 ring-inset ring-gray-300">
+            <Input
+              id="itemInput"
+              name="k"
+              placeholder={kValue}
+              type="text"
+              className="w-full h-5 border-none bg-transparent font-poppins focus:outline-none text-gray-900"
+              onChange={e => setKValue(e.target.value)}
+            />
+          </div>
+          {/* <button className="bg-purple-btn-primary p-2 text-white rounded-lg " onClick={(e) => setK(kValue)}>Submit</button> */}
         </div>
         {/*    call api */}
 
         {kValue !== null && (
-          <RenderTabelPrediksi result={result} />
+          <RenderTabelPrediksi k={kValue} />
         )}
         {/* Modal pop-up */}
         {showModalTutorial && (
@@ -442,68 +594,7 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
             </div>
           </div>
         )}
-      </div>
-      <div>
-        <div id="topN-section" className="flex items-center my-5">
-          <div className="border-l-4 border-card_blue_primary h-10 mr-4" />
-          {/* Vertical Line */}
-          <h1 className="font-poppins text-start text-xl font-semibold text-black">
-            Menghasilkan Top-N Rekomendasi{" "}
-          </h1>
-        </div>
-        <div className="text-start">
-          {/* Penjelasan Rekomendasi Top-N */}
-          <p className={`text-gray-700 font-medium ml-5 text-justify ${isExpanded ? '' : 'line-clamp-3'}`}>
-            Rekomendasi <span className="italic">Top-N</span> untuk <i>user</i>{" "}
-            target dihasilkan dengan cara mengurutkan nilai prediksi{" "}
-            <span className="italic">rating</span> dari <i>user</i> target
-            terhadap daftar
-            <i> item </i> yang belum diberikan <i>rating</i>. Semakin tinggi nilai
-            prediksi rating suatu <i>item</i>, maka semakin di
-            direkomendasikan <i>item</i> tersebut untuk <i>user</i> target.
-          </p>
-
-          {/* Tampilkan tombol jika teks belum lengkap */}
-          {!isExpanded && (
-            <button
-              className="ml-5 text-card_blue_primary mt-2 text-sm text-start"
-              onClick={toggleText}
-            >
-              Baca Selengkapnya
-            </button>
-          )}
-
-          {/* Tombol untuk menutup teks */}
-          {isExpanded && (
-            <button
-              className=" ml-5 text-card_blue_primary mt-2 text-sm text-start"
-              onClick={toggleText}
-            >
-              Tampilkan Lebih Sedikit
-            </button>
-          )}
-
-          {/* MathJaxContext untuk Render Matematika */}
-          <MathJaxContext options={mathjaxConfig}>
-            <div className="flex flex-col sm:flex-row my-5 pl-5">
-              {/* MathJax Container */}
-              <div
-                className="border-2 py-3 px-3 border-black rounded-lg w-full sm:w-auto overflow-x-auto sm:overflow-x-visible">
-                <MathJax className="text-xs sm:text-sm md:text-base leading-relaxed">
-                  {formula.TopN}
-                </MathJax>
-              </div>
-
-              {/* Deskripsi */}
-              <p className="mt-4 sm:mt-0 sm:ml-4 items-center text-red-500 font-semibold text-justify">
-                Dimana himpunan didapatkan berdasarkan urutan nilai yang telah
-                diprediksi (dari yang terbesar ke yang terkecil)
-              </p>
-            </div>
-          </MathJaxContext>
-
-
-        </div>
+        {kValue !== null && <TopNPrediction k={kValue} />}
       </div>
     </div>
   )

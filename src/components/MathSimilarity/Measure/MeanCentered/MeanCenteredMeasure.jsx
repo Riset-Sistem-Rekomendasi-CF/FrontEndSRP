@@ -6,7 +6,7 @@ import { MathJax, MathJaxContext } from "better-react-mathjax";
 import mathjaxConfig from "../../../../mathjax-config";
 import { AllSimilaritas } from "../../../../api/getDataSet";
 import { transposeMatrix } from "../../../../helper/helper";
-import {IconButton} from "@mui/material";
+import { IconButton } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import centerdGif from "../../../../assets/vidioAsset/meanCenGif.gif";
 
@@ -58,44 +58,44 @@ const MeanCenteredMeasure = ({ opsional, similarity, initialData }) => {
                 <div className="overflow-x-auto w-full">
                     <table className="border border-black mt-4 min-w-full">
                         <thead>
-                        <tr className="bg-gray-200">
-                            {/* Kolom pertama (U/I) dengan lebar yang responsif */}
-                            <th className="border border-black px-4 py-2 text-xs sm:text-sm md:text-base w-1/6 min-w-[80px]">U/I</th>
+                            <tr className="bg-gray-200">
+                                {/* Kolom pertama (U/I) dengan lebar yang responsif */}
+                                <th className="border border-black px-4 py-2 text-xs sm:text-sm md:text-base w-1/6 min-w-[80px]">U/I</th>
 
-                            {Array.from({ length: numberOfColumns }, (_, index) => (
-                                <th key={index} className="border border-black px-4 py-2 text-xs sm:text-sm md:text-base">
-                                    {index + 1}
-                                </th>
-                            ))}
-                        </tr>
+                                {Array.from({ length: numberOfColumns }, (_, index) => (
+                                    <th key={index} className="border border-black px-4 py-2 text-xs sm:text-sm md:text-base">
+                                        {index + 1}
+                                    </th>
+                                ))}
+                            </tr>
                         </thead>
                         <tbody>
-                        {resultModify.map((row, rowIndex) => (
-                            <tr key={rowIndex}>
-                                {/* Kolom pertama (U/I) dengan padding dan lebar responsif */}
-                                <td className="border border-black px-4 py-2 bg-gray-200 text-xs sm:text-sm md:text-base w-1/6 min-w-[80px]">
-                                    {rowIndex + 1}
-                                </td>
+                            {resultModify.map((row, rowIndex) => (
+                                <tr key={rowIndex}>
+                                    {/* Kolom pertama (U/I) dengan padding dan lebar responsif */}
+                                    <td className="border border-black px-4 py-2 bg-gray-200 text-xs sm:text-sm md:text-base w-1/6 min-w-[80px]">
+                                        {rowIndex + 1}
+                                    </td>
 
-                                {row.map((value, colIndex) => {
-                                    const OriginalValue = similarity === "Adjusted Vector Cosine"
-                                        ? (opsional === "user-based" ? dataModify[colIndex][rowIndex] : dataModify[colIndex][rowIndex])
-                                        : (opsional === "user-based" ? dataModify[rowIndex][colIndex] : dataModify[colIndex][rowIndex]);
+                                    {row.map((value, colIndex) => {
+                                        const OriginalValue = similarity === "Adjusted Vector Cosine"
+                                            ? (opsional === "user-based" ? dataModify[colIndex][rowIndex] : dataModify[colIndex][rowIndex])
+                                            : (opsional === "user-based" ? dataModify[rowIndex][colIndex] : dataModify[colIndex][rowIndex]);
 
-                                    const IsZero = OriginalValue === 0;
+                                        const IsZero = OriginalValue === 0;
 
-                                    return (
-                                        <td
-                                            key={colIndex}
-                                            className={`border border-black px-4 py-2 text-center cursor-pointer hover:bg-card_green_primary text-xs sm:text-sm md:text-base ${IsZero ? 'bg-red-200' : ''}`}
-                                            onClick={() => handleMeanClick(value, rowIndex, colIndex)}
-                                        >
-                                            {value.toFixed(2)}
-                                        </td>
-                                    )
-                                })}
-                            </tr>
-                        ))}
+                                        return (
+                                            <td
+                                                key={colIndex}
+                                                className={`border border-black px-4 py-2 text-center cursor-pointer hover:bg-card_green_primary text-xs sm:text-sm md:text-base ${IsZero ? 'bg-red-200' : ''}`}
+                                                onClick={() => handleMeanClick(value, rowIndex, colIndex)}
+                                            >
+                                                {value.toFixed(2)}
+                                            </td>
+                                        )
+                                    })}
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>
@@ -121,7 +121,7 @@ const MeanCenteredMeasure = ({ opsional, similarity, initialData }) => {
         <div>
             <div className="flex items-center">
                 <div id="mean-cen-section"
-                     className="border-l-4 border-card_blue_primary h-10 mr-4"/>
+                    className="border-l-4 border-card_blue_primary h-10 mr-4" />
                 {/* Vertical Line */}
                 <h1 className='font-poppins text-xl text-start font-semibold text-black'>Mencari
                     Mean-Centered <i> Rating </i> <span
@@ -141,11 +141,11 @@ const MeanCenteredMeasure = ({ opsional, similarity, initialData }) => {
                     </div>
                 </div>
             </MathJaxContext>
-            <FunctionMeasureDropdown DetailRumus={FormulaMeanCentered.detail_formula}/>
+            <FunctionMeasureDropdown DetailRumus={FormulaMeanCentered.detail_formula} />
             <div className="px-4 sm:px-8 md:px-10 py-5">
                 <h1 className='text-lg font-semibold font-poppins underline underline-offset-8 decoration-4 decoration-card_blue_primary'>Hasil
                     Mean-Centered <span
-                        className='italic'>{opsional.replace("-", " ").toLowerCase().replace(/\b[a-z]/g, (letter) => letter.toUpperCase())}</span>
+                        className='italic'>{opsional.toLowerCase().replace(/\b[a-z]/g, (letter) => letter.toUpperCase())}</span>
                 </h1>
 
                 {/* Tombol dengan ikon */}
@@ -158,7 +158,7 @@ const MeanCenteredMeasure = ({ opsional, similarity, initialData }) => {
                         className="text-white hover:text-green-500 transition-colors duration-300"
                         aria-label="Info"
                     >
-                        <InfoIcon className="text-white hover:text-green-500"/>
+                        <InfoIcon className="text-white hover:text-green-500" />
                     </IconButton>
 
 
@@ -168,7 +168,7 @@ const MeanCenteredMeasure = ({ opsional, similarity, initialData }) => {
                     </h1>
                 </div>
                 {/* Tabel mean-centerd rating */}
-                <RenderTabelMeanCentered/>
+                <RenderTabelMeanCentered />
 
                 {/* Modal pop-up */}
                 {showModalTutorial && (

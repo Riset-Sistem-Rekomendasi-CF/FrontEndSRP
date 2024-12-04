@@ -100,7 +100,7 @@ export default function MeanMeasure({ opsional, similarity, initialData }) {
                 <div className="border-l-4 border-card_blue_primary h-10 mr-4" />
                 <h1 className='font-poppins text-base sm:text-lg md:text-xl lg:text-2xl font-semibold text-black text-start'>
                     Mencari rata-rata <i> Rating </i>{' '}
-                    <i>{opsional.replace("-", " ").toLowerCase().replace(/\b[a-z]/g, (letter) => letter.toUpperCase())}</i>
+                    <i>{opsional}</i>
                 </h1>
             </div>
 

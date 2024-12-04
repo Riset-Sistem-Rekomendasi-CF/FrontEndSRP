@@ -28,11 +28,15 @@ const ModalPredictionMeasure = ({ dataRating, opsional, similarity, topSimilarit
         )
     }
 
-    const PredictionValue = ({ rowIndex, colIndex, similarValues, result, dataRating, similarity, opsional, isNotation }) => {
-        const expression = getFormulaPredictionValue(rowIndex, colIndex, similarValues, result, dataRating, similarity, opsional, isNotation)
+    const PredictionValue = ({ rowIndex, colIndex, similarValues, result, dataRating, similarity, opsional, isNotation, selectedValue }) => {
+        const expression = getFormulaPredictionValue(rowIndex, colIndex, similarValues, result, dataRating, similarity, opsional, isNotation, selectedValue)
+        console.log(expression);
+
         return (
             <MathJax>
-                {expression}
+                {expression.formula}
+                {expression.proses_formula}
+                {expression.result}
             </MathJax>
         )
     }
@@ -274,6 +278,7 @@ const ModalPredictionMeasure = ({ dataRating, opsional, similarity, topSimilarit
                                     opsional={opsional}
                                     similarity={similarity}
                                     isNotation={isNotation}
+                                    selectedValue={selectedValue}
                                 />
                             </div>
                         ) : (
