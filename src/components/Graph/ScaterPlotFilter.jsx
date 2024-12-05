@@ -299,15 +299,15 @@ export function ScatterPlotDataFilter({
                     calculateEllipseScale(allPoints, data, xScale, yScale);
 
                 // Gambar elips dengan ukuran yang disesuaikan
-                svg
-                    .append("ellipse")
-                    .attr("cx", xScale(centerX))
-                    .attr("cy", yScale(centerY))
-                    .attr("rx", (xScale(centerX + radiusX) - xScale(centerX)) * scale) // Jari-jari horizontal dalam piksel  (adjustedScale)
-                    .attr("ry", (yScale(centerY - radiusY) - yScale(centerY)) * scale) // Jari-jari vertikal dalam piksel
-                    .attr("fill", "none")
-                    .attr("stroke", "yellow")
-                    .attr("stroke-width", 2);
+                // svg
+                //     .append("ellipse")
+                //     .attr("cx", xScale(centerX))
+                //     .attr("cy", yScale(centerY))
+                //     .attr("rx", (xScale(centerX + radiusX) - xScale(centerX)) * scale) // Jari-jari horizontal dalam piksel  (adjustedScale)
+                //     .attr("ry", (yScale(centerY - radiusY) - yScale(centerY)) * scale) // Jari-jari vertikal dalam piksel
+                //     .attr("fill", "none")
+                //     .attr("stroke", "yellow")
+                //     .attr("stroke-width", 2);
             }
         }, [size]); // Re-run on size change
         return (

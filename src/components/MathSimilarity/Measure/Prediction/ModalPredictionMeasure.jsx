@@ -5,7 +5,7 @@ import { transposeMatrix } from "../../../../helper/helper"
 import LegendTable from "../../../tabelData/LegendTable"
 import { useState } from "react"
 import SwitchToggle from "../../../Toggle/SwitchToggle"
-import { ScatterPlotDataFilter } from "../../../Graph/SccaterPlotFilter";
+import { ScatterPlotDataFilter } from "../../../Graph/ScaterPlotFilter";
 
 
 
