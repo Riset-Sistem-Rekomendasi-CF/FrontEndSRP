@@ -11,6 +11,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import PrediksiGif from "../../../../assets/vidioAsset/prediksiGIf.gif";
 import LegendTable from "../../../tabelData/LegendTable";
 import { Input } from "@headlessui/react";
+import { ScatterPlotDataFilter } from "../../../Graph/ScaterPlotFilter";
 
 export function PredictionMeasure({ dataRating, opsional, similarity }) {
   const [kValue, setKValue] = useState(2);
@@ -252,7 +253,26 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
               Menghasilkan Top-N Rekomendasi
             </h1>
           </div>
+          <ScatterPlotDataFilter
+            kValue={kValue}
+            result={result}
+            opsional={opsional}
+            topSimilarities={[
+              {
+                "index": 1,
+                "value": 0.98058067569092,
+                "hasRated": true
+              },
+              {
+                "index": 0,
+                "value": -0.5547001962252289,
+                "hasRated": true
+              }
+            ]}
+            rowIndex={2}
+            colIndex={1}
 
+          />
           <div className="text-start">
             {/* Penjelasan Rekomendasi Top-N */}
             <p
