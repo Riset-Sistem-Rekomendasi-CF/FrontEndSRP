@@ -7,6 +7,7 @@ module.exports = {
     extend: {
       fontFamily: {
         'poppins': ['Poppins', 'sans-serif'],
+        'stix': ['STIX Two Text', 'serif'],
       },
       colors: {
         // bg
