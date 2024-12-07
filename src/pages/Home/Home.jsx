@@ -15,6 +15,7 @@ import alfi from "../../assets/images/alfinur.JPG";
 import dimas from "../../assets/images/Dimas.jpeg";
 import ModalHomeFirst from "../../components/modal/ModalHomeFirst.jsx";
 import PlayCircleFilledWhiteIcon from "@mui/icons-material/PlayCircleFilledWhite";
+import Cookies from "js-cookie";
 
 const RatingExplanationTable = () => {
   // Data tabel yang berisi nilai dan penjelasan
@@ -150,13 +151,14 @@ const Home = () => {
   const [isModalOpenHome, setIsModalOpenHome] = useState(false);
 
   useEffect(() => {
-    const hasVisited = localStorage.getItem("hasVisited");
+    // const hasVisited = localStorage.getItem("hasVisited");
     // const hasVisited = sessionStorage.getItem("hasVisited");
+    const hasVisited = Cookies.get("hasVisited");
 
     if (!hasVisited) {
       // jika belum pernah dikunjungi, tampilkan modal
       setIsModalOpenHome(true);
-      localStorage.setItem("hasVisited", "true");
+      Cookies.set("hasVisited", "true");
     }
   }, []);
 

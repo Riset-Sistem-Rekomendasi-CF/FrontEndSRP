@@ -15,6 +15,7 @@
     "axios": "^1.7.7",
     "better-react-mathjax": "^2.0.4-beta1",
     "d3": "^7.9.0",
+    "js-cookie": "^3.0.5",
     "mathjax": "^3.2.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
