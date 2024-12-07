@@ -58,11 +58,12 @@ const CardFlip = () => {
       {/* Kartu Kiri */}
       <div
         onClick={flipLeftCard}
-        className="relative w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl h-[450px] sm:h-[500px] md:h-[550px] lg:h-[600px] perspective-[1000px] cursor-pointer"
+        className="relative w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl h-[450px] sm:h-[500px] md:h-[550px] lg:h-[650px] perspective-[1000px] cursor-pointer"
       >
         <div
-          className={`absolute w-full h-full transition-transform duration-500 ${isLeftFlipped ? "rotate-y-180" : ""
-            } transform-style-preserve-3d`}
+          className={`absolute w-full h-full transition-transform duration-500 ${
+            isLeftFlipped ? "rotate-y-180" : ""
+          } transform-style-preserve-3d`}
         >
           {/* Front */}
           <div className="w-full h-full absolute bg-white text-white flex flex-col justify-start items-center p-5 rounded-xl shadow-lg backface-hidden">
@@ -72,6 +73,10 @@ const CardFlip = () => {
               </h2>
               <CachedIcon className="text-gray-800 text-xl ml-4" />
             </div>
+            <p className="p-2 sm:p-1 md:p-2 bg-blue-200 rounded-full font-medium text-black shadow-md text-sm sm:text-base md:text-sm hover:bg-blue-300 cursor-pointer">
+              Tekan untuk lihat detail
+            </p>
+
             <GifImage
               gifSrc={UserBased} // Ganti dengan path gambar GIF
               staticImgSrc={UserBasedSvg} // Ganti dengan path gambar statis (frame pertama)
@@ -101,11 +106,12 @@ const CardFlip = () => {
       {/* Kartu Kanan */}
       <div
         onClick={flipRightCard}
-        className="relative w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl h-[450px] sm:h-[500px] md:h-[550px] lg:h-[600px] perspective-[1000px] cursor-pointer"
+        className="relative w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl h-[450px] sm:h-[500px] md:h-[550px] lg:h-[650px] perspective-[1000px] cursor-pointer"
       >
         <div
-          className={`absolute w-full h-full transition-transform duration-500 ${isRightFlipped ? "rotate-y-180" : ""
-            } transform-style-preserve-3d`}
+          className={`absolute w-full h-full transition-transform duration-500 ${
+            isRightFlipped ? "rotate-y-180" : ""
+          } transform-style-preserve-3d`}
         >
           {/* Front */}
           <div className="w-full h-full absolute bg-white text-white flex flex-col justify-start items-center p-5 rounded-xl shadow-lg backface-hidden">
@@ -115,6 +121,9 @@ const CardFlip = () => {
               </h2>
               <CachedIcon className="text-gray-800 text-xl ml-4" />
             </div>
+            <p className="p-2 sm:p-1 md:p-2 bg-blue-200 rounded-full font-medium text-black shadow-md text-sm sm:text-base md:text-sm hover:bg-blue-300 cursor-pointer">
+              Tekan untuk lihat detail
+            </p>
 
             <GifImage
               gifSrc={ItemBased} // Ganti dengan path gambar GIF
@@ -149,53 +158,53 @@ const CardFlip = () => {
 // ===================================================== END CARD FLIP ========================================== //
 
 // ===================================================== SIMILARITTAS CARD ========================================== //
-const CardList = () => {
-  // Data untuk kartu dengan ikon
-  const cards = [
-    {
-      title: "Pearson Coefficient Correlation",
-      icon: <Settings className="text-blue-500" />,
-    },
-    {
-      title: "Cosine Similarity",
-      icon: <TrendingUp className="text-green-500" />,
-    },
-    {
-      title: "Adjusted Vector Cosine",
-      icon: <PieChart className="text-yellow-500" />,
-    },
-    {
-      title: "Bhattacharyya Coefficient Similarity",
-      icon: <BarChart className="text-red-500" />,
-    },
-  ];
+// const CardList = () => {
+//   // Data untuk kartu dengan ikon
+//   const cards = [
+//     {
+//       title: "Pearson Coefficient Correlation",
+//       icon: <Settings className="text-blue-500" />,
+//     },
+//     {
+//       title: "Cosine",
+//       icon: <TrendingUp className="text-green-500" />,
+//     },
+//     {
+//       title: "Adjusted Vector Cosine",
+//       icon: <PieChart className="text-yellow-500" />,
+//     },
+//     {
+//       title: "Bhattacharyya Coefficient Similarity",
+//       icon: <BarChart className="text-red-500" />,
+//     },
+//   ];
 
-  return (
-    <div className="p-2 sm:p-3 lg:p-4">
-      <div className="overflow-hidden">
-        <div className="flex animate-marquee space-x-3 hover:animate-none ">
-          {cards.map((card, index) => (
-            <div
-              key={index}
-              className="bg-white rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 hover:shadow-2xl w-[60rem] h-30 sm:w-96 md:w-[50rem] lg:w-[60rem]" // Lebar yang lebih panjang dan responsif
-            >
-              <div className="p-4">
-                <div className="flex items-center">
-                  {/* Ikon di depan */}
-                  <div className="mr-3 text-4xl">{card.icon}</div>
-                  {/* Judul kartu */}
-                  <h3 className="text-lg text-start font-semibold text-gray-800">
-                    {card.title}
-                  </h3>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-};
+//   return (
+//     <div className="p-2 sm:p-3 lg:p-4">
+//       <div className="overflow-hidden">
+//         <div className="flex  space-x-3  ">
+//           {cards.map((card, index) => (
+//             <div
+//               key={index}
+//               className="bg-white rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 hover:shadow-2xl w-[60rem] h-30 sm:w-96 md:w-[50rem] lg:w-[60rem]" // Lebar yang lebih panjang dan responsif
+//             >
+//               <div className="p-4">
+//                 <div className="flex items-center">
+//                   {/* Ikon di depan */}
+//                   <div className="mr-3 text-4xl">{card.icon}</div>
+//                   {/* Judul kartu */}
+//                   <h3 className="text-lg text-start font-semibold text-gray-800">
+//                     {card.title}
+//                   </h3>
+//                 </div>
+//               </div>
+//             </div>
+//           ))}
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
 
 // ===================================================== END SIMILARTIAS ========================================== //
 
@@ -217,9 +226,10 @@ const ContentOverview = () => {
           >
             Sistem Rekomendasi
           </a>{" "}
-          merupakan sistem atau aplikasi yang dibuat untuk dapat menyediakan dan
-          memberikan rekomendasi dari suatu <i>item</i> untuk membuat suatu
-          keputusan yang diinginkan oleh <i>user</i> pada sistem.
+          merupakan sistem yang dibuat untuk menyediakan dan memberikan
+          rekomendasi dari suatu <i>item</i> di mana nilai rating tersebut belum
+          dirating oleh <i> user </i> tertentu kemudian akan dibuatkan suatu
+          prediksi yang diinginkan oleh <i>user</i> tertentu pada sistem.
         </p>
       </div>
       {/* Bottom Section: Single Column */}
@@ -264,10 +274,10 @@ const ContentOverview = () => {
       </div>
 
       <CardFlip />
-      <h1 className="text-3xl font-semibold font-poppins underline underline-offset-8 decoration-4 decoration-card_blue_primary my-5">
+      {/* <h1 className="text-3xl font-semibold font-poppins underline underline-offset-8 decoration-4 decoration-card_blue_primary my-5">
         Fungsi Similaritas Yang Digunakan
       </h1>
-      <CardList />
+      <CardList /> */}
     </>
   );
 };

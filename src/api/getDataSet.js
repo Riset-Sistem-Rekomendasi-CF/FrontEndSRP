@@ -11,7 +11,7 @@ const handleSimilarityFunction = similarity => {
     switch (similarity) {
         case "Pearson Correlation Coefficient":
             return getPearsonPC
-        case "Vector Cosine":
+        case "Cosine":
             return getCosine
         case "Adjusted Vector Cosine":
             return getACosine
