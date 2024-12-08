@@ -29,9 +29,9 @@ import VowelsPana from "../../assets/images/VowelsPna.png";
 import imgWork from "../../assets/images/imgWorkshop.png";
 import GifTut from "../../assets/vidioAsset/tutorialGif.gif";
 import NotificationImportantIcon from "@mui/icons-material/NotificationImportant";
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
 
-function Practice() {
+function Latihan() {
   const [isDescriptionVisible, setDescriptionVisible] = useState(false);
 
   const toggleDescription = () => {
@@ -73,13 +73,13 @@ function Practice() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    const hasVisited = Cookies.get("hasVisited");
+    const hasVisited = localStorage.getItem("hasVisited");
     // const hasVisited = sessionStorage.getItem("hasVisited");
 
     if (!hasVisited) {
       // jika belum pernah dikunjungi, tampilkan modal
       setIsModalOpen(true);
-      Cookies.set("hasVisited", "true");
+      localStorage.setItem("hasVisited", "true");
     }
   }, []);
 
@@ -87,7 +87,7 @@ function Practice() {
 
   const stepsData = [
     {
-      title: "Step 1: Perkenalan Pada Fitur Latihab",
+      title: "Step 1: Perkenalan Pada Fitur Latihan",
       content: (
         <>
           <p>
@@ -315,9 +315,9 @@ function Practice() {
       <Navigator />
 
       <BodyTutorial
-        header={"Practice Fungsi Similaritas"}
+        header={"Latihan Fungsi Similaritas"}
         subheader={
-          "Pada Page Practice pengguna bisa  bereksplorasi dan ingin melakukan" +
+          "Pada Page Latihan pengguna bisa  bereksplorasi dan ingin melakukan" +
           " eksperiment tentang perhitungan Fungsi Similaritas untuk pemahaman yang" +
           " lebih lanjut. "
         }
@@ -521,4 +521,4 @@ function Practice() {
   );
 }
 
-export default Practice;
+export default Latihan;

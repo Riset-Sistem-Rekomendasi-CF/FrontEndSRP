@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home/Home';
 import Tutorial from './pages/Tutorial/Tutorial';
-import Practice from './pages/Practice/Practice';
+import Latihan from './pages/Latihan/Latihan';
 import NotFoundPage from "./pages/ErorrPage/NotFoundPage";
 
 
@@ -15,7 +15,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/tutorial" element={<Tutorial />} />
-            <Route path="/practice" element={<Practice />} />
+            <Route path="/latihan" element={<Latihan />} />
             <Route path="*" element={<NotFoundPage/>}/>
           </Routes>
         </div>

@@ -29,7 +29,7 @@ import VowelsPana from "../../assets/images/VowelsPna.png";
 import imgWork from "../../assets/images/imgWorkshop.png";
 import GifTut from "../../assets/vidioAsset/tutorialGif.gif";
 import NotificationImportantIcon from "@mui/icons-material/NotificationImportant";
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
 
 const Tutorial = () => {
   const [isDescriptionVisible, setDescriptionVisible] = useState(false);
@@ -91,13 +91,13 @@ const Tutorial = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    const hasVisited = Cookies.get("hasVisited");
+    const hasVisited = localStorage.getItem("hasVisited");
     // const hasVisited = sessionStorage.getItem("hasVisited");
 
     if (!hasVisited) {
       // jika belum pernah dikunjungi, tampilkan modal
       setIsModalOpen(true);
-      Cookies.set("hasVisited", "true");
+      localStorage.setItem("hasVisited", "true");
     }
   }, []);
 

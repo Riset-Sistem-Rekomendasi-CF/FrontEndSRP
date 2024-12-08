@@ -287,7 +287,7 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
       (pred) => pred.colIndex
     );
 
-    console.log(itemIndexes); // Menampilkan index item yang dipilih berdasarkan urutan nilai terbesar
+    // console.log(itemIndexes); // Menampilkan index item yang dipilih berdasarkan urutan nilai terbesar
 
     // Mengatur dropdown untuk memilih user
     const handleUserSelectionChange = (e) => {
