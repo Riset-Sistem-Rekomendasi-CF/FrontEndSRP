@@ -15,7 +15,7 @@ import alfi from "../../assets/images/alfinur.JPG";
 import dimas from "../../assets/images/Dimas.jpeg";
 import ModalHomeFirst from "../../components/modal/ModalHomeFirst.jsx";
 import PlayCircleFilledWhiteIcon from "@mui/icons-material/PlayCircleFilledWhite";
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
 
 const RatingExplanationTable = () => {
   // Data tabel yang berisi nilai dan penjelasan
@@ -153,12 +153,12 @@ const Home = () => {
   useEffect(() => {
     // const hasVisited = localStorage.getItem("hasVisited");
     // const hasVisited = sessionStorage.getItem("hasVisited");
-    const hasVisited = Cookies.get("hasVisited");
+    const hasVisited = localStorage.getItem("hasVisited");
 
     if (!hasVisited) {
       // jika belum pernah dikunjungi, tampilkan modal
       setIsModalOpenHome(true);
-      Cookies.set("hasVisited", "true");
+      localStorage.getItem("hasVisited", "true");
     }
   }, []);
 
@@ -333,7 +333,7 @@ const Home = () => {
           bgColor={"bg-card_blue_primary"}
           Heading={"Tutorial Fungsi Similaritas"}
           buttonName={"Tutorial Sekarang"}
-          anchor={"/Tutorial"}
+          anchor={"/tutorial"}
         >
           {" "}
           Untuk belajar dan memahami cara perhitungan{" "}
@@ -346,7 +346,7 @@ const Home = () => {
           bgColor={"bg-card_green_primary"}
           Heading={"Latihan Fungsi Similaritas"}
           buttonName={"Latihan Sekarang"}
-          anchor={"/practice"}
+          anchor={"/latihan"}
         >
           {" "}
           Untuk eksplorasi dan eksperimen dalam perhitungan{" "}
