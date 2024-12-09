@@ -214,7 +214,7 @@ const ContentOverview = () => {
   return (
     <>
       <div className="bg-white shadow-lg rounded-xl p-6 md:p-10 mb-6 max-w-4xl mx-auto">
-        <h1 className="animate-bounce text-xl font-semibold font-poppins underline underline-offset-8 decoration-4 decoration-card_blue_primary mb-5">
+        <h1 className="text-xl font-semibold font-poppins underline underline-offset-8 decoration-4 decoration-card_blue_primary mb-5">
           Sistem Rekomendasi
         </h1>
         <p className="text-base sm:text-md md:text-lg text-gray-600 text-justify">
@@ -234,7 +234,7 @@ const ContentOverview = () => {
       </div>
       {/* Bottom Section: Single Column */}
       <div className="bg-white shadow-lg rounded-xl p-6 md:p-10 mb-6 max-w-4xl mx-auto">
-        <h1 className="animate-bounce text-xl font-semibold font-poppins underline underline-offset-8 decoration-4 decoration-card_blue_primary mb-5">
+        <h1 className=" text-xl font-semibold font-poppins underline underline-offset-8 decoration-4 decoration-card_blue_primary mb-5">
           Collaborative Filtering
         </h1>
         <p className="text-base sm:text-md md:text-lg text-gray-600 text-justify my-3">

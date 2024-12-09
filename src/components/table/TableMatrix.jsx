@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { checkEmptyRowOrColumn } from "../../helper/helper";
 import EditNoteIcon from "@mui/icons-material/EditNote";
+// import RatingComponentTabel from "./RatingComponentTabel";
 
 function InputList({
   children,
@@ -88,10 +89,7 @@ export default function TableMatrix({
       <h1 className="text-2xl font-bold font-poppins py-5 mb-5 underline underline-offset-8 decoration-4 decoration-card_blue_primary">
         Hasil Tabel Data Matrik <i>Rating</i> Yang Digunakan
       </h1>
-      <h1 className="p-2 font-poppins font-semibold text-red-500 ">
-        <EditNoteIcon className="mr-2" />
-        Semua Cell Dibawah bisa diedit dan diganti
-      </h1>
+
       <div className="flex flex-col items-center justify-center p-4">
         <div className="overflow-x-auto w-full">
           {" "}
@@ -140,6 +138,11 @@ export default function TableMatrix({
           </table>
         </div>
       </div>
+      <h1 className="p-2 font-poppins font-semibold text-black bg-blue-200 w-1/1.5 rounded-md shadow-md mx-auto text-center">
+        <EditNoteIcon className="mr-2 flex items-center justify-center" />
+        Semua Nilai Rating Di atas bisa diedit dan diganti dengan nilai rating
+        1-5.
+      </h1>
 
       <div className="mt-6 ml-5 text-left w-full">
         <p className="font-bold text-xl ">Keterangan:</p>
@@ -158,6 +161,12 @@ export default function TableMatrix({
           <li className="flex items-center">
             <div className="w-10 h-5 bg-yellow-btn-primary border border-1 border-black mr-2"></div>
             Index <i className="ml-1">Item</i>
+          </li>
+          <li className="flex items-center">
+            <div className="w-10 h-5 flex items-center justify-center border border-1 border-black mr-2">
+              1-5
+            </div>
+            Nilai Rating : 1-5
           </li>
         </ul>
       </div>
