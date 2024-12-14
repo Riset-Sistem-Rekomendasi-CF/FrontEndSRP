@@ -4,7 +4,7 @@ import * as d3 from "d3";
 export default function HeatMapVisualDataSim({ opsional, result, similarity }) {
   const RenderingHeatMap = () => {
     const similarityDataHeatMap = result["similarity"];
-    // console.log("ini adalh reduce data ", similarityDataHeatMap)
+    console.log("ini adalh reduce data ", similarityDataHeatMap);
 
     useEffect(() => {
       // Clear previous SVG if present
@@ -15,6 +15,7 @@ export default function HeatMapVisualDataSim({ opsional, result, similarity }) {
       const margin = { top: 20, right: 20, bottom: 30, left: 40 };
       const width = size - margin.left - margin.right;
       const height = size - margin.top - margin.bottom;
+      // console.log(height)
 
       // Define the user labels
       const usersIndex = Array.from(
@@ -52,11 +53,7 @@ export default function HeatMapVisualDataSim({ opsional, result, similarity }) {
       const colorScale = d3
         .scaleLinear()
         .range(["#69b3a2", "#6A5AE0", "#FCC822"])
-        .domain(
-          similarity === "Vector Cosine && Bhattacharyya Coefficient Similarity"
-            ? [0, 1]
-            : [-1, 0, 1]
-        );
+        .domain([-1, 0, 1]);
 
       // Create tooltip
       const tooltip = d3
@@ -142,6 +139,7 @@ export default function HeatMapVisualDataSim({ opsional, result, similarity }) {
         .append("g")
         .attr("transform", `translate(20, 20)`);
 
+      // Define the gradient for the color bar
       const gradient = colorBarSvg
         .append("defs")
         .append("linearGradient")
@@ -151,41 +149,45 @@ export default function HeatMapVisualDataSim({ opsional, result, similarity }) {
         .attr("x2", "0%")
         .attr("y2", "0%");
 
+      // Set the gradient stops based on the domain of 1, 0, -1
       gradient
         .append("stop")
         .attr("offset", "0%")
-        .attr("stop-color", "#FCC822")
+        .attr("stop-color", "#69b3a2") // Color for 1
         .attr("stop-opacity", 1);
 
       gradient
         .append("stop")
         .attr("offset", "50%")
-        .attr("stop-color", "#6A5AE0")
+        .attr("stop-color", "#6A5AE0") // Color for 0
         .attr("stop-opacity", 1);
 
       gradient
         .append("stop")
         .attr("offset", "100%")
-        .attr("stop-color", "#69b3a2")
+        .attr("stop-color", "#FCC822") // Color for -1
         .attr("stop-opacity", 1);
 
+      // Create the color bar rectangle
       colorBarSvg
         .append("rect")
         .attr("width", colorBarWidth)
         .attr("height", colorBarHeight)
         .attr("fill", "url(#gradient)");
 
-      // Add axis for color bar
+      // Define the color scale for the color bar
       const colorScaleBar = d3
         .scaleLinear()
-        .range([colorBarHeight, 0])
-        .domain([-1, 0, 1]);
+        .range([0, colorBarHeight]) // Maps 1 to top and -1 to bottom
+        .domain([1, -1]);
 
+      // Create the axis for the color bar with ticks
       const colorBarAxis = d3
         .axisRight(colorScaleBar)
-        .ticks(5)
-        .tickFormat(d3.format(".1f"));
+        .ticks(3) // Create 3 ticks at -1, 0, and 1
+        .tickFormat(d3.format(".1f")); // Format the ticks to show one decimal place
 
+      // Append the axis to the color bar
       colorBarSvg
         .append("g")
         .attr("transform", `translate(${colorBarWidth}, 0)`)

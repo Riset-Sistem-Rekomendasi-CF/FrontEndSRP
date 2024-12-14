@@ -12,6 +12,7 @@ import MathJaxComponent from "../../../MathJaxComponent";
 import LegendTable from "../../tabelData/LegendTable";
 import Warm from "../../Warm/Warm";
 import { sum } from "../../../helper/Measure";
+import CloseIcon from "@mui/icons-material/Close";
 
 const SimilarityIndex = ({
   rowIndex,
@@ -245,7 +246,13 @@ const ModalSimilarity = ({
 
   return (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-full sm:w-11/12 md:w-8/12 lg:w-6/12 xl:w-5/12 max-h-[80%] overflow-y-auto m-6">
+      <div className="bg-white p-6 rounded-lg shadow-lg w-full sm:w-11/12 md:w-8/12 lg:w-6/12 xl:w-5/12 max-h-[80%] overflow-y-auto m-6 relative">
+        <button
+          onClick={close}
+          className="absolute top-3 right-3 text-2xl text-gray-600 hover:text-gray-800 focus:outline-none"
+        >
+          <CloseIcon />
+        </button>
         <h2 className="text-lg sm:text-xl font-semibold mb-4">
           Detail Perhitungan Fungsi Similaritas
         </h2>
@@ -345,8 +352,10 @@ const ModalSimilarity = ({
                 color: "bg-green-200",
                 description: (
                   <>
-                    Menandakan Data <i className="mx-1"> Rating </i> yang akan
-                    dihitung
+                    <p>
+                      Menandakan Data <i className="mx-1"> Rating </i> yang akan
+                      dihitung
+                    </p>
                   </>
                 ),
               },
@@ -354,8 +363,10 @@ const ModalSimilarity = ({
                 color: "bg-red-200",
                 description: (
                   <>
-                    Menandakan Data <i className="mx-1"> Rating </i> yang tidak
-                    diketahui
+                    <p>
+                      Menandakan Data <i className="mx-1"> Rating </i> yang
+                      tidak diketahui
+                    </p>
                   </>
                 ),
               },

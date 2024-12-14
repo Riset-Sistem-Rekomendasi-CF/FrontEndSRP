@@ -313,29 +313,26 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
             Semakin tinggi nilai prediksi rating suatu <i>item</i>, maka semakin
             di rekomendasikan <i>item</i> tersebut untuk <i>user</i> target.
           </p>
+
           <MathJaxContext options={mathjaxConfig}>
             <div className="flex flex-col sm:flex-row my-5 pl-5">
-              {/* MathJax Container */}
               <div className="border-2 py-3 px-3 border-black rounded-lg w-full sm:w-auto overflow-x-auto sm:overflow-x-visible">
                 <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed">
                   {formula.TopN}
                 </MathJaxComponent>
               </div>
-
-              {/* Deskripsi */}
               <p className="mt-4 sm:mt-0 sm:ml-4 items-center text-red-500 font-semibold text-justify">
                 Dimana himpunan didapatkan berdasarkan urutan nilai similaritas
                 (dari yang terbesar ke yang terkecil)
               </p>
             </div>
           </MathJaxContext>
+
           <FunctionMeasureDropdown DetailRumus={formula.detailTopN_formula} />
 
-          {/* Dropdown untuk memilih user */}
           <div className="flex justify-center items-center space-x-4">
-            {/* Form untuk memilih user dan menentukan jumlah Top-N */}
+            {/* Dropdown untuk memilih user */}
             <div className="mt-4 w-full max-w-xs">
-              {/* Dropdown untuk memilih user */}
               <label
                 htmlFor="user-dropdown"
                 className="font-semibold text-lg mb-2 block"
@@ -380,33 +377,31 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
             </div>
           </div>
 
-          {/* Menampilkan tabel untuk Top-N yang sudah disaring */}
           {selectedUserTopN !== null && (
-            <>
-              <div className="mt-4">
+            <div className="mt-4 flex justify-center">
+              <div className="w-full max-w-4xl">
                 <p className="ml-5 font-semibold text-lg sm:text-xl mt-5 ">
                   Hasil Prediksi <span className="italic">rating</span> untuk
                   <span className="italic">user </span> target{" "}
                   {selectedUserTopN + 1} :
                 </p>
-                <table className="ml-5 my-2 font-semibold text-lg sm:text-xl table-auto border-collapse border">
-                  <thead>
-                    <tr>
-                      <th className="border border-black text-left px-3 py-2">
-                        Rank
-                      </th>
-                      <th className="border border-black text-left px-3 py-2">
-                        Nilai r
-                      </th>
-                      <th className="border border-black text-left px-3 py-2">
-                        Prediksi
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {/* Menampilkan hanya prediksi yang ada dalam topNPredictions */}
-                    {displayTopPredictionsRedUser.map((pred, index) => {
-                      return (
+                <div className="overflow-x-auto">
+                  <table className="ml-5 my-2 font-semibold text-lg sm:text-xl table-auto border-collapse border">
+                    <thead>
+                      <tr>
+                        <th className="border border-black text-left px-3 py-2">
+                          Rank
+                        </th>
+                        <th className="border border-black text-left px-3 py-2">
+                          Nilai r
+                        </th>
+                        <th className="border border-black text-left px-3 py-2">
+                          Prediksi
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {displayTopPredictionsRedUser.map((pred, index) => (
                         <tr
                           key={index}
                           className="border border-black bg-red-200"
@@ -415,7 +410,7 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
                             {index + 1}
                           </td>
                           <td className="px-3 py-2 font-stix">
-                            <span className="relative inline-block ">
+                            <span className="relative inline-block">
                               <sup className="absolute top-0 left-0 text-xs">
                                 ^
                               </sup>
@@ -430,23 +425,21 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
                             {pred.value.toFixed(3)}
                           </td>
                         </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
                 <div>
                   <LegendTable
                     list={[
                       {
                         color: "bg-red-200",
                         description: (
-                          <>
-                            <p>
-                              Menunjukkan hasil prediksi nilai{" "}
-                              <i className="mx-1">rating</i> yang belum
-                              diketahui sebelumnya.
-                            </p>
-                          </>
+                          <p>
+                            Menunjukkan hasil prediksi nilai{" "}
+                            <i className="mx-1">rating</i> yang belum diketahui
+                            sebelumnya.
+                          </p>
                         ),
                       },
                     ]}
@@ -463,7 +456,7 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
                         return (
                           <span
                             key={idx}
-                            className="inline-block p-0.5 rounded-lg font-bold mx-1 my-0.5" // Adjusted padding and background color
+                            className="inline-block p-0.5 rounded-lg font-bold mx-1 my-0.5"
                           >
                             <MathJaxContext option={mathjaxConfig}>
                               <MathJaxComponent>{rDataTopN}</MathJaxComponent>
@@ -502,7 +495,7 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
                   </p>
                 </div>
               </div>
-            </>
+            </div>
           )}
         </div>
       </div>
@@ -510,21 +503,27 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
   };
 
   return (
-    <div>
+    <div className="mt-5 bg-yellow-secondary shadow-md p-5 rounded-md outline outline-2 outline-black">
       <div className="flex items-center mb-5">
         <div
           id="pred-section"
           className="border-l-4 border-card_blue_primary h-10 mr-4"
         />
         {/* Vertical Line */}
-        <h1 className="font-poppins text-start text-xl font-semibold text-black">
-          Langkah-Langkah Prediksi{" "}
-          <span className="italic">
-            {opsional
-              .toLowerCase()
-              .replace(/\b[a-z]/g, (letter) => letter.toUpperCase())}
-          </span>{" "}
-        </h1>
+        <div className="flex items-center flex-wrap">
+          <div className="w-8 h-8 flex items-center justify-center bg-blue-500 text-white rounded-full text-lg font-semibold mr-3 sm:w-10 sm:h-10 sm:text-xl md:w-12 md:h-12 md:text-2xl">
+            4
+          </div>
+
+          <h1 className="font-poppins text-start text-xl font-semibold text-black">
+            Langkah-Langkah Prediksi{" "}
+            <span className="italic">
+              {opsional
+                .toLowerCase()
+                .replace(/\b[a-z]/g, (letter) => letter.toUpperCase())}
+            </span>{" "}
+          </h1>
+        </div>
       </div>
       <div className="text-start sm:ml-5 md:ml-10">
         <h2 className="font-semibold text-sm sm:text-base md:text-lg ">

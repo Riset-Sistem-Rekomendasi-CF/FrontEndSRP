@@ -270,10 +270,10 @@ const Home = () => {
 
   return (
     <LayoutHome>
-      <div>
+      <div className="mb-[6rem] sm:mb-0">
         <button
           onClick={() => setIsModalOpenHome(true)}
-          className="bg-card_blue_primary  font-poppins font-semibold text-white py-2 px-6 rounded-lg shadow-md hover:bg-blue-600 "
+          className="bg-card_blue_primary font-poppins font-semibold text-white py-2 px-6 rounded-lg shadow-md hover:bg-blue-600"
         >
           Modal Home Tutorial
           <PlayCircleFilledWhiteIcon className="ml-2" />
@@ -283,6 +283,7 @@ const Home = () => {
         )}
         {/* Rest of your component */}
       </div>
+
       <HeaderHome>
         <>
           <div>
@@ -292,7 +293,7 @@ const Home = () => {
 
           <div className="absolute inset-0 flex items-center justify-center">
             {/* Icon 1 */}
-            <div className="absolute top-0 left-0 transform -translate-x-1/4 sm:-left-5  md:-left-10 lg:-left-12 xl:-left-14">
+            <div className="absolute top-0 left-0 transform -translate-x-1/4 sm:-left-5 md:-left-10 lg:-left-12 xl:-left-14 hidden sm:block">
               <img
                 src={Img1}
                 alt="Icon 1"
@@ -301,7 +302,7 @@ const Home = () => {
             </div>
 
             {/* Icon 2 */}
-            <div className=" absolute top-10 right-0 transform translate-x-1/4 sm:translate-x-10 md:translate-x-20 lg:translate-x-20 xl:translate-x-24">
+            <div className="absolute top-10 right-0 transform translate-x-1/4 sm:translate-x-10 md:translate-x-20 lg:translate-x-20 xl:translate-x-24 hidden sm:block">
               <img
                 src={Img7}
                 alt="Icon 2"
@@ -398,14 +399,14 @@ const Home = () => {
         <CardAnggotaHome
           Image={buifa}
           Color={"bg-card_blue_primary"}
-          Nama={"Noor Ifadah"}
+          Nama={"Noor Ifada"}
           Email={"noor.ifada@trunojoyo.ac.id"}
         />
 
         <CardAnggotaHome
           Image={alfi}
           Color={"bg-card_green_primary"}
-          Nama={"Alfi Nur danialin"}
+          Nama={"Alfi Nur Danialin"}
           Email={"alfinurdanialin900@gmail.com"}
         />
 

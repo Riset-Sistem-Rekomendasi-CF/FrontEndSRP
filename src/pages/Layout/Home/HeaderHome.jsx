@@ -48,11 +48,7 @@ const HeaderHome = ({ children }) => {
         <p className="mt-8 font-medium text-lg sm:text-xl lg:text-2xl font-poppins text-gray-800 opacity-90 mb-6 max-w-4xl mx-auto leading-relaxed tracking-wide">
           Platform pembelajaran berbasis <span className="italic">website</span>{" "}
           untuk meningkatkan pemahaman pengguna terkait perhitungan fungsi
-          similaritas pada{" "}
-          <span className="bg-blue-500 text-white px-3 py-0.1 rounded-full shadow-md">
-            sistem rekomendasi
-          </span>{" "}
-          <i>Collaboarative Filtering</i>.
+          similaritas pada Sistem Rekomendasi <i> Collaborative Filtering</i>.
         </p>
 
         {/* Tombol scroll dengan animasi */}

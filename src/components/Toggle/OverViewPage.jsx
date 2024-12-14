@@ -157,57 +157,6 @@ const CardFlip = () => {
 
 // ===================================================== END CARD FLIP ========================================== //
 
-// ===================================================== SIMILARITTAS CARD ========================================== //
-// const CardList = () => {
-//   // Data untuk kartu dengan ikon
-//   const cards = [
-//     {
-//       title: "Pearson Coefficient Correlation",
-//       icon: <Settings className="text-blue-500" />,
-//     },
-//     {
-//       title: "Cosine",
-//       icon: <TrendingUp className="text-green-500" />,
-//     },
-//     {
-//       title: "Adjusted Vector Cosine",
-//       icon: <PieChart className="text-yellow-500" />,
-//     },
-//     {
-//       title: "Bhattacharyya Coefficient Similarity",
-//       icon: <BarChart className="text-red-500" />,
-//     },
-//   ];
-
-//   return (
-//     <div className="p-2 sm:p-3 lg:p-4">
-//       <div className="overflow-hidden">
-//         <div className="flex  space-x-3  ">
-//           {cards.map((card, index) => (
-//             <div
-//               key={index}
-//               className="bg-white rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 hover:shadow-2xl w-[60rem] h-30 sm:w-96 md:w-[50rem] lg:w-[60rem]" // Lebar yang lebih panjang dan responsif
-//             >
-//               <div className="p-4">
-//                 <div className="flex items-center">
-//                   {/* Ikon di depan */}
-//                   <div className="mr-3 text-4xl">{card.icon}</div>
-//                   {/* Judul kartu */}
-//                   <h3 className="text-lg text-start font-semibold text-gray-800">
-//                     {card.title}
-//                   </h3>
-//                 </div>
-//               </div>
-//             </div>
-//           ))}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// ===================================================== END SIMILARTIAS ========================================== //
-
 // ===================================================== OVERRVIEW ========================================== //
 
 const ContentOverview = () => {
@@ -220,64 +169,62 @@ const ContentOverview = () => {
         <p className="text-base sm:text-md md:text-lg text-gray-600 text-justify">
           <a
             href="https://www.bing.com/ck/a?!&&p=024c8e5d90fb32c16daaec06b7404838325313e0097f7340e2a37bb95b0a5cadJmltdHM9MTczMjA2MDgwMA&ptn=3&ver=2&hsh=4&fclid=333afb95-0e41-6f3e-3613-eb710fbc6e24&psq=IMPLEMENTASI+METODE+COLLABORATIVE+FILTERING+UNTUK+SISTEM+REKOMENDASI+PENJUALAN+PADA+TOKO+MEBEL&u=a1aHR0cHM6Ly9lam91cm5hbC5ic2kuYWMuaWQvZWp1cm5hbC9pbmRleC5waHAva2hhdHVsaXN0aXdhL2FydGljbGUvZG93bmxvYWQvOTg1OS80ODcz&ntb=1"
-            className="text-italic font-semibold no-underline hover:underline text-card_blue_primary decoration-card_blue_primary "
+            className="text-italic font-semibold no-underline hover:underline text-card_blue_primary decoration-card_blue_primary"
             target="_blank"
             rel="noopener noreferrer"
           >
             Sistem Rekomendasi
           </a>{" "}
           merupakan sistem yang dibuat untuk menyediakan dan memberikan
-          rekomendasi dari suatu <i>item</i> di mana nilai rating tersebut belum
-          dirating oleh <i> user </i> tertentu kemudian akan dibuatkan suatu
-          prediksi yang diinginkan oleh <i>user</i> tertentu pada sistem.
+          rekomendasi terhadap suatu <i>item</i> di mana nilai rating tersebut
+          belum diberikan oleh <i>user</i> tertentu. Kemudian, sistem akan
+          membuatkan suatu prediksi yang diinginkan oleh <i>user</i> tersebut.
         </p>
       </div>
+
       {/* Bottom Section: Single Column */}
       <div className="bg-white shadow-lg rounded-xl p-6 md:p-10 mb-6 max-w-4xl mx-auto">
-        <h1 className=" text-xl font-semibold font-poppins underline underline-offset-8 decoration-4 decoration-card_blue_primary mb-5">
+        <h1 className="text-xl font-semibold font-poppins underline underline-offset-8 decoration-4 decoration-card_blue_primary mb-5">
           Collaborative Filtering
         </h1>
         <p className="text-base sm:text-md md:text-lg text-gray-600 text-justify my-3">
           <a
             href="https://www.researchgate.net/publication/365477302_Sistem_Rekomendasi_Produk_Aplikasi_Marketplace_Berdasarkan_Karakteristik_Pembeli_Menggunakan_Metode_User_Based_Collaborative_Filtering"
-            className="text-italic font-semibold no-underline hover:underline text-card_blue_primary decoration-card_blue_primary "
+            className="text-italic font-semibold no-underline hover:underline text-card_blue_primary decoration-card_blue_primary"
             target="_blank"
             rel="noopener noreferrer"
           >
             Collaborative Filtering
           </a>{" "}
-          adalah metode yang digunakan dalam sistem rekomendasi yang
-          menghasilkan rekomendasi khusus kepada
-          <i> user </i> tentang <i> item </i> berdasarkan pola penilaian atau
-          penggunaan. Teknik ini terbagi menjadi dua pendekatan utama:{" "}
+          adalah metode yang digunakan dalam sistem rekomendasi untuk
+          menghasilkan rekomendasi khusus kepada <i>user</i> tentang <i>item</i>{" "}
+          berdasarkan pola penilaian atau penggunaan. Teknik ini terbagi menjadi
+          dua pendekatan utama:{" "}
           <span className="font-semibold">
-            <i>user-based </i>
+            <i>user-based</i>
           </span>{" "}
           dan{" "}
           <span className="font-semibold">
-            <i>item-based </i>
+            <i>item-based</i>
           </span>
           . Metode ini menghasilkan prediksi atau rekomendasi untuk pengguna
-          tertentu untuk satu atau banyak <i> item </i>.
+          tertentu terhadap satu atau banyak <i>item</i>.
         </p>
         <p className="text-base sm:text-md md:text-lg text-gray-600 text-justify">
-          <span className="text-italic font-semibold no-underline hover:underline text-card_blue_primary decoration-card_blue_primary ">
+          <span className="text-italic font-semibold no-underline hover:underline text-card_blue_primary decoration-card_blue_primary">
             Rating
           </span>{" "}
           mengacu pada nilai atau penilaian yang diberikan oleh <i>user</i>{" "}
-          terhadap suatu <i>item</i> atau produk. yang menggambarkan seberapa
-          besar <i>user</i> menyukai atau tidak menyukai <i>item</i> tersebut.
-          Sistem rekomendasi kemudian menggunakan informasi ini untuk mencari
-          pola dan membuat prediksi rekomendasi untuk pengguna lain yang
-          memiliki preferensi serupa.
+          terhadap suatu <i>item</i> atau produk, yang menggambarkan seberapa
+          besar
+          <i>user</i> menyukai atau tidak menyukai <i>item</i> tersebut. Sistem
+          rekomendasi kemudian menggunakan informasi ini untuk mencari pola dan
+          membuat prediksi rekomendasi untuk pengguna lain yang memiliki
+          preferensi serupa.
         </p>
       </div>
 
       <CardFlip />
-      {/* <h1 className="text-3xl font-semibold font-poppins underline underline-offset-8 decoration-4 decoration-card_blue_primary my-5">
-        Fungsi Similaritas Yang Digunakan
-      </h1>
-      <CardList /> */}
     </>
   );
 };
@@ -300,7 +247,7 @@ export default function OverViewRekomendasi() {
     }, []);
 
     return (
-      <section className="relative flex items-center justify-center">
+      <section className="mt-[4rem] sm:mt-0 relative flex items-center justify-center">
         <h1 className="font-bold font-poppins mb-5 md:mb-8 text-3xl sm:text-4xl md:text-5xl text-gray-800">
           <span className="text-slider inline-block">
             <span className="slide-text">{`Bagaimana Sistem Rekomendasi Bekerja di ${currentText} ?`}</span>
@@ -308,20 +255,21 @@ export default function OverViewRekomendasi() {
         </h1>
 
         {/* Animasi Ikon atau Gambar */}
+
         <div className="absolute inset-0 flex items-center justify-center">
           {/* Icon 1 */}
-          <div className="absolute top-0 left-0 transform -translate-x-1/4 sm:-left-5  md:-left-10 lg:-left-12 xl:-left-14">
+          <div className="absolute top-0 left-0 transform -translate-x-1/4 sm:-left-5 md:-left-10 lg:-left-12 xl:-left-14 hidden sm:block">
             <img
-              src={Img8}
+              src={Img1}
               alt="Icon 1"
               className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 opacity-100"
             />
           </div>
 
           {/* Icon 2 */}
-          <div className="absolute top-10 right-0 transform translate-x-1/4 sm:translate-x-10 md:translate-x-20 lg:translate-x-20 xl:translate-x-24">
+          <div className="absolute top-10 right-0 transform translate-x-1/4 sm:translate-x-10 md:translate-x-20 lg:translate-x-20 xl:translate-x-24 hidden sm:block">
             <img
-              src={Img1}
+              src={Img8}
               alt="Icon 2"
               className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 opacity-100"
             />
