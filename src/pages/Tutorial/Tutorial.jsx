@@ -368,14 +368,33 @@ const Tutorial = () => {
             sectionId="data_ratingTutorial" // Pass sectionId ke CardSteps
           />
           <CardSteps
+            heading="Sparsity"
+            description="Sparsity adalah data rating yang memiliki nilai kosong atau tidak memiliki nilai, karena user tidak memberikan nilai pada item tertentu."
+            icon={<Build className="w-8 h-8" />} // Ikon untuk langkah 2
+            sectionId="metode_ratingTutorial"
+          />
+          <CardSteps
             heading="Melihat Notasi dan Penjelasan"
             description="Melihat Notasi dan Penjelasan secara detail untuk notasi yang digunakan."
             icon={<RateReview className="w-8 h-8" />} // Ikon untuk langkah 1
             sectionId="notasi_ratingTutorial"
           />
+
           <CardSteps
             heading="Memilih Metode Digunakan"
             description="Memilih metode yang ingin digunakan, apakah User-Based atau Item-Based."
+            icon={<Build className="w-8 h-8" />} // Ikon untuk langkah 2
+            sectionId="metode_ratingTutorial"
+          />
+          <CardSteps
+            heading="Top-K"
+            description="Top-K adalah tetangga terdekat yang akan digunakan untuk memberikan rekomendasi item terbaik kepada user."
+            icon={<Build className="w-8 h-8" />} // Ikon untuk langkah 2
+            sectionId="metode_ratingTutorial"
+          />
+          <CardSteps
+            heading="Top-N"
+            description="Top-N adalah metode yang digunakan untuk memberikan rekomendasi item terbaik kepada user."
             icon={<Build className="w-8 h-8" />} // Ikon untuk langkah 2
             sectionId="metode_ratingTutorial"
           />

@@ -142,21 +142,27 @@ const MeanCenteredMeasure = ({ opsional, similarity, initialData }) => {
   };
 
   return (
-    <div>
+    <div className="mt-5 bg-yellow-secondary shadow-md p-5 rounded-md outline outline-2 outline-black">
       <div className="flex items-center">
         <div
           id="mean-cen-section"
           className="border-l-4 border-card_blue_primary h-10 mr-4"
         />
         {/* Vertical Line */}
-        <h1 className="font-poppins text-xl text-start font-semibold text-black">
-          Mencari Mean-Centered <i> Rating </i>{" "}
-          <span className="italic">
-            {opsional
-              .toLowerCase()
-              .replace(/\b[a-z]/g, (letter) => letter.toUpperCase())}
-          </span>
-        </h1>
+        <div className="flex items-center flex-wrap">
+          <div className="w-8 h-8 flex items-center justify-center bg-blue-500 text-white rounded-full text-lg font-semibold mr-3 sm:w-10 sm:h-10 sm:text-xl md:w-12 md:h-12 md:text-2xl">
+            2
+          </div>
+
+          <h1 className="font-poppins text-xl text-start font-semibold text-black">
+            Mencari Mean-Centered <i> Rating </i>{" "}
+            <span className="italic">
+              {opsional
+                .toLowerCase()
+                .replace(/\b[a-z]/g, (letter) => letter.toUpperCase())}
+            </span>
+          </h1>
+        </div>
       </div>
 
       <MathJaxContext options={mathjaxConfig}>

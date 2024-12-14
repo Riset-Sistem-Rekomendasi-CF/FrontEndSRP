@@ -164,38 +164,53 @@ export default function FormMeasure({ onDataChange, onDescriptionChange }) {
 
           {/* Sparsity Section */}
           <div className="flex flex-col mb-3 md:col-span-3">
-            <div className="flex mx-auto text-center items-center my-4 mb-10">
-              <div className="w-10 h-10 font-poppins rounded-full bg-green-500 text-white flex items-center justify-center text-lg">
+            <div className="flex flex-col mx-auto text-center items-center my-4 mb-10">
+              <div className="w-10 h-10 font-poppins rounded-full bg-green-500 text-white flex items-center justify-center text-lg mb-2">
                 2
               </div>
-              <h1 className="text-2xl font-bold font-poppins px-3">Sparsity</h1>
-            </div>
-            <div className="max-w-2xl flex flex-row items-center">
-              <div className="outline outline-1 inline-flex justify-center items-center gap-x-1.5 rounded-md bg-yellow-primary px-3 py-2 text-md font-poppins font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300">
-                <Input
-                  id="sparsity"
-                  name="sparsity"
-                  placeholder="sparsity..."
-                  className="w-24 border-none bg-transparent focus:outline-none text-gray-900"
-                  type="text"
-                  value={sparsity === 0 ? "" : sparsity}
-                  onChange={(e) =>
-                    handleInputChange(
-                      e,
-                      100,
-                      getValueSparsity,
-                      setInputSparsityErrorMessage
-                    )
-                  }
-                />
-                <div className="flex items-center">
-                  <PercentIcon className="h-5 text-gray-500" />
+              <h1 className="text-2xl font-bold font-poppins px-3 mb-2">
+                Sparsity
+              </h1>
+
+              {/* sparsity penjelasan  */}
+              {/* <p className="mb-5 sm:mb-0 font-poppins text-black font-medium">
+                Sparsity adalah di mana data <i>rating </i> yang digunakan
+                memiliki banyak nilai yang hilang atau tidak terisi, sehingga
+                menghasilkan matriks <i>rating </i> kosong. Hal tersebut terjadi
+                karena tidak semua <i>user </i> memberikan <i>rating </i> untuk
+                setiap <i>item </i>, yang menyebabkan banyaknya{" "}
+                <i>missing values</i>.
+              </p> */}
+
+              <div className="max-w-2xl flex flex-row items-center ">
+                <div className="mt-5 sm:mt-4 outline outline-1 inline-flex justify-center items-center gap-x-1.5 rounded-md bg-yellow-primary px-3 py-2 text-md font-poppins font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300">
+                  <Input
+                    id="sparsity"
+                    name="sparsity"
+                    placeholder="sparsity..."
+                    className="w-24 border-none bg-transparent focus:outline-none text-gray-900"
+                    type="text"
+                    value={sparsity === 0 ? "" : sparsity}
+                    onChange={(e) =>
+                      handleInputChange(
+                        e,
+                        100,
+                        getValueSparsity,
+                        setInputSparsityErrorMessage
+                      )
+                    }
+                  />
+                  <div className="flex items-center">
+                    <PercentIcon className="h-5 text-gray-500" />
+                  </div>
                 </div>
               </div>
+              {inputSparsityErrorMessage && (
+                <span className="text-red-400">
+                  {inputSparsityErrorMessage}
+                </span>
+              )}
             </div>
-            {inputSparsityErrorMessage && (
-              <span className="text-red-400">{inputSparsityErrorMessage}</span>
-            )}
           </div>
 
           {/* Submit Button */}

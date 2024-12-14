@@ -7,6 +7,7 @@ import React, { useState } from "react";
 import LegendTable from "../../../tabelData/LegendTable";
 import MathJaxComponent from "../../../../MathJaxComponent";
 import Warm from "../../../Warm/Warm";
+import CloseIcon from "@mui/icons-material/Close";
 
 const ModalMeanCenteredMeasure = ({
   selectedIndex,
@@ -58,7 +59,14 @@ const ModalMeanCenteredMeasure = ({
 
   return (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-4xl sm:max-w-md md:max-w-lg lg:max-w-xl overflow-y-auto max-h-[80%] m-6">
+      <div className="bg-white p-6 rounded-lg shadow-lg w-full sm:w-11/12 md:w-8/12 lg:w-6/12 xl:w-5/12 max-h-[80%] overflow-y-auto m-6 relative">
+        <button
+          onClick={close}
+          className="absolute top-3 right-3 text-2xl text-gray-600 hover:text-gray-800 focus:outline-none"
+        >
+          <CloseIcon />
+        </button>
+
         <h1 className="text-lg sm:text-xl md:text-2xl font-semibold mb-4">
           Detail Menghitung <span className="italic">Mean-Centered</span> untuk
           setiap Data rating yang diketahui
@@ -223,9 +231,11 @@ const ModalMeanCenteredMeasure = ({
                 color: "bg-card_green_primary",
                 description: (
                   <>
-                    Menandakan Data{" "}
-                    <span className="font-serif ml-1 mr-1">Mean</span>
-                    <i className="mx-1"> Rating </i> yang akan dihitung
+                    <p>
+                      Menandakan Data{" "}
+                      <span className="font-serif ml-1 mr-1">Mean</span>
+                      <i className="mx-1"> Rating </i> yang akan dihitung
+                    </p>
                   </>
                 ),
               },
@@ -233,9 +243,11 @@ const ModalMeanCenteredMeasure = ({
                 color: "bg-yellow-200",
                 description: (
                   <>
-                    Menandakan Data{" "}
-                    <span className="font-serif mx-1">Mean</span>
-                    yang akan dihitung
+                    <p>
+                      Menandakan Data{" "}
+                      <span className="font-serif mx-1">Mean</span>
+                      yang akan dihitung
+                    </p>
                   </>
                 ),
               },
@@ -243,8 +255,10 @@ const ModalMeanCenteredMeasure = ({
                 color: "bg-red-200",
                 description: (
                   <>
-                    Menandakan Data <i className="mx-1"> Rating </i> yang tidak
-                    diketahui
+                    <p>
+                      Menandakan Data <i className="mx-1"> Rating </i> yang
+                      tidak diketahui
+                    </p>
                   </>
                 ),
               },

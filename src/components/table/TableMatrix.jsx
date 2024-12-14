@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { checkEmptyRowOrColumn } from "../../helper/helper";
 import EditNoteIcon from "@mui/icons-material/EditNote";
-// import RatingComponentTabel from "./RatingComponentTabel";
 
 function InputList({
   children,

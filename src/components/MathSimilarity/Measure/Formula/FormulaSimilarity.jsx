@@ -699,16 +699,16 @@ export const FormulaSimilarityValue = (
                 }} \\newline \\]`
               : `\\[ Cosine_{user}(${rowIndex + 1},${
                   colIndex + 1
-                }) = \\frac{${intersection
+                }) = \\frac{${dataSimilarityRow
                   .map(
-                    (val) =>
+                    (val, idx) =>
                       `(r_{${val + 1}${rowIndex + 1}} \\times r_{${val + 1}${
                         colIndex + 1
                       }})`
                   )
-                  .join(" + ")}}{\\sqrt{${intersection
+                  .join(" + ")}}{\\sqrt{${dataSimilarityRow
                   .map((val) => `(r_{${val + 1}${rowIndex + 1}})^2`)
-                  .join(" + ")}} \\times \\sqrt{${intersection
+                  .join(" + ")}} \\times \\sqrt{${dataSimilarityCol
                   .map((val) => `(r_{${val + 1}${colIndex + 1}})^2`)
                   .join(" + ")}}} \\newline \\]`,
             process_formula: `\\[ Cosine_{user}(${rowIndex + 1},${

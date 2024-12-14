@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { FaTimes } from "react-icons/fa"; // Untuk tombol Close (X)
+
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import CloseIcon from "@mui/icons-material/Close";
 
 const StepperModal = ({ isOpen, onClose, stepsContent }) => {
   const [currentStep, setCurrentStep] = useState(0); // Menyimpan langkah saat ini
@@ -35,7 +36,7 @@ const StepperModal = ({ isOpen, onClose, stepsContent }) => {
               onClick={onClose}
               className="absolute top-2 right-2 text-gray-600 hover:text-gray-900"
             >
-              <FaTimes className="text-2xl" />
+              <CloseIcon className="text-2xl" />
             </button>
 
             {/* Stepper Navigation (Indicator with Line) */}
@@ -109,24 +110,28 @@ const StepperModal = ({ isOpen, onClose, stepsContent }) => {
                     Previous
                   </button>
                 )}
-                {currentStep === stepsContent.length - 1 && isChecked ? (
-                  <button
-                    onClick={onClose}
-                    className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
-                  >
-                    Finish
-                  </button>
-                ) : (
-                  <button
-                    onClick={nextStep}
-                    disabled={
-                      currentStep === stepsContent.length - 1 && !isChecked
-                    }
-                    className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 disabled:opacity-50"
-                  >
-                    Next
-                  </button>
-                )}
+
+                {/* Conditionally align Next button to the right */}
+                <div className={`${currentStep === 0 ? "ml-auto" : ""}`}>
+                  {currentStep === stepsContent.length - 1 && isChecked ? (
+                    <button
+                      onClick={onClose}
+                      className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+                    >
+                      Finish
+                    </button>
+                  ) : (
+                    <button
+                      onClick={nextStep}
+                      disabled={
+                        currentStep === stepsContent.length - 1 && !isChecked
+                      }
+                      className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 disabled:opacity-50"
+                    >
+                      Next
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           </div>

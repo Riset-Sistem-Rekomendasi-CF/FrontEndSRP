@@ -425,7 +425,26 @@ export const NotationCard = ({ data, opsional, id }) => {
       {/* Dropdown Card */}
       {isOpen && (
         <div className="mt-4 bg-gray-100 shadow rounded-lg p-4">
-          <TabelRatingData data={data} opsional={opsional} />
+          {/* validasi jika data 0 */}
+          {data && data.length > 0 ? (
+            <TabelRatingData data={data} opsional={opsional} />
+          ) : (
+            <div className="">
+              <p className="text-center text-red-500 font-semibold">
+                Tidak ada data rating yang tersedia. Mohon masukkan data
+                terlebih dahulu.
+              </p>
+              <div className="mt-4">
+                <p
+                  id="DataRating"
+                  className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition duration-300"
+                >
+                  Masukan Data Rating
+                </p>
+              </div>
+            </div>
+            // button untuk masuk ke form input data
+          )}
         </div>
       )}
     </div>

@@ -17,22 +17,61 @@ export default function DetailPageBox({ method, similarity, data }) {
     // console.log("detailPage", data.length === 0);
 
     if (!method) {
-      return <p>Pilih Fungsi Similaritas untuk {method}.</p>;
+      return (
+        <div className="text-center text-red-600 font-semibold">
+          <p>Silakan pilih metode fungsi similaritas yang ingin digunakan.</p>
+          <button
+            onClick={() => {
+              // Arahkan ke halaman atau modal untuk memilih metode similaritas
+              alert("Arahkan pengguna untuk memilih metode similaritas.");
+            }}
+            className="mt-4 bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition duration-300"
+          >
+            Pilih Metode Similaritas
+          </button>
+        </div>
+      );
     } else if (!similarity) {
       return (
-        <p className="flex items-center text-xl font-semibold font-poppins text-red-600">
-          <SdCardAlertIcon className="mr-2" />
-          Silakan pilih metode dan fungsi similaritas terlebih dahulu.
-        </p>
+        <div className="text-center text-red-600 font-semibold">
+          <p>
+            Mohon pilih metode dan fungsi similaritas terlebih dahulu untuk
+            melanjutkan.
+          </p>
+          <button
+            onClick={() => {
+              // Arahkan ke halaman atau modal untuk memilih fungsi similaritas
+              alert("Arahkan pengguna untuk memilih fungsi similaritas.");
+            }}
+            className="mt-4 bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition duration-300"
+          >
+            Pilih Fungsi Similaritas
+          </button>
+        </div>
       );
     } else if (data.length === 0) {
-      return <p>Silakan isi data terlebih dahulu.</p>;
+      return (
+        <div className="text-center text-red-600 font-semibold">
+          <p>
+            Data kosong! Harap isi data rating terlebih dahulu untuk
+            melanjutkan.
+          </p>
+          <p className="mt-4 bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition duration-300">
+            Pilih Metode dan Fungsi Similaritas
+          </p>
+        </div>
+      );
     } else if (checkEmptyRowOrColumn(data)) {
       return (
-        <p>
-          Data tidak valid silakan generate lagi. Terdapat baris atau kolom yang
-          tidak terisi
-        </p>
+        <div className="text-center text-red-600 font-semibold">
+          <p>
+            Data yang Anda masukkan tidak valid. Terdapat baris atau kolom yang
+            masih kosong. Silakan lengkapi data sebelum melanjutkan.
+          </p>
+          <p className="mt-4 bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition duration-300">
+            Perbaiki Data Rating
+          </p>
+        </div>
       );
     }
 
