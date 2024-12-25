@@ -28,11 +28,11 @@ const ModalPredictionMeasure = ({
   //   console.log("topSimilarities", topSimilarities);
 
   const resultMean =
-    similarity === "Adjusted Vector Cosine"
+    similarity === "Adjusted Cosine"
       ? result["mean-list-brother"]
       : result["mean-list"];
   const resultMeanCentered =
-    similarity === "Adjusted Vector Cosine"
+    similarity === "Adjusted Cosine"
       ? transposeMatrix(result["mean-centered-brother"])
       : result["mean-centered"];
   const [isNotation, setIsNotation] = useState(false);
@@ -103,14 +103,14 @@ const ModalPredictionMeasure = ({
   return (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-white p-6 rounded-lg shadow-lg w-full sm:w-11/12 md:w-8/12 lg:w-6/12 xl:w-5/12 max-h-[80%] overflow-y-auto m-6 relative">
-        <button
-          onClick={close}
-          className="absolute top-3 right-3 text-2xl text-gray-600 hover:text-gray-800 focus:outline-none"
-        >
-          <CloseIcon />
-        </button>
-        <h2 className="text-xl font-semibold mb-4">
+        <h2 className="text-lg sm:text-xl font-semibold mb-4 sticky top-0 bg-white p-2 z-10 shadow-sm">
           Detail Perhitungan Prediksi
+          <button
+            onClick={close}
+            className="absolute top-1 right-3 text-2xl text-gray-600 hover:text-gray-800 focus:outline-none bg-red-200 px-2 py-1 rounded-full z-10"
+          >
+            <CloseIcon className="text-md" />
+          </button>
         </h2>
 
         {/* Switch Toggle */}

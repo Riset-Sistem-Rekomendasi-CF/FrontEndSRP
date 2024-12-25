@@ -23,7 +23,7 @@ function TabelView() {
               {headers.map((header, index) => (
                 <th
                   key={index}
-                  className="border border-black px-4 py-2 bg-yellow-btn-primary"
+                  className="border border-black px-4 py-2 bg-blue-home text-white"
                 >
                   {header}
                 </th>
@@ -64,8 +64,8 @@ function TabelView() {
               ?
             </div>
             <p>
-              Data <span className="italic mx-1 ">Rating </span> yang tidak
-              diketahui
+              Data<span className="italic mx-1 ">Rating </span> yang tidak
+              diketahui atau <i>sparsity</i>
             </p>
           </li>
           <li className="flex items-center">
@@ -73,7 +73,7 @@ function TabelView() {
             Index <i className="ml-1">User</i>
           </li>
           <li className="flex items-center">
-            <div className="w-10 h-5 bg-yellow-btn-primary border border-1 border-black mr-2"></div>
+            <div className="w-10 h-5 bg-blue-home border border-1 border-black mr-2"></div>
             Index <i className="ml-1">Item</i>
           </li>
         </ul>

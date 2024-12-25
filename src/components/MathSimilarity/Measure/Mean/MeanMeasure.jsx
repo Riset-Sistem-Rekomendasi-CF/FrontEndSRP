@@ -20,13 +20,13 @@ export default function MeanMeasure({ opsional, similarity, initialData }) {
   const { result } = AllSimilaritas(data, similarity);
 
   const opsionalModify =
-    similarity === "Adjusted Vector Cosine"
+    similarity === "Adjusted Cosine"
       ? opsional === "user-based"
         ? "item-based"
         : "user-based"
       : opsional;
   const dataModify =
-    similarity === "Adjusted Vector Cosine"
+    similarity === "Adjusted Cosine"
       ? opsional === "item-based"
         ? dataOnly
         : transposeMatrix(dataOnly)
@@ -168,8 +168,8 @@ export default function MeanMeasure({ opsional, similarity, initialData }) {
 
         {/* Modal pop-up */}
         {showModalTutorial && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-            <div className=" rounded-lg p-4 md:p-6 shadow-lg w-[90%] sm:w-[600px] relative">
+          <div className="fixed inset-0  bg-black bg-opacity-50 flex justify-center items-center z-50">
+            <div className=" bg-white rounded-lg p-4 md:p-6 shadow-lg w-[90%] sm:w-[600px] relative">
               <button
                 onClick={() => setShowModalTutorial(false)}
                 className="absolute top-3 right-3 text-3xl text-gray-600 hover:text-gray-800 focus:outline-none"

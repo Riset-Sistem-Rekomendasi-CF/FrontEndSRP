@@ -1,31 +1,27 @@
 import EmailIcon from "@mui/icons-material/Email"; // Import ikon Email dari MUI
 
-const CardAnggotaHome = ({ Color, Nama, Image, Email }) => {
+const CardAnggotaHome = ({ name, imageUrl, email }) => {
   return (
-    <div
-      className={
-        Color +
-        " border-4 border-black shadow-lg rounded-lg p-4 flex flex-col md:flex-row items-center space-x-4"
-      }
-    >
-      <div className="flex-1 text-center text-white font-poppins">
-        <div className="flex-shrink-0 items-center flex justify-center">
-          <img
-            src={Image}
-            alt="Descriptive Alt Text"
-            className="w-32 h-32 object-cover rounded-lg"
-          />
-        </div>
-        <h3 className="text-xl text-white text-center font-bold font-poppins my-3">
-          {Nama}
-        </h3>
-
-        {/* Icon email with mailto functionality */}
+    <div className="max-w-sm bg-white border-2 border-black rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 hover:shadow-xl transition-all duration-300 ease-in-out">
+      <a href="#">
+        <img
+          className="rounded-t-lg w-full object-cover h-48"
+          src={imageUrl}
+          alt={name}
+        />
+      </a>
+      <div className="p-5">
+        <a href="#">
+          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+            {name}
+          </h5>
+        </a>
         <a
-          href={`mailto:${Email}`} // 'mailto' untuk membuka aplikasi email dengan alamat email tujuan
-          className="flex justify-center items-center space-x-2 text-white hover:text-gray-300"
+          href={`mailto:${email}`}
+          className="flex justify-center items-center space-x-2 text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-600 mt-3"
         >
-          <EmailIcon /> {/* Menampilkan ikon email */}
+          <EmailIcon className="w-5 h-5" />{" "}
+          {/* Menampilkan ikon email dengan ukuran yang lebih baik */}
           <span>Email</span> {/* Label untuk ikon */}
         </a>
       </div>

@@ -4,14 +4,14 @@ import mathjaxConfig from './mathjax-config';
 
 const MathJaxComponent = ({ children }) => {
 
-    // useEffect(() => {
-    //     console.log("undone");
+    useEffect(() => {
+        // console.log("undone");
 
-    //     if (window.MathJax) {
-    //         window.MathJax.typesetPromise && window.MathJax.typesetPromise();
-    //         console.log("done");
-    //     }
-    // }, [children])
+        if (window.MathJax) {
+            window.MathJax.typesetPromise && window.MathJax.typesetPromise();
+            // console.log("done");
+        }
+    }, [children])
 
     return (
         <MathJaxContext options={mathjaxConfig}>

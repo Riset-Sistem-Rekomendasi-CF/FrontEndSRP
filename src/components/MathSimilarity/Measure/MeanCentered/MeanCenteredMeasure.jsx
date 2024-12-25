@@ -36,7 +36,7 @@ const MeanCenteredMeasure = ({ opsional, similarity, initialData }) => {
   const { result } = AllSimilaritas(data, similarity);
 
   const dataModify =
-    similarity === "Adjusted Vector Cosine"
+    similarity === "Adjusted Cosine"
       ? opsional === "user-based"
         ? transposeMatrix(dataOnly)
         : transposeMatrix(dataOnly)
@@ -44,7 +44,7 @@ const MeanCenteredMeasure = ({ opsional, similarity, initialData }) => {
       ? dataOnly
       : transposeMatrix(dataOnly);
   const opsionalModify =
-    similarity === "Adjusted Vector Cosine"
+    similarity === "Adjusted Cosine"
       ? opsional === "item-based"
         ? "user-based"
         : "item-based"
@@ -55,7 +55,7 @@ const MeanCenteredMeasure = ({ opsional, similarity, initialData }) => {
     if (!result || !result["mean-centered"]) return null;
 
     const resultModify =
-      similarity === "Adjusted Vector Cosine"
+      similarity === "Adjusted Cosine"
         ? transposeMatrix(result["mean-centered"])
         : opsional === "user-based"
         ? result["mean-centered"]
@@ -95,7 +95,7 @@ const MeanCenteredMeasure = ({ opsional, similarity, initialData }) => {
 
                   {row.map((value, colIndex) => {
                     const OriginalValue =
-                      similarity === "Adjusted Vector Cosine"
+                      similarity === "Adjusted Cosine"
                         ? opsional === "user-based"
                           ? dataModify[colIndex][rowIndex]
                           : dataModify[colIndex][rowIndex]

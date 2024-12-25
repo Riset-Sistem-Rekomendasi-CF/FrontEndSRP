@@ -14,6 +14,8 @@ module.exports = {
         'yellow-primary' : '#FCF4DF',
         'red-primary' : '#FF3737',
         'yellow-secondary' : '#FDF9ED',
+        'blue-home' : '#077efd',
+
 
         // btn
         'yellow-btn-primary' : '#FCC822',
@@ -25,9 +27,27 @@ module.exports = {
         'card_blue_primary' : '#336BB8',
         'card_green_primary' : '#8CAB4B',
         'card_pink_primary' : '#D7A3B7',
-        
-
-      }
+        'card_purple_primary' : '#704fe6',
+        'card_purple_secondary' : '#dcb4fe',
+        'card_yellow_primary' : '#ffd25d',
+      },
+      spacing: {
+        '72': '18rem',
+        '84': '21rem',
+        '96': '24rem',
+      },
+      maxWidth: {
+        'screen-xl': '1280px',
+        'screen-lg': '1024px',
+      },
+      screens: {
+        'xs': '320px',
+        'sm': '640px',
+        'md': '768px',
+        'lg': '1024px',
+        'xl': '1280px',
+        '2xl': '1536px',
+      },
     },
   },
   plugins: [

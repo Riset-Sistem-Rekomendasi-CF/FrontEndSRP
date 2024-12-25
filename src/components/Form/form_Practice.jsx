@@ -12,51 +12,55 @@ export function DropdownMethodBased({ onChange, turnDescription }) {
   };
 
   return (
-    <FormControl onClick={() => turnDescription(false)}>
-      <Menu as="div" className="relative inline-block text-left">
-        <div>
-          <MenuButton className="outline outline-1 inline-flex w-full justify-center gap-x-1.5 rounded-md bg-yellow-primary px-3 py-2 text-sm font-semibold font-poppins text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-yellow-50">
-            {selectMetode}
-            <ChevronDownIcon
-              aria-hidden="true"
-              className="-mr-1 h-5 w-5 text-gray-400"
-            />
-          </MenuButton>
-        </div>
+    <>
+      <div className="font-poppins">
+        <FormControl onClick={() => turnDescription(false)}>
+          <Menu as="div" className="relative inline-block text-left">
+            <div>
+              <MenuButton className="outline outline-1 inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold font-poppins text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-white">
+                {selectMetode}
+                <ChevronDownIcon
+                  aria-hidden="true"
+                  className="-mr-1 h-5 w-5 text-gray-400"
+                />
+              </MenuButton>
+            </div>
 
-        <Menu.Items
-          transition
-          className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
-        >
-          <div className="py-1">
-            <Menu.Item>
-              {({ active }) => (
-                <button
-                  onClick={() => handleChange("User-Based")}
-                  className={`block w-full text-left px-4 py-2 text-sm ${
-                    active ? "bg-gray-100 text-gray-900" : "text-gray-700"
-                  }`}
-                >
-                  User-Based
-                </button>
-              )}
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <button
-                  onClick={() => handleChange("Item-Based")}
-                  className={`block w-full text-left px-4 py-2 text-sm ${
-                    active ? "bg-gray-100 text-gray-900" : "text-gray-700"
-                  }`}
-                >
-                  Item-Based
-                </button>
-              )}
-            </Menu.Item>
-          </div>
-        </Menu.Items>
-      </Menu>
-    </FormControl>
+            <Menu.Items
+              transition
+              className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
+            >
+              <div className="py-1">
+                <Menu.Item>
+                  {({ active }) => (
+                    <button
+                      onClick={() => handleChange("User-Based")}
+                      className={`block w-full text-left px-4 py-2 text-sm font-semibold  ${
+                        active ? "bg-blue-300 text-gray-900" : "text-gray-700"
+                      }`}
+                    >
+                      User-Based
+                    </button>
+                  )}
+                </Menu.Item>
+                <Menu.Item>
+                  {({ active }) => (
+                    <button
+                      onClick={() => handleChange("Item-Based")}
+                      className={`block w-full text-left px-4 py-2 text-sm font-semibold ${
+                        active ? "bg-blue-300 text-gray-900" : "text-gray-700"
+                      }`}
+                    >
+                      Item-Based
+                    </button>
+                  )}
+                </Menu.Item>
+              </div>
+            </Menu.Items>
+          </Menu>
+        </FormControl>
+      </div>
+    </>
   );
 }
 
@@ -74,7 +78,7 @@ export function DropdownSimilarityMeasure({ onChange, turnDescription }) {
     <FormControl onClick={() => turnDescription(false)}>
       <Menu as="div" className="relative  inline-block text-left ">
         <div>
-          <MenuButton className=" outline outline-1 inline-flex w-full justify-center gap-x-1.5 rounded-md bg-yellow-primary px-3 py-2 text-sm font-semibold font-poppins text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-yellow-50">
+          <MenuButton className=" outline outline-1 inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold font-poppins text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-white">
             {selectSimilarity}
             <ChevronDownIcon
               aria-hidden="true"
@@ -94,8 +98,8 @@ export function DropdownSimilarityMeasure({ onChange, turnDescription }) {
                   onClick={() =>
                     handleChange("Pearson Correlation Coefficient")
                   }
-                  className={`block w-full text-left px-4 py-2 text-sm ${
-                    active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                  className={`block w-full text-left px-4 py-2 text-sm font-semibold ${
+                    active ? "bg-blue-300 text-gray-900" : "text-gray-700"
                   }`}
                 >
                   Pearson Correlation Coefficient
@@ -106,8 +110,8 @@ export function DropdownSimilarityMeasure({ onChange, turnDescription }) {
               {({ active }) => (
                 <button
                   onClick={() => handleChange("Cosine")}
-                  className={`block w-full text-left px-4 py-2 text-sm ${
-                    active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                  className={`block w-full text-left px-4 py-2 text-sm font-semibold ${
+                    active ? "bg-blue-300 text-gray-900" : "text-gray-700"
                   }`}
                 >
                   Cosine
@@ -117,26 +121,24 @@ export function DropdownSimilarityMeasure({ onChange, turnDescription }) {
             <Menu.Item>
               {({ active }) => (
                 <button
-                  onClick={() => handleChange("Adjusted Vector Cosine")}
-                  className={`block w-full text-left px-4 py-2 text-sm ${
-                    active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                  onClick={() => handleChange("Adjusted Cosine")}
+                  className={`block w-full text-left px-4 py-2 text-sm  font-semibold ${
+                    active ? "bg-blue-300 text-gray-900" : "text-gray-700"
                   }`}
                 >
-                  Adjusted Vector Cosine
+                  Adjusted Cosine
                 </button>
               )}
             </Menu.Item>
             <Menu.Item>
               {({ active }) => (
                 <button
-                  onClick={() =>
-                    handleChange("Bhattacharyya Coefficient Similarity")
-                  }
-                  className={`block w-full text-left px-4 py-2 text-sm ${
-                    active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                  onClick={() => handleChange("Bhattacharyya Coefficient")}
+                  className={`block w-full text-left px-4 py-2 text-sm  font-semibold ${
+                    active ? "bg-blue-300 text-gray-900" : "text-gray-700"
                   }`}
                 >
-                  Bhattacharyya Coefficient Similarity
+                  Bhattacharyya Coefficient
                 </button>
               )}
             </Menu.Item>

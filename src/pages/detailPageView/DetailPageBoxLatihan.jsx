@@ -12,12 +12,7 @@ import BackToTopButton from "../../components/Navigate/BackToTopNavigate";
 import { checkEmptyRowOrColumn } from "../../helper/helper";
 import KeyboardCapslockIcon from "@mui/icons-material/KeyboardCapslock";
 
-export default function DetailPageBox({
-  method,
-  similarity,
-  data,
-  sectionIdDetail,
-}) {
+export default function DetailPageBoxLatihan({ method, similarity, data }) {
   const scrollToSectionDetail = (sectionIdDetail) => {
     const element = document.getElementById(sectionIdDetail);
     if (element) {
@@ -36,11 +31,12 @@ export default function DetailPageBox({
             Silakan pilih metode fungsi similaritas yang ingin digunakan.
           </p>
           <button
-            onClick={() => scrollToSectionDetail("metode_ratingTutorial")}
+            onClick={() => scrollToSectionDetail("data_ratingLatihan")}
             className="animate-bounce mt-4 text-black rounded-lg hover:underline transition duration-300"
           >
             <KeyboardCapslockIcon className="mr-2" />
-            Pilih Metode Similaritas
+            Buat Data Rating Latihan Terlebih Dahulu, dan Pilih Metode
+            Similaritas
           </button>
         </div>
       );
@@ -51,8 +47,13 @@ export default function DetailPageBox({
             Mohon pilih metode dan fungsi similaritas terlebih dahulu untuk
             melanjutkan.
           </p>
-          <button className="mt-4 bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition duration-300">
-            Pilih Fungsi Similaritas
+
+          <button
+            onClick={() => scrollToSectionDetail("metode_ratingLatihan")}
+            className="animate-bounce mt-4 text-black rounded-lg hover:underline transition duration-300"
+          >
+            <KeyboardCapslockIcon className="mr-2" />
+            Pilih Fungsi Similartias
           </button>
         </div>
       );
@@ -63,9 +64,14 @@ export default function DetailPageBox({
             Data kosong! Harap isi data rating terlebih dahulu untuk
             melanjutkan.
           </p>
-          <p className="mt-4 bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition duration-300">
-            Pilih Metode dan Fungsi Similaritas
-          </p>
+
+          <button
+            onClick={() => scrollToSectionDetail("data_ratingLatihan")}
+            className="animate-bounce mt-4 text-black rounded-lg hover:underline transition duration-300"
+          >
+            <KeyboardCapslockIcon className="mr-2" />
+            Buat Data Rating Latihan Terlebih Dahulu
+          </button>
         </div>
       );
     } else if (checkEmptyRowOrColumn(data)) {
@@ -75,9 +81,12 @@ export default function DetailPageBox({
             Data yang Anda masukkan tidak valid. Terdapat baris atau kolom yang
             masih kosong. Silakan lengkapi data sebelum melanjutkan.
           </p>
-          <p className="mt-4 bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition duration-300">
-            Perbaiki Data Rating
-          </p>
+          <button
+            onClick={() => scrollToSectionDetail("metode_ratingLatihan")}
+            className="mt-4 bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition duration-300"
+          >
+            Pilih Fungsi Similaritas
+          </button>
         </div>
       );
     }
@@ -118,30 +127,34 @@ export default function DetailPageBox({
         {/* Set maxWidth to "xl" or "false" for maximum width */}
         <Box
           sx={{
-            bgcolor: "#ffd25d",
+            bgcolor: "#FDF9ED",
             minHeight: "100vh",
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            border: "2px solid black",
-            borderRadius: 10,
+            border: "1px solid black",
+            borderRadius: 1,
             margin: { xs: 1, sm: 2, md: 3 }, // Adjust margin based on screen size
             padding: { xs: 1, sm: 2, md: 4 }, // Responsive padding
-            boxShadow: 1,
+            boxShadow: 3,
             width: "100%", // Make the Box take full width
             maxWidth: { xs: "100%", md: "100%" }, // Constrain max width on larger
             // screens
             overflow: "hidden",
           }}
         >
-          <section className="max-w-full max-h-full mx-auto text-center px-4 sm:px-3 md:px-4 bg-box-grid-pattern animate-grid z-0">
-            <h1 className=" text-black text-2xl sm:text-lg md:text-3xl font-bold font-poppins py-5 leading-snug break-words">
+          <section className="max-w-full mx-auto text-center px-4 sm:px-3 md:px-4">
+            <h1 className="text-xl sm:text-md md:text-2xl font-bold font-poppins py-5 leading-snug break-words">
               Langkah-Langkah Penerapan <i>{method} Collaborative Filtering</i>{" "}
               dengan Metode
               <span className="italic"> {similarity}</span>
             </h1>
-            {renderContent()}
+
+            <div className="text-sm sm:text-base md:text-lg px-4 sm:px-10 py-5 font-poppins flex-1">
+              {renderContent()}
+              <BackToTopButton />
+            </div>
           </section>
         </Box>
       </Container>

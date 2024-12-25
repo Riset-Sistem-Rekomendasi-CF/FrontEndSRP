@@ -66,7 +66,7 @@ const CardFlip = () => {
           } transform-style-preserve-3d`}
         >
           {/* Front */}
-          <div className="w-full h-full absolute bg-white text-white flex flex-col justify-start items-center p-5 rounded-xl shadow-lg backface-hidden">
+          <div className="w-full h-full absolute bg-white border-2 border-black text-white flex flex-col justify-start items-center p-5 rounded-xl  backface-hidden">
             <div className="flex flex-row items-center ">
               <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-black mb-2 italic">
                 User-Based Filtering
@@ -81,12 +81,13 @@ const CardFlip = () => {
               gifSrc={UserBased} // Ganti dengan path gambar GIF
               staticImgSrc={UserBasedSvg} // Ganti dengan path gambar statis (frame pertama)
               altText="User-based GIF"
+              className="w-full h-auto object-cover rounded-lg transition-all duration-300 sm:w-1/2 md:w-1/3"
             />
           </div>
 
           {/* Back */}
           <div
-            className={`w-full h-full absolute bg-white text-white flex justify-center items-start p-6 rounded-xl shadow-lg backface-hidden rotate-y-180 overflow-auto`}
+            className={`w-full h-full absolute bg-white border-2 border-black text-white flex justify-center items-start p-6 rounded-xl shadow-lg backface-hidden rotate-y-180 overflow-auto`}
           >
             <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 leading-relaxed">
               Pada{" "}
@@ -114,7 +115,7 @@ const CardFlip = () => {
           } transform-style-preserve-3d`}
         >
           {/* Front */}
-          <div className="w-full h-full absolute bg-white text-white flex flex-col justify-start items-center p-5 rounded-xl shadow-lg backface-hidden">
+          <div className="w-full h-full absolute bg-white border-2 border-black text-white flex flex-col justify-start items-center p-5 rounded-xl shadow-lg backface-hidden">
             <div className="flex flex-row items-center ">
               <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-black mb-2 italic">
                 Item-Based Filtering
@@ -129,12 +130,13 @@ const CardFlip = () => {
               gifSrc={ItemBased} // Ganti dengan path gambar GIF
               staticImgSrc={ItemBasedSvg} // Ganti dengan path gambar statis (frame pertama)
               altText="Item-Based GIF"
+              className="w-full h-auto object-cover rounded-lg transition-all duration-300 sm:w-1/2 md:w-1/3"
             />
           </div>
 
           {/* Back */}
           <div
-            className={`w-full h-full absolute bg-white text-white flex justify-center items-start p-6 rounded-xl shadow-lg backface-hidden rotate-y-180 overflow-auto`}
+            className={`w-full h-full absolute bg-white border-2 border-black text-white flex justify-center items-start p-6 rounded-xl shadow-lg backface-hidden rotate-y-180 overflow-auto`}
           >
             <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 leading-relaxed">
               Di sisi lain,{" "}
@@ -162,11 +164,11 @@ const CardFlip = () => {
 const ContentOverview = () => {
   return (
     <>
-      <div className="bg-white shadow-lg rounded-xl p-6 md:p-10 mb-6 max-w-4xl mx-auto">
-        <h1 className="text-xl font-semibold font-poppins underline underline-offset-8 decoration-4 decoration-card_blue_primary mb-5">
+      <div className="bg-card_purple_secondary rounded-xl p-6 md:p-10 mb-6 max-w-4xl mx-auto hover:bg-card_purple_secondary hover:shadow-lg hover:scale-105 transition-all duration-300 ease-in-out cursor-pointer bg-box-grid-pattern animate-grid z-0">
+        <h1 className="text-start text-xl font-semibold font-poppins mb-5">
           Sistem Rekomendasi
         </h1>
-        <p className="text-base sm:text-md md:text-lg text-gray-600 text-justify">
+        <p className="text-base sm:text-md md:text-lg text-black text-justify">
           <a
             href="https://www.bing.com/ck/a?!&&p=024c8e5d90fb32c16daaec06b7404838325313e0097f7340e2a37bb95b0a5cadJmltdHM9MTczMjA2MDgwMA&ptn=3&ver=2&hsh=4&fclid=333afb95-0e41-6f3e-3613-eb710fbc6e24&psq=IMPLEMENTASI+METODE+COLLABORATIVE+FILTERING+UNTUK+SISTEM+REKOMENDASI+PENJUALAN+PADA+TOKO+MEBEL&u=a1aHR0cHM6Ly9lam91cm5hbC5ic2kuYWMuaWQvZWp1cm5hbC9pbmRleC5waHAva2hhdHVsaXN0aXdhL2FydGljbGUvZG93bmxvYWQvOTg1OS80ODcz&ntb=1"
             className="text-italic font-semibold no-underline hover:underline text-card_blue_primary decoration-card_blue_primary"
@@ -183,11 +185,11 @@ const ContentOverview = () => {
       </div>
 
       {/* Bottom Section: Single Column */}
-      <div className="bg-white shadow-lg rounded-xl p-6 md:p-10 mb-6 max-w-4xl mx-auto">
-        <h1 className="text-xl font-semibold font-poppins underline underline-offset-8 decoration-4 decoration-card_blue_primary mb-5">
+      <div className="bg-card_yellow_primary rounded-xl p-6 md:p-10 mb-6 max-w-4xl mx-auto hover:bg-card_yellow_primary hover:shadow-lg hover:scale-105 transition-all duration-300 ease-in-out cursor-pointer bg-box-grid-pattern animate-grid z-0">
+        <h1 className="text-start text-xl font-semibold font-poppins  mb-5">
           Collaborative Filtering
         </h1>
-        <p className="text-base sm:text-md md:text-lg text-gray-600 text-justify my-3">
+        <p className="text-base sm:text-md md:text-lg text-black text-justify my-3">
           <a
             href="https://www.researchgate.net/publication/365477302_Sistem_Rekomendasi_Produk_Aplikasi_Marketplace_Berdasarkan_Karakteristik_Pembeli_Menggunakan_Metode_User_Based_Collaborative_Filtering"
             className="text-italic font-semibold no-underline hover:underline text-card_blue_primary decoration-card_blue_primary"
@@ -210,7 +212,7 @@ const ContentOverview = () => {
           . Metode ini menghasilkan prediksi atau rekomendasi untuk pengguna
           tertentu terhadap satu atau banyak <i>item</i>.
         </p>
-        <p className="text-base sm:text-md md:text-lg text-gray-600 text-justify">
+        <p className="text-base sm:text-md md:text-lg text-black text-justify">
           <span className="text-italic font-semibold no-underline hover:underline text-card_blue_primary decoration-card_blue_primary">
             Rating
           </span>{" "}
@@ -253,28 +255,6 @@ export default function OverViewRekomendasi() {
             <span className="slide-text">{`Bagaimana Sistem Rekomendasi Bekerja di ${currentText} ?`}</span>
           </span>
         </h1>
-
-        {/* Animasi Ikon atau Gambar */}
-
-        <div className="absolute inset-0 flex items-center justify-center">
-          {/* Icon 1 */}
-          <div className="absolute top-0 left-0 transform -translate-x-1/4 sm:-left-5 md:-left-10 lg:-left-12 xl:-left-14 hidden sm:block">
-            <img
-              src={Img1}
-              alt="Icon 1"
-              className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 opacity-100"
-            />
-          </div>
-
-          {/* Icon 2 */}
-          <div className="absolute top-10 right-0 transform translate-x-1/4 sm:translate-x-10 md:translate-x-20 lg:translate-x-20 xl:translate-x-24 hidden sm:block">
-            <img
-              src={Img8}
-              alt="Icon 2"
-              className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 opacity-100"
-            />
-          </div>
-        </div>
       </section>
     );
   };
@@ -282,10 +262,12 @@ export default function OverViewRekomendasi() {
   return (
     <div
       id="belajar"
-      className="max-w-4xl mx-auto text-center py-10 px-4 font-poppins"
+      className="relative min-h-screen  py-10 px-4 sm:px-8 md:px-16 font-poppins overflow-x-hidden"
     >
-      <TypingEffect />
-      <ContentOverview />
+      <div className="max-w-4xl mx-auto text-center">
+        <TypingEffect />
+        <ContentOverview />
+      </div>
     </div>
   );
 }

@@ -4,7 +4,14 @@ import * as d3 from "d3";
 export default function HeatMapVisualDataSim({ opsional, result, similarity }) {
   const RenderingHeatMap = () => {
     const similarityDataHeatMap = result["similarity"];
-    console.log("ini adalh reduce data ", similarityDataHeatMap);
+    // const similarity = result["similarityType"];  // Asumsi similarityType adalah properti di data result
+
+    // Tentukan rentang color scale berdasarkan jenis similarity
+    const similarityList =
+      similarity === "Adjusted Vector Cosine" ||
+      similarity === "Pearson Correlation Coefficient"
+        ? [0, 1] // Rentang untuk similarity tipe ini
+        : [1, 0, -1]; // Rentang untuk similarity tipe lain
 
     useEffect(() => {
       // Clear previous SVG if present
@@ -15,7 +22,6 @@ export default function HeatMapVisualDataSim({ opsional, result, similarity }) {
       const margin = { top: 20, right: 20, bottom: 30, left: 40 };
       const width = size - margin.left - margin.right;
       const height = size - margin.top - margin.bottom;
-      // console.log(height)
 
       // Define the user labels
       const usersIndex = Array.from(
@@ -24,8 +30,6 @@ export default function HeatMapVisualDataSim({ opsional, result, similarity }) {
           return `${opsional === "user-based" ? "user" : "item"}-${i + 1}`;
         }
       );
-
-      // data color bar
 
       // Create the SVG element
       const svg = d3
@@ -49,11 +53,11 @@ export default function HeatMapVisualDataSim({ opsional, result, similarity }) {
         .domain(usersIndex)
         .padding(0.05);
 
-      // Create color scale for heatmap
+      // Create color scale based on similarity
       const colorScale = d3
         .scaleLinear()
-        .range(["#69b3a2", "#6A5AE0", "#FCC822"])
-        .domain([-1, 0, 1]);
+        .range(["#69b3a2", "#6A5AE0", "#FCC822"]) // Warna yang digunakan di heatmap
+        .domain(similarityList); // Adjust domain based on similarity type
 
       // Create tooltip
       const tooltip = d3
@@ -114,8 +118,7 @@ export default function HeatMapVisualDataSim({ opsional, result, similarity }) {
         .style("font-size", (d, i) => {
           const cellWidth = x.bandwidth();
           const cellHeight = y.bandwidth();
-          const fontSize = Math.min(cellWidth, cellHeight) * 0.2; // Adjust font size
-          // based on cell size
+          const fontSize = Math.min(cellWidth, cellHeight) * 0.2; // Adjust font size based on cell size
           return `${fontSize}px`;
         });
 
@@ -149,24 +152,38 @@ export default function HeatMapVisualDataSim({ opsional, result, similarity }) {
         .attr("x2", "0%")
         .attr("y2", "0%");
 
-      // Set the gradient stops based on the domain of 1, 0, -1
-      gradient
-        .append("stop")
-        .attr("offset", "0%")
-        .attr("stop-color", "#69b3a2") // Color for 1
-        .attr("stop-opacity", 1);
+      // Set the gradient stops based on the domain of 1, 0, -1 or 0, 1
+      if (JSON.stringify(similarityList) === JSON.stringify([1, 0, -1])) {
+        gradient
+          .append("stop")
+          .attr("offset", "0%")
+          .attr("stop-color", "#69b3a2") // Color for 0
+          .attr("stop-opacity", 1);
 
-      gradient
-        .append("stop")
-        .attr("offset", "50%")
-        .attr("stop-color", "#6A5AE0") // Color for 0
-        .attr("stop-opacity", 1);
+        gradient
+          .append("stop")
+          .attr("offset", "100%")
+          .attr("stop-color", "#FCC822") // Color for 1
+          .attr("stop-opacity", 1);
+      } else {
+        gradient
+          .append("stop")
+          .attr("offset", "0%")
+          .attr("stop-color", "#69b3a2") // Color for 1
+          .attr("stop-opacity", 1);
 
-      gradient
-        .append("stop")
-        .attr("offset", "100%")
-        .attr("stop-color", "#FCC822") // Color for -1
-        .attr("stop-opacity", 1);
+        gradient
+          .append("stop")
+          .attr("offset", "50%")
+          .attr("stop-color", "#6A5AE0") // Color for 0
+          .attr("stop-opacity", 1);
+
+        gradient
+          .append("stop")
+          .attr("offset", "100%")
+          .attr("stop-color", "#FCC822") // Color for -1
+          .attr("stop-opacity", 1);
+      }
 
       // Create the color bar rectangle
       colorBarSvg
@@ -179,12 +196,12 @@ export default function HeatMapVisualDataSim({ opsional, result, similarity }) {
       const colorScaleBar = d3
         .scaleLinear()
         .range([0, colorBarHeight]) // Maps 1 to top and -1 to bottom
-        .domain([1, -1]);
+        .domain(similarityList); // Adjust the domain
 
       // Create the axis for the color bar with ticks
       const colorBarAxis = d3
         .axisRight(colorScaleBar)
-        .ticks(3) // Create 3 ticks at -1, 0, and 1
+        .ticks(3) // Create 3 ticks at -1, 0, and 1 or 0 and 1
         .tickFormat(d3.format(".1f")); // Format the ticks to show one decimal place
 
       // Append the axis to the color bar
@@ -192,7 +209,7 @@ export default function HeatMapVisualDataSim({ opsional, result, similarity }) {
         .append("g")
         .attr("transform", `translate(${colorBarWidth}, 0)`)
         .call(colorBarAxis);
-    }, [similarityDataHeatMap]);
+    }, [similarityDataHeatMap, similarity]);
 
     return (
       <div className="flex justify-center">

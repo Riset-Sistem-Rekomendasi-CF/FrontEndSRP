@@ -102,7 +102,7 @@ export default function TableMatrix({
                 {Data[0].map((_, index) => (
                   <th
                     key={index}
-                    className="border border-black px-4 py-2 bg-yellow-btn-primary text-sm sm:text-base"
+                    className="border border-black px-4 py-2 bg-blue-home text-sm sm:text-base text-white"
                   >
                     {index + 1}
                   </th>
@@ -139,26 +139,26 @@ export default function TableMatrix({
       </div>
       <h1 className="p-2 font-poppins font-semibold text-black bg-blue-200 w-1/1.5 rounded-md shadow-md mx-auto text-center">
         <EditNoteIcon className="mr-2 flex items-center justify-center" />
-        Semua Nilai Rating Di atas bisa diedit dan diganti dengan nilai rating
-        1-5.
+        Semua Nilai Rating Di atas bisa diedit dan diganti dengan rentang nilai
+        rating 1-5.
       </h1>
 
       <div className="mt-6 ml-5 text-left w-full">
-        <p className="font-bold text-xl ">Keterangan:</p>
+        <p className="font-bold text-xl mb-3 ">Keterangan:</p>
         <ul className="flex flex-col sm:flex-row space-x-0 sm:space-x-4 sm:space-y-0 space-y-4">
           <li className="flex items-center">
             <div className="w-10 h-5 bg-red-300 border border-1 border-black mr-2 flex items-center justify-center text-black">
               ?
             </div>
-            Data <span className="italic mx-1 ">Rating </span> yang tidak
-            diketahui
+            Data<span className="italic mx-1 ">Rating</span> yang tidak
+            diketahui atau <i>sparsity</i>
           </li>
           <li className="flex items-center">
             <div className="w-10 h-5 bg-blue-200 border border-1 border-black mr-2"></div>
             Index <i className="ml-1">User</i>
           </li>
           <li className="flex items-center">
-            <div className="w-10 h-5 bg-yellow-btn-primary border border-1 border-black mr-2"></div>
+            <div className="w-10 h-5 bg-blue-home border border-1 border-black mr-2"></div>
             Index <i className="ml-1">Item</i>
           </li>
           <li className="flex items-center">
