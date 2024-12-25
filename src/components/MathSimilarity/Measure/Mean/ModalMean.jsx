@@ -23,7 +23,7 @@ const ModalMean = ({
   const [isNotation, setIsNotation] = useState(false);
 
   const dataModify =
-    similarity === "Adjusted Vector Cosine"
+    similarity === "Adjusted Cosine"
       ? opsional === "user-based"
         ? data
         : transposeMatrix(data)
@@ -101,19 +101,21 @@ const ModalMean = ({
 
   return (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
+      {/* Modal Content */}
       <div className="bg-white p-6 rounded-lg shadow-lg w-full sm:w-11/12 md:w-8/12 lg:w-6/12 xl:w-5/12 max-h-[80%] overflow-y-auto m-6 relative">
-        {/* Tombol close di sudut kanan atas */}
-        <button
-          onClick={close}
-          className="absolute top-3 right-3 text-2xl text-gray-600 hover:text-gray-800 focus:outline-none"
-        >
-          <CloseIcon />
-        </button>
-
-        <h2 className="text-lg sm:text-xl font-semibold mb-4">
-          Detail Perhitungan Mean nilai <i> Rating </i>{" "}
-          <span className="italic">(μ)</span>
-          <i>{opsional.split("-")[0]}</i> ke-{Number(selectedIndex) + 1}
+        {/* Header / Title */}
+        <h2 className="text-lg sm:text-xl font-semibold mb-4 sticky top-0 bg-white p-2 z-10 shadow-sm">
+          <span>
+            Detail Perhitungan Mean nilai <i> Rating </i>{" "}
+            <span className="italic">(μ)</span>
+            <i>{opsional.split("-")[0]}</i> ke-{Number(selectedIndex) + 1}
+          </span>
+          <button
+            onClick={close}
+            className="absolute top-1 right-3 text-2xl text-gray-600 hover:text-gray-800 focus:outline-none bg-red-200 px-2 py-1 rounded-full z-10"
+          >
+            <CloseIcon className="text-md" />
+          </button>
         </h2>
 
         <SwitchToggle

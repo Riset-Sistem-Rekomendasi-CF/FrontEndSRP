@@ -108,7 +108,7 @@ export default function FormMeasure({ onDataChange, onDescriptionChange }) {
               <label className="mb-2 text-2xl text-start font-poppins font-semibold text-gray-900">
                 Jumlah <span className="italic">Item </span> (I):
               </label>
-              <div className="outline outline-1 inline-flex items-center rounded-md bg-yellow-primary px-3 py-2 shadow-sm ring-1 ring-inset ring-gray-300">
+              <div className="outline outline-1 inline-flex items-center rounded-md bg-white px-3 py-2 shadow-sm ring-1 ring-inset ring-gray-300">
                 <Input
                   id="userInput"
                   name="userInput"
@@ -137,7 +137,7 @@ export default function FormMeasure({ onDataChange, onDescriptionChange }) {
               <label className="mb-2 text-2xl text-start font-poppins font-semibold text-gray-900">
                 Jumlah <span className="italic">User</span> (U):
               </label>
-              <div className="outline outline-1 inline-flex items-center rounded-md bg-yellow-primary px-3 py-2 shadow-sm ring-1 ring-inset ring-gray-300">
+              <div className="outline outline-1 inline-flex items-center rounded-md bg-white px-3 py-2 shadow-sm ring-1 ring-inset ring-gray-300">
                 <Input
                   id="itemInput"
                   name="itemInput"
@@ -183,7 +183,7 @@ export default function FormMeasure({ onDataChange, onDescriptionChange }) {
               </p> */}
 
               <div className="max-w-2xl flex flex-row items-center ">
-                <div className="mt-5 sm:mt-4 outline outline-1 inline-flex justify-center items-center gap-x-1.5 rounded-md bg-yellow-primary px-3 py-2 text-md font-poppins font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300">
+                <div className="mt-5 sm:mt-4 outline outline-1 inline-flex justify-center items-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-md font-poppins font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300">
                   <Input
                     id="sparsity"
                     name="sparsity"

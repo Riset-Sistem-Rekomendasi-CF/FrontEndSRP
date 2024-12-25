@@ -51,7 +51,7 @@ export const getFormulaSimilarity = (similarity, opsional) => {
         default:
           return;
       }
-    case "Adjusted Vector Cosine":
+    case "Adjusted Cosine":
       switch (opsional) {
         case "user-based":
           return {
@@ -77,7 +77,7 @@ export const getFormulaSimilarity = (similarity, opsional) => {
         default:
           return;
       }
-    case "Bhattacharyya Coefficient Similarity":
+    case "Bhattacharyya Coefficient":
       switch (opsional) {
         case "user-based":
           return {
@@ -235,7 +235,7 @@ export const FormulaSimilarityIndex = (
         default:
           return;
       }
-    case "Adjusted Vector Cosine":
+    case "Adjusted Cosine":
       switch (opsional) {
         case "user-based":
           return !isNotation
@@ -289,7 +289,7 @@ export const FormulaSimilarityIndex = (
         default:
           return;
       }
-    case "Bhattacharyya Coefficient Similarity":
+    case "Bhattacharyya Coefficient":
       const ratings = [1, 2, 3, 4, 5]; // Daftar rating
       const sumTerms = ratings
         .map(
@@ -471,7 +471,7 @@ export const FormulaSimilarityNonZero = (
         default:
           return;
       }
-    case "Adjusted Vector Cosine":
+    case "Adjusted Cosine":
       switch (opsional) {
         case "user-based":
           return {
@@ -768,7 +768,7 @@ export const FormulaSimilarityValue = (
         default:
           return;
       }
-    case "Adjusted Vector Cosine":
+    case "Adjusted Cosine":
       switch (opsional) {
         case "user-based":
           return {
@@ -892,7 +892,7 @@ export const FormulaSimilarityValue = (
         default:
           return;
       }
-    case "Bhattacharyya Coefficient Similarity":
+    case "Bhattacharyya Coefficient":
       const ratings = [1, 2, 3, 4, 5]; // Daftar rating
       const sumTerms = ratings
         .map((rating) => {

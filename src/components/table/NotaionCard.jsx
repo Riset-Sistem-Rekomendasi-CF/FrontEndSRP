@@ -3,6 +3,7 @@ import { FaChevronDown } from "react-icons/fa";
 import { getInitialData } from "../../api/getDataSet";
 import { transposeMatrix } from "../../helper/helper";
 import SwitchToggle from "../Toggle/SwitchToggle";
+import KeyboardCapslockIcon from "@mui/icons-material/KeyboardCapslock";
 
 export const TabelRatingData = ({ data, opsional }) => {
   const initialData = getInitialData(data, opsional);
@@ -75,7 +76,7 @@ export const TabelRatingData = ({ data, opsional }) => {
                  horizontal */}
           <table className="w-full border border-collapse border-black text-center">
             <thead>
-              <tr className="bg-card_blue_primary text-white">
+              <tr className="bg-blue-home text-white">
                 {/* Kolom Pembatas: User */}
                 <th className="relative px-4 py-2 border-r-2 border-black">
                   {" "}
@@ -105,7 +106,7 @@ export const TabelRatingData = ({ data, opsional }) => {
             <tbody>
               {dataOnly.map((row, rowIndex) => (
                 <tr key={rowIndex}>
-                  <td className="border border-black px-4 py-2 w-20 bg-gray-200">
+                  <td className="border border-black px-4 py-2 w-20 bg-blue-200">
                     {/* Conditional rendering for notation */}
                     {!isNotation ? (
                       rowIndex + 1
@@ -219,7 +220,7 @@ export const TabelRatingData = ({ data, opsional }) => {
                   <select
                     value={selectedUser !== null ? selectedUser : ""}
                     onChange={handleUserChange}
-                    className="border border-gray-400 rounded w-full"
+                    className="border border-gray-400 rounded w-full h-10"
                   >
                     <option value="">Pilih User</option>
                     {Array.from({ length: user }, (_, index) => (
@@ -283,7 +284,7 @@ export const TabelRatingData = ({ data, opsional }) => {
                   <select
                     value={selectedItem !== null ? selectedItem : ""}
                     onChange={handleItemChange}
-                    className="border border-gray-400 rounded w-full"
+                    className="border border-gray-400 rounded w-full h-10"
                   >
                     <option value="">Pilih Item</option>
                     {Array.from({ length: item }, (_, index) => (
@@ -330,124 +331,135 @@ export const TabelRatingData = ({ data, opsional }) => {
 };
 
 export const NotationCard = ({ data, opsional, id }) => {
+  const scrollToSectionNotion = (sectionIdNotaion) => {
+    const element = document.getElementById(sectionIdNotaion);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
   return (
-    <div
-      id={id}
-      className="bg-white shadow-md rounded-lg my-10 p-6 max-w-4xl mx-auto"
-    >
-      <h2 className="text-xl sm:text-2xl font-semibold mb-5 text-center underline underline-offset-8 decoration-4 decoration-card_blue_primary">
-        Notasi dan Penjelasan
-      </h2>
-      <div className="flex flex-col sm:flex-row sm:space-x-6 space-y-4 sm:space-y-0">
-        {/* Left Column */}
-        <div className="w-full sm:w-1/2 space-y-2 font-poppins text-start">
-          <p>
-            <strong>
-              <i>m</i>
-            </strong>{" "}
-            : Jumlah <span className="italic">user</span>
-          </p>
-          <p>
-            <strong>
-              <i>n</i>
-            </strong>{" "}
-            : Jumlah <span className="italic">item</span>
-          </p>
-          <p>
-            <strong>
-              <i>U</i>
-            </strong>{" "}
-            : Himpunan <span className="italic">user</span>
-          </p>
-          <p>
-            <strong>
-              <i>I</i>
-            </strong>{" "}
-            : Himpunan <span className="italic">item</span>
-          </p>
-          <p>
-            <strong>
-              <i>
-                I<sub>u</sub>
-              </i>
-            </strong>{" "}
-            : Himpunan <span className="italic">item</span> yang telah diberi{" "}
-            <i> rating </i> oleh <span className="italic">user</span> <em>u</em>
-          </p>
-        </div>
-
-        {/* Right Column */}
-        <div className="w-full sm:w-1/2 space-y-2 font-poppins text-start">
-          <p>
-            <strong>
-              <i>
-                U<sub>i</sub>
-              </i>
-            </strong>{" "}
-            : Himpunan <span className="italic">User</span> yang telah memberi{" "}
-            <i> rating </i> <br /> <span className="italic">item</span>{" "}
-            <em>i</em>
-          </p>
-          <p>
-            <strong>
-              <em>
-                R ∈ ℝ<sup> m×n</sup>
-              </em>
-            </strong>{" "}
-            : Matriks yang berisi bilangan asli dengan panjang m dan lebar n
-          </p>
-          <p>
-            <strong>
-              r<sub>ui</sub>
-            </strong>{" "}
-            : <i> rating </i> <span className="italic"> user </span>
-            <em> u</em> terhadap <span className="italic">item</span> <em>i</em>
-          </p>
-        </div>
-      </div>
-
-      {/* Dropdown Button */}
-      <button
-        className="mt-6 w-full bg-card_blue_primary text-white px-4 py-3 rounded-lg flex justify-center items-center font-poppins font-semibold"
-        onClick={toggleDropdown}
+    <section className="p-5 ">
+      <div
+        id={id}
+        className="bg-white border-2 border-black shadow-md rounded-lg my-10 p-6 max-w-4xl mx-auto"
       >
-        <FaChevronDown className="mr-2" />
-        {isOpen
-          ? "Sembunyikan Detail Matrik Rating"
-          : "Tampilkan Detail Matrik Rating"}
-      </button>
+        <h2 className="text-xl sm:text-2xl font-semibold mb-5 text-center">
+          Notasi dan Penjelasan
+        </h2>
+        <div className="flex flex-col sm:flex-row sm:space-x-6 space-y-4 sm:space-y-0">
+          {/* Left Column */}
+          <div className="w-full sm:w-1/2 space-y-2 font-poppins text-start">
+            <p>
+              <strong>
+                <i>m</i>
+              </strong>{" "}
+              : Jumlah <span className="italic">user</span>
+            </p>
+            <p>
+              <strong>
+                <i>n</i>
+              </strong>{" "}
+              : Jumlah <span className="italic">item</span>
+            </p>
+            <p>
+              <strong>
+                <i>U</i>
+              </strong>{" "}
+              : Himpunan <span className="italic">user</span>
+            </p>
+            <p>
+              <strong>
+                <i>I</i>
+              </strong>{" "}
+              : Himpunan <span className="italic">item</span>
+            </p>
+            <p>
+              <strong>
+                <i>
+                  I<sub>u</sub>
+                </i>
+              </strong>{" "}
+              : Himpunan <span className="italic">item</span> yang telah diberi{" "}
+              <i> rating </i> oleh <span className="italic">user</span>{" "}
+              <em>u</em>
+            </p>
+          </div>
 
-      {/* Dropdown Card */}
-      {isOpen && (
-        <div className="mt-4 bg-gray-100 shadow rounded-lg p-4">
-          {/* validasi jika data 0 */}
-          {data && data.length > 0 ? (
-            <TabelRatingData data={data} opsional={opsional} />
-          ) : (
-            <div className="">
-              <p className="text-center text-red-500 font-semibold">
-                Tidak ada data rating yang tersedia. Mohon masukkan data
-                terlebih dahulu.
-              </p>
-              <div className="mt-4">
-                <p
-                  id="DataRating"
-                  className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition duration-300"
-                >
-                  Masukan Data Rating
-                </p>
-              </div>
-            </div>
-            // button untuk masuk ke form input data
-          )}
+          {/* Right Column */}
+          <div className="w-full sm:w-1/2 space-y-2 font-poppins text-start">
+            <p>
+              <strong>
+                <i>
+                  U<sub>i</sub>
+                </i>
+              </strong>{" "}
+              : Himpunan <span className="italic">User</span> yang telah memberi{" "}
+              <i> rating </i> <br /> <span className="italic">item</span>{" "}
+              <em>i</em>
+            </p>
+            <p>
+              <strong>
+                <em>
+                  R ∈ ℝ<sup> m×n</sup>
+                </em>
+              </strong>{" "}
+              : Matriks yang berisi bilangan asli dengan panjang m dan lebar n
+            </p>
+            <p>
+              <strong>
+                r<sub>ui</sub>
+              </strong>{" "}
+              : <i> rating </i> <span className="italic"> user </span>
+              <em> u</em> terhadap <span className="italic">item</span>{" "}
+              <em>i</em>
+            </p>
+          </div>
         </div>
-      )}
-    </div>
+
+        {/* Dropdown Button */}
+        <button
+          className="mt-6 w-full bg-blue-home text-white px-4 py-3 rounded-lg flex justify-center items-center font-poppins font-semibold"
+          onClick={toggleDropdown}
+        >
+          <FaChevronDown className="mr-2" />
+          {isOpen
+            ? "Sembunyikan Detail Matrik Rating"
+            : "Tampilkan Detail Matrik Rating"}
+        </button>
+
+        {/* Dropdown Card */}
+        {isOpen && (
+          <div className="mt-4 bg-yellow-secondary shadow rounded-lg p-4">
+            {/* validasi jika data 0 */}
+            {data && data.length > 0 ? (
+              <TabelRatingData data={data} opsional={opsional} />
+            ) : (
+              <div className="font-poppins">
+                <p className="text-center text-red-500 font-semibold">
+                  Tidak ada data rating yang tersedia. Mohon masukkan data
+                  terlebih dahulu.
+                </p>
+                <div className="mt-4">
+                  <button
+                    onClick={() => scrollToSectionNotion("data_ratingLatihan")}
+                    className="text-md font-semibold animate-bounce mt-4 text-black rounded-lg hover:underline transition duration-300"
+                  >
+                    <KeyboardCapslockIcon className="mr-2" />
+                    Masukan Data Rating
+                  </button>
+                </div>
+              </div>
+              // button untuk masuk ke form input data
+            )}
+          </div>
+        )}
+      </div>
+    </section>
   );
 };
 

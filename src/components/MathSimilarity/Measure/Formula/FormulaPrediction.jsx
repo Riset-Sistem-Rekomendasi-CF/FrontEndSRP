@@ -3,7 +3,7 @@ import { sum } from "../../../../helper/Measure";
 
 export const getFormulaPrediction = (similarity, opsional) => {
   const opsionalModify =
-    similarity === "Adjusted Vector Cosine"
+    similarity === "Adjusted Cosine"
       ? opsional === "user-based"
         ? "item-based"
         : "user-based"
@@ -83,7 +83,7 @@ export const getFormulaPredictionIndex = (
   opsional
 ) => {
   const opsionalModify =
-    similarity === "Adjusted Vector Cosine"
+    similarity === "Adjusted Cosine"
       ? opsional === "user-based"
         ? "item-based"
         : "user-based"
@@ -123,18 +123,18 @@ export const getFormulaPredictionValue = (
   selectedValue
 ) => {
   const resultMeanCentered =
-    similarity === "Adjusted Vector Cosine"
+    similarity === "Adjusted Cosine"
       ? transposeMatrix(result["mean-centered-brother"])
       : result["mean-centered"];
   const resultDataRating =
-    similarity === "Adjusted Vector Cosine"
+    similarity === "Adjusted Cosine"
       ? transposeMatrix(dataRating)
       : opsional === "user-based"
       ? dataRating
       : transposeMatrix(dataRating);
 
   const resultMean =
-    similarity === "Adjusted Vector Cosine"
+    similarity === "Adjusted Cosine"
       ? result["mean-list-brother"]
       : result["mean-list"];
 
@@ -259,7 +259,7 @@ export const getFormulaPredictionValue = (
               .join(" + ")}} \\]`,
         proses_formula: `\\[ \\widetilde{r}_{${rowIndex + 1}${
           colIndex + 1
-        }} = ${resultMean[rowIndex].toFixed(
+        }} = ${resultMean[colIndex].toFixed(
           3
         )} + \\frac{${numeratorItem.toFixed(4)}}{${denominatorItem.toFixed(
           4

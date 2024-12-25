@@ -50,7 +50,7 @@ const SimilarityValue = ({
   isNotation,
 }) => {
   const dataModify =
-    similarity === "Adjusted Vector Cosine"
+    similarity === "Adjusted Cosine"
       ? opsional === "item-based"
         ? transposeMatrix(dataOnly)
         : dataOnly
@@ -74,7 +74,7 @@ const SimilarityValue = ({
     similarity !== "Cosine"
       ? similarity === "Bhattacharyya Coefficient Similarity"
         ? data["probability"]
-        : similarity === "Adjusted Vector Cosine"
+        : similarity === "Adjusted Cosine"
         ? transposeMatrix(data["mean-centered"])
         : data["mean-centered"]
       : dataModify;
@@ -85,7 +85,7 @@ const SimilarityValue = ({
     similarity === "Bhattacharyya Coefficient Similarity"
       ? data["probability"][rowIndex]
       : intersection.map((i) =>
-          similarity === "Adjusted Vector Cosine"
+          similarity === "Adjusted Cosine"
             ? opsional === "item-based"
               ? dataSimilarity[i][rowIndex]
               : dataSimilarity[rowIndex][i]
@@ -96,7 +96,7 @@ const SimilarityValue = ({
     similarity === "Bhattacharyya Coefficient Similarity"
       ? data["probability"][colIndex]
       : intersection.map((i) =>
-          similarity === "Adjusted Vector Cosine"
+          similarity === "Adjusted Cosine"
             ? opsional === "item-based"
               ? dataSimilarity[i][colIndex]
               : dataSimilarity[colIndex][i]
@@ -231,7 +231,7 @@ const ModalSimilarity = ({
   const dataModify =
     similarity !== "Cosine" &&
     similarity !== "Bhattacharyya Coefficient Similarity"
-      ? similarity === "Adjusted Vector Cosine" || opsional === "item-based"
+      ? similarity === "Adjusted Cosine" || opsional === "item-based"
         ? transposeMatrix(data["mean-centered"])
         : data["mean-centered"]
       : dataOnly;
@@ -247,14 +247,15 @@ const ModalSimilarity = ({
   return (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-white p-6 rounded-lg shadow-lg w-full sm:w-11/12 md:w-8/12 lg:w-6/12 xl:w-5/12 max-h-[80%] overflow-y-auto m-6 relative">
-        <button
-          onClick={close}
-          className="absolute top-3 right-3 text-2xl text-gray-600 hover:text-gray-800 focus:outline-none"
-        >
-          <CloseIcon />
-        </button>
-        <h2 className="text-lg sm:text-xl font-semibold mb-4">
+        <h2 className="text-lg sm:text-xl font-semibold mb-4 sticky top-0 bg-white p-2 z-10 shadow-sm">
           Detail Perhitungan Fungsi Similaritas
+          {/* Tombol close di luar modal */}
+          <button
+            onClick={close}
+            className="absolute top-1 right-3 text-2xl text-gray-600 hover:text-gray-800 focus:outline-none bg-red-200 px-2 py-1 rounded-full z-10"
+          >
+            <CloseIcon className="text-md" />
+          </button>
         </h2>
 
         <SwitchToggle

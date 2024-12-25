@@ -2,19 +2,21 @@ import React, { useState, useEffect } from "react";
 import { AccordionMeasure } from "../../components/AccordionMeasure";
 import LayoutHome from "../Layout/Home/LayoutHome.jsx";
 import CardHome from "../../components/Card/Home/CardHome.jsx";
+import CardMenuFitur from "../../components/Card/Home/CardMenuFitur.jsx";
 import CardAnggotaHome from "../../components/Card/Home/CardAnggotaHome.jsx";
 import HeaderHome from "../Layout/Home/HeaderHome.jsx";
 import BodyHome from "../Layout/Home/BodyHome.jsx";
 import { BackToTopButtonHome } from "../../components/Navigate/BackToTopNavigate";
 import OverViewRekomendasi from "../../components/Toggle/OverViewPage";
-import Img1 from "../../assets/images/img1.png";
-import Img7 from "../../assets/images/img7.png";
-import tutorialPage from "../../assets/images/tutorialPage.png";
 import buifa from "../../assets/images/ibu_Ifada.jpg";
 import alfi from "../../assets/images/alfinur.JPG";
 import dimas from "../../assets/images/Dimas.jpeg";
+import tutorialPage from "../../assets/images/tutorialPage.png";
+
 import ModalHomeFirst from "../../components/modal/ModalHomeFirst.jsx";
 import PlayCircleFilledWhiteIcon from "@mui/icons-material/PlayCircleFilledWhite";
+import About from "../../components/Card/Main/About.jsx";
+import CardSimilaritas from "../../components/Card/Home/CardSimilaritas.jsx";
 // import Cookies from "js-cookie";
 
 const RatingExplanationTable = () => {
@@ -146,24 +148,6 @@ const RatingExplanationTable3 = () => {
 };
 
 const Home = () => {
-  // modal home
-
-  const [isModalOpenHome, setIsModalOpenHome] = useState(false);
-
-  useEffect(() => {
-    // const hasVisited = localStorage.getItem("hasVisited");
-    // const hasVisited = sessionStorage.getItem("hasVisited");
-    const hasVisited = localStorage.getItem("hasVisited");
-
-    if (!hasVisited) {
-      // jika belum pernah dikunjungi, tampilkan modal
-      setIsModalOpenHome(true);
-      localStorage.getItem("hasVisited", "true");
-    }
-  }, []);
-
-  const closeModal = () => setIsModalOpenHome(false); // Function to close modal
-
   // end modal home
   const listOfSimilarity = [
     {
@@ -270,45 +254,11 @@ const Home = () => {
 
   return (
     <LayoutHome>
-      <div className="mb-[6rem] sm:mb-0">
-        <button
-          onClick={() => setIsModalOpenHome(true)}
-          className="bg-card_blue_primary font-poppins font-semibold text-white py-2 px-6 rounded-lg shadow-md hover:bg-blue-600"
-        >
-          Modal Home Tutorial
-          <PlayCircleFilledWhiteIcon className="ml-2" />
-        </button>
-        {isModalOpenHome && (
-          <ModalHomeFirst isOpen={isModalOpenHome} onClose={closeModal} />
-        )}
-        {/* Rest of your component */}
-      </div>
-
       <HeaderHome>
         <>
           <div>
             Media Pembelajaran Interaktif Sistem Rekomendasi dan Perhitungan
             Fungsi Similaritas
-          </div>
-
-          <div className="absolute inset-0 flex items-center justify-center">
-            {/* Icon 1 */}
-            <div className="absolute top-0 left-0 transform -translate-x-1/4 sm:-left-5 md:-left-10 lg:-left-12 xl:-left-14 hidden sm:block">
-              <img
-                src={Img1}
-                alt="Icon 1"
-                className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 opacity-100"
-              />
-            </div>
-
-            {/* Icon 2 */}
-            <div className="absolute top-10 right-0 transform translate-x-1/4 sm:translate-x-10 md:translate-x-20 lg:translate-x-20 xl:translate-x-24 hidden sm:block">
-              <img
-                src={Img7}
-                alt="Icon 2"
-                className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 opacity-100"
-              />
-            </div>
           </div>
         </>
       </HeaderHome>
@@ -328,47 +278,36 @@ const Home = () => {
         }
         hirarki={"1"}
         type="grid"
+        bgColor={"bg-white"}
       >
-        <CardHome
+        <CardMenuFitur
           Image={tutorialPage}
-          bgColor={"bg-card_blue_primary"}
+          bgColor={"bg-card_yellow_primary"}
           Heading={"Tutorial Fungsi Similaritas"}
           buttonName={"Tutorial Sekarang"}
           anchor={"/tutorial"}
         >
           {" "}
           Untuk belajar dan memahami cara perhitungan{" "}
-          <span className="bold">fungsi similaritas</span> bagi yang ingin
-          mempelajari sistem rekomendasi.
-        </CardHome>
+          <span className="bold">fungsi similaritas</span>.
+        </CardMenuFitur>
 
-        <CardHome
+        <CardMenuFitur
           Image={tutorialPage}
-          bgColor={"bg-card_green_primary"}
+          bgColor={"bg-blue-home"}
           Heading={"Latihan Fungsi Similaritas"}
           buttonName={"Latihan Sekarang"}
           anchor={"/latihan"}
         >
           {" "}
           Untuk eksplorasi dan eksperimen dalam perhitungan{" "}
-          <span className="bold">fungsi similaritas</span> guna pemahaman yang
-          lebih mendalam.{" "}
-        </CardHome>
+          <span className="bold">fungsi similaritas</span>.
+        </CardMenuFitur>
       </BodyHome>
 
-      {/* About Section */}
-
-      <BodyHome
-        header={"Tentang Aplikasi Website Media Pembelajaran"}
-        type="casual"
-        hirarki="1"
-        subheader={
-          "Aplikasi ini merupakan platform media pembelajaran berbasis website yang dirancang untuk mempermudah pembelajaran interaktif. Dengan menggunakan sistem rekomendasi berbasis User-Based dan Item-Based, aplikasi ini memberikan pengalaman belajar yang lebih personal dan efektif. Pengguna dapat mengikuti tahapan pembelajaran yang jelas dan disertai dengan visualisasi yang mendukung untuk memperjelas materi dan meningkatkan pemahaman."
-        }
-      />
-
+      <CardSimilaritas />
       {/* Fungsi Similaritas s Section */}
-      <BodyHome
+      {/* <BodyHome
         header={
           "Fungsi Similaritas Yang Diterapkan Pada Website Media Pembelajaran"
         }
@@ -377,6 +316,7 @@ const Home = () => {
         subheader={
           "Ini adalah platform pembelajaran berbasis website yang mengajarkan cara menghitung Fungsi Similaritas, baik untuk sistem rekomendasi berbasis pengguna (user-based) maupun berbasis item (item-based). Melalui aplikasi ini, pengguna dapat memahami secara mendalam bagaimana algoritma rekomendasi bekerja."
         }
+        bgColor={"bg-white"}
       >
         {listOfSimilarity.map((item, index) => (
           <AccordionMeasure
@@ -385,7 +325,9 @@ const Home = () => {
             descriptionMeasure={item.description}
           />
         ))}
-      </BodyHome>
+      </BodyHome> */}
+
+      <About />
 
       {/* Team Section */}
 
@@ -395,48 +337,24 @@ const Home = () => {
           "Tim pengembang media pembelajaran sistem rekomendasi dengan metode Fungsi Similaritas terdiri dari mahasiswa yang memiliki minat di bidang sistem rekomendasi. Masing-masing anggota memiliki keahlian unik yang mendukung pengembangan platform, mulai dari pengembangan perangkat lunak, hingga desain antarmuka pengguna."
         }
         type="gridAnggota"
+        bgColor={"bg-white"}
       >
         <CardAnggotaHome
-          Image={buifa}
-          Color={"bg-card_blue_primary"}
-          Nama={"Noor Ifada"}
-          Email={"noor.ifada@trunojoyo.ac.id"}
+          name={"Noor Ifada"}
+          imageUrl={buifa}
+          email={"noor.ifada@trunojoyo.ac.id"}
         />
-
         <CardAnggotaHome
-          Image={alfi}
-          Color={"bg-card_green_primary"}
-          Nama={"Alfi Nur Danialin"}
-          Email={"alfinurdanialin900@gmail.com"}
+          imageUrl={alfi}
+          name={"Alfi Nur Danialin"}
+          email={"alfinurdanialin900@gmail.com"}
         />
-
         <CardAnggotaHome
-          Image={dimas}
-          Color={"bg-card_pink_primary"}
-          Nama={"Dimas Dliyaur Rahman"}
-          Email={"dimasdliyaurrahman@gmail.com"}
+          imageUrl={dimas}
+          name={"Dimas Dliyaur Rahman"}
+          email={"dimasdliyaurrahman@gmail.com"}
         />
       </BodyHome>
-
-      {/* Reference Section */}
-      {/*<BodyHome*/}
-      {/*    header={"Reference"}*/}
-      {/*    subheader={""}*/}
-      {/*    type='casual'*/}
-      {/*>*/}
-      {/*    <li>*/}
-      {/*        Ifada, N., Rachman, F. H., Wahyuni, S. (2023). Character-based String Matching*/}
-      {/*        Similarity Algorithms for Madurese Spelling Correction: A Preliminary Study. In*/}
-      {/*        International Conference on Electrical Engineering and Informatics (ICEEI) (pp.*/}
-      {/*        1-6). IEEE. DOI: 10.1109/ICEEI59426.2023.10346716*/}
-      {/*    </li>*/}
-      {/*    <li>*/}
-      {/*        Ifada, ., Rachman, F. H., Wahyuni, S. (2023). Character-based String Matching*/}
-      {/*        Similarity Algorithms for Madurese Spelling Correction: A Preliminary Study. In*/}
-      {/*        International Conference on Electrical Engineering and Informatics (ICEEI) (pp.*/}
-      {/*        1-6). IEEE. DOI: 10.1109/ICEEI59426.2023.10346716*/}
-      {/*    </li>*/}
-      {/*</BodyHome>*/}
 
       <BackToTopButtonHome />
     </LayoutHome>

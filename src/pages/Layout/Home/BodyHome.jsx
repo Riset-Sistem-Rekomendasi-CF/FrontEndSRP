@@ -5,9 +5,10 @@ const BodyHome = ({
   idName,
   hirarki = "1",
   type = "grid",
+  bgColor,
 }) => {
   const HeaderElement = ({ heading, children }) => {
-    const NameClass = "font-bold font-poppins mb-10 md:mb-20 ";
+    const NameClass = " text-black font-bold font-poppins mb-10 md:mb-20 ";
     switch (heading) {
       case "1":
         return (
@@ -50,9 +51,9 @@ const BodyHome = ({
   const SubHeaderElement = ({ typeOf, children }) => {
     return (
       <p
-        className={
-          `text-sm font-medium sm:text-base font-poppins ${typeOf === `space` ? `my-6 sm:my-10` : ``}`
-        }
+        className={`text-black text-sm font-medium sm:text-base font-poppins ${
+          typeOf === `space` ? `my-6 sm:my-10` : ``
+        }`}
       >
         {children}
       </p>
@@ -88,12 +89,17 @@ const BodyHome = ({
   };
 
   return (
-    <section id={idName} className="max-w-5xl mx-auto text-center py-10 px-4">
-      <HeaderElement heading={hirarki} typeOf={type}>
-        {header}
-      </HeaderElement>
-      <SubHeaderElement typeOf={type}>{subheader}</SubHeaderElement>
-      <BodyContainElement typeOf={type}>{children}</BodyContainElement>
+    <section
+      id={idName}
+      className={`${bgColor} min-h-screen mx-auto text-center py-10 px-4`}
+    >
+      <div className="max-w-6xl mx-auto text-center relative ">
+        <HeaderElement heading={hirarki} typeOf={type}>
+          {header}
+        </HeaderElement>
+        <SubHeaderElement typeOf={type}>{subheader}</SubHeaderElement>
+        <BodyContainElement typeOf={type}>{children}</BodyContainElement>
+      </div>
     </section>
   );
 };

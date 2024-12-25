@@ -13,9 +13,9 @@ const handleSimilarityFunction = similarity => {
             return getPearsonPC
         case "Cosine":
             return getCosine
-        case "Adjusted Vector Cosine":
+        case "Adjusted Cosine":
             return getACosine
-        case "Bhattacharyya Coefficient Similarity":
+        case "Bhattacharyya Coefficient":
             return getBC
         default:
             return
