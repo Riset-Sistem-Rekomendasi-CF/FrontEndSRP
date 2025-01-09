@@ -490,11 +490,9 @@ const ModalPredictionMeasure = ({
         </MathJaxContext>
 
         <p className="text-xl font-bold text-gray-700 mt-5 sm:text-md md:text-lg lg:text-xl xl:text-2xl">
-          Hasil prediksi <i>rating</i>
-          <span className="italic"> Item </span>
-          target {selectedIndex[1] + 1} terhadap{" "}
-          <span className="italic">item</span> {selectedIndex[1] + 1} adalah ={" "}
-          {selectedValue.toFixed(3)}
+          Hasil prediksi <i>user</i> {selectedIndex[0] + 1} untuk{" "}
+          <span className="italic mr-1 ">Item </span>
+          target {selectedIndex[1] + 1} adalah: {selectedValue.toFixed(3)}
         </p>
 
         <button

@@ -311,7 +311,15 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
             terhadap daftar <i>item</i> yang belum diberikan <i>rating</i>.
             <br />
             Semakin tinggi nilai prediksi rating suatu <i>item</i>, maka semakin
-            di rekomendasikan <i>item</i> tersebut untuk <i>user</i> target.
+            di rekomendasikan <i>item</i> tersebut untuk{" "}
+            <i className="mr-1">user</i> target. sehingga pengguna akan tau item
+            apa saja yang akan direkomendasikan.
+          </p>
+          {/* user bisa memilih berapa top-n yang ingin */}
+          <p className="text-gray-700 font-medium mt-2 ml-5 text-justify">
+            Pengguna dapat memilih berapa banyak rekomendasi <i>item</i>{" "}
+            <span className="italic">Top-N</span> yang akan ditampilkan dari{" "}
+            <i className="mr-1">user </i>target.
           </p>
 
           <MathJaxContext options={mathjaxConfig}>
@@ -583,6 +591,15 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
         <h2 className="font-semibold text-sm sm:text-base md:text-lg">
           4. Menentukan prediksi <i> rating </i>
         </h2>
+        <h2 className="font-semibold text-sm sm:text-base md:text-lg ">
+          5. Menentukan Top-K{" "}
+          <span className="italic capitalize">{opsional}</span> target
+        </h2>
+        <p className="text-gray-700 font-medium ml-5 text-justify text-xs sm:text-sm md:text-base">
+          Pengguna dapat menentukan Top-K. Top-K yaitu tetangga terdekat yang
+          akan digunakan untuk melihat seberapa mirip{" "}
+          <i className="mr-1">user</i> target dari user yang lain.
+        </p>
       </div>
 
       <div className="flex items-center  mt-5">

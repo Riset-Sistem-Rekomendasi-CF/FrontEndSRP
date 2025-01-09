@@ -20,7 +20,7 @@ const FormLayoutTutorial = ({ data, id }) => {
   return (
     <section id={id} className="max-w-6xl mx-auto text-center p-5">
       <h1 className="text-5xl sm:text-6xl font-bold font-poppins py-10">
-        Pilih Sistem Rekomendasi dan Fungsi Similaritas
+        Pilih Metode Prediksi dan Fungsi Similaritas
       </h1>
       <div className="flex flex-col sm:flex-row sm:justify-around gap-8 sm:gap-10">
         {data.map((list, index) => {

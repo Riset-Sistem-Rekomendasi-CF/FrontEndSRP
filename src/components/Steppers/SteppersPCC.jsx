@@ -1,51 +1,332 @@
+import React, { useState } from "react";
+import pccCor from "../../assets/images/detailPage/R.png";
+
+import { MathJaxContext } from "better-react-mathjax";
+import { FunctionMeasureDropdown } from "../MathSimilarity/DropdownFunction/FunctionMeasureDropdown";
+import MathJaxComponent from "../../MathJaxComponent";
+import mathjaxConfig from "../../mathjax-config";
+
+const FormulaDetailUser = {
+  formula: `\\[ PCC_{${"{user}"}}(u,v) = \\frac{\\sum_{i\\in I_{u} \\cap I_{v}} s_{ui} s_{vi}}{\\sqrt{\\sum_{i\\in I_{u} \\cap I_{i}} s_{ui}^{2}}\\sqrt{\\sum_{i\\in I_{v} \\cap I_{i}} s_{vi}^{2}}} \\]`,
+  detail_formula: [
+    `\\[ I_{u} = \\text{Himpunan } \\textit{item} \\text{ yang telah diberi } \\textit{ rating } \\text{oleh } \\textit{user} \\ u \\]`,
+    `\\[ s_{ui} = \\text{Nilai mean-centered dari } \\textit{ rating } \\textit{item} \\ i \\text{ yang telah dinilai oleh } \\textit{user} \\ u \\]`,
+  ],
+};
+
+const FormulaDetailItem = {
+  formula: `\\[ PCC_{${"item"}}(i,j) = \\frac{\\sum_{u\\in U_{i} \\cap U_{j}} s_{ui} s_{uj}}{\\sqrt{\\sum_{u\\in U_{i} \\cap U_{j}} s^{2}_{ui}}\\sqrt{\\sum_{u\\in U_{i} \\cap U_{j}} s^{2}_{uj}}} \\]`,
+  detail_formula: [
+    `\\[ U_{ij} = \\text{Kumpulan } \\textit{user} \\text{ yang telah merating pada } \\textit{item} \\text{ yang sama oleh } \\textit{user} \\ u \\text{ dan } \\textit{user} \\ v \\]`,
+    `\\[ s_{ui} = \\text{Nilai mean-centered dari } \\textit{ rating } \\textit{item} \\ i \\text{ yang telah dinilai oleh } \\textit{user} \\ u \\]`,
+  ],
+};
+
+export const FormulaPredictionUser = {
+  formula: `\\[ {\\widetilde{r}_{ui}} = \\mu_{u} +\\frac{\\sum_{v\\in  X_{u}(j)} Sim_{uv}* s_{vi}}{\\sum_{v \\in  X_{u}(i)}\\mid Sim_{uv} \\mid} \\]`,
+  detail_formula: [
+    `\\[ s_{vi} = \\text{Rata-rata } \\textit{rating} \\text{ yang diberikan oleh } \\textit{user} \\ u \\text{ pada seluruh } \\textit{item} \\]`,
+    `\\[ Sim_{uv} = \\text{Nilai } \\textit{similarity} \\text{ antara } \\textit{user} \\ u \\text{ dan } \\textit{user} \\ v \\]`,
+    `\\[ X_{u}(j) = \\text{Himpunan tetangga (top-k) dari } \\textit{user} \\ u \\text{ untuk } \\textit{item} \\ i \\]`,
+  ],
+};
+
+export const FormulaPredictionItem = {
+  formula: `\\[ {\\widetilde{r}_{ui}} = \\mu_{i} +\\frac{\\sum_{j\\in X_{i}(u)} Sim_{uv}* s_{uj}}{\\sum_{j \\in X_{i}(u)}\\mid Sim_{ij} \\mid} \\]`,
+  detail_formula: [
+    `\\[ s_{vi} = \\text{Rata-rata } \\textit{rating} \\text{ yang diberikan oleh } \\textit{user} \\ u \\text{ pada seluruh } \\textit{item} \\]`,
+    `\\[ Sim_{uv} = \\text{Nilai } \\textit{similarity} \\text{ antara } \\textit{user} \\ u \\text{ dan } \\textit{user} \\ v \\]`,
+    `\\[ X_{i}(j) = \\text{Himpunan tetangga (top-k) dari } \\textit{item} \\ i \\text{ untuk } \\textit{user} \\ u \\]`,
+  ],
+};
+
+const RatingExplanationTableSatu = () => {
+  // Data tabel yang berisi nilai dan penjelasan
+  const ratingData = [
+    {
+      value: "1",
+      description:
+        "Nilai 1 menunjukkan hubungan positif sempurna, artinya dua user atau item memiliki pola rating yang sangat mirip. Misalnya, jika user A memberi rating tinggi pada suatu item, user B cenderung memberi rating tinggi juga pada item yang sama.",
+    },
+    {
+      value: "0",
+      description:
+        "Nilai 0 berarti tidak ada hubungan linier antara dua user atau item. Perubahan rating user A tidak mempengaruhi rating user D, sehingga rekomendasi berdasarkan pola rating mereka tidak efektif.",
+    },
+    {
+      value: "-1",
+      description:
+        "Nilai -1 menunjukkan hubungan negatif sempurna, di mana kedua user atau item memiliki pola rating yang bertentangan. Contohnya, jika user A tidak menyukai suatu item, user C mungkin justru menyukai item tersebut.",
+    },
+  ];
+
+  return (
+    <div className=" mb-4">
+      <table className="table-auto border-collapse border border-gray-200 w-full">
+        <thead>
+          <tr>
+            <th className="border border-gray-300 px-4 py-2">Nilai</th>
+            <th className="border border-gray-300 px-4 py-2">Keterangan</th>
+          </tr>
+        </thead>
+        <tbody>
+          {ratingData.map((item, index) => (
+            <tr key={index}>
+              <td className="border border-gray-300 px-4 py-2 text-center">
+                {item.value}
+              </td>
+              <td className="border border-gray-300 px-4 py-2">
+                {item.description}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
 export const StepsPcc = [
   {
-    id: 1,
-    title: "Pengantar Pearson Correlation Coefficient (PCC)",
+    title: "Apa itu Pearson Correlation Coefficient (PCC)",
     description: "Memahami apa itu PCC dan kegunaannya secara umum",
-    content:
-      "Pearson Correlation Coefficient (PCC) adalah ukuran statistik yang mengukur kekuatan dan arah hubungan linier antara dua variabel. Nilai PCC berkisar antara -1 hingga 1. Nilai 1 menunjukkan hubungan positif sempurna, nilai -1 menunjukkan hubungan negatif sempurna, dan nilai 0 menunjukkan tidak ada hubungan linier.",
+    content: (
+      <>
+        <div>
+          <p>
+            Collaborative filtering adalah teknik dalam sistem rekomendasi yang
+            digunakan untuk memprediksi preferensi pengguna berdasarkan data
+            pengguna lain yang memiliki pola serupa. Pearson Correlation
+            Coefficient (PCC) digunakan untuk mengukur kemiripan antara pengguna
+            atau item dengan menghitung hubungan linier antara rating mereka.
+            Dengan PCC, kita dapat menemukan pengguna atau item yang paling
+            relevan, membantu menghasilkan rekomendasi yang lebih akurat.
+          </p>
+
+          <p className="mb-5">
+            PCC digunakan secara luas dalam sistem rekomendasi produk, film, dan
+            konten lainnya. Berikut adalah ilustrasi dari cara kerjanya:
+          </p>
+          <div className="flex justify-center items-center">
+            <iframe
+              width="560"
+              height="315"
+              src="https://www.youtube.com/embed/k7IctLRiZmo?si=p6H1OxuPi44ROY_-"
+              frameborder="0"
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+              className="rounded-md shadow-sm"
+            ></iframe>
+          </div>
+        </div>
+      </>
+    ),
   },
   {
-    id: 2,
-    title: "Formula dan Perhitungan PCC",
-    description: "Mengetahui cara menghitung PCC dengan rumus matematika",
-    content:
-      "PCC dihitung menggunakan rumus: \n\n r = Σ((Xi - X̄)(Yi - Ȳ)) / √(Σ(Xi - X̄)² Σ(Yi - Ȳ)²), \n\n di mana Xi dan Yi adalah nilai data untuk masing-masing variabel, dan X̄ serta Ȳ adalah rata-rata dari masing-masing variabel. Formula ini memberikan nilai yang menunjukkan seberapa kuat hubungan linier antara dua variabel.",
-  },
-  {
-    id: 3,
-    title: "Penerapan PCC pada Data Empiris",
-    description: "Menerapkan PCC pada data nyata untuk analisis lebih lanjut",
-    content:
-      "PCC sering digunakan dalam analisis data untuk melihat hubungan antara dua set data. Sebagai contoh, PCC dapat digunakan untuk melihat hubungan antara pendapatan dan pengeluaran, atau antara iklan dan penjualan. Dengan menghitung PCC, kita dapat mengetahui apakah dua variabel tersebut saling mempengaruhi satu sama lain dan seberapa kuat pengaruh tersebut.",
-  },
-  {
-    id: 4,
     title: "Interpretasi Nilai PCC",
-    description: "Menginterpretasi hasil PCC untuk menarik kesimpulan",
-    content:
-      "Nilai PCC berkisar dari -1 hingga 1: \n\n- Nilai 1: Hubungan linier positif sempurna. \n- Nilai -1: Hubungan linier negatif sempurna. \n- Nilai 0: Tidak ada hubungan linier. \n\n Nilai antara -1 dan 0 menunjukkan hubungan negatif, sementara nilai antara 0 dan 1 menunjukkan hubungan positif. Interpretasi ini membantu kita memahami hubungan antara variabel yang dianalisis.",
+    description: "Menginterpretasi hasil PCC ",
+    content: (
+      <>
+        <RatingExplanationTableSatu />
+        <div className="flex  justify-center my-5">
+          <img src={pccCor} alt="PPCOR" />
+        </div>
+        <p className="text-gray-600 text-center">Gambar Grafik Hubungan PCC</p>
+      </>
+    ),
   },
   {
-    id: 5,
     title: "Kelebihan dan Kekurangan PCC",
     description: "Menilai kelebihan dan keterbatasan PCC",
-    content:
-      "PCC memiliki kelebihan, seperti kemampuannya untuk mengukur hubungan linier antara dua variabel. Namun, PCC juga memiliki kekurangan, seperti ketidakmampuannya untuk mengukur hubungan non-linier dan sensitivitasnya terhadap outlier yang dapat mempengaruhi hasil analisis.",
+    content: (
+      <>
+        <p>
+          Pearson Correlation Coefficient (PCC) memiliki berbagai kelebihan dan
+          kekurangan yang penting untuk dipahami. Berikut adalah beberapa
+          kelebihan dan kekurangannya:
+        </p>
+
+        <h3 className="font-bold mt-4">Kelebihan PCC:</h3>
+        <ul className="list-disc pl-5">
+          <li>
+            <strong>Mengukur hubungan linier:</strong> PCC sangat efektif dalam
+            mengukur hubungan linier antara dua variabel.
+          </li>
+          <li>
+            <strong>Nilai antara -1 dan 1:</strong> Mudah dipahami, dengan nilai
+            -1 menunjukkan hubungan negatif sempurna, 1 menunjukkan hubungan
+            positif sempurna, dan 0 menunjukkan tidak ada hubungan linier.
+          </li>
+          <li>
+            <strong>Sederhana dan cepat dihitung:</strong> PCC merupakan alat
+            yang sederhana dan cepat dalam menghitung hubungan antar variabel.
+          </li>
+          <li>
+            <strong>Fleksibel untuk berbagai jenis data:</strong> PCC dapat
+            digunakan dalam berbagai bidang, termasuk ilmu sosial, ekonomi, dan
+            bisnis.
+          </li>
+        </ul>
+
+        <h3 className="font-bold mt-4">Kekurangan PCC:</h3>
+        <ul className="list-disc pl-5">
+          <li>
+            <strong>Hanya mengukur hubungan linier:</strong> PCC tidak dapat
+            mengukur hubungan non-linier atau pola hubungan yang lebih kompleks.
+          </li>
+          <li>
+            <strong>Sensitif terhadap outlier:</strong> Kehadiran data ekstrem
+            atau outlier dapat mempengaruhi hasil PCC dan memberikan
+            interpretasi yang menyesatkan.
+          </li>
+          <li>
+            <strong>Asumsi normalitas data:</strong> PCC mengasumsikan bahwa
+            data berdistribusi normal, yang bisa jadi tidak selalu berlaku pada
+            data dunia nyata.
+          </li>
+          <li>
+            <strong>Tidak menggambarkan hubungan sebab-akibat:</strong> PCC
+            hanya mengukur kekuatan hubungan, tetapi tidak dapat membuktikan
+            adanya hubungan sebab-akibat antara dua variabel.
+          </li>
+        </ul>
+      </>
+    ),
   },
   {
-    id: 6,
-    title: "Contoh Kasus PCC dalam Bisnis",
-    description: "Menggunakan PCC untuk analisis dalam konteks bisnis",
-    content:
-      "Sebagai contoh, sebuah perusahaan dapat menggunakan PCC untuk menganalisis hubungan antara anggaran iklan dan penjualan. Jika PCC menunjukkan hubungan yang sangat positif, maka perusahaan mungkin akan memutuskan untuk meningkatkan anggaran iklan mereka. Sebaliknya, jika hubungan negatif, perusahaan mungkin perlu menilai strategi iklan mereka lebih lanjut.",
+    title: "Contoh Kasus PCC dalam Kehiduapan Sehari-hari",
+    description: "Menggunakan PCC dala kehidupan sehari-hari",
+    content: (
+      <>
+        <p>
+          Contoh kasus penggunaan PCC dalam kehidupan sehari-hari adalah dalam
+          sistem rekomendasi film. Dengan menggunakan PCC, sistem rekomendasi
+          dapat menemukan pengguna yang memiliki preferensi film yang mirip
+          dengan pengguna lain, dan memberikan rekomendasi berdasarkan kesamaan
+          preferensi tersebut. Hal ini memungkinkan pengguna untuk menemukan
+          film yang sesuai dengan selera mereka, berdasarkan pola rating
+          pengguna lain yang serupa. PCC juga digunakan dalam sistem rekomendasi
+          produk, musik, dan konten digital lainnya.
+        </p>
+      </>
+    ),
   },
   {
-    id: 7,
-    title: "Kesimpulan dan Aplikasi Lanjutan",
-    description: "Merangkum aplikasi PCC dan potensi penggunaan lanjutan",
-    content:
-      "PCC adalah alat yang sangat berguna dalam analisis statistik untuk menilai hubungan linier antara dua variabel. Meskipun memiliki keterbatasan, penggunaan PCC yang tepat dapat memberikan wawasan yang sangat berharga dalam berbagai bidang, seperti ekonomi, bisnis, ilmu sosial, dan lainnya. Penggunaan lanjutan dapat mencakup analisis multivariat atau penggunaan bersama dengan teknik analisis data lainnya.",
+    title: "Rumus Fungsi Similaritas PCC",
+    description: "Mengetahui cara menghitung PCC dengan rumus matematika",
+    content: (
+      <>
+        <div>
+          <p>
+            Rumus Pearson Correlation Coefficient (PCC) User-Based untuk dua
+            variabel u dan v adalah sebagai berikut:
+          </p>
+
+          <MathJaxContext options={mathjaxConfig}>
+            <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
+              {/* Membungkus MathJax dengan overflow dan responsif */}
+              <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
+                <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
+                  {FormulaDetailUser.formula}
+                </MathJaxComponent>
+              </div>
+            </div>
+          </MathJaxContext>
+
+          <FunctionMeasureDropdown
+            DetailRumus={FormulaDetailUser.detail_formula}
+          />
+        </div>
+        <div>
+          <p>
+            Rumus Pearson Correlation Coefficient (PCC) Item-Based untuk dua
+            variabel i dan j adalah sebagai berikut:
+          </p>
+
+          <MathJaxContext options={mathjaxConfig}>
+            <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
+              {/* Membungkus MathJax dengan overflow dan responsif */}
+              <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
+                <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
+                  {FormulaDetailItem.formula}
+                </MathJaxComponent>
+              </div>
+            </div>
+          </MathJaxContext>
+
+          <FunctionMeasureDropdown
+            DetailRumus={FormulaDetailItem.detail_formula}
+          />
+        </div>
+      </>
+    ),
+  },
+  {
+    title: "Prediksi Rating Menggunakan PCC",
+    description: "Menghitung prediksi rating menggunakan PCC",
+    content: (
+      <>
+        <div>
+          <p>
+            Prediksi rating menggunakan PCC dilakukan dengan mengalikan nilai
+            similaritas antara user dengan rating yang telah diberikan.
+            Misalnya, untuk prediksi rating user u terhadap item i, kita dapat
+            menggunakan rumus berikut:
+          </p>
+          <MathJaxContext options={mathjaxConfig}>
+            <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
+              {/* Membungkus MathJax dengan overflow dan responsif */}
+              <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
+                <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
+                  {FormulaPredictionUser.formula}
+                </MathJaxComponent>
+              </div>
+            </div>
+          </MathJaxContext>
+
+          <FunctionMeasureDropdown
+            DetailRumus={FormulaPredictionUser.detail_formula}
+          />
+        </div>
+        <div>
+          <p>
+            Prediksi rating menggunakan PCC dilakukan dengan mengalikan nilai
+            similaritas antara item dengan rating yang telah diberikan.
+            Misalnya, untuk prediksi rating user u terhadap item i, kita dapat
+            menggunakan rumus berikut:
+          </p>
+          <MathJaxContext options={mathjaxConfig}>
+            <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
+              {/* Membungkus MathJax dengan overflow dan responsif */}
+              <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
+                <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
+                  {FormulaPredictionItem.formula}
+                </MathJaxComponent>
+              </div>
+            </div>
+          </MathJaxContext>
+
+          <FunctionMeasureDropdown
+            DetailRumus={FormulaPredictionItem.detail_formula}
+          />
+        </div>
+      </>
+    ),
+  },
+  {
+    title: "Kesimpulan",
+    description: "Menarik kesimpulan dari PCC",
+    content: (
+      <>
+        <p>
+          Pearson Correlation Coefficient (PCC) adalah metode yang efektif dalam
+          mengukur kemiripan antara pengguna atau item berdasarkan pola rating
+          mereka. PCC digunakan dalam sistem rekomendasi untuk menemukan
+          pengguna atau item yang paling relevan, dan memberikan rekomendasi
+          yang lebih akurat. Dengan memahami konsep PCC dan cara menghitungnya,
+          kita dapat meningkatkan kualitas rekomendasi dan pengalaman pengguna.
+        </p>
+      </>
+    ),
   },
 ];

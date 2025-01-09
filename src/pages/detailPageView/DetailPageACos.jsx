@@ -11,28 +11,12 @@ export default function DetailPageACos() {
     <>
       <section className="bg-gray-50 min-h-screen">
         <Navbar />
-        <div className="container mx-auto p-4">
+        <div className="mx-auto p-4">
           {/* Section Heading */}
           <div className="text-center my-8">
             <h1 className="text-4xl font-bold text-gray-800 sm:text-4xl md:text-5xl">
               Adjusted Cosine (ACos)
             </h1>
-          </div>
-
-          {/* Description */}
-          <div className="max-w-7xl mx-auto px-4 sm:px-6">
-            <p className="text-lg text-gray-700 sm:text-md md:text-lg text-center">
-              Sistem rekomendasi menggunakan metode Adjusted Cosine (ACos) yang
-              digunakan untuk mengukur kesamaan antara dua objek atau item
-              berdasarkan data pengguna. Dalam perhitungan ini, kita akan
-              membahas bagaimana cara mengimplementasikan metode ini dengan data
-              yang tersedia untuk mendapatkan rekomendasi yang lebih akurat.
-              Adjusted Cosine (ACos) adalah metode yang digunakan untuk mengukur
-              kesamaan antara dua objek atau item berdasarkan data pengguna.
-              Dalam perhitungan ini, kita akan membahas bagaimana cara
-              mengimplementasikan metode ini dengan data yang tersedia untuk
-              mendapatkan rekomendasi yang lebih akurat.
-            </p>
           </div>
 
           <CardBanner

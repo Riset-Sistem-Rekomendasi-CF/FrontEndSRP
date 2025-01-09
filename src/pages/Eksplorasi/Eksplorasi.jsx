@@ -30,10 +30,28 @@ import CardWellcome from "../../components/Card/Home/CardWellcome.jsx";
 import ListNavigasiMenu from "../../components/Navigate/ListNavigasiMenu.jsx";
 import CardsSteps from "../../components/Card/Home/CardSteps.jsx";
 import VidioSection from "../../components/modal/VidioSection.jsx";
+import Toast from "../../components/Toggle/Toast.jsx";
 // import Cookies from "js-cookie";
 
-function Latihan() {
+function Eksplorasi() {
   const [isDescriptionVisible, setDescriptionVisible] = useState(false);
+
+  // Toast State
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+  const [toastType, setToastType] = useState("success");
+
+  // show toast
+  useEffect(() => {
+    setToastMessage("Selamat Datang di Halaman Eksplorasi Fungsi Similaritas");
+    setToastType("success");
+    setShowToast(true);
+  }, []);
+
+  // Hide toast
+  const handleCloseToast = () => {
+    setShowToast(false);
+  };
 
   const toggleDescription = () => {
     setDescriptionVisible(!isDescriptionVisible);
@@ -74,39 +92,27 @@ function Latihan() {
       <div>
         <Navbar />
         <div>
-          <div className="p-4">
-            <div
-              className="p-4 mb-4 text-sm text-green-800 rounded-lg bg-yellow-primary"
-              role="alert"
-            >
-              <div className="flex flex-row mx-auto items-center">
-                <img
-                  src={KoalaPage} // Ganti dengan URL gambar yang Anda inginkan
-                  alt="Icon"
-                  className="w-10 h-10 object-cover rounded-full mr-3"
-                />
-                <p className="font-poppins font-semibold text-md">
-                  {/* Teks di kanan */}
-                  Selamat Datang Di Latihan Fungsi Similaritas
-                </p>
-              </div>
-            </div>
-          </div>
+          {showToast && (
+            <Toast
+              message={toastMessage}
+              type={toastType}
+              onClose={handleCloseToast}
+            />
+          )}
           <ListNavigasiMenu menuVersion={2} scrollToSection={scrollToSection} />
           <CardWellcome
-            heading={"Latihan Fungsi Similaritas"}
+            heading={"Eksplorasi Fungsi Similaritas"}
             bgColor={"bg-card_purple_primary"}
-            detail="Pada Page Latihan pengguna bisa  bereksplorasi dan ingin melakukan
-              eksperiment tentang perhitungan Fungsi Similaritas untuk pemahaman yang
+            detail="Pada Page Eksplorasi Rating pengguna bisa bereksplorasi dan ingin melakukan
+              eksperiment tentang perhitungan  Fungsi Similaritas dengan data rating yang berbeda-beda untuk pemahaman yang
               lebih lanjut."
             image={KoalaPage}
           />
+          <VidioSection />
 
           <section id="cardSteps" className="max-w-5xl mx-auto p-6 text-center">
             <CardsSteps />
           </section>
-
-          <VidioSection />
 
           <section
             id="data_ratingLatihan"
@@ -144,7 +150,7 @@ function Latihan() {
             className="max-w-6xl mx-auto text-center py-5"
           >
             <h1 className="text-5xl sm:text-6xl font-bold font-poppins py-10">
-              Pilih Sistem Rekomendasi dan Metode Similaritas
+              Pilih Metode Prediksi dan Fungsi Similaritas
             </h1>
             <div className="p-5 flex flex-col sm:flex-row justify-center sm:justify-around gap-8 sm:gap-10">
               {/* First Column */}
@@ -154,7 +160,7 @@ function Latihan() {
                     3
                   </div>
                   <h1 className="text-xl sm:text-2xl font-bold font-poppins py-5 sm:py-10 px-3">
-                    Pilih Sistem Rekomendasi
+                    Pilih Metode Prediksi
                   </h1>
                 </div>
                 <DropdownMethodBased
@@ -170,7 +176,7 @@ function Latihan() {
                     4
                   </div>
                   <h1 className="text-xl sm:text-2xl font-bold font-poppins py-5 sm:py-10 px-3">
-                    Pilih Metode Similaritas
+                    Pilih Fungsi Similaritas
                   </h1>
                 </div>
                 <DropdownSimilarityMeasure
@@ -186,7 +192,7 @@ function Latihan() {
               onClick={toggleDescription}
               className=" w-70 font-semibold font-poppins bg-blue-home border-2 border-black text-center text-white px-6 py-3 rounded-full hover:bg-blue-700 shadow-md"
             >
-              Cek Hasil Perhitungan Similaritas
+              Cek Hasil Perhitungan Metode Prediksi dan Fungsi Similaritas
               {isDescriptionVisible ? (
                 <ExpandLessIcon className="ml-2 text-lg" />
               ) : (
@@ -267,4 +273,4 @@ function Latihan() {
   );
 }
 
-export default Latihan;
+export default Eksplorasi;

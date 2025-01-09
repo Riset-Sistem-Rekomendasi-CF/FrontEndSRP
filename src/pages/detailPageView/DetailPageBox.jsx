@@ -127,7 +127,7 @@ export default function DetailPageBox({
             border: "2px solid black",
             borderRadius: 10,
             margin: { xs: 1, sm: 2, md: 3 }, // Adjust margin based on screen size
-            padding: { xs: 1, sm: 2, md: 4 }, // Responsive padding
+            padding: { xs: 1, sm: 2, md: 3 }, // Responsive padding
             boxShadow: 1,
             width: "100%", // Make the Box take full width
             maxWidth: { xs: "100%", md: "100%" }, // Constrain max width on larger

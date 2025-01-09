@@ -10,11 +10,16 @@ import NotificationImportantIcon from "@mui/icons-material/NotificationImportant
 import VowelsPana from "../../assets/images/VowelsPna.png";
 import StepperModal, { StepRow } from "../../components/modal/StepeerModal";
 import KoalaPage from "../../assets/icons/KoalaPage.png";
+import { useLocation } from "react-router-dom";
 
 const Navbar = () => {
+  const location = useLocation();
   const [isOpen, setIsOpen] = useState(false); // Untuk membuka/menutup hamburger menu
   const [dropdownOpen, setDropdownOpen] = useState(false); // Untuk membuka/menutup dropdown Similaritas
 
+  // aktif location
+  const isActive = (path) =>
+    location.pathname === path ? "bg-blue-home text-white" : "text-black";
   // modal stepper
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -34,7 +39,7 @@ const Navbar = () => {
 
   const stepsDataLatihan = [
     {
-      title: "Step 1: Perkenalan Pada Fitur Latihan",
+      title: "Step 1: Perkenalan Pada Fitur Eksplorasi",
       content: (
         <>
           <p>
@@ -88,13 +93,13 @@ const Navbar = () => {
       ),
     },
     {
-      title: "Step 3: Metode Sistem Rekomendasi",
+      title: "Step 3: Metode Prediksi Collaborative Filtering",
       content: (
         <>
           <div>
             <p>
-              Pada Sistem Rekomendasi terdapat dua metode yang bisa digunakan,
-              yaitu: User-Based dan Item-Based.
+              Pada Prediksi Collaborative Filtering, terdapat dua metode yang
+              bisa digunakan, yaitu: User-Based dan Item-Based.
             </p>
 
             {/* Tabel dua kolom berisi nama metode dan keterangan */}
@@ -197,7 +202,7 @@ const Navbar = () => {
                 </tr>
                 <tr className="hover:bg-blue-200 cursor-pointer">
                   <td className="border px-4 py-2">
-                    <i>Bhattacharyaa Coefficient Similarity </i> (BC)
+                    <i>Bhattacharyaa Coefficient </i> (BC)
                   </td>
                   <td className="border px-4 py-2">
                     Dalam sudut pandang pemodelan Collaborative Filtering (CF),
@@ -283,21 +288,27 @@ const Navbar = () => {
           <div className="hidden sm:flex sm:ml-6 space-x-4">
             <a
               href="/"
-              className="text-black px-3 py-2 rounded-md text-lg font-medium hover:bg-blue-home hover:text-white"
+              className={`px-3 py-2 rounded-md text-lg font-medium hover:bg-blue-home hover:text-white ${isActive(
+                "/"
+              )}`}
             >
               Home
             </a>
             <a
               href="/tutorial"
-              className="text-black px-3 py-2 rounded-md text-lg font-medium hover:bg-blue-home hover:text-white"
+              className={`px-3 py-2 rounded-md text-lg font-medium hover:bg-blue-home hover:text-white ${isActive(
+                "/tutorial"
+              )}`}
             >
               Tutorial
             </a>
             <a
-              href="/latihan"
-              className="text-black px-3 py-2 rounded-md text-lg font-medium hover:bg-blue-home hover:text-white"
+              href="/eksplorasi"
+              className={`px-3 py-2 rounded-md text-lg font-medium hover:bg-blue-home hover:text-white ${isActive(
+                "/eksplorasi"
+              )}`}
             >
-              Latihan
+              Eksplorasi
             </a>
 
             {/* Dropdown Similaritas */}
@@ -318,25 +329,33 @@ const Navbar = () => {
                   <div className="py-1">
                     <a
                       href="/pccDetail"
-                      className="text-gray-700 block px-4 py-2 text-base hover:bg-blue-400"
+                      className={`text-gray-700 block px-4 py-2 text-base hover:bg-blue-400 ${isActive(
+                        "/pccDetail"
+                      )}`}
                     >
                       PCC
                     </a>
                     <a
                       href="/cosineDetail"
-                      className="text-gray-700 block px-4 py-2 text-base hover:bg-blue-400"
+                      className={`text-gray-700 block px-4 py-2 text-base hover:bg-blue-400 ${isActive(
+                        "/cosineDetail"
+                      )}`}
                     >
                       Cosine
                     </a>
                     <a
                       href="/acosDetail"
-                      className="text-gray-700 block px-4 py-2 text-base hover:bg-blue-400"
+                      className={`text-gray-700 block px-4 py-2 text-base hover:bg-blue-400 ${isActive(
+                        "/acosDetail"
+                      )}`}
                     >
                       ACos
                     </a>
                     <a
                       href="/bcDetail"
-                      className="text-gray-700 block px-4 py-2 text-base hover:bg-blue-400"
+                      className={`text-gray-700 block px-4 py-2 text-base hover:bg-blue-400 ${isActive(
+                        "/bcDetail"
+                      )}`}
                     >
                       BC
                     </a>
@@ -345,7 +364,7 @@ const Navbar = () => {
               )}
             </div>
             {/* Button Modal Tutorial */}
-            <div className="hidden sm:block">
+            <div className=" sm:block">
               <button
                 onClick={() => setIsModalOpen(true)}
                 className="flex mx-auto items-center bg-card_yellow_primary  w-full  font-poppins font-semibold text-white py-2 px-6 rounded-lg shadow-md hover:bg-blue-600"
@@ -371,28 +390,93 @@ const Navbar = () => {
         <div className="px-2 pt-2 pb-3 space-y-1">
           <a
             href="/"
-            className="text-black block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-home hover:text-white"
+            className={`text-black block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-home hover:text-white ${isActive(
+              "/"
+            )}`}
           >
             Home
           </a>
           <a
             href="/tutorial"
-            className="text-black block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-home hover:text-white"
+            className={`text-black block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-home hover:text-white ${isActive(
+              "/tutorial"
+            )}`}
           >
             Tutorial
           </a>
           <a
-            href="/latihan"
-            className="text-black block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-home hover:text-white"
+            href="/eksplorasi"
+            className={`text-black block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-home hover:text-white ${isActive(
+              "/eksplorasi"
+            )}`}
           >
-            Latihan
+            Eksplorasi
           </a>
-          <a
-            href="#"
-            className="text-black block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-home hover:text-white"
+          <div
+            className="relative"
+            onClick={() => setDropdownOpen(!dropdownOpen)} // Toggle dropdown saat diklik
           >
-            Similaritas
-          </a>
+            <button className="text-black px-3 py-2 rounded-md text-base font-medium flex items-center hover:bg-blue-home hover:text-white">
+              Similaritas
+              {dropdownOpen ? (
+                <KeyboardArrowUpIcon className="ml-2 h-5 w-5" />
+              ) : (
+                <KeyboardArrowDownIcon className="ml-2 h-5 w-5" />
+              )}
+            </button>
+            {dropdownOpen && (
+              <div className="absolute left-1/2 transform -translate-x-1/2 w-48 mt-2 origin-top-left rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <div className="py-1">
+                  <a
+                    href="/pccDetail"
+                    className={`text-gray-700 block px-4 py-2 text-base hover:bg-blue-400 ${isActive(
+                      "/pccDetail"
+                    )}`}
+                  >
+                    PCC
+                  </a>
+                  <a
+                    href="/cosineDetail"
+                    className={`text-gray-700 block px-4 py-2 text-base hover:bg-blue-400 ${isActive(
+                      "/cosineDetail"
+                    )}`}
+                  >
+                    Cosine
+                  </a>
+                  <a
+                    href="/acosDetail"
+                    className={`text-gray-700 block px-4 py-2 text-base hover:bg-blue-400 ${isActive(
+                      "/acosDetail"
+                    )}`}
+                  >
+                    ACos
+                  </a>
+                  <a
+                    href="/bcDetail"
+                    className={`text-gray-700 block px-4 py-2 text-base hover:bg-blue-400 ${isActive(
+                      "/bcDetail"
+                    )}`}
+                  >
+                    BC
+                  </a>
+                </div>
+              </div>
+            )}
+            <div className=" sm:block">
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className="flex mx-auto items-center bg-card_yellow_primary  w-full  font-poppins font-semibold text-white py-2 px-6 rounded-lg shadow-md hover:bg-blue-600"
+              >
+                Tutorial
+                <PlayCircleFilledWhiteIcon className="ml-2" />
+              </button>
+              <StepperModal
+                isOpen={isModalOpen}
+                onClose={closeModal}
+                stepsContent={stepsDataLatihan}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </nav>

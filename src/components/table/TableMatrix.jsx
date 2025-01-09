@@ -143,15 +143,16 @@ export default function TableMatrix({
         rating 1-5.
       </h1>
 
-      <div className="mt-6 ml-5 text-left w-full">
+      <div className="mt-6 ml-5 text-left w-full font-poppins">
         <p className="font-bold text-xl mb-3 ">Keterangan:</p>
         <ul className="flex flex-col sm:flex-row space-x-0 sm:space-x-4 sm:space-y-0 space-y-4">
           <li className="flex items-center">
             <div className="w-10 h-5 bg-red-300 border border-1 border-black mr-2 flex items-center justify-center text-black">
               ?
             </div>
-            Data<span className="italic mx-1 ">Rating</span> yang tidak
-            diketahui atau <i>sparsity</i>
+            <p>
+              Data <i>sparsity</i>{" "}
+            </p>
           </li>
           <li className="flex items-center">
             <div className="w-10 h-5 bg-blue-200 border border-1 border-black mr-2"></div>

@@ -72,7 +72,7 @@ const SimilarityValue = ({
 
   const dataSimilarity =
     similarity !== "Cosine"
-      ? similarity === "Bhattacharyya Coefficient Similarity"
+      ? similarity === "Bhattacharyya Coefficient"
         ? data["probability"]
         : similarity === "Adjusted Cosine"
         ? transposeMatrix(data["mean-centered"])
@@ -82,7 +82,7 @@ const SimilarityValue = ({
   if (!dataSimilarity || dataSimilarity.length === 0) return null;
 
   const dataSimilarityRow =
-    similarity === "Bhattacharyya Coefficient Similarity"
+    similarity === "Bhattacharyya Coefficient"
       ? data["probability"][rowIndex]
       : intersection.map((i) =>
           similarity === "Adjusted Cosine"
@@ -93,7 +93,7 @@ const SimilarityValue = ({
         );
 
   const dataSimilarityCol =
-    similarity === "Bhattacharyya Coefficient Similarity"
+    similarity === "Bhattacharyya Coefficient"
       ? data["probability"][colIndex]
       : intersection.map((i) =>
           similarity === "Adjusted Cosine"
@@ -104,7 +104,7 @@ const SimilarityValue = ({
         );
 
   const numeratorArrayMeasure =
-    similarity !== "Bhattacharyya Coefficient Similarity"
+    similarity !== "Bhattacharyya Coefficient"
       ? sum(
           dataSimilarityRow.map(
             (val, idx) => val.toFixed(2) * dataSimilarityCol[idx].toFixed(2)
@@ -112,7 +112,7 @@ const SimilarityValue = ({
         )
       : null;
   const denominatorArrayMeasure =
-    similarity !== "Bhattacharyya Coefficient Similarity"
+    similarity !== "Bhattacharyya Coefficient"
       ? Math.sqrt(sum(dataSimilarityRow.map((val, idx) => val ** 2))) *
         Math.sqrt(sum(dataSimilarityCol.map((val, idx) => val ** 2)))
       : null;
@@ -138,7 +138,7 @@ const SimilarityValue = ({
   return (
     <>
       <MathJaxComponent>{formula.formula}</MathJaxComponent>
-      {similarity !== "Bhattacharyya Coefficient Similarity" &&
+      {similarity !== "Bhattacharyya Coefficient" &&
       (dataSimilarityCol.length !== 0 || dataSimilarityRow.length !== 0) ? (
         <MathJaxComponent>{formula.process_formula}</MathJaxComponent>
       ) : null}
@@ -148,7 +148,7 @@ const SimilarityValue = ({
         <Warm>
           {intersection.length === 0 &&
           !(
-            similarity === "Bhattacharyya Coefficient Similarity" ||
+            similarity === "Bhattacharyya Coefficient" ||
             similarity === "Vector Cosine"
           ) ? (
             <>Jika tidak ada index untuk dihitung</>
@@ -158,7 +158,7 @@ const SimilarityValue = ({
             ""
           )}{" "}
           maka, nilai Similaritas akan diisi dengan{" "}
-          {similarity === "Bhattacharyya Coefficient Similarity" ||
+          {similarity === "Bhattacharyya Coefficient" ||
           similarity === "Vector Cosine"
             ? `0`
             : `-10`}{" "}
@@ -229,8 +229,7 @@ const ModalSimilarity = ({
   opsional,
 }) => {
   const dataModify =
-    similarity !== "Cosine" &&
-    similarity !== "Bhattacharyya Coefficient Similarity"
+    similarity !== "Cosine" && similarity !== "Bhattacharyya Coefficient"
       ? similarity === "Adjusted Cosine" || opsional === "item-based"
         ? transposeMatrix(data["mean-centered"])
         : data["mean-centered"]
@@ -318,8 +317,7 @@ const ModalSimilarity = ({
                         {!isNotation ? (
                           value.toFixed(
                             similarity !== "Cosine" &&
-                              similarity !==
-                                "Bhattacharyya Coefficient Similarity (BC)"
+                              similarity !== "Bhattacharyya Coefficient (BC)"
                               ? 2
                               : 0
                           )
@@ -327,8 +325,7 @@ const ModalSimilarity = ({
                           <span className="font-serif">
                             {`${
                               similarity !== "Cosine" &&
-                              similarity !==
-                                "Bhattacharyya Coefficient Similarity"
+                              similarity !== "Bhattacharyya Coefficient"
                                 ? "s"
                                 : "r"
                             }`}
@@ -390,7 +387,7 @@ const ModalSimilarity = ({
                     similarity={similarity}
                   />
                 </div>
-                {similarity !== "Bhattacharyya Coefficient Similarity" ? (
+                {similarity !== "Bhattacharyya Coefficient" ? (
                   <div className="w-full min-w-[200px]">
                     <SimilarityIndexNonZero
                       rowIndex={selectedIndex[0]}

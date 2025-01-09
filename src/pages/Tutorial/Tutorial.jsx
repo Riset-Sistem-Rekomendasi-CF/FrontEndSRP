@@ -31,13 +31,33 @@ import ListNavigasiMenu from "../../components/Navigate/ListNavigasiMenu.jsx";
 import CardsSteps from "../../components/Card/Home/CardSteps.jsx";
 import VidioSection from "../../components/modal/VidioSection.jsx";
 import BackToTopButton from "../../components/Navigate/BackToTopNavigate.jsx";
+import { use } from "react";
+import Toast from "../../components/Toggle/Toast.jsx";
 // import Cookies from "js-cookie";
 
 const Tutorial = () => {
   const [isDescriptionVisible, setDescriptionVisible] = useState(false);
+
+  // Toast state
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+  const [toastType, setToastType] = useState("success");
+
+  // show toast
+  useEffect(() => {
+    setToastMessage("Selamat Datang di Halaman Tutorial Fungsi Similaritas");
+    setToastType("success");
+    setShowToast(true);
+  }, []);
+
+  // Hide toast
+  const handleCloseToast = () => {
+    setShowToast(false);
+  };
+
   const form = [
     {
-      header: "Pilih Sistem Rekomendasi",
+      header: "Pilih Metode Prediksi",
       element: (
         <DropdownMethodBased
           turnDescription={setDescriptionVisible}
@@ -49,7 +69,7 @@ const Tutorial = () => {
       ),
     },
     {
-      header: "Pilih Metode Similaritas",
+      header: "Pilih Fungsi Similaritas",
       element: (
         <DropdownSimilarityMeasure
           turnDescription={setDescriptionVisible}
@@ -107,40 +127,30 @@ const Tutorial = () => {
       <div>
         <Navbar />
         <div className="">
-          <div className="p-4">
-            <div
-              className="p-4 mb-4 text-sm text-green-800 rounded-lg bg-yellow-primary"
-              role="alert"
-            >
-              <div className="flex flex-row mx-auto items-center">
-                <img
-                  src={KoalaPage} // Ganti dengan URL gambar yang Anda inginkan
-                  alt="Icon"
-                  className="w-10 h-10 object-cover rounded-full mr-3"
-                />
-                <p className="font-poppins font-semibold text-md">
-                  {/* Teks di kanan */}
-                  Selamat Datang Di Latihan Fungsi Similaritas
-                </p>
-              </div>
-            </div>
-          </div>
+          {showToast && (
+            <Toast
+              message={toastMessage}
+              type={toastType}
+              onClose={handleCloseToast}
+            />
+          )}
+
           <ListNavigasiMenu menuVersion={1} scrollToSection={scrollToSection} />
           <CardWellcome
             heading={"Tutorial Fungsi Similaritas"}
             bgColor={"bg-blue-home"}
             detail="Pada Page Tutorial ini pengguna akan diberikan tutorial tentang
               perhitungan fungsi similaritas dalam Sistem Rekomendasi. Sehingga
-              pengguna paham tentang perhitungan Fungsi Similaritas dengan
-              berbagai metode yang bisa digunakan"
+              pengguna paham tentang perhitungan Metode Prediksi Collaborative Filterin dengan
+              berbagai fungsi similaritas yang berbeda"
             image={KoalaPage}
           />
+
+          <VidioSection id="vidio_ratingTutorial" />
 
           <section id="cardSteps" className="max-w-6xl mx-auto p-4 text-center">
             <CardsSteps />
           </section>
-
-          <VidioSection id="vidio_ratingTutorial" />
 
           <BodyTutorial
             header={TeksHeader}
@@ -162,17 +172,19 @@ const Tutorial = () => {
           <FormLayoutTutorial id="metode_ratingTutorial" data={form} />
 
           <section className="max-w-6xl mx-auto text-center my-10 py-10 relative">
-            <button
-              onClick={toggleDescription}
-              className="w-full sm:w-auto font-semibold font-poppins bg-blue-home border-2 border-black text-center text-white px-4 py-2 sm:px-6 sm:py-3 rounded-full hover:bg-blue-700 shadow-md flex items-center justify-center mx-auto"
-            >
-              Cek Hasil Perhitungan Similaritas
-              {isDescriptionVisible ? (
-                <ExpandLessIcon className="ml-2 text-lg" />
-              ) : (
-                <ExpandMoreIcon className="ml-2 text-lg" />
-              )}
-            </button>
+            <div className="p-5">
+              <button
+                onClick={toggleDescription}
+                className="w-full sm:w-auto font-semibold font-poppins bg-blue-home border-2 border-black text-center text-white px-4 py-2 sm:px-6 sm:py-3 rounded-full hover:bg-blue-700 shadow-md flex items-center justify-center mx-auto"
+              >
+                Cek Hasil Perhitungan Metode Prediksi dan Fungsi Similaritas
+                {isDescriptionVisible ? (
+                  <ExpandLessIcon className="ml-2 text-lg" />
+                ) : (
+                  <ExpandMoreIcon className="ml-2 text-lg" />
+                )}
+              </button>
+            </div>
 
             {isDescriptionVisible && (
               <div className="mt-8">
@@ -185,7 +197,7 @@ const Tutorial = () => {
                   </h1>
 
                   {/* Flex container for chips */}
-                  <div className="flex flex-wrap justify-center gap-2 font-poppins">
+                  <div className="p-5 flex flex-wrap justify-center gap-2 font-poppins">
                     <h1 className="text-lg justify-center font-semibold underline underline-offset-4 decoration-3 decoration-card_blue_primary">
                       Daftar Isi :{" "}
                     </h1>
@@ -244,7 +256,6 @@ const Tutorial = () => {
                       data={data}
                     />
                   </div>
-                  <BackToTopButton />
                 </section>
               </div>
             )}

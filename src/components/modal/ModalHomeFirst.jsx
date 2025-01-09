@@ -5,15 +5,15 @@ import CloseIcon from "@mui/icons-material/Close";
 
 const ModalHomeFirst = ({ isOpen, onClose }) => {
   return (
-    <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
+    <div className="fixed inset-0 p-5 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-white p-4 sm:p-6 lg:p-8 rounded-lg shadow-lg max-w-full sm:max-w-lg md:max-w-xl lg:max-w-2xl w-full max-h-[90vh] overflow-y-auto relative">
         {/* Close button */}
-        <button
+        {/* <button
           onClick={onClose}
-          className="absolute top-3 right-3 text-2xl text-gray-600 hover:text-gray-800 focus:outline-none"
+          className="absolute top-3 right-3 p-1 bg-red-200 rounded-full text-2xl text-gray-600 hover:text-gray-800 focus:outline-none"
         >
           <CloseIcon />
-        </button>
+        </button> */}
 
         {/* Heading */}
         <h2 className="text-2xl sm:text-3xl font-poppins font-semibold mb-6 text-center">

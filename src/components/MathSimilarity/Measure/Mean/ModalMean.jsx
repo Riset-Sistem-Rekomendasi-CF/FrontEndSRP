@@ -107,7 +107,7 @@ const ModalMean = ({
         <h2 className="text-lg sm:text-xl font-semibold mb-4 sticky top-0 bg-white p-2 z-10 shadow-sm">
           <span>
             Detail Perhitungan Mean nilai <i> Rating </i>{" "}
-            <span className="italic">(μ)</span>
+            <span className="italic mr-1"> (μ)</span>
             <i>{opsional.split("-")[0]}</i> ke-{Number(selectedIndex) + 1}
           </span>
           <button

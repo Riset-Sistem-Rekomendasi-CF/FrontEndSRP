@@ -255,7 +255,11 @@ export default function SimilarityMeasure({
         <h1 className="font-semibold text-xl my-5 underline underline-offset-8 decoration-4 decoration-card_blue_primary">
           PILIH VISUALISASI FUNGSI SIMILARITAS{" "}
         </h1>
-        <DropdownWithDisplay result={result} opsional={opsional} />
+        <DropdownWithDisplay
+          result={result}
+          opsional={opsional}
+          similarity={similarity}
+        />
       </div>
     </div>
   );
