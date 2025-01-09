@@ -15,7 +15,7 @@ const CardMenuFitur = ({
   };
   return (
     <div
-      className={`flex flex-col md:flex-row items-center justify-between h-full ${bgColor} shadow-lg rounded-[30px] border-2 border-black p-6 space-y-4 md:space-y-0 md:space-x-6 hover:${bgColor} hover:shadow-xl hover:scale-105 transition-all duration-300 ease-in-out  bg-box-grid-pattern animate-grid z-0`}
+      className={`flex flex-col md:flex-row items-center justify-between h-full ${bgColor} shadow-lg rounded-[30px] border-2 border-black p-6 space-y-4 md:space-y-0 md:space-x-6 hover:${bgColor} hover:shadow-xl  bg-box-grid-pattern animate-grid z-0`}
     >
       {/* Left side with text and button */}
       <div className="flex-1 flex flex-col justify-between text-center md:text-left">
@@ -30,7 +30,7 @@ const CardMenuFitur = ({
         <Link
           to={anchor}
           onClick={handleLinkClick} // Menambahkan onClick untuk scroll ke atas
-          className="font-poppins mt-4 px-6 py-2 bg-purple-600 text-white rounded-[30px] border-2 border-black hover:bg-purple-700 transition duration-300 w-full sm:w-auto mx-auto"
+          className="font-poppins font-medium text-center mt-4 px-6 py-2 bg-purple-600 text-white rounded-full border-2 border-black hover:bg-purple-800 transition duration-300 w-auto sm:w-auto "
         >
           {buttonName}
           <ArrowForwardIcon className="ml-2 text-lg" />

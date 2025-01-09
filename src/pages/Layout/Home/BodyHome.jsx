@@ -90,10 +90,10 @@ const BodyHome = ({
 
   return (
     <section
-      id={idName}
+      id="mulai"
       className={`${bgColor} min-h-screen mx-auto text-center py-10 px-4`}
     >
-      <div className="max-w-6xl mx-auto text-center relative ">
+      <div className="max-w-7xl mx-auto text-center relative ">
         <HeaderElement heading={hirarki} typeOf={type}>
           {header}
         </HeaderElement>

@@ -262,12 +262,8 @@ const Home = () => {
           </div>
         </>
       </HeaderHome>
-
-      {/*<section id="" className='max-w-4xl mx-auto text-center py-10 px-4'>*/}
-      {/*    <h1 className=' font-bold font-poppins mb-10 md:mb-20 text-3xl sm:text-4xl md:text-5xl'>Apa itu User-Based dan Item-Based </h1>*/}
-      {/*</section>*/}
       <OverViewRekomendasi />
-
+      <CardSimilaritas />
       <BodyHome
         // idName={"belajar"}
         header={
@@ -295,37 +291,15 @@ const Home = () => {
         <CardMenuFitur
           Image={tutorialPage}
           bgColor={"bg-blue-home"}
-          Heading={"Latihan Fungsi Similaritas"}
-          buttonName={"Latihan Sekarang"}
-          anchor={"/latihan"}
+          Heading={"Eksplorasi Data Rating"}
+          buttonName={"Eksplorasi Sekarang"}
+          anchor={"/eksplorasi"}
         >
           {" "}
-          Untuk eksplorasi dan eksperimen dalam perhitungan{" "}
-          <span className="bold">fungsi similaritas</span>.
+          Untuk eksplorasi perhitungan fungsi similaritas dengan data rating
+          yang berbeda.
         </CardMenuFitur>
       </BodyHome>
-
-      <CardSimilaritas />
-      {/* Fungsi Similaritas s Section */}
-      {/* <BodyHome
-        header={
-          "Fungsi Similaritas Yang Diterapkan Pada Website Media Pembelajaran"
-        }
-        hirarki="1"
-        type="space"
-        subheader={
-          "Ini adalah platform pembelajaran berbasis website yang mengajarkan cara menghitung Fungsi Similaritas, baik untuk sistem rekomendasi berbasis pengguna (user-based) maupun berbasis item (item-based). Melalui aplikasi ini, pengguna dapat memahami secara mendalam bagaimana algoritma rekomendasi bekerja."
-        }
-        bgColor={"bg-white"}
-      >
-        {listOfSimilarity.map((item, index) => (
-          <AccordionMeasure
-            key={index}
-            headingMeasure={item.title}
-            descriptionMeasure={item.description}
-          />
-        ))}
-      </BodyHome> */}
 
       <About />
 

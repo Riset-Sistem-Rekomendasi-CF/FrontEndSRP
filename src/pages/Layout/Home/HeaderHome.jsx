@@ -9,10 +9,18 @@ import Img7 from "../../../assets/images/img7.png";
 
 const ScrollButton = () => {
   const [isHovered, setIsHovered] = useState(false);
+  const [isHoveredMulai, setIsHoveredMulai] = useState(false);
   const [isModalOpenHome, setIsModalOpenHome] = useState(false);
 
   const scrollToSection = () => {
     const section = document.getElementById("belajar");
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const scrollToSectionMulai = () => {
+    const section = document.getElementById("mulai");
     if (section) {
       section.scrollIntoView({ behavior: "smooth" });
     }
@@ -33,13 +41,28 @@ const ScrollButton = () => {
       {/* Scroll Button */}
       <div className="mb-4 sm:mb-0">
         <Link
-          onClick={scrollToSection}
+          onClick={scrollToSectionMulai}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
-          className="font-bold font-poppins bg-yellow-btn-primary text-white px-8 py-4 rounded-full shadow-md hover:bg-yellow-300 flex items-center justify-center transition-colors duration-200"
+          className="font-bold font-poppins bg-greenDrak-btn-primary text-white px-8 py-4 rounded-full shadow-md hover:bg-yellow-300 flex items-center justify-center transition-colors duration-200"
         >
           Mulai Sekarang
           {isHovered ? (
+            <ArrowDownwardIcon className="ml-2 text-xl transition-transform duration-300" />
+          ) : (
+            <ArrowForwardIcon className="ml-2 text-xl transition-transform duration-300" />
+          )}
+        </Link>
+      </div>
+      <div className="mb-4 sm:mb-0">
+        <Link
+          onClick={scrollToSection}
+          onMouseEnter={() => setIsHoveredMulai(true)}
+          onMouseLeave={() => setIsHoveredMulai(false)}
+          className="font-bold font-poppins bg-card_purple_primary text-white px-8 py-4 rounded-full shadow-md hover:bg-yellow-300 flex items-center justify-center transition-colors duration-200"
+        >
+          Baca Deskripsi
+          {isHoveredMulai ? (
             <ArrowDownwardIcon className="ml-2 text-xl transition-transform duration-300" />
           ) : (
             <ArrowForwardIcon className="ml-2 text-xl transition-transform duration-300" />
@@ -53,7 +76,7 @@ const ScrollButton = () => {
           onClick={() => setIsModalOpenHome(true)}
           className="mr-2 font-bold font-poppins border-2 bg-white border-yellow-btn-primary text-yellow-btn-primary px-8 py-4 rounded-full shadow-md hover:bg-yellow-50 flex items-center justify-center transition-colors duration-200"
         >
-          <span className="hidden sm:inline">Tutorial</span>
+          <span className="hidden sm:inline">Link Pengujian </span>
           <PlayCircleFilledWhiteIcon />
         </button>
         {isModalOpenHome && (

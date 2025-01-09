@@ -46,7 +46,7 @@ const About = () => {
               </span>
             </h1>
 
-            <p className="text-md font-semibold text-gray-500 text-start">
+            <p className="text-md font-meddium  text-black text-start">
               Aplikasi ini merupakan platform media pembelajaran berbasis
               website yang dirancang untuk mempermudah pembelajaran interaktif.
               Dengan menggunakan sistem rekomendasi berbasis User-Based dan

@@ -10,16 +10,17 @@ const VidioSection = () => {
             target="_blank"
             className="py-2 px-2 bg-blue-home text-center rounded-full shadow-sm border-2 border-black text-white font-semibold text-md hover:bg-blue-200"
           >
-            Guide Book Sistem Rekomendasi
+            Guide Book Website Media Pembelajaran
           </a>
         </div>
 
         <h1 className="text-4xl font-bold mb-4 text-center">
-          Vidio Tutorial Sistem Rekomendasi
+          Video Tutorial Website Media Pembelajaran
         </h1>
         <p className="text-lg font-semibold text-md mb-4 text-center">
-          Tutorial kali ini membahas terkait langkah-langkah perhitungan sistem
-          rekomendasi.
+          Tutorial kali ini membahas terkait langkah-langkah perhitungan
+          prediksi Collaborative Filtering dengan berbagai fungsi similaritas
+          yang bisa digunakan.
         </p>
 
         {/* Video Container with Background */}
@@ -30,7 +31,7 @@ const VidioSection = () => {
             {/* 16:9 Aspect Ratio */}
             <iframe
               className="absolute top-0 left-0 w-full h-full object-cover"
-              src="https://www.youtube.com/embed/xdce_71axzg?si=XJPXAQ9NcPf8XDVg"
+              src="https://www.youtube.com/embed/W8V6u9x2Eg0?si=Wex-1qGJLXLgK8iJ"
               title="Video Tutorial"
               frameBorder="0"
               allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"

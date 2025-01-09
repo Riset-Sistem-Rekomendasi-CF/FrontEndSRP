@@ -54,40 +54,38 @@ const CardFlip = () => {
   };
 
   return (
-    <div className="flex flex-col sm:flex-row justify-center gap-4">
+    <div className="flex flex-col sm:flex-row items-center justify-center  gap-4">
       {/* Kartu Kiri */}
       <div
         onClick={flipLeftCard}
-        className="relative w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl h-[450px] sm:h-[500px] md:h-[550px] lg:h-[650px] perspective-[1000px] cursor-pointer"
+        className="relative w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl h-[450px] sm:h-[500px] md:h-[550px] lg:h-[600px] perspective-[1000px] cursor-pointer"
       >
         <div
-          className={`absolute w-full h-full transition-transform duration-500 ${
+          className={`absolute w-full h-full border-2 border-black rounded-xl transition-transform duration-500 ${
             isLeftFlipped ? "rotate-y-180" : ""
           } transform-style-preserve-3d`}
         >
           {/* Front */}
-          <div className="w-full h-full absolute bg-white border-2 border-black text-white flex flex-col justify-start items-center p-5 rounded-xl  backface-hidden">
+          <div className="w-full h-full absolute bg-white text-white flex flex-col justify-start items-center p-5  rounded-xl shadow-lg backface-hidden ">
             <div className="flex flex-row items-center ">
               <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-black mb-2 italic">
                 User-Based Filtering
               </h2>
               <CachedIcon className="text-gray-800 text-xl ml-4" />
             </div>
-            <p className="p-2 sm:p-1 md:p-2 bg-blue-200 rounded-full font-medium text-black shadow-md text-sm sm:text-base md:text-sm hover:bg-blue-300 cursor-pointer">
-              Tekan untuk lihat detail
-            </p>
-
-            <GifImage
-              gifSrc={UserBased} // Ganti dengan path gambar GIF
-              staticImgSrc={UserBasedSvg} // Ganti dengan path gambar statis (frame pertama)
-              altText="User-based GIF"
-              className="w-full h-auto object-cover rounded-lg transition-all duration-300 sm:w-1/2 md:w-1/3"
-            />
+            <div className="w-full h-full flex justify-center items-center overflow-hidden">
+              <GifImage
+                gifSrc={UserBased} // Ganti dengan path gambar GIF
+                staticImgSrc={UserBasedSvg} // Ganti dengan path gambar statis (frame pertama)
+                altText="User-based GIF"
+                className="object-contain w-full h-full" // Gambar responsif dan tidak keluar batas
+              />
+            </div>
           </div>
 
           {/* Back */}
           <div
-            className={`w-full h-full absolute bg-white border-2 border-black text-white flex justify-center items-start p-6 rounded-xl shadow-lg backface-hidden rotate-y-180 overflow-auto`}
+            className={`w-full h-full absolute bg-white text-white flex justify-center items-start p-6 rounded-xl shadow-lg backface-hidden rotate-y-180 overflow-auto`}
           >
             <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 leading-relaxed">
               Pada{" "}
@@ -107,36 +105,34 @@ const CardFlip = () => {
       {/* Kartu Kanan */}
       <div
         onClick={flipRightCard}
-        className="relative w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl h-[450px] sm:h-[500px] md:h-[550px] lg:h-[650px] perspective-[1000px] cursor-pointer"
+        className="relative w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl h-[450px] sm:h-[500px] md:h-[550px] lg:h-[600px] perspective-[1000px] cursor-pointer"
       >
         <div
-          className={`absolute w-full h-full transition-transform duration-500 ${
+          className={`absolute w-full h-full border-2 border-black rounded-xl transition-transform duration-500 ${
             isRightFlipped ? "rotate-y-180" : ""
           } transform-style-preserve-3d`}
         >
           {/* Front */}
-          <div className="w-full h-full absolute bg-white border-2 border-black text-white flex flex-col justify-start items-center p-5 rounded-xl shadow-lg backface-hidden">
+          <div className="w-full h-full absolute bg-white text-white flex flex-col justify-start items-center p-5 rounded-xl shadow-lg backface-hidden">
             <div className="flex flex-row items-center ">
               <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-black mb-2 italic">
                 Item-Based Filtering
               </h2>
               <CachedIcon className="text-gray-800 text-xl ml-4" />
             </div>
-            <p className="p-2 sm:p-1 md:p-2 bg-blue-200 rounded-full font-medium text-black shadow-md text-sm sm:text-base md:text-sm hover:bg-blue-300 cursor-pointer">
-              Tekan untuk lihat detail
-            </p>
-
-            <GifImage
-              gifSrc={ItemBased} // Ganti dengan path gambar GIF
-              staticImgSrc={ItemBasedSvg} // Ganti dengan path gambar statis (frame pertama)
-              altText="Item-Based GIF"
-              className="w-full h-auto object-cover rounded-lg transition-all duration-300 sm:w-1/2 md:w-1/3"
-            />
+            <div className="w-full h-full flex justify-center items-center overflow-hidden">
+              <GifImage
+                gifSrc={ItemBased} // Ganti dengan path gambar GIF
+                staticImgSrc={ItemBasedSvg} // Ganti dengan path gambar statis (frame pertama)
+                altText="Item-Based GIF"
+                className="object-contain w-full h-full" // Gambar responsif dan tidak keluar batas
+              />
+            </div>
           </div>
 
           {/* Back */}
           <div
-            className={`w-full h-full absolute bg-white border-2 border-black text-white flex justify-center items-start p-6 rounded-xl shadow-lg backface-hidden rotate-y-180 overflow-auto`}
+            className={`w-full h-full absolute bg-white text-white flex justify-center items-start p-6 rounded-xl shadow-lg backface-hidden rotate-y-180 overflow-auto`}
           >
             <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 leading-relaxed">
               Di sisi lain,{" "}

@@ -34,7 +34,7 @@ const StepperModal = ({ isOpen, onClose, stepsContent }) => {
             {/* Close button */}
             <button
               onClick={onClose}
-              className="absolute top-2 right-2 text-gray-600 hover:text-gray-900"
+              className="absolute top-2 right-2 p-2 rounded-full bg-red-300 text-gray-600 hover:text-gray-900"
             >
               <CloseIcon className="text-2xl" />
             </button>

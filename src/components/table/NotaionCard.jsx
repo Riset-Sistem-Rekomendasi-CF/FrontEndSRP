@@ -434,7 +434,7 @@ export const NotationCard = ({ data, opsional, id }) => {
 
         {/* Dropdown Card */}
         {isOpen && (
-          <div className="mt-4 bg-yellow-secondary shadow rounded-lg p-4">
+          <div className="mt-4 bg-white rounded-lg p-4">
             {/* validasi jika data 0 */}
             {data && data.length > 0 ? (
               <TabelRatingData data={data} opsional={opsional} />

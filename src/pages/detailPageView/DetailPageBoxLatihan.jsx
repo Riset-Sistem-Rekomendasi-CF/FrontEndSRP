@@ -153,7 +153,6 @@ export default function DetailPageBoxLatihan({ method, similarity, data }) {
 
             <div className="text-sm sm:text-base md:text-lg px-4 sm:px-10 py-5 font-poppins flex-1">
               {renderContent()}
-              <BackToTopButton />
             </div>
           </section>
         </Box>

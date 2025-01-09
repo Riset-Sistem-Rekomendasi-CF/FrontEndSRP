@@ -1,6 +1,7 @@
 // src/App.js
 
 import React from "react";
+import { useState } from "react";
 
 function TabelView() {
   const data = [
@@ -12,6 +13,23 @@ function TabelView() {
   ];
 
   const headers = ["U/I", "1", "2", "3", "4", "5", "6"];
+
+  const numerator = 7;
+  const denominator = 30;
+  const percentage = ((numerator / denominator) * 100).toFixed(2);
+
+  // modal sparsity
+  const [isModalSparsityOpen, setIsModalSparsityOpen] = useState(false);
+
+  // open modal sparsity
+  const handleOpenModalSparsity = () => {
+    setIsModalSparsityOpen(true);
+  };
+
+  // close modal sparsity
+  const handleCloseModalSparsity = () => {
+    setIsModalSparsityOpen(false);
+  };
 
   return (
     <div className="flex flex-col items-center justify-center p-4">
@@ -56,7 +74,7 @@ function TabelView() {
       </div>
 
       {/* Keterangan Section */}
-      <div className="mt-6 text-left w-full">
+      <div className="mt-6 text-left w-full font-poppins">
         <p className="font-bold text-xl ">Keterangan:</p>
         <ul className="flex flex-col sm:flex-row space-x-0 sm:space-x-4 sm:space-y-0 space-y-4">
           <li className="flex items-center">
@@ -64,8 +82,13 @@ function TabelView() {
               ?
             </div>
             <p>
-              Data<span className="italic mx-1 ">Rating </span> yang tidak
-              diketahui atau <i>sparsity</i>
+              Data <i>sparsity</i>{" "}
+              <span
+                className="p-1 bg-red-200 rounded-md font-bold curosr-pointer hover:bg-red-300 hover:text-black hover:underline "
+                onClick={handleOpenModalSparsity}
+              >
+                23.33%
+              </span>
             </p>
           </li>
           <li className="flex items-center">
@@ -78,6 +101,31 @@ function TabelView() {
           </li>
         </ul>
       </div>
+
+      {/* Modal Sparsity */}
+      {isModalSparsityOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
+          <div className="bg-white p-4 rounded-lg shadow-lg">
+            <h2 className="text-2xl font-semibold text-center text-gray-800 mb-4">
+              Rumus untuk Mencari Persentase Sparsity
+            </h2>
+            <p className="text-blue-home mb-4 font-bold">
+              (Jumlah Data yang belum di Rating / Total Data Rating) * 100 %{" "}
+            </p>
+            <div className="flex justify-center items-center bg-gray-100 p-4 rounded-lg border border-gray-200">
+              <p className="text-xl font-semibold text-gray-800">
+                {numerator} / {denominator} = {percentage}%
+              </p>
+            </div>
+            <button
+              onClick={handleCloseModalSparsity}
+              className="mt-4 bg-red-500 text-white px-4 py-2 rounded-md"
+            >
+              Tutup
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

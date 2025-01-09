@@ -26,7 +26,7 @@ export default function CardsSteps() {
       icon: "📖",
       title: "Sparsity",
       description:
-        "Sparsity adalah data rating yang memiliki nilai kosong atau tidak memiliki nilai, karena user tidak memberikan nilai pada item tertentu.",
+        "Sparsity adalah data rating yang tidak ada, karena user belum memberikan nilai kepada item tetentu.",
       bgColor: "bg-green-500",
     },
     {
@@ -47,14 +47,14 @@ export default function CardsSteps() {
       icon: "💡",
       title: "Top-K",
       description:
-        "Top-K adalah tetangga terdekat yang akan digunakan untuk memberikan rekomendasi item terbaik kepada user.",
+        "Pengguna dapat menentukan Top-K. Top-K yaitu tetangga terdekat yang akan digunakan untuk melihat seberapa mirip user target dari user yang lain",
       bgColor: "bg-purple-500",
     },
     {
       icon: "🎯",
       title: "Top-N",
       description:
-        "Top-N adalah metode yang digunakan untuk memberikan rekomendasi item terbaik kepada user.",
+        "Top-N yaitu data dari hasil prediksi digunakan untuk memberikan rekomendasi item terbaik kepada user.",
       bgColor: "bg-indigo-500",
     },
   ];
@@ -65,11 +65,12 @@ export default function CardsSteps() {
         <div className="bg-white max-w-5xl mx-auto  flex flex-col items-center justify-center p-6">
           <div className="text-center mb-10">
             <h2 className="text-5xl font-bold text-black mb-5">
-              Langkah-langkah
+              Informasi Perhitungan Prediksi Collaborative Filtering
             </h2>
             <p className="text-black font-medium text-xl min-w-lg mx-auto">
-              Berikut adalah langkah-langkah yang perlu diikuti untuk menghitung
-              fungsi similaritas berdasarkan data rating yang akan digunakan:
+              Berikut adalah informasi Perhitungan Prediksi Colllaborative
+              Filtering yang perlu diikuti untuk menghitung Metode Prediksi
+              User-Based dan Item-Based Collaborative Filtering:
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl">
