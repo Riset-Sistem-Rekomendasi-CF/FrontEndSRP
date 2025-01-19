@@ -11,6 +11,7 @@ import VowelsPana from "../../assets/images/VowelsPna.png";
 import StepperModal, { StepRow } from "../../components/modal/StepeerModal";
 import KoalaPage from "../../assets/icons/KoalaPage.png";
 import { useLocation } from "react-router-dom";
+import { use } from "react";
 
 const Navbar = () => {
   const location = useLocation();
@@ -36,6 +37,28 @@ const Navbar = () => {
   }, []);
 
   const closeModal = () => setIsModalOpen(false);
+
+  // navbar Visiable dan hidden
+  const [isVisible, setIsVisible] = useState(true); // State untuk menentukan apakah navbar terlihat
+  const [lastScrollY, setLastScrollY] = useState(0); // Untuk menyimpan posisi scroll sebelumnya
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > lastScrollY) {
+        setIsVisible(false); // Saat scroll ke bawah, sembunyikan navbar
+      } else {
+        setIsVisible(true); // Saat scroll ke atas, tampilkan navbar
+      }
+      setLastScrollY(window.scrollY); // Update posisi scroll sebelumnya
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    // Cleanup event listener saat komponen unmount
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [lastScrollY]); // Dependency pada lastScrollY agar bisa mendeteksi scroll direction
 
   const stepsDataLatihan = [
     {
@@ -248,7 +271,11 @@ const Navbar = () => {
   // end modal stepper
 
   return (
-    <nav className="bg-white shadow-sm sticky top-0 z-50">
+    <nav
+      className={`bg-white shadow-sm sticky top-0 z-50 transition-transform ${
+        isVisible ? "transform-none" : "-translate-y-full"
+      }`}
+    >
       <div className="flex mx-auto justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between w-full h-16">
           {/* Tombol Hamburger Menu (untuk mobile) */}
@@ -369,7 +396,7 @@ const Navbar = () => {
                 onClick={() => setIsModalOpen(true)}
                 className="flex mx-auto items-center bg-card_yellow_primary  w-full  font-poppins font-semibold text-white py-2 px-6 rounded-lg shadow-md hover:bg-blue-600"
               >
-                Tutorial
+                Panduan
                 <PlayCircleFilledWhiteIcon className="ml-2" />
               </button>
               <StepperModal
@@ -467,7 +494,7 @@ const Navbar = () => {
                 onClick={() => setIsModalOpen(true)}
                 className="flex mx-auto items-center bg-card_yellow_primary  w-full  font-poppins font-semibold text-white py-2 px-6 rounded-lg shadow-md hover:bg-blue-600"
               >
-                Tutorial
+                Panduan
                 <PlayCircleFilledWhiteIcon className="ml-2" />
               </button>
               <StepperModal

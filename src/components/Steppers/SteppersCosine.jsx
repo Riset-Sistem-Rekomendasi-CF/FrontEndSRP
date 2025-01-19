@@ -8,6 +8,7 @@ const FormulaDetailUser = {
   formula: `\\[ Cosine_{${"user"}}\\left(u,v\\right) = \\frac{\\sum_{i\\in I_{u} \\cap I_{v}}r_{ui}r_{vi}}{\\sqrt{\\sum_{u\\in I_{u}}r^{2}_{ui}}\\sqrt{\\sum_{u\\in I_{v}}r^{2}_{vi}}} \\]`,
   detail_formula: [
     `\\[ I_{u} = \\text{Himpunan } \\textit{item} \\text{ yang telah diberi } \\textit{rating } \\text{oleh } \\textit{user} \\ u \\]`,
+    `\\[ U_{i} = \\text{Himpunan } \\textit{user } \\text{ yang telah memberi } \\textit{ rating } \\textit{item} \\ i \\]`,
     `\\[ r_{ui} = \\textit{Rating } \\textit{user } \\ u \\text{ terhadap } \\textit{item} \\ i \\]`,
   ],
 };
@@ -15,7 +16,6 @@ const FormulaDetailUser = {
 const FormulaDetailItem = {
   formula: `\\[  Cosine_{${"item"}}\\left(i,j\\right) = \\frac{\\sum_{u\\in U_{ij}}r_{ui}r_{uj}}{\\sqrt{\\sum_{u\\in U_{i}}r^{2}_{ui}}\\sqrt{\\sum_{u\\in U_{j}}r^{2}_{uj}}} \\]`,
   detail_formula: [
-    `\\[ U_{i} = \\text{Himpunan } \\textit{user } \\text{ yang telah memberi } \\textit{ rating } \\textit{item} \\ i \\]`,
     `\\[ r_{ui} = \\text{Nilai } \\textit{rating } \\text{pada}  \\textit{user } \\ u \\text{ pada } \\textit{item} \\ i \\]`,
   ],
 };
@@ -195,50 +195,47 @@ export const StepsCosine = [
     description: "Rumus Cosine Similarity dan cara menghitungnya",
     content: (
       <>
-        <div>
-          <p>
-            Prediksi rating menggunakan Cosine Similarity dilakukan dengan
-            mengalikan nilai similaritas antara user dengan rating yang telah
-            diberikan. Misalnya, untuk prediksi rating user u terhadap item i,
-            kita dapat menggunakan rumus berikut:
-          </p>
-          <MathJaxContext options={mathjaxConfig}>
-            <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
-              {/* Membungkus MathJax dengan overflow dan responsif */}
-              <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
-                <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
-                  {FormulaDetailUser.formula}
-                </MathJaxComponent>
+        <div className="flex flex-col sm:grid sm:grid-cols-2 gap-8">
+          <div>
+            <p>
+              Prediksi rating menggunakan Cosine Similarity dilakukan dengan
+              mengalikan nilai similaritas antara user dengan rating yang telah
+              diberikan. Misalnya, untuk prediksi rating user u terhadap item i,
+              kita dapat menggunakan rumus berikut:
+            </p>
+            <MathJaxContext options={mathjaxConfig}>
+              <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
+                {/* Membungkus MathJax dengan overflow dan responsif */}
+                <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
+                  <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
+                    {FormulaDetailUser.formula}
+                  </MathJaxComponent>
+                </div>
               </div>
-            </div>
-          </MathJaxContext>
-
-          <FunctionMeasureDropdown
-            DetailRumus={FormulaDetailUser.detail_formula}
-          />
-        </div>
-        <div>
-          <p>
-            Prediksi rating menggunakan Cosine Similarity dilakukan dengan
-            mengalikan nilai similaritas antara item dengan rating yang telah
-            diberikan. Misalnya, untuk prediksi rating user u terhadap item i,
-            kita dapat menggunakan rumus berikut:
-          </p>
-          <MathJaxContext options={mathjaxConfig}>
-            <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
-              {/* Membungkus MathJax dengan overflow dan responsif */}
-              <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
-                <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
-                  {FormulaDetailItem.formula}
-                </MathJaxComponent>
+            </MathJaxContext>
+          </div>
+          <div>
+            <p>
+              Prediksi rating menggunakan Cosine Similarity dilakukan dengan
+              mengalikan nilai similaritas antara item dengan rating yang telah
+              diberikan. Misalnya, untuk prediksi rating user u terhadap item i,
+              kita dapat menggunakan rumus berikut:
+            </p>
+            <MathJaxContext options={mathjaxConfig}>
+              <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
+                {/* Membungkus MathJax dengan overflow dan responsif */}
+                <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
+                  <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
+                    {FormulaDetailItem.formula}
+                  </MathJaxComponent>
+                </div>
               </div>
-            </div>
-          </MathJaxContext>
-
-          <FunctionMeasureDropdown
-            DetailRumus={FormulaDetailItem.detail_formula}
-          />
+            </MathJaxContext>
+          </div>
         </div>
+        <FunctionMeasureDropdown
+          DetailRumus={FormulaDetailUser.detail_formula}
+        />
       </>
     ),
   },
@@ -247,50 +244,47 @@ export const StepsCosine = [
     description: "Menghitung prediksi rating menggunakan Cosine Similarity",
     content: (
       <>
-        <div>
-          <p>
-            Prediksi rating menggunakan Cosine Similarity dilakukan dengan
-            mengalikan nilai similaritas antara user dengan rating yang telah
-            diberikan. Misalnya, untuk prediksi rating user u terhadap item i,
-            kita dapat menggunakan rumus berikut:
-          </p>
-          <MathJaxContext options={mathjaxConfig}>
-            <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
-              {/* Membungkus MathJax dengan overflow dan responsif */}
-              <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
-                <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
-                  {FormulaPredictionUser.formula}
-                </MathJaxComponent>
+        <div className="flex flex-col sm:grid sm:grid-cols-2 gap-8">
+          <div>
+            <p>
+              Prediksi rating menggunakan Cosine Similarity dilakukan dengan
+              mengalikan nilai similaritas antara user dengan rating yang telah
+              diberikan. Misalnya, untuk prediksi rating user u terhadap item i,
+              kita dapat menggunakan rumus berikut:
+            </p>
+            <MathJaxContext options={mathjaxConfig}>
+              <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
+                {/* Membungkus MathJax dengan overflow dan responsif */}
+                <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
+                  <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
+                    {FormulaPredictionUser.formula}
+                  </MathJaxComponent>
+                </div>
               </div>
-            </div>
-          </MathJaxContext>
-
-          <FunctionMeasureDropdown
-            DetailRumus={FormulaPredictionUser.detail_formula}
-          />
-        </div>
-        <div>
-          <p>
-            Prediksi rating menggunakan Cosine Similarity dilakukan dengan
-            mengalikan nilai similaritas antara item dengan rating yang telah
-            diberikan. Misalnya, untuk prediksi rating user u terhadap item i,
-            kita dapat menggunakan rumus berikut:
-          </p>
-          <MathJaxContext options={mathjaxConfig}>
-            <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
-              {/* Membungkus MathJax dengan overflow dan responsif */}
-              <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
-                <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
-                  {FormulaPredictionItem.formula}
-                </MathJaxComponent>
+            </MathJaxContext>
+          </div>
+          <div>
+            <p>
+              Prediksi rating menggunakan Cosine Similarity dilakukan dengan
+              mengalikan nilai similaritas antara item dengan rating yang telah
+              diberikan. Misalnya, untuk prediksi rating user u terhadap item i,
+              kita dapat menggunakan rumus berikut:
+            </p>
+            <MathJaxContext options={mathjaxConfig}>
+              <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
+                {/* Membungkus MathJax dengan overflow dan responsif */}
+                <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
+                  <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
+                    {FormulaPredictionItem.formula}
+                  </MathJaxComponent>
+                </div>
               </div>
-            </div>
-          </MathJaxContext>
-
-          <FunctionMeasureDropdown
-            DetailRumus={FormulaPredictionItem.detail_formula}
-          />
+            </MathJaxContext>
+          </div>
         </div>
+        <FunctionMeasureDropdown
+          DetailRumus={FormulaPredictionUser.detail_formula}
+        />
       </>
     ),
   },

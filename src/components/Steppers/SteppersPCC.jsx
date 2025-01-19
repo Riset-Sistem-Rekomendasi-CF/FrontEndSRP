@@ -10,6 +10,8 @@ const FormulaDetailUser = {
   formula: `\\[ PCC_{${"{user}"}}(u,v) = \\frac{\\sum_{i\\in I_{u} \\cap I_{v}} s_{ui} s_{vi}}{\\sqrt{\\sum_{i\\in I_{u} \\cap I_{i}} s_{ui}^{2}}\\sqrt{\\sum_{i\\in I_{v} \\cap I_{i}} s_{vi}^{2}}} \\]`,
   detail_formula: [
     `\\[ I_{u} = \\text{Himpunan } \\textit{item} \\text{ yang telah diberi } \\textit{ rating } \\text{oleh } \\textit{user} \\ u \\]`,
+    `\\[ U_{ij} = \\text{Kumpulan } \\textit{user} \\text{ yang telah merating pada } \\textit{item} \\text{ yang sama oleh } \\textit{user} \\ u \\text{ dan } \\textit{user} \\ v \\]`,
+
     `\\[ s_{ui} = \\text{Nilai mean-centered dari } \\textit{ rating } \\textit{item} \\ i \\text{ yang telah dinilai oleh } \\textit{user} \\ u \\]`,
   ],
 };
@@ -17,7 +19,6 @@ const FormulaDetailUser = {
 const FormulaDetailItem = {
   formula: `\\[ PCC_{${"item"}}(i,j) = \\frac{\\sum_{u\\in U_{i} \\cap U_{j}} s_{ui} s_{uj}}{\\sqrt{\\sum_{u\\in U_{i} \\cap U_{j}} s^{2}_{ui}}\\sqrt{\\sum_{u\\in U_{i} \\cap U_{j}} s^{2}_{uj}}} \\]`,
   detail_formula: [
-    `\\[ U_{ij} = \\text{Kumpulan } \\textit{user} \\text{ yang telah merating pada } \\textit{item} \\text{ yang sama oleh } \\textit{user} \\ u \\text{ dan } \\textit{user} \\ v \\]`,
     `\\[ s_{ui} = \\text{Nilai mean-centered dari } \\textit{ rating } \\textit{item} \\ i \\text{ yang telah dinilai oleh } \\textit{user} \\ u \\]`,
   ],
 };
@@ -25,7 +26,10 @@ const FormulaDetailItem = {
 export const FormulaPredictionUser = {
   formula: `\\[ {\\widetilde{r}_{ui}} = \\mu_{u} +\\frac{\\sum_{v\\in  X_{u}(j)} Sim_{uv}* s_{vi}}{\\sum_{v \\in  X_{u}(i)}\\mid Sim_{uv} \\mid} \\]`,
   detail_formula: [
-    `\\[ s_{vi} = \\text{Rata-rata } \\textit{rating} \\text{ yang diberikan oleh } \\textit{user} \\ u \\text{ pada seluruh } \\textit{item} \\]`,
+    `\\[ s_{vi} = \\text{Rata-rata } \\textit{rating} \\text{ yang diberikan oleh } \\textit{user} \\ u \\text{ pada seluruh } \\textit{item} u \\]`,
+
+    `\\[ s_{uj} = \\text{Rata-rata } \\textit{rating} \\text{ yang diberikan oleh } \\textit{user} \\ u \\text{ pada seluruh } \\textit{item} j \\]`,
+
     `\\[ Sim_{uv} = \\text{Nilai } \\textit{similarity} \\text{ antara } \\textit{user} \\ u \\text{ dan } \\textit{user} \\ v \\]`,
     `\\[ X_{u}(j) = \\text{Himpunan tetangga (top-k) dari } \\textit{user} \\ u \\text{ untuk } \\textit{item} \\ i \\]`,
   ],
@@ -34,7 +38,6 @@ export const FormulaPredictionUser = {
 export const FormulaPredictionItem = {
   formula: `\\[ {\\widetilde{r}_{ui}} = \\mu_{i} +\\frac{\\sum_{j\\in X_{i}(u)} Sim_{uv}* s_{uj}}{\\sum_{j \\in X_{i}(u)}\\mid Sim_{ij} \\mid} \\]`,
   detail_formula: [
-    `\\[ s_{vi} = \\text{Rata-rata } \\textit{rating} \\text{ yang diberikan oleh } \\textit{user} \\ u \\text{ pada seluruh } \\textit{item} \\]`,
     `\\[ Sim_{uv} = \\text{Nilai } \\textit{similarity} \\text{ antara } \\textit{user} \\ u \\text{ dan } \\textit{user} \\ v \\]`,
     `\\[ X_{i}(j) = \\text{Himpunan tetangga (top-k) dari } \\textit{item} \\ i \\text{ untuk } \\textit{user} \\ u \\]`,
   ],
@@ -216,48 +219,45 @@ export const StepsPcc = [
     description: "Mengetahui cara menghitung PCC dengan rumus matematika",
     content: (
       <>
-        <div>
-          <p>
-            Rumus Pearson Correlation Coefficient (PCC) User-Based untuk dua
-            variabel u dan v adalah sebagai berikut:
-          </p>
+        <div className="flex flex-col sm:grid sm:grid-cols-2 gap-8  ">
+          <div>
+            <p>
+              Rumus Pearson Correlation Coefficient (PCC) User-Based untuk dua
+              variabel u dan v adalah sebagai berikut:
+            </p>
 
-          <MathJaxContext options={mathjaxConfig}>
-            <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
-              {/* Membungkus MathJax dengan overflow dan responsif */}
-              <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
-                <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
-                  {FormulaDetailUser.formula}
-                </MathJaxComponent>
+            <MathJaxContext options={mathjaxConfig}>
+              <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
+                {/* Membungkus MathJax dengan overflow dan responsif */}
+                <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
+                  <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
+                    {FormulaDetailUser.formula}
+                  </MathJaxComponent>
+                </div>
               </div>
-            </div>
-          </MathJaxContext>
+            </MathJaxContext>
+          </div>
+          <div>
+            <p>
+              Rumus Pearson Correlation Coefficient (PCC) Item-Based untuk dua
+              variabel i dan j adalah sebagai berikut:
+            </p>
 
-          <FunctionMeasureDropdown
-            DetailRumus={FormulaDetailUser.detail_formula}
-          />
-        </div>
-        <div>
-          <p>
-            Rumus Pearson Correlation Coefficient (PCC) Item-Based untuk dua
-            variabel i dan j adalah sebagai berikut:
-          </p>
-
-          <MathJaxContext options={mathjaxConfig}>
-            <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
-              {/* Membungkus MathJax dengan overflow dan responsif */}
-              <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
-                <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
-                  {FormulaDetailItem.formula}
-                </MathJaxComponent>
+            <MathJaxContext options={mathjaxConfig}>
+              <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
+                {/* Membungkus MathJax dengan overflow dan responsif */}
+                <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
+                  <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
+                    {FormulaDetailItem.formula}
+                  </MathJaxComponent>
+                </div>
               </div>
-            </div>
-          </MathJaxContext>
-
-          <FunctionMeasureDropdown
-            DetailRumus={FormulaDetailItem.detail_formula}
-          />
+            </MathJaxContext>
+          </div>
         </div>
+        <FunctionMeasureDropdown
+          DetailRumus={FormulaDetailUser.detail_formula}
+        />
       </>
     ),
   },
@@ -266,50 +266,47 @@ export const StepsPcc = [
     description: "Menghitung prediksi rating menggunakan PCC",
     content: (
       <>
-        <div>
-          <p>
-            Prediksi rating menggunakan PCC dilakukan dengan mengalikan nilai
-            similaritas antara user dengan rating yang telah diberikan.
-            Misalnya, untuk prediksi rating user u terhadap item i, kita dapat
-            menggunakan rumus berikut:
-          </p>
-          <MathJaxContext options={mathjaxConfig}>
-            <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
-              {/* Membungkus MathJax dengan overflow dan responsif */}
-              <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
-                <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
-                  {FormulaPredictionUser.formula}
-                </MathJaxComponent>
+        <div className="flex flex-col sm:grid  sm:grid-cols-2 gap-8">
+          <div>
+            <p>
+              Prediksi rating menggunakan PCC dilakukan dengan mengalikan nilai
+              similaritas antara user dengan rating yang telah diberikan.
+              Misalnya, untuk prediksi rating user u terhadap item i, kita dapat
+              menggunakan rumus berikut:
+            </p>
+            <MathJaxContext options={mathjaxConfig}>
+              <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
+                {/* Membungkus MathJax dengan overflow dan responsif */}
+                <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
+                  <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
+                    {FormulaPredictionUser.formula}
+                  </MathJaxComponent>
+                </div>
               </div>
-            </div>
-          </MathJaxContext>
-
-          <FunctionMeasureDropdown
-            DetailRumus={FormulaPredictionUser.detail_formula}
-          />
-        </div>
-        <div>
-          <p>
-            Prediksi rating menggunakan PCC dilakukan dengan mengalikan nilai
-            similaritas antara item dengan rating yang telah diberikan.
-            Misalnya, untuk prediksi rating user u terhadap item i, kita dapat
-            menggunakan rumus berikut:
-          </p>
-          <MathJaxContext options={mathjaxConfig}>
-            <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
-              {/* Membungkus MathJax dengan overflow dan responsif */}
-              <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
-                <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
-                  {FormulaPredictionItem.formula}
-                </MathJaxComponent>
+            </MathJaxContext>
+          </div>
+          <div>
+            <p>
+              Prediksi rating menggunakan PCC dilakukan dengan mengalikan nilai
+              similaritas antara item dengan rating yang telah diberikan.
+              Misalnya, untuk prediksi rating user u terhadap item i, kita dapat
+              menggunakan rumus berikut:
+            </p>
+            <MathJaxContext options={mathjaxConfig}>
+              <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
+                {/* Membungkus MathJax dengan overflow dan responsif */}
+                <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
+                  <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
+                    {FormulaPredictionItem.formula}
+                  </MathJaxComponent>
+                </div>
               </div>
-            </div>
-          </MathJaxContext>
-
-          <FunctionMeasureDropdown
-            DetailRumus={FormulaPredictionItem.detail_formula}
-          />
+            </MathJaxContext>
+          </div>
         </div>
+        <FunctionMeasureDropdown
+          DetailRumus={FormulaPredictionUser.detail_formula}
+        />
       </>
     ),
   },

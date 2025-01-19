@@ -111,9 +111,9 @@ const HeaderHome = ({ children }) => {
 
         {/* Deskripsi */}
         <p className="mt-6 sm:mt-10 font-medium text-lg sm:text-xl lg:text-2xl font-poppins text-white opacity-90 mb-8 max-w-3xl mx-auto leading-relaxed tracking-wide">
-          Platform pembelajaran berbasis <span className="italic">website</span>{" "}
-          untuk meningkatkan pemahaman pengguna terkait perhitungan fungsi
-          similaritas pada Sistem Rekomendasi <i>Collaborative Filtering</i>.
+          Platform pembelajaran berbasis website untuk meningkatkan pemahaman
+          pengguna terkait perhitungan Fungsi Similaritas pada Sistem
+          Rekomendasi Collaborative Filtering.
         </p>
 
         {/* Tombol scroll */}
