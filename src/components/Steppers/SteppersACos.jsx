@@ -8,6 +8,8 @@ export const FormulaDetailUserACos = {
   formula: `\\[ ACosine_{${"user"}}(u,v) = \\frac{\\sum_{i\\in I_{u} \\cap I_{v}} s_{ui} s_{vi}}{\\sqrt{\\sum_{u \\in I_{u} \\cap I_{v}} s_{ui}^{2}}\\sqrt{\\sum_{i \\in I_{u} \\cap I_{v}} s_{vi}^{2}}} \\]`,
   detail_formula: [
     `\\[ s_{ui} = \\text{Nilai mean-centered dari } \\textit{user } \\ u \\text{ pada } \\textit{item } \\ i \\]`,
+    `\\[ U_{i} = \\text{Himpunan } \\textit{ user } \\text{ yang memberi } \\textit{rating } \\textit{ item } \\ i \\]`,
+
     `\\[ I_{u} = \\text{Himpunan } \\textit{item } \\text{ yang telah diberi } \\textit{ rating } \\text{oleh} \\textit{ user } \\ u \\]`,
   ],
 };
@@ -16,7 +18,6 @@ export const FormulaDetailItemACos = {
   formula: `\\[ ACosine_{${"item"}}(i,j) = \\frac{\\sum_{u\\in U_{i} \\cap U_{j}} s_{ui} s_{uj}}{\\sqrt{\\sum_{u \\in U_{i} \\cap U_{j}} s_{ui}^{2}}\\sqrt{\\sum_{i \\in U_{i} \\cap U_{j}} s_{uj}^{2}}} \\]`,
   detail_formula: [
     `\\[ s_{ui} = \\text{Nilai mean-centered dari } \\textit{user } \\ u \\text{ pada } \\textit{ item } \\ i \\]`,
-    `\\[ U_{i} = \\text{Himpunan } \\textit{ user } \\text{ yang memberi } \\textit{rating } \\textit{ item } \\ i \\]`,
   ],
 };
 
@@ -199,48 +200,45 @@ export const StepsACos = [
       "Mengetahui cara menghitung Ajusted Cosine dengan rumus matematika",
     content: (
       <>
-        <div>
-          <p>
-            Rumus Ajusted (ACos) User-Based untuk dua variabel u dan v adalah
-            sebagai berikut:
-          </p>
+        <div className="flex flex-col sm:grid sm:grid-cols-2 gap-8">
+          <div>
+            <p>
+              Rumus Ajusted (ACos) User-Based untuk dua variabel u dan v adalah
+              sebagai berikut:
+            </p>
 
-          <MathJaxContext options={mathjaxConfig}>
-            <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
-              {/* Membungkus MathJax dengan overflow dan responsif */}
-              <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
-                <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
-                  {FormulaDetailUserACos.formula}
-                </MathJaxComponent>
+            <MathJaxContext options={mathjaxConfig}>
+              <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
+                {/* Membungkus MathJax dengan overflow dan responsif */}
+                <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
+                  <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
+                    {FormulaDetailUserACos.formula}
+                  </MathJaxComponent>
+                </div>
               </div>
-            </div>
-          </MathJaxContext>
+            </MathJaxContext>
+          </div>
+          <div>
+            <p>
+              Rumus Ajusted (ACos) Item-Based untuk dua variabel i dan j adalah
+              sebagai berikut:
+            </p>
 
-          <FunctionMeasureDropdown
-            DetailRumus={FormulaDetailUserACos.detail_formula}
-          />
-        </div>
-        <div>
-          <p>
-            Rumus Ajusted (ACos) Item-Based untuk dua variabel i dan j adalah
-            sebagai berikut:
-          </p>
-
-          <MathJaxContext options={mathjaxConfig}>
-            <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
-              {/* Membungkus MathJax dengan overflow dan responsif */}
-              <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
-                <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
-                  {FormulaDetailItemACos.formula}
-                </MathJaxComponent>
+            <MathJaxContext options={mathjaxConfig}>
+              <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
+                {/* Membungkus MathJax dengan overflow dan responsif */}
+                <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
+                  <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
+                    {FormulaDetailItemACos.formula}
+                  </MathJaxComponent>
+                </div>
               </div>
-            </div>
-          </MathJaxContext>
-
-          <FunctionMeasureDropdown
-            DetailRumus={FormulaDetailItemACos.detail_formula}
-          />
+            </MathJaxContext>
+          </div>
         </div>
+        <FunctionMeasureDropdown
+          DetailRumus={FormulaDetailUserACos.detail_formula}
+        />
       </>
     ),
   },
@@ -249,50 +247,48 @@ export const StepsACos = [
     description: "Menghitung prediksi rating menggunakan Ajusted Cosine",
     content: (
       <>
-        <div>
-          <p>
-            Prediksi rating menggunakan Ajusted Cosine dilakukan dengan
-            mengalikan nilai similaritas antara user dengan rating yang telah
-            diberikan. Misalnya, untuk prediksi rating user u terhadap item i,
-            kita dapat menggunakan rumus berikut:
-          </p>
-          <MathJaxContext options={mathjaxConfig}>
-            <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
-              {/* Membungkus MathJax dengan overflow dan responsif */}
-              <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
-                <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
-                  {FormulaPredictionUser.formula}
-                </MathJaxComponent>
+        <div className="flex flex-col sm:grid sm:grid-cols-2 gap-8">
+          <div>
+            <p>
+              Prediksi rating menggunakan Ajusted Cosine dilakukan dengan
+              mengalikan nilai similaritas antara user dengan rating yang telah
+              diberikan. Misalnya, untuk prediksi rating user u terhadap item i,
+              kita dapat menggunakan rumus berikut:
+            </p>
+            <MathJaxContext options={mathjaxConfig}>
+              <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
+                {/* Membungkus MathJax dengan overflow dan responsif */}
+                <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
+                  <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
+                    {FormulaPredictionUser.formula}
+                  </MathJaxComponent>
+                </div>
               </div>
-            </div>
-          </MathJaxContext>
-
-          <FunctionMeasureDropdown
-            DetailRumus={FormulaPredictionUser.detail_formula}
-          />
-        </div>
-        <div>
-          <p>
-            Prediksi rating menggunakan Ajusted Cosine dilakukan dengan
-            mengalikan nilai similaritas antara item dengan rating yang telah
-            diberikan. Misalnya, untuk prediksi rating user u terhadap item i,
-            kita dapat menggunakan rumus berikut:
-          </p>
-          <MathJaxContext options={mathjaxConfig}>
-            <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
-              {/* Membungkus MathJax dengan overflow dan responsif */}
-              <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
-                <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
-                  {FormulaPredictionItem.formula}
-                </MathJaxComponent>
+            </MathJaxContext>
+          </div>
+          <div>
+            <p>
+              Prediksi rating menggunakan Ajusted Cosine dilakukan dengan
+              mengalikan nilai similaritas antara item dengan rating yang telah
+              diberikan. Misalnya, untuk prediksi rating user u terhadap item i,
+              kita dapat menggunakan rumus berikut:
+            </p>
+            <MathJaxContext options={mathjaxConfig}>
+              <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
+                {/* Membungkus MathJax dengan overflow dan responsif */}
+                <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
+                  <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
+                    {FormulaPredictionItem.formula}
+                  </MathJaxComponent>
+                </div>
               </div>
-            </div>
-          </MathJaxContext>
-
-          <FunctionMeasureDropdown
-            DetailRumus={FormulaPredictionItem.detail_formula}
-          />
+            </MathJaxContext>
+          </div>
         </div>
+
+        <FunctionMeasureDropdown
+          DetailRumus={FormulaPredictionUser.detail_formula}
+        />
       </>
     ),
   },

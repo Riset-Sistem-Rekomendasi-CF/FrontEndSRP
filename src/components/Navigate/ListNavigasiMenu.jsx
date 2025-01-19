@@ -37,14 +37,16 @@ const ListNavigasiMenu = ({ menuVersion = 1, scrollToSection }) => {
   return (
     <nav className="relative p-4">
       {/* Button Navigasi di Pojok Kanan */}
-      <div className="fixed top-[10rem] right-10 z-20">
-        <button
-          onClick={() => setMenuOpen(!menuOpen)}
-          className="p-3 rounded-full bg-gray-800 text-white hover:bg-gray-600 focus:outline-none"
-        >
-          <MenuBookIcon />
-        </button>
-      </div>
+      {!menuOpen && (
+        <div className="fixed top-[10rem] right-10 z-20">
+          <button
+            onClick={() => setMenuOpen(true)} // Set menuOpen ke true saat tombol diklik
+            className="p-3 rounded-full bg-gray-800 text-white hover:bg-gray-600 focus:outline-none"
+          >
+            <MenuBookIcon />
+          </button>
+        </div>
+      )}
 
       {/* Menu Navigasi yang Tersembunyi */}
       {menuOpen && (

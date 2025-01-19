@@ -9,7 +9,9 @@ const FormulaBCUser = {
   detail_formula: [
     `\\[ a = \\text{mewakili semua nilai dalam distribusi atau seluruh nilai } \\textit{rating } \\]`,
     `\\[ P = \\text{Menghitung probabilitas} \\]`,
-    `\\[ r_{i*} = \\text{Seluruh nilai } \\textit{rating } \\textit{ item } \\text{ yang telah diberi oleh } \\textit{ user } \\ i \\]`,
+    `\\[ r_{ij*} = \\text{Seluruh nilai } \\textit{rating } \\textit{ item } \\text{ yang telah diberi oleh } \\textit{ user } \\ i \\]`,
+
+    `\\[ r_{uv*} = \\text{Seluruh nilai } \\textit{rating } \\textit{ item } \\text{ yang telah diberi oleh } \\textit{ user } \\ i \\]`,
   ],
 };
 
@@ -18,7 +20,6 @@ const FormulaBCItem = {
   detail_formula: [
     `\\[ a = \\text{mewakili semua nilai dalam distribusi atau seluruh nilai } \\textit{rating } \\]`,
     `\\[ P = \\text{Menghitung probabilitas} \\]`,
-    `\\[ r_{*i} = \\text{Seluruh nilai } \\textit{rating } \\textit{ item } \\text{ yang telah diberi oleh } \\textit{ user } \\ i \\]`,
   ],
 };
 
@@ -199,44 +200,43 @@ export const StepsBC = [
     description: "Mengetahui cara menghitung BC dengan rumus matematika",
     content: (
       <>
-        <div>
-          <p>
-            Rumus Bhattacharyya Coefficient (BC) User-Based untuk dua variabel u
-            dan v adalah sebagai berikut:
-          </p>
+        <div className="flex flex-col sm:grid sm:grid-cols-2 gap-8">
+          <div>
+            <p>
+              Rumus Bhattacharyya Coefficient (BC) User-Based untuk dua variabel
+              u dan v adalah sebagai berikut:
+            </p>
 
-          <MathJaxContext options={mathjaxConfig}>
-            <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
-              {/* Membungkus MathJax dengan overflow dan responsif */}
-              <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
-                <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
-                  {FormulaBCUser.formula}
-                </MathJaxComponent>
+            <MathJaxContext options={mathjaxConfig}>
+              <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
+                {/* Membungkus MathJax dengan overflow dan responsif */}
+                <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
+                  <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
+                    {FormulaBCUser.formula}
+                  </MathJaxComponent>
+                </div>
               </div>
-            </div>
-          </MathJaxContext>
+            </MathJaxContext>
+          </div>
+          <div>
+            <p>
+              Rumus Bhattacharyya Coefficient (BC) Item-Based untuk dua variabel
+              i dan j adalah sebagai berikut:
+            </p>
 
-          <FunctionMeasureDropdown DetailRumus={FormulaBCUser.detail_formula} />
-        </div>
-        <div>
-          <p>
-            Rumus Bhattacharyya Coefficient (BC) Item-Based untuk dua variabel i
-            dan j adalah sebagai berikut:
-          </p>
-
-          <MathJaxContext options={mathjaxConfig}>
-            <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
-              {/* Membungkus MathJax dengan overflow dan responsif */}
-              <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
-                <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
-                  {FormulaBCItem.formula}
-                </MathJaxComponent>
+            <MathJaxContext options={mathjaxConfig}>
+              <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
+                {/* Membungkus MathJax dengan overflow dan responsif */}
+                <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
+                  <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
+                    {FormulaBCItem.formula}
+                  </MathJaxComponent>
+                </div>
               </div>
-            </div>
-          </MathJaxContext>
-
-          <FunctionMeasureDropdown DetailRumus={FormulaBCItem.detail_formula} />
+            </MathJaxContext>
+          </div>
         </div>
+        <FunctionMeasureDropdown DetailRumus={FormulaBCUser.detail_formula} />
       </>
     ),
   },
@@ -245,50 +245,47 @@ export const StepsBC = [
     description: "Menghitung prediksi rating menggunakan BC",
     content: (
       <>
-        <div>
-          <p>
-            Prediksi rating menggunakan BC dilakukan dengan mengalikan nilai
-            similaritas antara user dengan rating yang telah diberikan.
-            Misalnya, untuk prediksi rating user u terhadap item i, kita dapat
-            menggunakan rumus berikut:
-          </p>
-          <MathJaxContext options={mathjaxConfig}>
-            <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
-              {/* Membungkus MathJax dengan overflow dan responsif */}
-              <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
-                <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
-                  {FormulaPredictionUser.formula}
-                </MathJaxComponent>
+        <div className="flex flex-col sm:grid sm:grid-cols-2 gap-8">
+          <div>
+            <p>
+              Prediksi rating menggunakan BC dilakukan dengan mengalikan nilai
+              similaritas antara user dengan rating yang telah diberikan.
+              Misalnya, untuk prediksi rating user u terhadap item i, kita dapat
+              menggunakan rumus berikut:
+            </p>
+            <MathJaxContext options={mathjaxConfig}>
+              <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
+                {/* Membungkus MathJax dengan overflow dan responsif */}
+                <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
+                  <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
+                    {FormulaPredictionUser.formula}
+                  </MathJaxComponent>
+                </div>
               </div>
-            </div>
-          </MathJaxContext>
-
-          <FunctionMeasureDropdown
-            DetailRumus={FormulaPredictionUser.detail_formula}
-          />
-        </div>
-        <div>
-          <p>
-            Prediksi rating menggunakan BC dilakukan dengan mengalikan nilai
-            similaritas antara item dengan rating yang telah diberikan.
-            Misalnya, untuk prediksi rating user u terhadap item i, kita dapat
-            menggunakan rumus berikut:
-          </p>
-          <MathJaxContext options={mathjaxConfig}>
-            <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
-              {/* Membungkus MathJax dengan overflow dan responsif */}
-              <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
-                <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
-                  {FormulaPredictionItem.formula}
-                </MathJaxComponent>
+            </MathJaxContext>
+          </div>
+          <div>
+            <p>
+              Prediksi rating menggunakan BC dilakukan dengan mengalikan nilai
+              similaritas antara item dengan rating yang telah diberikan.
+              Misalnya, untuk prediksi rating user u terhadap item i, kita dapat
+              menggunakan rumus berikut:
+            </p>
+            <MathJaxContext options={mathjaxConfig}>
+              <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
+                {/* Membungkus MathJax dengan overflow dan responsif */}
+                <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
+                  <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
+                    {FormulaPredictionItem.formula}
+                  </MathJaxComponent>
+                </div>
               </div>
-            </div>
-          </MathJaxContext>
-
-          <FunctionMeasureDropdown
-            DetailRumus={FormulaPredictionItem.detail_formula}
-          />
+            </MathJaxContext>
+          </div>
         </div>
+        <FunctionMeasureDropdown
+          DetailRumus={FormulaPredictionUser.detail_formula}
+        />
       </>
     ),
   },

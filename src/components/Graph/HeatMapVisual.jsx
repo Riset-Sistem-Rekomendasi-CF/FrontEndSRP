@@ -141,7 +141,7 @@ export default function HeatMapVisualDataSim({ opsional, result, similarity }) {
         gradient
           .append("stop")
           .attr("offset", "100%")
-          .attr("style", "stop-color: #FCC822; stop-opacity: 1");
+          .attr("style", "stop-color: #68FF64; stop-opacity: 1");
       } else if (
         similarity === "Cosine" ||
         similarity === "Bhattacharyya Coefficient"
