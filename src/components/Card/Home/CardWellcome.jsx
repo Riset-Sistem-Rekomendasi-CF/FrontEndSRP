@@ -38,10 +38,23 @@ const CardWellcome = ({ heading, detail, image, bgColor }) => {
       <div
         className={`font-poppins max-w-5xl mx-auto p-6 ${bgColor} border-2 border-black rounded-[3rem] flex flex-col md:flex-row bg-box-grid-pattern animate-grid z-0`}
       >
-        {/* Left - Text Section */}
+        {/* Left - Image Section */}
+        <div className="w-full md:w-1/3 mt-6 md:mt-0 md:mr-6">
+          <img
+            src={image}
+            alt="Card Image"
+            className="w-full h-auto object-cover rounded-lg shadow-md hidden md:block" // Gambar disembunyikan pada mobile, muncul di layar medium ke atas
+          />
+        </div>
+
+        {/* Right - Text Section */}
         <div className="md:w-2/3">
-          <h2 className="text-3xl font-bold text-white mb-4">{heading}</h2>
-          <p className="text-white text-lg text-justify">{detail}</p>
+          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">
+            {heading}
+          </h2>
+          <p className="text-white text-base sm:text-lg text-justify">
+            {detail}
+          </p>
 
           {/* Button below the paragraph */}
           <button
@@ -52,16 +65,8 @@ const CardWellcome = ({ heading, detail, image, bgColor }) => {
             <ArrowForwardIcon className="ml-2 text-lg" />
           </button>
         </div>
-
-        {/* Right - Image Section */}
-        <div className="md:w-1/3 mt-6 md:mt-0 md:ml-6">
-          <img
-            src={image}
-            alt="Card Image"
-            className="w-full h-auto object-cover rounded-lg shadow-md"
-          />
-        </div>
       </div>
+
       {/* open modal click */}
 
       {/* Method and Similarity Cards */}
@@ -101,11 +106,11 @@ const CardWellcome = ({ heading, detail, image, bgColor }) => {
 
         {isModalOpen && (
           <div
-            className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50"
+            className="py-5 fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50 overflow-y-auto"
             onClick={closeModal}
           >
             <div
-              className="bg-white rounded-lg m-5 p-8 max-w-2xl w-full relative"
+              className="bg-white rounded-lg m-5 p-8 max-w-2xl w-full relative max-h-screen overflow-y-auto"
               onClick={(e) => e.stopPropagation()} // Prevent closing modal when clicking inside
             >
               {/* Tombol Close */}
@@ -137,21 +142,21 @@ const CardWellcome = ({ heading, detail, image, bgColor }) => {
         )}
 
         {/* Second Card - Fungsi Similaritas */}
-        <div className="bg-card_purple_secondary rounded-lg p-6 w-full md:w-1/2 border-2 border-black">
+        <div className="bg-card_purple_secondary rounded-lg p-4 sm:p-6 w-full md:w-1/2 border-2 border-black">
           <h3 className="text-2xl font-semibold text-gray-800 mb-2">
             Fungsi Similaritas
           </h3>
           <p className="text-black font-medium text-md mb-4">
-            Fungsi Similartias yang bisa digunakan dalam perhitungan prediksi
+            Fungsi Similaritas yang bisa digunakan dalam perhitungan prediksi
             pada Collaborative Filtering.
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Card 1 */}
             <a href="/pccDetail">
-              <div className="bg-white rounded-lg p-6 shadow-md text-center border-2 cursor-pointer border-black hover:bg-blue-100 transition duration-300">
+              <div className="bg-white rounded-lg p-4 sm:p-6 shadow-md text-center border-2 cursor-pointer border-black hover:bg-blue-100 transition duration-300">
                 <div className="text-4xl text-blue-500 mb-4">
-                  <img src={pearson} alt="pearson" />
+                  <img src={pearson} alt="pearson" className="w-20 mx-auto" />
                 </div>
                 <h4 className="text-lg font-semibold text-gray-800 mb-2">
                   PCC
@@ -161,10 +166,9 @@ const CardWellcome = ({ heading, detail, image, bgColor }) => {
 
             {/* Card 2 */}
             <a href="/cosineDetail">
-              <div className="bg-white rounded-lg p-6 shadow-md text-center border-2 cursor-pointer border-black hover:bg-blue-100 transition duration-300">
+              <div className="bg-white rounded-lg p-4 sm:p-6 shadow-md text-center border-2 cursor-pointer border-black hover:bg-blue-100 transition duration-300">
                 <div className="text-4xl text-green-500 mb-4">
-                  {" "}
-                  <img src={sinus} alt="pearson" />
+                  <img src={sinus} alt="cosine" className="w-20 mx-auto" />
                 </div>
                 <h4 className="text-lg font-semibold text-gray-800 mb-2">
                   Cosine
@@ -174,10 +178,9 @@ const CardWellcome = ({ heading, detail, image, bgColor }) => {
 
             {/* Card 3 */}
             <a href="/acosDetail">
-              <div className="bg-white rounded-lg p-6 shadow-md text-center border-2 cursor-pointer border-black hover:bg-blue-100 transition duration-300">
+              <div className="bg-white rounded-lg p-4 sm:p-6 shadow-md text-center border-2 cursor-pointer border-black hover:bg-blue-100 transition duration-300">
                 <div className="text-4xl text-green-500 mb-4">
-                  {" "}
-                  <img src={social} alt="pearson" />
+                  <img src={social} alt="acos" className="w-20 mx-auto" />
                 </div>
                 <h4 className="text-lg font-semibold text-gray-800 mb-2">
                   ACos
@@ -187,20 +190,14 @@ const CardWellcome = ({ heading, detail, image, bgColor }) => {
 
             {/* Card 4 */}
             <a href="/bcDetail">
-              <div className="bg-white rounded-lg p-6 shadow-md text-center border-2 cursor-pointer border-black hover:bg-blue-100 transition duration-300">
+              <div className="bg-white rounded-lg p-4 sm:p-6 shadow-md text-center border-2 cursor-pointer border-black hover:bg-blue-100 transition duration-300">
                 <div className="text-4xl text-green-500 mb-4">
-                  {" "}
-                  <img src={probs} alt="pearson" />
+                  <img src={probs} alt="bc" className="w-20 mx-auto" />
                 </div>
                 <h4 className="text-lg font-semibold text-gray-800 mb-2">BC</h4>
               </div>
             </a>
           </div>
-
-          {/* <button className="bg-blue-500 text-white px-6 py-2 rounded-lg shadow hover:bg-blue-600 transition mt-6">
-            Learn More
-            <KeyboardArrowRightIcon className="ml-2 text-lg" />
-          </button> */}
         </div>
       </div>
     </div>
@@ -233,7 +230,7 @@ const ContentUserBasedCF = () => {
           <img
             src={UserBasedSvg}
             alt="User-Based CF Image"
-            className="w-full h-auto object-cover rounded-lg shadow-md "
+            className="w-full h-auto object-cover rounded-lg shadow-md hidden md:block "
           />
           <a href={UserBasedSvg} target="_blank">
             <p className="p-2 bg-yellow-primary rounded-md mt-5 text-center shadow-sm hover:bg-yellow-400 cursor-pointer">
@@ -269,10 +266,10 @@ const ContentItemBasedCF = () => {
           <img
             src={ItemBasedSvg}
             alt="Item-Based CF Image"
-            className="w-full h-auto object-cover rounded-lg shadow-md"
+            className="w-full h-auto object-cover rounded-lg shadow-md hidden md:block"
           />
           <a href={ItemBasedSvg} target="_blank">
-            <p className="p-2 bg-yellow-primary rounded-md mt-5 text-center shadow-sm hover:bg-yellow-400 cursor-pointer">
+            <p className="p-2 bg-yellow-primary rounded-md mt-2 text-center shadow-sm hover:bg-yellow-400 cursor-pointer">
               Lihat Lebih Detail
             </p>
           </a>

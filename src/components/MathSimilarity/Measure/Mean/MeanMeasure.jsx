@@ -11,6 +11,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import MeanGif from "../../../../assets/vidioAsset/MeanGif.gif";
 import MathJaxComponent from "../../../../MathJaxComponent";
 import CloseIcon from "@mui/icons-material/Close";
+import Spinner from "../../../Navigate/Spinner";
 
 export default function MeanMeasure({ opsional, similarity, initialData }) {
   const [data] = useState(initialData);
@@ -56,9 +57,9 @@ export default function MeanMeasure({ opsional, similarity, initialData }) {
     if (!result || !result["mean-list"]) {
       return (
         <>
-          <p>Loading or no data available...</p>
+          <Spinner />
         </>
-      ); // Tambahkan penanganan error atau loading
+      );
     }
 
     return (

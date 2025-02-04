@@ -12,6 +12,8 @@ import SwitchToggle from "../../../Toggle/SwitchToggle";
 import { ScatterPlotDataFilter } from "../../../Graph/ScaterPlotFilter";
 import MathJaxComponent from "../../../../MathJaxComponent";
 import CloseIcon from "@mui/icons-material/Close";
+import ScatterPlot from "../../../Graph/ChartJsPlot";
+import ScatterPlotChart from "../../../Graph/ChartJsPlot";
 
 const ModalPredictionMeasure = ({
   dataRating,
@@ -421,8 +423,16 @@ const ModalPredictionMeasure = ({
         <h1 className="font-semibold text-xl my-5 underline underline-offset-8 decoration-4 decoration-card_blue_primary">
           Grafik Top-K
         </h1>
-        <div className="flex justify-center my-3">
-          <ScatterPlotDataFilter
+        <div className="flex flex-col justify-center my-3">
+          {/* <ScatterPlotDataFilter
+            kValue={kValue}
+            result={result}
+            opsional={opsional}
+            topSimilarities={topSimilarities}
+            rowIndex={selectedIndex[0]}
+            colIndex={selectedIndex[1]}
+          /> */}
+          <ScatterPlotChart
             kValue={kValue}
             result={result}
             opsional={opsional}

@@ -166,17 +166,12 @@ export function ScatterPlotData({ opsional, result }) {
   };
 
   const ExplanationSectionScatterPlot = () => {
-    const [isExpanded, setIsExpanded] = useState(false);
-
-    // Fungsi untuk toggle teks
-    const toggleText = () => setIsExpanded(!isExpanded);
-
     return (
       <div className="mt-6 text-justify max-w-full md:max-w-xl mx-auto px-4">
         <h2 className="text-xl text-center font-bold mb-3">
           Cara Membaca Scatter Plot 2D
         </h2>
-        <p className={`text-sm mb-2 ${isExpanded ? "" : "line-clamp-3"}`}>
+        <p className={`text-sm mb-2}`}>
           Plot ini menggunakan{" "}
           <b>
             <a
@@ -193,31 +188,11 @@ export function ScatterPlotData({ opsional, result }) {
           antar objek. MDS membantu memvisualisasikan kemiripan antar objek,
           sehingga memudahkan analisis hubungan antar <i>user</i>.
         </p>
-        <p className={`text-sm mb-2 ${isExpanded ? "" : "line-clamp-3"}`}>
+        <p className={`text-sm mb-2`}>
           Scatter plot ini menunjukkan hubungan antara dua variabel yang diambil
           dari data kemiripan pengguna. Setiap titik mewakili <i>user</i>, dan
           posisi titik tersebut menunjukkan posisi dari variabel yang dipilih.
         </p>
-
-        {/* Tampilkan tombol jika teks belum lengkap */}
-        {!isExpanded && (
-          <button
-            className="text-card_blue_primary mt-2 text-sm"
-            onClick={toggleText}
-          >
-            Baca Selengkapnya
-          </button>
-        )}
-
-        {/* Tombol untuk menutup teks */}
-        {isExpanded && (
-          <button
-            className="text-card_blue_primary mt-2 text-sm"
-            onClick={toggleText}
-          >
-            Tampilkan Lebih Sedikit
-          </button>
-        )}
       </div>
     );
   };

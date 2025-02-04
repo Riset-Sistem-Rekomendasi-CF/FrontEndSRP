@@ -360,7 +360,7 @@ export function ScatterPlotDataFilter({
               </span>
             </li>
             <li className="flex items-center text-sm sm:text-base">
-              <div className="w-5 h-5 rounded-full   border-2 border-black mr-2"></div>
+              <div className="h-1 w-3  border-2 border-black "></div>
               <p>
                 <span>
                   Himpunan {opsional === "user-based" ? "User" : "Item"} Top-K{" "}

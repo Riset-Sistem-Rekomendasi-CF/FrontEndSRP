@@ -171,7 +171,7 @@ const Tutorial = () => {
           </section>
           <FormLayoutTutorial id="metode_ratingTutorial" data={form} />
 
-          <section className="max-w-6xl mx-auto text-center my-10 py-10 relative">
+          <section className="max-w-6xl mx-auto text-center my-10 p-10 relative">
             <div className="p-5">
               <button
                 onClick={toggleDescription}

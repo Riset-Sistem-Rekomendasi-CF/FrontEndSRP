@@ -149,9 +149,12 @@ function Eksplorasi() {
             id="metode_ratingLatihan"
             className="max-w-6xl mx-auto text-center py-5"
           >
-            <h1 className="text-5xl sm:text-6xl font-bold font-poppins py-10">
-              Pilih Metode Prediksi dan Fungsi Similaritas
-            </h1>
+            <div className="px-5">
+              <h1 className="text-5xl sm:text-6xl font-bold font-poppins py-10">
+                Pilih Metode Prediksi dan Fungsi Similaritas
+              </h1>
+            </div>
+
             <div className="p-5 flex flex-col sm:flex-row justify-center sm:justify-around gap-8 sm:gap-10">
               {/* First Column */}
               <div className="flex flex-col items-center w-full sm:w-auto">
@@ -187,7 +190,7 @@ function Eksplorasi() {
             </div>
           </section>
 
-          <section className="max-w-6xl mx-auto text-center my-10 py-10 ">
+          <section className="max-w-6xl mx-auto text-center my-10 p-10 ">
             <button
               onClick={toggleDescription}
               className=" w-70 font-semibold font-poppins bg-blue-home border-2 border-black text-center text-white px-6 py-3 rounded-full hover:bg-blue-700 shadow-md"
