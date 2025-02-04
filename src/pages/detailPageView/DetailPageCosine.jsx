@@ -25,7 +25,7 @@ export default function DetailPageCosine() {
             paragraph={
               "Menjelaskan tentang Cosine Sistem rekomendasi menggunakan metode Cosine yang digunakan untuk mengukur kesamaan antara dua objek atau item berdasarkan data pengguna"
             }
-            bgColor={"bg-card_purple_primary"}
+            bgColor={"bg-green-400"}
             imgSrc={Cosine1}
           />
 

@@ -110,10 +110,10 @@ const HeaderHome = ({ children }) => {
         </h1>
 
         {/* Deskripsi */}
-        <p className="mt-6 sm:mt-10 font-medium text-lg sm:text-xl lg:text-2xl font-poppins text-white opacity-90 mb-8 max-w-3xl mx-auto leading-relaxed tracking-wide">
-          Platform pembelajaran berbasis website untuk meningkatkan pemahaman
-          pengguna terkait perhitungan Fungsi Similaritas pada Sistem
-          Rekomendasi Collaborative Filtering.
+        <p className="mt-6 sm:mt-10 font-medium text-lg sm:text-xl lg:text-2xl font-poppins text-white opacity-90 mb-8 max-w-4xl mx-auto leading-relaxed tracking-wide">
+          KoalaERS adalah platform pembelajaran berbasis website yang dirancang
+          untuk meningkatkan pemahaman pengguna mengenai perhitungan fungsi
+          similaritas pada sistem rekomendasi berbasis Collaborative Filtering.
         </p>
 
         {/* Tombol scroll */}

@@ -274,7 +274,7 @@ const Navbar = () => {
     <nav
       className={`bg-white shadow-sm sticky top-0 z-50 transition-transform ${
         isVisible ? "transform-none" : "-translate-y-full"
-      }`}
+      } ${window.innerWidth <= 768 ? "transform-none" : ""}`} // Menambahkan kondisi untuk mobile
     >
       <div className="flex mx-auto justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between w-full h-16">
@@ -308,7 +308,7 @@ const Navbar = () => {
               className="w-10 h-10 object-cover rounded-full"
             />
             {/* Teks di kanan */}
-            <span>Sistem Rekomendasi</span>
+            <span>KoalaERS</span>
           </a>
 
           {/* Menu Desktop */}
@@ -319,7 +319,7 @@ const Navbar = () => {
                 "/"
               )}`}
             >
-              Home
+              Beranda
             </a>
             <a
               href="/tutorial"
@@ -408,7 +408,6 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-
       {/* Mobile Menu */}
       <div
         className={`${isOpen ? "block" : "hidden"} sm:hidden`}
@@ -421,7 +420,7 @@ const Navbar = () => {
               "/"
             )}`}
           >
-            Home
+            Beranda
           </a>
           <a
             href="/tutorial"

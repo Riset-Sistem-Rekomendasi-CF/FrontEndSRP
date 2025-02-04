@@ -1,40 +1,60 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { Menu } from "@headlessui/react";
 import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
 import FormControl from "@mui/material/FormControl";
 
 import HeatMapVisualDataSim from "./HeatMapVisual";
 import { ScatterPlotData } from "./SccaterPlotVisual";
+import ChartJsScatter2D from "./ChartJsPlot2D";
+
+// Membungkus komponen visualisasi dengan React.memo agar tidak di-render ulang secara tidak perlu
+const MemoizedHeatMap = React.memo(({ result, opsional, similarity }) => {
+  return (
+    <HeatMapVisualDataSim
+      result={result}
+      opsional={opsional}
+      similarity={similarity}
+    />
+  );
+});
+
+const MemoizedScatterPlot = React.memo(({ result, opsional }) => {
+  return <ChartJsScatter2D result={result} opsional={opsional} />;
+});
 
 const DropdownWithDisplay = ({ opsional, result, similarity }) => {
   const [selectedMethod, setSelectedMethod] = useState("Pilih Visualisasi");
   const [visualComponent, setVisualComponent] = useState(null);
 
-  const handleChange = (method) => {
-    setSelectedMethod(method);
-    switch (method) {
-      case "HeatMap":
-        setVisualComponent(
-          <HeatMapVisualDataSim
-            result={result}
-            opsional={opsional}
-            similarity={similarity}
-          />
-        );
-        break;
-      case "Plot Visual 2D":
-        setVisualComponent(
-          <ScatterPlotData result={result} opsional={opsional} />
-        );
-        break;
-      default:
-        setVisualComponent(null);
-        break;
-    }
-  };
+  // Fungsi handleChange yang lebih ringan dan menggunakan useCallback untuk menghindari pembentukan ulang fungsi setiap kali
+  const handleChange = useCallback(
+    (method) => {
+      setSelectedMethod(method);
+      switch (method) {
+        case "HeatMap":
+          setVisualComponent(
+            <MemoizedHeatMap
+              result={result}
+              opsional={opsional}
+              similarity={similarity}
+            />
+          );
+          break;
+        case "Plot Visual 2D":
+          setVisualComponent(
+            <MemoizedScatterPlot result={result} opsional={opsional} />
+          );
+          break;
+        default:
+          setVisualComponent(null);
+          break;
+      }
+    },
+    [result, opsional, similarity]
+  );
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto py-4">
       <FormControl>
         <Menu as="div" className="relative inline-block text-left w-full">
           <div>
@@ -44,10 +64,7 @@ const DropdownWithDisplay = ({ opsional, result, similarity }) => {
             </Menu.Button>
           </div>
 
-          <Menu.Items
-            transition
-            className="absolute right-0 z-10 mt-2 w-full sm:w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
-          >
+          <Menu.Items className="absolute right-0 z-10 mt-2 w-full sm:w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none">
             <div className="py-1">
               <Menu.Item>
                 {({ active }) => (

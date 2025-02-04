@@ -68,7 +68,7 @@ const CardFlip = () => {
           {/* Front */}
           <div className="w-full h-full absolute bg-white text-white flex flex-col justify-start items-center p-5  rounded-xl shadow-lg backface-hidden ">
             <div className="flex flex-row items-center ">
-              <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-black mb-2 italic">
+              <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-black mb-2">
                 User-Based Filtering
               </h2>
               <CachedIcon className="text-gray-800 text-xl ml-4" />
@@ -88,15 +88,12 @@ const CardFlip = () => {
             className={`w-full h-full absolute bg-white text-white flex justify-center items-start p-6 rounded-xl shadow-lg backface-hidden rotate-y-180 overflow-auto`}
           >
             <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 leading-relaxed">
-              Pada{" "}
-              <strong>
-                <i>user-based filtering</i>
-              </strong>
-              , rekomendasi diberikan berdasarkan kesamaan antara pengguna. Jika
-              dua pengguna memiliki pola interaksi yang serupa (misalnya, mereka
-              menyukai materi atau item yang sama), maka sistem akan
-              merekomendasikan item yang disukai oleh pengguna serupa tersebut
-              kepada pengguna yang sedang dipertimbangkan.
+              Pada user-based filtering , rekomendasi diberikan berdasarkan
+              kesamaan antara pengguna. Jika dua pengguna memiliki pola
+              interaksi yang serupa (misalnya, mereka menyukai materi atau item
+              yang sama), maka sistem akan merekomendasikan item yang disukai
+              oleh pengguna serupa tersebut kepada pengguna yang sedang
+              dipertimbangkan.
             </p>
           </div>
         </div>
@@ -115,7 +112,7 @@ const CardFlip = () => {
           {/* Front */}
           <div className="w-full h-full absolute bg-white text-white flex flex-col justify-start items-center p-5 rounded-xl shadow-lg backface-hidden">
             <div className="flex flex-row items-center ">
-              <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-black mb-2 italic">
+              <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-black mb-2">
                 Item-Based Filtering
               </h2>
               <CachedIcon className="text-gray-800 text-xl ml-4" />
@@ -135,16 +132,12 @@ const CardFlip = () => {
             className={`w-full h-full absolute bg-white text-white flex justify-center items-start p-6 rounded-xl shadow-lg backface-hidden rotate-y-180 overflow-auto`}
           >
             <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 leading-relaxed">
-              Di sisi lain,{" "}
-              <strong>
-                <i>item-based filtering</i>
-              </strong>{" "}
-              mengukur kesamaan antar item atau materi pembelajaran. Dalam
-              pendekatan ini, rekomendasi diberikan berdasarkan kesamaan antara
-              item yang telah dipilih atau disukai oleh pengguna sebelumnya
-              dengan item lainnya. Jika pengguna menyukai item A, dan item B
-              memiliki kesamaan yang tinggi dengan item A, maka item B akan
-              direkomendasikan.
+              Di sisi lain, item-based filtering mengukur kesamaan antar item
+              atau materi pembelajaran. Dalam pendekatan ini, rekomendasi
+              diberikan berdasarkan kesamaan antara item yang telah dipilih atau
+              disukai oleh pengguna sebelumnya dengan item lainnya. Jika
+              pengguna menyukai item A, dan item B memiliki kesamaan yang tinggi
+              dengan item A, maka item B akan direkomendasikan.
             </p>
           </div>
         </div>
@@ -174,9 +167,9 @@ const ContentOverview = () => {
             Sistem Rekomendasi
           </a>{" "}
           merupakan sistem yang dibuat untuk menyediakan dan memberikan
-          rekomendasi terhadap suatu <i>item</i> di mana nilai rating tersebut
-          belum diberikan oleh <i>user</i> tertentu. Kemudian, sistem akan
-          membuatkan suatu prediksi yang diinginkan oleh <i>user</i> tersebut.
+          rekomendasi terhadap suatu item di mana nilai rating tersebut belum
+          diberikan oleh user tertentu. Kemudian, sistem akan membuatkan suatu
+          prediksi yang diinginkan oleh user tersebut.
         </p>
       </div>
 
@@ -195,30 +188,23 @@ const ContentOverview = () => {
             Collaborative Filtering
           </a>{" "}
           adalah metode yang digunakan dalam sistem rekomendasi untuk
-          menghasilkan rekomendasi khusus kepada <i>user</i> tentang <i>item</i>{" "}
-          berdasarkan pola penilaian atau penggunaan. Teknik ini terbagi menjadi
-          dua pendekatan utama:{" "}
-          <span className="font-semibold">
-            <i>user-based</i>
-          </span>{" "}
-          dan{" "}
-          <span className="font-semibold">
-            <i>item-based</i>
-          </span>
-          . Metode ini menghasilkan prediksi atau rekomendasi untuk pengguna
-          tertentu terhadap satu atau banyak <i>item</i>.
+          menghasilkan rekomendasi khusus kepada user tentang item berdasarkan
+          pola penilaian atau penggunaan. Teknik ini terbagi menjadi dua
+          pendekatan utama: <span className="font-semibold">user-based</span>{" "}
+          dan <span className="font-semibold">item-based</span>. Metode ini
+          menghasilkan prediksi atau rekomendasi untuk pengguna tertentu
+          terhadap satu atau banyak item.
         </p>
         <p className="text-base sm:text-md md:text-lg text-black text-justify">
           <span className="text-italic font-semibold no-underline hover:underline text-card_blue_primary decoration-card_blue_primary">
             Rating
           </span>{" "}
-          mengacu pada nilai atau penilaian yang diberikan oleh <i>user</i>{" "}
-          terhadap suatu <i>item</i> atau produk, yang menggambarkan seberapa
-          besar
-          <i>user</i> menyukai atau tidak menyukai <i>item</i> tersebut. Sistem
-          rekomendasi kemudian menggunakan informasi ini untuk mencari pola dan
-          membuat prediksi rekomendasi untuk pengguna lain yang memiliki
-          preferensi serupa.
+          mengacu pada nilai atau penilaian yang diberikan oleh user terhadap
+          suatu item atau produk, yang menggambarkan seberapa besar user
+          menyukai atau tidak menyukai item tersebut. Sistem rekomendasi
+          kemudian menggunakan informasi ini untuk mencari pola dan membuat
+          prediksi rekomendasi untuk pengguna lain yang memiliki preferensi
+          serupa.
         </p>
       </div>
 

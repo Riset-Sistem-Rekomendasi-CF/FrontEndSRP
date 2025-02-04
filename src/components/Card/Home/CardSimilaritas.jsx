@@ -63,24 +63,24 @@ const CardSimilaritas = () => {
             <div className="flex flex-col md:flex-row  mx-auto">
               {/* Heading dengan lebar 3/5 */}
               <h1 className="w-full md:w-2/4 text-3xl sm:text-xl md:text-2xl lg:text-5xl font-bold text-gray-800 leading-tight text-start">
-                Fungsi Similaritas Collaborative Filtering
+                Fungsi Similaritas pada Collaborative Filtering
               </h1>
 
               {/* Paragraf dengan lebar 2/5 */}
               <p className="w-full md:w-2/4 font-medium text-gray-600 text-md sm:text-sm md:text-lg text-justify">
-                Ini adalah platform pembelajaran berbasis website yang
-                mengajarkan cara menghitung Fungsi Similaritas, baik untuk
-                sistem rekomendasi berbasis pengguna (user-based) maupun
-                berbasis item (item-based). Melalui aplikasi ini, pengguna dapat
-                memahami secara mendalam bagaimana algoritma rekomendasi
-                bekerja.
+                Website KoalaERS mengajarkan cara menghitung Fungsi Similaritas,
+                baik untuk sistem rekomendasi collaborative filtering berbasis
+                user-based maupun item-based. Melalui website ini, pengguna
+                dapat memahami secara mendalam bagaimana algoritma rekomendasi
+                bekerja pada sistem rekomendasi berbasis Collaborative
+                Filtering.
               </p>
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <FeatureCard
               title="PCC"
-              description="Pearson Coefficient Correlation atau (PCC) adalah salah satu fungsi similaritas yang  digunakan untuk mengukur similaritas."
+              description="Pearson Coefficient Correlation atau (PCC) digunakan untuk menentukan sejauh mana dua variabel memiliki hubungan linear."
               svgPath={pearson}
               buttonText="Baca Lebih Detail"
               anchor={"/pccDetail"}
@@ -88,7 +88,7 @@ const CardSimilaritas = () => {
             />
             <FeatureCard
               title="Cosine"
-              description="Cosine digunakan untuk membandingkan kesamaan antara preferensi pengguna terhadap item yang ada."
+              description="Cosine digunakan untuk digunakan untuk membandingkan kesamaan antara preferensi."
               svgPath={sinus}
               buttonText="Baca Lebih Detail"
               anchor={"/cosineDetail"}
@@ -96,7 +96,7 @@ const CardSimilaritas = () => {
             />
             <FeatureCard
               title="Adjusted Cosine"
-              description="ACos membantu mengatasi masalah bias yang mungkin muncul dari perbedaan skala rating antara user."
+              description="ACos menghitung kesamaan tanpa terpengaruh oleh perbedaan skala rating yang digunakan oleh masing-masing pengguna."
               svgPath={social}
               buttonText="Baca Lebih Detail"
               anchor={"/acosDetail"}
@@ -104,7 +104,7 @@ const CardSimilaritas = () => {
             />
             <FeatureCard
               title="BC"
-              description="perhitungan BC dilakukan dengan mengukur similaritas antara dua distribusi probabilitas histogram rating."
+              description="perhitungan BC digunakan untuk membandingkan dua distribusi data yang dihasilkan dari penilaian pengguna terhadap item."
               svgPath={probs}
               buttonText="Baca Lebih Detail"
               anchor={"/bcDetail"}

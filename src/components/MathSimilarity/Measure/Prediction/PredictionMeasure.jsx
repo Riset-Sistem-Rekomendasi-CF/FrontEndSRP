@@ -12,6 +12,8 @@ import PrediksiGif from "../../../../assets/vidioAsset/prediksiGIf.gif";
 import LegendTable from "../../../tabelData/LegendTable";
 import { Input } from "@headlessui/react";
 import MathJaxComponent from "../../../../MathJaxComponent";
+import ScatterPlot, { VisualChartJs } from "../../../Graph/ChartJsPlot";
+import Spinner from "../../../Navigate/Spinner";
 
 export function PredictionMeasure({ dataRating, opsional, similarity }) {
   const [kValue, setKValue] = useState(2);
@@ -115,7 +117,13 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
 
     const [data] = useState(initialData);
     const { result } = AllSimilaritas(data, similarity);
-    if (!result || !result["prediction"]) return null;
+    if (!result || !result["prediction"]) {
+      return (
+        <>
+          <Spinner />
+        </>
+      );
+    }
 
     return (
       <>

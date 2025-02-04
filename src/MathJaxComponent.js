@@ -1,17 +1,20 @@
 import React, { useEffect } from 'react';
 import { MathJax, MathJaxContext } from 'better-react-mathjax';
 import mathjaxConfig from './mathjax-config';
+import debounce from 'lodash.debounce';
 
 const MathJaxComponent = ({ children }) => {
-
     useEffect(() => {
-        // console.log("undone");
+        const debouncedRender = debounce(() => {
+            if (window.MathJax) {
+                window.MathJax.typesetPromise && window.MathJax.typesetPromise();
+            }
+        }, 300); // Debouncing selama 300ms
 
-        if (window.MathJax) {
-            window.MathJax.typesetPromise && window.MathJax.typesetPromise();
-            // console.log("done");
-        }
-    }, [children])
+        debouncedRender();
+
+        return () => debouncedRender.cancel();
+    }, [children]);
 
     return (
         <MathJaxContext options={mathjaxConfig}>
@@ -22,11 +25,7 @@ const MathJaxComponent = ({ children }) => {
     );
 };
 
-
-export default MathJaxComponent
-
-
-
+export default MathJaxComponent;
 
 
 
