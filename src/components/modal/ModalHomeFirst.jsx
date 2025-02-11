@@ -34,7 +34,7 @@ const ModalHomeFirst = ({ isOpen, onClose }) => {
               <tr className="hover:bg-blue-200">
                 <td className="border-b py-2 font-poppins font-semibold">
                   <a
-                    href="https://s.id/FormPengujianSRP"
+                    href="https://s.id/PengujianSUSTahap2"
                     className="text-lg text-blue-500 hover:text-blue-700 hover:underline underline-offset-2"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -60,8 +60,7 @@ const ModalHomeFirst = ({ isOpen, onClose }) => {
             </tbody>
           </table>
           <p className="text-red-500 font-poppins text-center text-sm font-medium mt-5">
-            <ReportProblemIcon /> Buka Link Diatas Sebagai Acuan Untuk
-            Pembelajaran
+            <ReportProblemIcon /> Buka Link Diatas Sebagai Acuan
           </p>
         </div>
 
@@ -74,6 +73,11 @@ const ModalHomeFirst = ({ isOpen, onClose }) => {
           tahapan, semakin baik hasil pembelajaran yang akan Anda capai.
         </p>
 
+        {/* gunakan device laptop untuk hasil yang maksimal */}
+        <p className="text-red-500 text-center font-poppins text-md font-medium mb-5">
+          <ReportProblemIcon /> Gunakan Device Laptop/PC Untuk Hasil Yang Lebih
+          Maksimal. <ReportProblemIcon />
+        </p>
         {/* Button to close modal */}
         <div className="text-center mb-4">
           <button
