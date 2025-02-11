@@ -16,6 +16,7 @@ function ScatterPlotChart({
   result,
   rowIndex,
   colIndex,
+  kValue,
 }) {
   // Ambil data yang sudah diproses dari result
   const similarityDataFilter = result["reduced-data"];
@@ -24,7 +25,7 @@ function ScatterPlotChart({
   const data = {
     datasets: [
       {
-        label: "Dataset Scatter",
+        label: "Data Rating",
         data: similarityDataFilter.map((item, index) => ({
           x: item[0], // x-coordinate
           y: item[1], // y-coordinate
@@ -37,25 +38,25 @@ function ScatterPlotChart({
         hoverRadius: 8, // Ukuran titik saat hover
       },
       {
-        label: "Nearest Neighbors",
+        label: "Tetangga Terdekat (Green)",
         data: [], // Placeholder untuk tetangga terdekat
-        backgroundColor: "rgba(255, 105, 180, 0.6)", // Pink untuk tetangga terdekat
-        borderColor: "rgba(255, 105, 180, 1)",
+        backgroundColor: "rgba(0, 255, 0, 0.6)", // Hijau untuk tetangga terdekat
+        borderColor: "rgba(0, 255, 0, 1)",
         pointRadius: 6,
       },
       {
-        label: "SteelBlue Points",
-        data: [], // Placeholder untuk titik steelblue
-        backgroundColor: "rgba(70, 130, 180, 0.3)", // Steelblue lebih redup
-        borderColor: "rgba(70, 130, 180, 1)",
+        label: "Bukan Tetangga (Blue)",
+        data: [], // Placeholder untuk titik biru
+        backgroundColor: "rgba(0, 0, 255, 0.3)", // Biru lebih redup
+        borderColor: "rgba(0, 0, 255, 1)",
         pointRadius: 6,
       },
       {
-        label: "Target Point (Red)",
+        label: "Target Prediksi (Red)",
         data: [], // Placeholder untuk titik merah (target)
-        backgroundColor: "rgba(255, 0, 0, 0.6)", // Merah lebih redup
+        backgroundColor: "rgba(255, 0, 0, 0.6)", // Merah untuk target
         borderColor: "rgba(255, 0, 0, 1)",
-        pointRadius: 10, // Ukuran lebih besar untuk target
+        pointRadius: 8, // Ukuran lebih besar untuk target
       },
     ],
   };
@@ -80,7 +81,7 @@ function ScatterPlotChart({
   const nearestNeighbors = distances
     .filter((d) => d.index !== selectedIndex) // Menghapus titik yang dipilih
     .sort((a, b) => a.distance - b.distance)
-    .slice(0, 2); // Ambil 2 tetangga terdekat
+    .slice(0, kValue); // Ambil k tetangga terdekat
 
   // Mengatur data untuk nearest neighbors dan steelblue points
   data.datasets[1].data = nearestNeighbors.map((neighbor) => {
@@ -105,51 +106,25 @@ function ScatterPlotChart({
   const yMin = Math.min(...yValues) - 1;
   const yMax = Math.max(...yValues) + 1;
 
-  // Menambahkan Lingkaran di sekitar titik merah dan dua tetangga terdekat
-  const annotations = nearestNeighbors.map((neighbor) => {
-    const neighborPoint = data.datasets[0].data[neighbor.index];
-    const radius = calculateDistance(selectedPoint, neighborPoint);
+  // Menambahkan lingkaran (ellipse) yang membungkus titik merah dan semua titik hijau
+  const redPoint = selectedPoint;
+  const greenPoints = nearestNeighbors.map(
+    (neighbor) => data.datasets[0].data[neighbor.index]
+  );
 
-    return {
-      type: "circle",
-      xValue: neighborPoint.x,
-      yValue: neighborPoint.y,
-      radius: radius + 0.5, // Menambahkan sedikit jarak
-      backgroundColor: "rgba(0, 0, 0, 0)", // Lingkaran berwarna transparan
-      borderColor: "rgba(255, 105, 180, 0.5)", // Warna pink untuk tetangga terdekat
-      borderWidth: 2,
-    };
-  });
+  // Menghitung posisi dan radius lingkaran untuk mencakup titik merah dan hijau
+  const centerX =
+    (redPoint.x + greenPoints.reduce((sum, p) => sum + p.x, 0)) /
+    (greenPoints.length + 1);
+  const centerY =
+    (redPoint.y + greenPoints.reduce((sum, p) => sum + p.y, 0)) /
+    (greenPoints.length + 1);
 
-  // Menambahkan lingkaran di sekitar titik target dengan warna dinamis
-  const targetColor = nearestNeighbors.some((neighbor) => {
-    const neighborPoint = data.datasets[0].data[neighbor.index];
-    // If the target point is near the center between the nearest neighbors, use a faded color
-    return (
-      Math.abs(selectedPoint.x - neighborPoint.x) < 0.5 &&
-      Math.abs(selectedPoint.y - neighborPoint.y) < 0.5
-    );
-  })
-    ? "rgba(255, 0, 0, 0.3)" // Faded red if target is near the middle
-    : "rgba(255, 0, 0, 0.6)"; // Normal red color if it's not in the middle
-
-  annotations.push({
-    type: "circle",
-    xValue: selectedPoint.x,
-    yValue: selectedPoint.y,
-    radius:
-      Math.max(
-        ...nearestNeighbors.map((neighbor) =>
-          calculateDistance(
-            selectedPoint,
-            data.datasets[0].data[neighbor.index]
-          )
-        )
-      ) + 1, // Menambahkan sedikit jarak
-    backgroundColor: "rgba(0, 0, 0, 0)", // Lingkaran berwarna merah transparan
-    borderColor: targetColor, // Dynamic color for target
-    borderWidth: 2,
-  });
+  // Radius adalah jarak terbesar dari center ke titik terjauh (merah atau hijau)
+  const radius = Math.max(
+    calculateDistance({ x: centerX, y: centerY }, redPoint),
+    ...greenPoints.map((p) => calculateDistance({ x: centerX, y: centerY }, p))
+  );
 
   const options = {
     scales: {
@@ -164,6 +139,11 @@ function ScatterPlotChart({
             rowIndex + 1
           }`,
         },
+        grid: {
+          display: true,
+          color: "rgba(0, 0, 0, 0.1)",
+          lineWidth: 1,
+        },
       },
       y: {
         type: "linear",
@@ -172,6 +152,11 @@ function ScatterPlotChart({
         max: yMax,
         title: {
           display: true,
+        },
+        grid: {
+          display: true,
+          color: "rgba(0, 0, 0, 0.1)",
+          lineWidth: 1,
         },
       },
     },
@@ -184,14 +169,62 @@ function ScatterPlotChart({
         },
       },
       annotation: {
-        annotations, // Menambahkan anotasi lingkaran
+        annotations: nearestNeighbors.reduce((acc, neighbor, index) => {
+          const greenPoint = data.datasets[0].data[neighbor.index];
+
+          acc[`line-${index}`] = {
+            type: "line",
+            xMin: redPoint.x,
+            xMax: greenPoint.x,
+            yMin: redPoint.y,
+            yMax: greenPoint.y,
+            borderColor: "green", // Warna garis untuk setiap tetangga
+            borderWidth: 2,
+            label: {
+              content: `Red to Green ${index + 1}`,
+              enabled: true,
+              position: "center",
+            },
+          };
+
+          return acc;
+        }, {}),
       },
     },
   };
 
+  const ExplanationSectionScatterPlotFilter = () => {
+    return (
+      <div className=" text-justify max-w-full md:max-w-xl mx-auto px-4">
+        <h2 className="text-xl text-center font-bold mb-3">
+          Cara Membaca Scatter Plot 2D
+        </h2>
+        <p className="text-sm mb-2">
+          Grafik plot ini menunjukkan himpunan{" "}
+          <i>{opsional === "user-based" ? "User" : "Item"} </i> yang diambil
+          dari data kemiripan pengguna. Setiap titik mewakili{" "}
+          <i>{opsional === "user-based" ? "User" : "Item"}</i>, dan posisi titik
+          yang diambil berdasarkan Top-K terdekat. Titik merah menunjukkan titik
+          yang dipilih sebagai{" "}
+          <i>{opsional === "user-based" ? "User" : "Item"}</i> yang akan
+          diprediksi. Titik hijau menunjukkan Top-K terdekat, sedangkan titik
+          biru menunjukkan titik yang bukan merupakan tetangga terdekat. Garis
+          yang menghubungkan titik merah dan hijau menunjukkan jarak antara
+          titik merah dan hijau. Jarak ini digunakan untuk membantu melihat
+          titik yang paling dekat dengan titik merah atau <i>user</i> target.
+        </p>
+      </div>
+    );
+  };
+
   return (
     <>
-      <Scatter data={data} options={options} />
+      <div className="flex flex-col my-5 font-poppins items-center">
+        <div className="w-full h-96 p-4 rounded-lg mb-5">
+          <Scatter data={data} options={options} />
+        </div>
+        <ExplanationSectionScatterPlotFilter />
+      </div>
     </>
   );
 }

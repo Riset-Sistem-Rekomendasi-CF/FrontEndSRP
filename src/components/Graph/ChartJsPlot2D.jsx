@@ -14,7 +14,6 @@ export default function ChartJsScatter2D({ result, opsional }) {
 
   // Data untuk scatter plot (titik-titik), memastikan titik pertama adalah (0, 0)
   const scatterPoints = [
-    { x: 0, y: 0, label: `${opsional === "user-based" ? "user" : "item"}-0` }, // Titik awal (0, 0)
     ...similarityData.map((row, index) => ({
       x: row[0],
       y: row[1],
@@ -28,10 +27,17 @@ export default function ChartJsScatter2D({ result, opsional }) {
   //   ...scatterPoints, // Hubungkan ke titik-titik scatter setelah titik (0, 0)
   // ];
 
+  // Menghitung min/max untuk x dan y agar lebih besar +1
+  const xMin = Math.min(...scatterPoints.map((d) => d.x)) - 1;
+  const xMax = Math.max(...scatterPoints.map((d) => d.x)) + 1;
+
+  const yMin = Math.min(...scatterPoints.map((d) => d.y)) - 1;
+  const yMax = Math.max(...scatterPoints.map((d) => d.y)) + 1;
+
   const data = {
     datasets: [
       {
-        label: "Scatter Plot 2D",
+        label: `Kumpulan ${opsional === "user-based" ? "User" : "Item"}`,
         data: scatterPoints,
         backgroundColor: "rgba(255, 99, 132, 0.6)",
         borderColor: "rgba(255, 99, 132, 1)",
@@ -56,20 +62,24 @@ export default function ChartJsScatter2D({ result, opsional }) {
       x: {
         type: "linear",
         position: "bottom",
+        min: xMin,
+        max: xMax,
         ticks: {
           callback: function (value) {
             // Custom x-axis ticks untuk menampilkan user/item
-            return `${value + 1}`;
+            return `${value}`;
           },
         },
       },
       y: {
         type: "linear",
         position: "left",
+        min: yMin,
+        max: yMax,
         ticks: {
           callback: function (value) {
             // Custom y-axis ticks untuk menampilkan user/item
-            return `${value + 1}`;
+            return `${value}`;
           },
         },
       },

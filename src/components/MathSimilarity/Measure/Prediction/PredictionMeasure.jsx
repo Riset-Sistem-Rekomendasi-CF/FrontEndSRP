@@ -324,7 +324,7 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
             apa saja yang akan direkomendasikan.
           </p>
           {/* user bisa memilih berapa top-n yang ingin */}
-          <p className="text-gray-700 font-medium mt-2 ml-5 text-justify">
+          <p className="font-bold  mt-2 ml-5 text-justify">
             Pengguna dapat memilih berapa banyak rekomendasi <i>item</i>{" "}
             <span className="italic">Top-N</span> yang akan ditampilkan dari{" "}
             <i className="mr-1">user </i>target.

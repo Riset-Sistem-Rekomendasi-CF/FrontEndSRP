@@ -10,7 +10,7 @@ import { BackToTopButtonHome } from "../../components/Navigate/BackToTopNavigate
 import OverViewRekomendasi from "../../components/Toggle/OverViewPage";
 import buifa from "../../assets/images/ibu_Ifada.jpg";
 import alfi from "../../assets/images/alfinur.JPG";
-import dimas from "../../assets/images/Dimas.jpeg";
+import dimas from "../../assets/images/Dimas.png";
 import tutorialPage from "../../assets/images/tutorialPage.png";
 
 import ModalHomeFirst from "../../components/modal/ModalHomeFirst.jsx";

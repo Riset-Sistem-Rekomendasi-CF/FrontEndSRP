@@ -74,7 +74,7 @@ const ScrollButton = () => {
       <div>
         <button
           onClick={() => setIsModalOpenHome(true)}
-          className="mr-2 font-bold font-poppins border-2 bg-white border-yellow-btn-primary text-yellow-btn-primary px-8 py-4 rounded-full shadow-md hover:bg-yellow-50 flex items-center justify-center transition-colors duration-200"
+          className="mr-2 font-bold font-poppins border-2 bg-card_yellow_primary text-black px-8 py-4 rounded-full shadow-md hover:bg-yellow-50 flex items-center justify-center transition-colors duration-200"
         >
           <span className="hidden sm:inline">Link Pengujian </span>
           <PlayCircleFilledWhiteIcon />
