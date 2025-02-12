@@ -16,6 +16,9 @@ const ModalMeanCenteredMeasure = ({
   result,
   opsional,
   close,
+  headers,
+  columns,
+  funnyMode
 }) => {
   const [isNotation, setIsNotation] = useState(false);
   const dataModify = dataOnly;
@@ -94,7 +97,7 @@ const ModalMeanCenteredMeasure = ({
                       className="border border-black px-4 py-2 w-14"
                     >
                       {!isNotation ? (
-                        index + 1
+                        !funnyMode ? (index + 1) : (headers)[index]
                       ) : (
                         <span className="font-serif">
                           i<sub>{index + 1}</sub>
@@ -109,7 +112,7 @@ const ModalMeanCenteredMeasure = ({
                   <tr key={rowIndex + "data-body"}>
                     <td className="border border-black px-4 py-2 w-14 bg-gray-200">
                       {!isNotation ? (
-                        rowIndex + 1
+                        !funnyMode ? (rowIndex + 1) : (columns)[rowIndex]
                       ) : (
                         <span className="font-serif">
                           u<sub>{rowIndex + 1}</sub>
@@ -120,9 +123,9 @@ const ModalMeanCenteredMeasure = ({
                       const isSelected =
                         opsional === "item-based"
                           ? selectedIndex[1] === colIndex &&
-                            selectedIndex[0] === rowIndex
+                          selectedIndex[0] === rowIndex
                           : selectedIndex[0] === rowIndex &&
-                            selectedIndex[1] === colIndex;
+                          selectedIndex[1] === colIndex;
                       const cellClass =
                         value === 0
                           ? "border border-black px-4 py-2 text-center w-14 bg-red-200"
@@ -130,9 +133,8 @@ const ModalMeanCenteredMeasure = ({
                       return (
                         <td
                           key={rowIndex + "-" + colIndex}
-                          className={`${cellClass} ${
-                            isSelected ? "bg-card_green_primary" : ""
-                          }`}
+                          className={`${cellClass} ${isSelected ? "bg-card_green_primary" : ""
+                            }`}
                           title={
                             isNotation
                               ? value.toFixed
@@ -182,17 +184,16 @@ const ModalMeanCenteredMeasure = ({
                 {result["mean-list"].map((mean, index) => (
                   <tr key={index + "mean-body"}>
                     <td className="border border-black px-4 py-2 w-14">
-                      {index + 1}
+                      {!funnyMode ? (index + 1) : (opsional == "user-based" ? columns : headers)[index]}
                     </td>
                     <td
                       className={`border border-black px-4 py-2 w-20 text-center
-                                     ${
-                                       selectedIndex[
-                                         opsional === "user-based" ? 0 : 1
-                                       ] === index
-                                         ? "bg-yellow-200"
-                                         : ""
-                                     }`}
+                                     ${selectedIndex[
+                          opsional === "user-based" ? 0 : 1
+                        ] === index
+                          ? "bg-yellow-200"
+                          : ""
+                        }`}
                     >
                       <span
                         className="text-center"

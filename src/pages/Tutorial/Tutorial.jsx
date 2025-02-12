@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import TabelView from "../../components/table/TabelView.jsx";
-import CardSteps from "../../components/Card/Main/CardSteps.jsx";
 import {
   DropdownMethodBased,
   DropdownSimilarityMeasure,
@@ -8,16 +7,12 @@ import {
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import DetailPageBox from "../detailPageView/DetailPageBox.jsx";
-import Navigator from "../../components/Navigate/Navigator";
-import VideoTutorialModal from "../../components/modal/VidioTutorialModal";
 import BodyTutorial from "../Layout/Tutorial/BodyTutorial.jsx";
 import FormLayoutTutorial from "../Layout/Tutorial/FormTutorial.jsx";
 import NotationCard from "../../components/table/NotaionCard.jsx";
 import Chip from "@mui/material/Chip";
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 import {
-  RateReview,
-  Build,
   Star,
   ShowChart,
   People,
@@ -26,22 +21,36 @@ import {
 
 import Navbar from "../../components/Navigate/NavBar.jsx";
 import KoalaPage from "../../assets/icons/KoalaPage.png";
-import CardWellcome from "../../components/Card/Home/CardWellcome.jsx";
+import CardWelcome from "../../components/Card/Home/CardWelcome.jsx";
 import ListNavigasiMenu from "../../components/Navigate/ListNavigasiMenu.jsx";
 import CardsSteps from "../../components/Card/Home/CardSteps.jsx";
 import VidioSection from "../../components/modal/VidioSection.jsx";
-import BackToTopButton from "../../components/Navigate/BackToTopNavigate.jsx";
-import { use } from "react";
 import Toast from "../../components/Toggle/Toast.jsx";
-// import Cookies from "js-cookie";
+import * as emoji from "../../helper/GenerateEmoji.js"
 
 const Tutorial = () => {
-  const [isDescriptionVisible, setDescriptionVisible] = useState(false);
 
+  const [isDescriptionVisible, setDescriptionVisible] = useState(false);
   // Toast state
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState("success");
+
+  const [selectedMethod, setSelectedMethod] = useState("");
+  const [selectedSimilarity, setSelectedSimilarity] = useState("");
+
+  const [funnyMode, setFunnyMode] = useState(false)
+
+  const [data] = useState([
+    [5, 0, 4, 3, 5, 4],
+    [4, 5, 0, 3, 2, 3],
+    [0, 3, 0, 2, 1, 0],
+    [1, 2, 2, 0, 3, 4],
+    [1, 0, 1, 2, 3, 3],
+  ]);
+
+  const header = emoji.GEmot(5, "item")
+  const column = emoji.GEmot(5, "user")
 
   // show toast
   useEffect(() => {
@@ -54,6 +63,18 @@ const Tutorial = () => {
   const handleCloseToast = () => {
     setShowToast(false);
   };
+
+  const toggleDescription = () => {
+    setDescriptionVisible(!isDescriptionVisible);
+  };
+
+  const handleTurnDescription = (condition) => {
+    setDescriptionVisible(condition);
+  };
+
+  const changeFunny = () => {
+    setFunnyMode(!funnyMode)
+  }
 
   const form = [
     {
@@ -82,24 +103,6 @@ const Tutorial = () => {
     },
   ];
 
-  const toggleDescription = () => {
-    setDescriptionVisible(!isDescriptionVisible);
-  };
-
-  const handleTurnDescription = (condition) => {
-    setDescriptionVisible(condition);
-  };
-
-  const [data] = useState([
-    [5, 0, 4, 3, 5, 4],
-    [4, 5, 0, 3, 2, 3],
-    [0, 3, 0, 2, 1, 0],
-    [1, 2, 2, 0, 3, 4],
-    [1, 0, 1, 2, 3, 3],
-  ]);
-  const [selectedMethod, setSelectedMethod] = useState("");
-  const [selectedSimilarity, setSelectedSimilarity] = useState("");
-
   const scrollToSection = (sectionId) => {
     // Mencari elemen berdasarkan ID dan melakukan scroll halus
     const element = document.getElementById(sectionId);
@@ -115,7 +118,7 @@ const Tutorial = () => {
       </h1>
     </span>
   );
-  const Tekssubheader = (
+  const TeksSubHeader = (
     <span>
       Data <i>rating</i> yaitu suatu kumpulan data yang telah diberikan{" "}
       <i>rating</i> pada <i>item</i> tertentu oleh <i>user</i>.
@@ -136,7 +139,7 @@ const Tutorial = () => {
           )}
 
           <ListNavigasiMenu menuVersion={1} scrollToSection={scrollToSection} />
-          <CardWellcome
+          <CardWelcome
             heading={"Tutorial Fungsi Similaritas"}
             bgColor={"bg-blue-home"}
             detail="Pada Page Tutorial ini pengguna akan diberikan tutorial tentang
@@ -154,10 +157,13 @@ const Tutorial = () => {
 
           <BodyTutorial
             header={TeksHeader}
-            subheader={Tekssubheader}
+            subheader={TeksSubHeader}
             id="data_ratingTutorial"
           >
-            <TabelView />
+            <TabelView
+              changeFunny={changeFunny}
+              headers={funnyMode ? header : ["1", "2", "3", "4", "5", "6"]}
+              columns={funnyMode ? column : ["1", "2", "3", "4", "5"]} />
           </BodyTutorial>
           <section
             id="notasi_ratingTutorial"
@@ -254,6 +260,9 @@ const Tutorial = () => {
                       method={selectedMethod}
                       similarity={selectedSimilarity}
                       data={data}
+                      headers={header}
+                      columns={column}
+                      funnyMode={funnyMode}
                     />
                   </div>
                 </section>

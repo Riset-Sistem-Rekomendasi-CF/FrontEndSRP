@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useEffect } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -17,7 +18,21 @@ export default function DetailPageBox({
   similarity,
   data,
   sectionIdDetail,
+  headers,
+  columns,
+  funnyMode
 }) {
+
+  useEffect(() => {
+    const element = document.getElementById("pageBox");
+    console.log(element);
+
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [])
+
+
   const scrollToSectionDetail = (sectionIdDetail) => {
     const element = document.getElementById(sectionIdDetail);
     if (element) {
@@ -25,9 +40,10 @@ export default function DetailPageBox({
     }
   };
   const renderContent = () => {
-    // console.log("detailPage", data);
-    // console.log("detailPage", data.length === 0);
-
+    const element = document.getElementById("pageBox");
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
     if (!method) {
       return (
         <div className="text-center text-red-600 font-semibold">
@@ -90,21 +106,33 @@ export default function DetailPageBox({
           opsional={method.toLowerCase()}
           similarity={similarity}
           initialData={initialData}
+          headers={headers}
+          columns={columns}
+          funnyMode={funnyMode}
         />
         <MeanCenteredMeasure
           opsional={method.toLowerCase()}
           similarity={similarity}
           initialData={initialData}
+          headers={headers}
+          columns={columns}
+          funnyMode={funnyMode}
         />
         <SimilarityMeasure
           opsional={method.toLowerCase()}
           similarity={similarity}
           initialData={initialData}
+          headers={headers}
+          columns={columns}
+          funnyMode={funnyMode}
         />
         <PredictionMeasure
           dataRating={data}
           opsional={method.toLowerCase()}
           similarity={similarity}
+          headers={headers}
+          columns={columns}
+          funnyMode={funnyMode}
         />
       </>
     );
@@ -135,7 +163,7 @@ export default function DetailPageBox({
             overflow: "hidden",
           }}
         >
-          <section className="max-w-full max-h-full mx-auto text-center px-4 sm:px-3 md:px-4 bg-box-grid-pattern animate-grid z-0">
+          <section id="pageBox" className="max-w-full max-h-full mx-auto text-center px-4 sm:px-3 md:px-4 bg-box-grid-pattern animate-grid z-0">
             <h1 className=" text-black text-2xl sm:text-lg md:text-3xl font-bold font-poppins py-5 leading-snug break-words">
               Langkah-Langkah Penerapan {method} Collaborative Filtering dengan
               Metode {similarity}

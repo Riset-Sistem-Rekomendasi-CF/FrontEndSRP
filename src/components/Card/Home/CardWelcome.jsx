@@ -8,7 +8,7 @@ import sinus from "../../../assets/images/sinus.png";
 import probs from "../../../assets/images/probability.png";
 import social from "../../../assets/images/social-distancing.png";
 
-const CardWellcome = ({ heading, detail, image, bgColor }) => {
+const CardWelcome = ({ heading, detail, image, bgColor }) => {
   // Fungsi untuk scroll ke section tertentu
   const scrollToSection = (sectionId) => {
     const section = document.getElementById(sectionId);
@@ -204,7 +204,6 @@ const CardWellcome = ({ heading, detail, image, bgColor }) => {
   );
 };
 
-export default CardWellcome;
 
 const ContentUserBasedCF = () => {
   return (
@@ -278,3 +277,5 @@ const ContentItemBasedCF = () => {
     </div>
   );
 };
+
+export default CardWelcome;

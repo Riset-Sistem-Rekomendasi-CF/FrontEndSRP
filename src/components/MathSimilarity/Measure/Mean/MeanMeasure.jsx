@@ -13,7 +13,7 @@ import MathJaxComponent from "../../../../MathJaxComponent";
 import CloseIcon from "@mui/icons-material/Close";
 import Spinner from "../../../Navigate/Spinner";
 
-export default function MeanMeasure({ opsional, similarity, initialData }) {
+export default function MeanMeasure({ opsional, similarity, initialData, headers, columns, funnyMode }) {
   const [data] = useState(initialData);
 
   const [dataOnly] = useState(initialData.data);
@@ -32,8 +32,8 @@ export default function MeanMeasure({ opsional, similarity, initialData }) {
         ? dataOnly
         : transposeMatrix(dataOnly)
       : opsional === "item-based"
-      ? transposeMatrix(dataOnly)
-      : dataOnly;
+        ? transposeMatrix(dataOnly)
+        : dataOnly;
 
   const [selectedMean, setSelectedMean] = useState(null); // State untuk menyimpan mean yang dipilih
   const [selectedIndex, setSelectedIndex] = useState([]); // State untuk menyimpan user yang dipilih
@@ -77,7 +77,9 @@ export default function MeanMeasure({ opsional, similarity, initialData }) {
             <tbody>
               {result["mean-list"].map((mean, index) => (
                 <tr key={index} className="hover:bg-card_green_primary">
-                  <td className="border border-black px-4 py-2">{index + 1}</td>
+                  <td className="border border-black px-4 py-2">
+                    {!funnyMode ? (index + 1) : (opsional == "user-based" ? columns : headers)[index]}
+                  </td>
                   <td className="border border-black px-4 py-2">
                     <div
                       className="text-center cursor-pointer"
@@ -99,6 +101,9 @@ export default function MeanMeasure({ opsional, similarity, initialData }) {
               selectedIndex={selectedIndex}
               selectedMean={selectedMean}
               close={closeModal}
+              headers={headers}
+              columns={columns}
+              funnyMode={funnyMode}
             />
           )}
         </div>

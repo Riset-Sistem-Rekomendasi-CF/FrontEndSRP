@@ -36,9 +36,8 @@ function InputList({
       placeholder={children}
       onChange={handleInputChange}
       value={children === "?" ? "" : children}
-      className={`w-full px-4 py-2 text-center ${
-        children === "?" ? "bg-red-200 text-black" : "bg-transparent text-black"
-      }`}
+      className={`w-full px-4 py-2 text-center ${children === "?" ? "bg-red-200 text-black" : "bg-transparent text-black"
+        }`}
       disabled={disabled}
     />
   );
@@ -48,6 +47,10 @@ export default function TableMatrix({
   Data,
   onDataChange,
   onDescriptionChange,
+  headers,
+  columns,
+  funnyMode,
+  changeFunny
 }) {
   const [data, setData] = useState(Data);
   const [showAlert, setShowAlert] = useState(false); // State to manage modal visibility
@@ -104,7 +107,7 @@ export default function TableMatrix({
                     key={index}
                     className="border border-black px-4 py-2 bg-blue-home text-sm sm:text-base text-white"
                   >
-                    {index + 1}
+                    {!funnyMode ? (index + 1) : (headers)[index]}
                   </th>
                 ))}
               </tr>
@@ -113,7 +116,7 @@ export default function TableMatrix({
               {Data.map((value, i) => (
                 <tr key={i}>
                   <td className="border border-black px-4 py-2 text-center bg-blue-200 text-sm sm:text-base">
-                    {i + 1}
+                    {!funnyMode ? (i + 1) : (columns)[i]}
                   </td>
                   {value.map((value1, j) => (
                     <td

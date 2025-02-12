@@ -3,37 +3,34 @@ import React, { useState, useEffect } from "react";
 import {
   DropdownMethodBased,
   DropdownSimilarityMeasure,
-} from "../../components/Form/form_Practice";
+} from "../../components/Form/form_Practice.jsx";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import Navigator from "../../components/Navigate/Navigator";
 import NotationCard from "../../components/table/NotaionCard.jsx";
 
-import FormMeasure from "../../components/Form/FormMeasure";
-import VidioTutorialModal from "../../components/modal/VidioTutorialModal";
+import FormMeasure from "../../components/Form/FormMeasure.jsx";
 import {
-  Build,
   Lightbulb,
   People,
-  RateReview,
   ShowChart,
   Star,
 } from "@mui/icons-material";
 import Chip from "@mui/material/Chip";
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
-import BodyTutorial from "../Layout/Tutorial/BodyTutorial";
 
 import DetailPageBoxLatihan from "../detailPageView/DetailPageBoxLatihan.jsx";
 import Navbar from "../../components/Navigate/NavBar.jsx";
 import KoalaPage from "../../assets/icons/KoalaPage.png";
-import CardWellcome from "../../components/Card/Home/CardWellcome.jsx";
+import CardWelcome from "../../components/Card/Home/CardWelcome.jsx";
 import ListNavigasiMenu from "../../components/Navigate/ListNavigasiMenu.jsx";
 import CardsSteps from "../../components/Card/Home/CardSteps.jsx";
 import VidioSection from "../../components/modal/VidioSection.jsx";
 import Toast from "../../components/Toggle/Toast.jsx";
+import * as Emoji from "../../helper/GenerateEmoji.js"
+import { transposeMatrix } from "../../helper/helper.js";
 // import Cookies from "js-cookie";
 
-function Eksplorasi() {
+function Exploration() {
   const [isDescriptionVisible, setDescriptionVisible] = useState(false);
 
   // Toast State
@@ -41,12 +38,26 @@ function Eksplorasi() {
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState("success");
 
+  const [funnyMode, setFunnyMode] = useState(false)
+
+  const [selectedMethod, setSelectedMethod] = useState("");
+  const [selectedSimilarity, setSelectedSimilarity] = useState("");
+  const [data, setData] = useState([]);
+
+  const headers = data.length > 0 ? Emoji.GEmot(transposeMatrix(data).length + 1, "item") : null
+  const columns = data.length > 0 ? Emoji.GEmot((data).length + 1, "user") : null
+
   // show toast
   useEffect(() => {
     setToastMessage("Selamat Datang di Halaman Eksplorasi Fungsi Similaritas");
     setToastType("success");
     setShowToast(true);
   }, []);
+
+  // Toggle funny mode
+  const changeFunny = () => {
+    setFunnyMode(!funnyMode)
+  }
 
   // Hide toast
   const handleCloseToast = () => {
@@ -57,9 +68,6 @@ function Eksplorasi() {
     setDescriptionVisible(!isDescriptionVisible);
   };
 
-  const [selectedMethod, setSelectedMethod] = useState("");
-  const [selectedSimilarity, setSelectedSimilarity] = useState("");
-  const [data, setData] = useState([]);
 
   const handleMethodChange = (method) => {
     setSelectedMethod(method);
@@ -100,7 +108,7 @@ function Eksplorasi() {
             />
           )}
           <ListNavigasiMenu menuVersion={2} scrollToSection={scrollToSection} />
-          <CardWellcome
+          <CardWelcome
             heading={"Eksplorasi Fungsi Similaritas"}
             bgColor={"bg-card_purple_primary"}
             detail="Pada Page Eksplorasi Rating pengguna bisa bereksplorasi dan ingin melakukan
@@ -132,6 +140,10 @@ function Eksplorasi() {
             <FormMeasure
               onDataChange={handleDataChange}
               onDescriptionChange={handleTurnDescription}
+              changeFunny={changeFunny}
+              funnyMode={funnyMode}
+              headers={headers}
+              columns={columns}
             />
           </section>
 
@@ -266,6 +278,9 @@ function Eksplorasi() {
                   method={selectedMethod}
                   similarity={selectedSimilarity}
                   data={data}
+                  headers={headers}
+                  columns={columns}
+                  funnyMode={funnyMode}
                 />
               </section>
             )}
@@ -276,4 +291,4 @@ function Eksplorasi() {
   );
 }
 
-export default Eksplorasi;
+export default Exploration;
