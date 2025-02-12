@@ -13,7 +13,14 @@ import LegendTable from "../../../tabelData/LegendTable";
 import { Input } from "@headlessui/react";
 import MathJaxComponent from "../../../../MathJaxComponent";
 
-export function PredictionMeasure({ dataRating, opsional, similarity }) {
+export default function PredictionMeasure({
+  dataRating,
+  opsional,
+  similarity,
+  headers,
+  columns,
+  funnyMode
+}) {
   const [kValue, setKValue] = useState(2);
   // const [k, setK] = useState(null);
 
@@ -38,23 +45,6 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
   const [selectedIndex, setSelectedIndex] = useState([]);
 
   const [topSimilarities, setTopSimilarities] = useState([]);
-  // Fungsi untuk mendapatkan prediksi terbesar dan item terkait
-  // const getTopPredictions = (userIndex, result) => {
-  //   // Cek apakah result dan top-n tersedia
-  //   if (!result || !result["top-n"]) {
-  //     return null;
-  //   }
-
-  //   // Ambil prediksi untuk user yang dipilih berdasarkan userIndex
-  //   const predictions = result["top-n"][userIndex]; // Mengakses berdasarkan userIndex
-
-  //   if (!predictions) {
-  //     return null;
-  //   }
-
-  //   // Mengurutkan prediksi dari terbesar ke terkecil
-  //   return [...predictions].sort((a, b) => b - a);
-  // };
 
   const findTopSimilaritiesWithValidRatings = (
     similarityData,
@@ -71,8 +61,8 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
           index === (opsional === "item-based" ? itemIndex : userIndex)
             ? false
             : (opsional === "item-based"
-                ? transposeMatrix(dataModify)[userIndex][index]
-                : dataModify[index][itemIndex]) !== 0,
+              ? transposeMatrix(dataModify)[userIndex][index]
+              : dataModify[index][itemIndex]) !== 0,
       };
     });
 
@@ -135,7 +125,7 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
                         key={index}
                         className="border border-black px-4 py-2 text-xs sm:text-sm"
                       >
-                        {index + 1}
+                        {!funnyMode ? (index + 1) : (headers)[index]}
                       </th>
                     )
                   )}
@@ -145,18 +135,17 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
                 {result["prediction"].map((row, rowIndex) => (
                   <tr key={rowIndex}>
                     <td className="border border-black px-4 py-2 bg-blue-200 text-xs sm:text-sm">
-                      {rowIndex + 1}
+                      {!funnyMode ? (rowIndex + 1) : (columns)[rowIndex]}
                     </td>
                     {row.map((value, colIndex) => {
                       const IsZero = dataOnly[rowIndex][colIndex] === 0;
                       return (
                         <td
                           key={colIndex}
-                          className={`border border-black px-4 py-2 text-center text-xs sm:text-sm ${
-                            IsZero
-                              ? "bg-red-200 cursor-pointer hover:bg-card_green_primary"
-                              : ""
-                          }`}
+                          className={`border border-black px-4 py-2 text-center text-xs sm:text-sm ${IsZero
+                            ? "bg-red-200 cursor-pointer hover:bg-card_green_primary"
+                            : ""
+                            }`}
                           onClick={
                             IsZero
                               ? () => handleMeanClick(value, rowIndex, colIndex)
@@ -187,6 +176,9 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
                 result={result}
                 close={closeModal}
                 selectedValue={selectedValue}
+                headers={headers}
+                columns={columns}
+                funnyMode={funnyMode}
               />
             )}
         </div>
@@ -216,8 +208,8 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
       // Ambil prediksi dan urutkan berdasarkan nilai terbesar
       return result["prediction"][userIndex]
         ? result["prediction"][userIndex]
-            .map((value, index) => ({ value, index })) // Membuat array objek untuk bisa disort
-            .sort((a, b) => b.value - a.value) // Urutkan berdasarkan nilai terbesar
+          .map((value, index) => ({ value, index })) // Membuat array objek untuk bisa disort
+          .sort((a, b) => b.value - a.value) // Urutkan berdasarkan nilai terbesar
         : [];
     };
 
@@ -358,7 +350,7 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
                 </option>
                 {result["prediction"].map((_, index) => (
                   <option key={index} value={index}>
-                    User {index + 1}
+                    User {!funnyMode ? (index + 1) : (opsional == "user-based" ? columns : headers)[index]}
                   </option>
                 ))}
               </select>
@@ -418,16 +410,16 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
                             {index + 1}
                           </td>
                           <td className="px-3 py-2 font-stix">
-                            <span className="relative inline-block">
+                            {!funnyMode ? (<><span className="relative inline-block">
                               <sup className="absolute top-0 left-0 text-xs">
                                 ^
                               </sup>
                               <span>r</span>
                             </span>
-                            <sub>
-                              {selectedUserTopN + 1}
-                              {pred.colIndex + 1}
-                            </sub>
+                              <sub>
+                                {selectedUserTopN + 1}
+                                {pred.colIndex + 1}
+                              </sub></>) : (headers)[pred.colIndex]}
                           </td>
                           <td className="border border-black px-3 py-2">
                             {pred.value.toFixed(3)}
@@ -458,16 +450,15 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
                     Oleh karena{" "}
                     {displayTopPredictionsRedUser
                       .map((pred, idx) => {
-                        const rDataTopN = `\\[ {\\widehat{r}_{${
-                          selectedUserTopN + 1
-                        }${pred.colIndex + 1}}} \\] `;
+                        const rDataTopN = `\\[ {\\widehat{r}_{${selectedUserTopN + 1
+                          }${pred.colIndex + 1}}} \\] `;
                         return (
                           <span
                             key={idx}
                             className="inline-block p-0.5 rounded-lg font-bold mx-1 my-0.5"
                           >
                             <MathJaxContext option={mathjaxConfig}>
-                              <MathJaxComponent>{rDataTopN}</MathJaxComponent>
+                              <MathJaxComponent>{!funnyMode ? rDataTopN : (headers)[pred.colIndex]}</MathJaxComponent>
                             </MathJaxContext>
                           </span>
                         );
@@ -483,22 +474,22 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
                         ];
                       }, null)}
                     , maka daftar rekomendasi prediksi <i>ranking</i> Top-N
-                    untuk <i>user</i> target {selectedUserTopN + 1} adalah
+                    untuk <i>user</i> target {!funnyMode ? (selectedUserTopN + 1) : columns[selectedUserTopN]} adalah
                     sebagai berikut:
                     {displayTopPredictionsRedUser.length > 1
                       ? displayTopPredictionsRedUser.map((pred, idx, array) => (
-                          <span key={idx}>
-                            <i>Item {pred.colIndex + 1}</i>
-                            {idx === array.length - 2
-                              ? " dan "
-                              : idx === array.length - 1
+                        <span key={idx}>
+                          <i>Item {!funnyMode ? (pred.colIndex + 1) : headers[pred.colIndex]}</i>
+                          {idx === array.length - 2
+                            ? " dan "
+                            : idx === array.length - 1
                               ? ""
                               : ", "}
-                          </span>
-                        ))
+                        </span>
+                      ))
                       : displayTopPredictionsRedUser.map((pred, idx) => (
-                          <i key={idx}>Item {pred.colIndex + 1}</i>
-                        ))}
+                        <i key={idx}>Item {!funnyMode ? (pred.colIndex + 1) : headers[pred.colIndex]}</i>
+                      ))}
                     .
                   </p>
                 </div>
@@ -704,4 +695,4 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
   );
 }
 
-export default PredictionMeasure;
+

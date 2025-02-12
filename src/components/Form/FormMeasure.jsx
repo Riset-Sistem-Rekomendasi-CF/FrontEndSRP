@@ -5,8 +5,9 @@ import * as helper from "../../helper/helper.js";
 import PercentIcon from "@mui/icons-material/Percent";
 import TuneIcon from "@mui/icons-material/Tune";
 import RefreshIcon from "@mui/icons-material/Refresh";
+import SwitchToggle from "../Toggle/SwitchToggle";
 
-export default function FormMeasure({ onDataChange, onDescriptionChange }) {
+export default function FormMeasure({ onDataChange, onDescriptionChange, changeFunny, headers, columns, funnyMode }) {
   const [n, setN] = useState(0);
   const [m, setM] = useState(0);
   const [sparsity, setSparsity] = useState(0);
@@ -219,11 +220,10 @@ export default function FormMeasure({ onDataChange, onDescriptionChange }) {
               disabled={isOneClick}
               type="button"
               onClick={submitHandler}
-              className={`${
-                !isOneClick
-                  ? "bg-purple-btn-primary"
-                  : "bg-violet-400 pointer-events-none"
-              } text-white font-semibold px-3 py-2 rounded-md shadow-md hover:bg-blue-600 focus:outline-none flex items-center`}
+              className={`${!isOneClick
+                ? "bg-purple-btn-primary"
+                : "bg-violet-400 pointer-events-none"
+                } text-white font-semibold px-3 py-2 rounded-md shadow-md hover:bg-blue-600 focus:outline-none flex items-center`}
             >
               <TuneIcon className="mr-2" /> Buat Tabel Rating
             </button>
@@ -231,11 +231,10 @@ export default function FormMeasure({ onDataChange, onDescriptionChange }) {
               disabled={!isOneClick}
               type="button"
               onClick={handleResetData}
-              className={`${
-                isOneClick
-                  ? "bg-purple-btn-primary"
-                  : "bg-violet-400 pointer-events-none"
-              } text-white font-semibold px-3 py-2 rounded-md shadow-md hover:bg-blue-600 focus:outline-none flex items-center`}
+              className={`${isOneClick
+                ? "bg-purple-btn-primary"
+                : "bg-violet-400 pointer-events-none"
+                } text-white font-semibold px-3 py-2 rounded-md shadow-md hover:bg-blue-600 focus:outline-none flex items-center`}
             >
               <RefreshIcon className="mr-2" /> Reset Data Rating
             </button>
@@ -269,11 +268,20 @@ export default function FormMeasure({ onDataChange, onDescriptionChange }) {
       )}
 
       {data.length > 0 && (
-        <TableMatrix
-          Data={data}
-          onDataChange={onDataChange}
-          onDescriptionChange={onDescriptionChange}
-        />
+        <>
+          <SwitchToggle
+            title={"Funny Mode"}
+            changeToggle={changeFunny}
+          />
+          <TableMatrix
+            Data={data}
+            onDataChange={onDataChange}
+            onDescriptionChange={onDescriptionChange}
+            headers={headers}
+            columns={columns}
+            funnyMode={funnyMode}
+          />
+        </>
       )}
     </>
   );

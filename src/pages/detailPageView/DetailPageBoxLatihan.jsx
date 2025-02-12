@@ -12,7 +12,7 @@ import BackToTopButton from "../../components/Navigate/BackToTopNavigate";
 import { checkEmptyRowOrColumn } from "../../helper/helper";
 import KeyboardCapslockIcon from "@mui/icons-material/KeyboardCapslock";
 
-export default function DetailPageBoxLatihan({ method, similarity, data }) {
+export default function DetailPageBoxLatihan({ method, similarity, data, headers, columns, funnyMode }) {
   const scrollToSectionDetail = (sectionIdDetail) => {
     const element = document.getElementById(sectionIdDetail);
     if (element) {
@@ -99,21 +99,33 @@ export default function DetailPageBoxLatihan({ method, similarity, data }) {
           opsional={method.toLowerCase()}
           similarity={similarity}
           initialData={initialData}
+          headers={headers}
+          columns={columns}
+          funnyMode={funnyMode}
         />
         <MeanCenteredMeasure
           opsional={method.toLowerCase()}
           similarity={similarity}
           initialData={initialData}
+          headers={headers}
+          columns={columns}
+          funnyMode={funnyMode}
         />
         <SimilarityMeasure
           opsional={method.toLowerCase()}
           similarity={similarity}
           initialData={initialData}
+          headers={headers}
+          columns={columns}
+          funnyMode={funnyMode}
         />
         <PredictionMeasure
           dataRating={data}
           opsional={method.toLowerCase()}
           similarity={similarity}
+          headers={headers}
+          columns={columns}
+          funnyMode={funnyMode}
         />
       </>
     );

@@ -31,6 +31,8 @@ import ListNavigasiMenu from "../../components/Navigate/ListNavigasiMenu.jsx";
 import CardsSteps from "../../components/Card/Home/CardSteps.jsx";
 import VidioSection from "../../components/modal/VidioSection.jsx";
 import Toast from "../../components/Toggle/Toast.jsx";
+import * as Emoji from "../../helper/generateEmot.js"
+import { transposeMatrix } from "../../helper/helper.js";
 // import Cookies from "js-cookie";
 
 function Eksplorasi() {
@@ -40,6 +42,9 @@ function Eksplorasi() {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState("success");
+  const [funnyMode, setFunnyMode] = useState(false)
+
+
 
   // show toast
   useEffect(() => {
@@ -47,6 +52,11 @@ function Eksplorasi() {
     setToastType("success");
     setShowToast(true);
   }, []);
+
+  // Toggle funny mode
+  const changeFunny = () => {
+    setFunnyMode(!funnyMode)
+  }
 
   // Hide toast
   const handleCloseToast = () => {
@@ -60,6 +70,14 @@ function Eksplorasi() {
   const [selectedMethod, setSelectedMethod] = useState("");
   const [selectedSimilarity, setSelectedSimilarity] = useState("");
   const [data, setData] = useState([]);
+
+  const headers = data.length > 0 ? Emoji.GEmot(transposeMatrix(data).length + 1, "item") : null
+  const columns = data.length > 0 ? Emoji.GEmot((data).length + 1, "user") : null
+
+  console.log(data.length, data, headers);
+  console.log(data.length, data, columns);
+  console.log(funnyMode);
+
 
   const handleMethodChange = (method) => {
     setSelectedMethod(method);
@@ -132,6 +150,10 @@ function Eksplorasi() {
             <FormMeasure
               onDataChange={handleDataChange}
               onDescriptionChange={handleTurnDescription}
+              changeFunny={changeFunny}
+              funnyMode={funnyMode}
+              headers={headers}
+              columns={columns}
             />
           </section>
 
@@ -263,6 +285,9 @@ function Eksplorasi() {
                   method={selectedMethod}
                   similarity={selectedSimilarity}
                   data={data}
+                  headers={headers}
+                  columns={columns}
+                  funnyMode={funnyMode}
                 />
               </section>
             )}

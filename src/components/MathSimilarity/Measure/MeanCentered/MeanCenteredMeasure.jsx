@@ -11,7 +11,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import centerdGif from "../../../../assets/vidioAsset/meanCenGif.gif";
 import MathJaxComponent from "../../../../MathJaxComponent";
 
-const MeanCenteredMeasure = ({ opsional, similarity, initialData }) => {
+const MeanCenteredMeasure = ({ opsional, similarity, initialData, headers, columns, funnyMode }) => {
   const [selectedValue, setSelectedValue] = useState(null); // State untuk menyimpan user yang dipilih
   const [showModal, setShowModal] = useState(false); // State untuk menampilkan modal
   const [selectedIndex, setSelectedIndex] = useState(null);
@@ -41,8 +41,8 @@ const MeanCenteredMeasure = ({ opsional, similarity, initialData }) => {
         ? transposeMatrix(dataOnly)
         : transposeMatrix(dataOnly)
       : opsional === "user-based"
-      ? dataOnly
-      : transposeMatrix(dataOnly);
+        ? dataOnly
+        : transposeMatrix(dataOnly);
   const opsionalModify =
     similarity === "Adjusted Cosine"
       ? opsional === "item-based"
@@ -58,8 +58,8 @@ const MeanCenteredMeasure = ({ opsional, similarity, initialData }) => {
       similarity === "Adjusted Cosine"
         ? transposeMatrix(result["mean-centered"])
         : opsional === "user-based"
-        ? result["mean-centered"]
-        : transposeMatrix(result["mean-centered"]);
+          ? result["mean-centered"]
+          : transposeMatrix(result["mean-centered"]);
 
     const numberOfColumns = resultModify[0].length; // Ambil jumlah kolom dari baris pertama
 
@@ -80,7 +80,7 @@ const MeanCenteredMeasure = ({ opsional, similarity, initialData }) => {
                     key={index}
                     className="border border-black px-4 py-2 text-xs sm:text-sm md:text-base"
                   >
-                    {index + 1}
+                    {!funnyMode ? (index + 1) : (headers)[index]}
                   </th>
                 ))}
               </tr>
@@ -90,7 +90,7 @@ const MeanCenteredMeasure = ({ opsional, similarity, initialData }) => {
                 <tr key={rowIndex}>
                   {/* Kolom pertama (U/I) dengan padding dan lebar responsif */}
                   <td className="border border-black px-4 py-2 bg-gray-200 text-xs sm:text-sm md:text-base w-1/6 min-w-[80px]">
-                    {rowIndex + 1}
+                    {!funnyMode ? (rowIndex + 1) : (columns)[rowIndex]}
                   </td>
 
                   {row.map((value, colIndex) => {
@@ -100,17 +100,16 @@ const MeanCenteredMeasure = ({ opsional, similarity, initialData }) => {
                           ? dataModify[colIndex][rowIndex]
                           : dataModify[colIndex][rowIndex]
                         : opsional === "user-based"
-                        ? dataModify[rowIndex][colIndex]
-                        : dataModify[colIndex][rowIndex];
+                          ? dataModify[rowIndex][colIndex]
+                          : dataModify[colIndex][rowIndex];
 
                     const IsZero = OriginalValue === 0;
 
                     return (
                       <td
                         key={colIndex}
-                        className={`border border-black px-4 py-2 text-center cursor-pointer hover:bg-card_green_primary text-xs sm:text-sm md:text-base ${
-                          IsZero ? "bg-red-200" : ""
-                        }`}
+                        className={`border border-black px-4 py-2 text-center cursor-pointer hover:bg-card_green_primary text-xs sm:text-sm md:text-base ${IsZero ? "bg-red-200" : ""
+                          }`}
                         onClick={() =>
                           handleMeanClick(value, rowIndex, colIndex)
                         }
@@ -135,6 +134,9 @@ const MeanCenteredMeasure = ({ opsional, similarity, initialData }) => {
             result={result}
             opsional={opsionalModify}
             close={closeModal}
+            headers={headers}
+            columns={columns}
+            funnyMode={funnyMode}
           />
         )}
       </div>

@@ -32,7 +32,7 @@ const TableSimilarity = ({ children }) => {
 const HeadTableSimilarity = ({ children, opsional }) => {
   return (
     <thead>
-      <tr className="bg-gray-200">
+      <tr className={opsional == "user-based" ? "bg-blue-200" : "bg-gray-200"}>
         <th className="border border-black px-4 py-2">
           {opsional === "user-based" ? "U/U" : "I/I"}
         </th>
@@ -49,9 +49,8 @@ const TrTableSimilarity = ({ children }, key) => {
 const TdTableSimilarity = ({ rowIndex, colIndex, onClick, children }, key) => {
   return (
     <td
-      className={`border border-black px-4 py-2 text-center text-xs sm:text-sm cursor-pointer hover:bg-card_green_primary ${
-        rowIndex === colIndex ? "bg-red-200" : ""
-      }`}
+      className={`border border-black px-4 py-2 text-center text-xs sm:text-sm cursor-pointer hover:bg-card_green_primary ${rowIndex === colIndex ? "bg-red-200" : ""
+        }`}
       onClick={onClick}
     >
       {children}
@@ -63,6 +62,9 @@ export default function SimilarityMeasure({
   opsional,
   similarity,
   initialData,
+  headers,
+  columns,
+  funnyMode,
 }) {
   const [selectedMean, setSelectedMean] = useState(null); // State untuk menyimpan mean yang dipilih
   const [selectedIndex, setSelectedIndex] = useState(null); // State untuk menyimpan user yang dipilih
@@ -108,17 +110,17 @@ export default function SimilarityMeasure({
               {Array.from({ length: numberOfColumnsSim }, (_, index) => (
                 <th
                   key={index}
-                  className="border border-black px-4 py-2 text-xs sm:text-sm"
+                  className={`border border-black px-4 py-2 text-xs sm:text-sm ${opsional == "user-based" ? "bg-blue-200" : ""}`}
                 >
-                  {index + 1}
+                  {!funnyMode ? (index + 1) : (opsional == "user-based" ? columns : headers)[index]}
                 </th>
               ))}
             </HeadTableSimilarity>
             <tbody>
               {result["similarity"].map((row, rowIndex) => (
                 <TrTableSimilarity key={rowIndex}>
-                  <td className="border border-black px-4 py-2 bg-blue-200 text-xs sm:text-sm">
-                    {rowIndex + 1}
+                  <td className={`border border-black px-4 py-2 ${opsional == "user-based" ? "bg-blue-200" : "bg-gray-200"} text-xs sm:text-sm`}>
+                    {!funnyMode ? (rowIndex + 1) : (opsional == "user-based" ? columns : headers)[rowIndex]}
                   </td>
                   {row.map((value, colIndex) => (
                     <TdTableSimilarity
@@ -143,6 +145,9 @@ export default function SimilarityMeasure({
               selectedMean={selectedMean}
               dataOnly={dataOnly}
               data={result}
+              headers={headers}
+              columns={columns}
+              funnyMode={funnyMode}
             />
           )}
         </div>

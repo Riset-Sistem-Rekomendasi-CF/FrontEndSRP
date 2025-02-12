@@ -13,6 +13,7 @@ import LegendTable from "../../tabelData/LegendTable";
 import Warm from "../../Warm/Warm";
 import { sum } from "../../../helper/Measure";
 import CloseIcon from "@mui/icons-material/Close";
+import * as emoji from "../../../helper/generateEmot"
 
 const SimilarityIndex = ({
   rowIndex,
@@ -55,8 +56,8 @@ const SimilarityValue = ({
         ? transposeMatrix(dataOnly)
         : dataOnly
       : opsional === "item-based"
-      ? transposeMatrix(dataOnly)
-      : dataOnly;
+        ? transposeMatrix(dataOnly)
+        : dataOnly;
 
   const nonZeroIndexesRow = dataModify[rowIndex]
     .map((row, index) => (row !== 0 ? index : null))
@@ -75,8 +76,8 @@ const SimilarityValue = ({
       ? similarity === "Bhattacharyya Coefficient"
         ? data["probability"]
         : similarity === "Adjusted Cosine"
-        ? transposeMatrix(data["mean-centered"])
-        : data["mean-centered"]
+          ? transposeMatrix(data["mean-centered"])
+          : data["mean-centered"]
       : dataModify;
 
   if (!dataSimilarity || dataSimilarity.length === 0) return null;
@@ -85,36 +86,36 @@ const SimilarityValue = ({
     similarity === "Bhattacharyya Coefficient"
       ? data["probability"][rowIndex]
       : intersection.map((i) =>
-          similarity === "Adjusted Cosine"
-            ? opsional === "item-based"
-              ? dataSimilarity[i][rowIndex]
-              : dataSimilarity[rowIndex][i]
+        similarity === "Adjusted Cosine"
+          ? opsional === "item-based"
+            ? dataSimilarity[i][rowIndex]
             : dataSimilarity[rowIndex][i]
-        );
+          : dataSimilarity[rowIndex][i]
+      );
 
   const dataSimilarityCol =
     similarity === "Bhattacharyya Coefficient"
       ? data["probability"][colIndex]
       : intersection.map((i) =>
-          similarity === "Adjusted Cosine"
-            ? opsional === "item-based"
-              ? dataSimilarity[i][colIndex]
-              : dataSimilarity[colIndex][i]
+        similarity === "Adjusted Cosine"
+          ? opsional === "item-based"
+            ? dataSimilarity[i][colIndex]
             : dataSimilarity[colIndex][i]
-        );
+          : dataSimilarity[colIndex][i]
+      );
 
   const numeratorArrayMeasure =
     similarity !== "Bhattacharyya Coefficient"
       ? sum(
-          dataSimilarityRow.map(
-            (val, idx) => val.toFixed(2) * dataSimilarityCol[idx].toFixed(2)
-          )
+        dataSimilarityRow.map(
+          (val, idx) => val.toFixed(2) * dataSimilarityCol[idx].toFixed(2)
         )
+      )
       : null;
   const denominatorArrayMeasure =
     similarity !== "Bhattacharyya Coefficient"
       ? Math.sqrt(sum(dataSimilarityRow.map((val, idx) => val ** 2))) *
-        Math.sqrt(sum(dataSimilarityCol.map((val, idx) => val ** 2)))
+      Math.sqrt(sum(dataSimilarityCol.map((val, idx) => val ** 2)))
       : null;
 
   if (!dataSimilarityRow || !dataSimilarityCol) return null;
@@ -133,24 +134,25 @@ const SimilarityValue = ({
     numeratorArrayMeasure
   );
 
+
   // console.log(formula, result_formula);
 
   return (
     <>
       <MathJaxComponent>{formula.formula}</MathJaxComponent>
       {similarity !== "Bhattacharyya Coefficient" &&
-      (dataSimilarityCol.length !== 0 || dataSimilarityRow.length !== 0) ? (
+        (dataSimilarityCol.length !== 0 || dataSimilarityRow.length !== 0) ? (
         <MathJaxComponent>{formula.process_formula}</MathJaxComponent>
       ) : null}
       <MathJaxComponent>{formula.result_formula}</MathJaxComponent>
       {(intersection.length === 0 || numeratorArrayMeasure === 0) &&
-      (numeratorArrayMeasure !== null || denominatorArrayMeasure !== null) ? (
+        (numeratorArrayMeasure !== null || denominatorArrayMeasure !== null) ? (
         <Warm>
           {intersection.length === 0 &&
-          !(
-            similarity === "Bhattacharyya Coefficient" ||
-            similarity === "Vector Cosine"
-          ) ? (
+            !(
+              similarity === "Bhattacharyya Coefficient" ||
+              similarity === "Vector Cosine"
+            ) ? (
             <>Jika tidak ada index untuk dihitung</>
           ) : denominatorArrayMeasure === 0 ? (
             <>Jika penyebut menghasilkan 0 </>
@@ -159,7 +161,7 @@ const SimilarityValue = ({
           )}{" "}
           maka, nilai Similaritas akan diisi dengan{" "}
           {similarity === "Bhattacharyya Coefficient" ||
-          similarity === "Vector Cosine"
+            similarity === "Vector Cosine"
             ? `0`
             : `-10`}{" "}
           agar tidak mempengaruhi proses prediksi
@@ -219,7 +221,7 @@ const SimilarityIndexNonZero = ({
   );
 };
 
-const ModalSimilarity = ({
+export default function ModalSimilarity({
   data,
   close,
   selectedIndex,
@@ -227,7 +229,10 @@ const ModalSimilarity = ({
   dataOnly,
   similarity,
   opsional,
-}) => {
+  headers,
+  columns,
+  funnyMode,
+}) {
   const dataModify =
     similarity !== "Cosine" && similarity !== "Bhattacharyya Coefficient"
       ? similarity === "Adjusted Cosine" || opsional === "item-based"
@@ -242,6 +247,10 @@ const ModalSimilarity = ({
   };
 
   const numberOfColumnsCen = dataOnly[0].length;
+
+  // Emoji
+  // const headers = emoji.GEmot(5, "item")
+  // const columns = emoji.GEmot(5, "user")
 
   return (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
@@ -276,7 +285,7 @@ const ModalSimilarity = ({
                 {Array.from({ length: numberOfColumnsCen }, (_, index) => (
                   <th key={index} className="border border-black px-4 py-2">
                     {!isNotation ? (
-                      index + 1
+                      !funnyMode ? (index + 1) : (opsional == "user-based" ? columns : headers)[index]
                     ) : (
                       <span className="font-serif">
                         i<sub>{index + 1}</sub>
@@ -291,7 +300,7 @@ const ModalSimilarity = ({
                 <tr key={rowIndex}>
                   <td className="border border-black px-4 py-2 w-20 bg-gray-200">
                     {!isNotation ? (
-                      rowIndex + 1
+                      !funnyMode ? (rowIndex + 1) : (opsional == "user-based" ? columns : headers)[rowIndex]
                     ) : (
                       <span className="font-serif">
                         u<sub>{rowIndex + 1}</sub>
@@ -305,14 +314,13 @@ const ModalSimilarity = ({
                         key={colIndex}
                         className={`border border-black px-4 py-2 text-center w-20 
                     ${IsZero ? "bg-red-200" : ""} 
-                    ${
-                      !IsZero &&
-                      selectedIndex.includes(
-                        opsional === "item-based" ? colIndex : rowIndex
-                      )
-                        ? "bg-green-200"
-                        : ""
-                    }`}
+                    ${!IsZero &&
+                            selectedIndex.includes(
+                              opsional === "item-based" ? colIndex : rowIndex
+                            )
+                            ? "bg-green-200"
+                            : ""
+                          }`}
                       >
                         {!isNotation ? (
                           value.toFixed(
@@ -323,12 +331,11 @@ const ModalSimilarity = ({
                           )
                         ) : (
                           <span className="font-serif">
-                            {`${
-                              similarity !== "Cosine" &&
+                            {`${similarity !== "Cosine" &&
                               similarity !== "Bhattacharyya Coefficient"
-                                ? "s"
-                                : "r"
-                            }`}
+                              ? "s"
+                              : "r"
+                              }`}
                             <sub>
                               {colIndex + 1}
                               {rowIndex + 1}
@@ -449,5 +456,3 @@ const ModalSimilarity = ({
     </div>
   );
 };
-
-export default ModalSimilarity;

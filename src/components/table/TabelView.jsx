@@ -2,17 +2,17 @@
 
 import React from "react";
 import { useState } from "react";
+import SwitchToggle from "../Toggle/SwitchToggle";
 
-function TabelView() {
+const TabelView = ({ changeFunny, headers, columns }) => {
+
   const data = [
-    ["1", "5", "?", "4", "3", "5", "4"],
-    ["2", "4", "5", "?", "3", "2", "3"],
-    ["3", "?", "3", "?", "2", "1", "?"],
-    ["4", "1", "2", "2", "?", "3", "4"],
-    ["5", "1", "?", "1", "2", "3", "3"],
+    ["5", "?", "4", "3", "5", "4"],
+    ["4", "5", "?", "3", "2", "3"],
+    ["?", "3", "?", "2", "1", "?"],
+    ["1", "2", "2", "?", "3", "4"],
+    ["1", "?", "1", "2", "3", "3"],
   ];
-
-  const headers = ["U/I", "1", "2", "3", "4", "5", "6"];
 
   const numerator = 7;
   const denominator = 30;
@@ -33,33 +33,44 @@ function TabelView() {
 
   return (
     <div className="flex flex-col items-center justify-center p-4">
+      <SwitchToggle
+        title={"Funny Mode"}
+        changeToggle={changeFunny}
+      />
       {/* Contain the table in a scrollable wrapper */}
       <div className="overflow-x-auto w-full">
         <table className="min-w-full border-collapse border border-black">
           <thead>
             <tr>
-              {headers.map((header, index) => (
-                <th
-                  key={index}
-                  className="border border-black px-4 py-2 bg-blue-home text-white"
-                >
-                  {header}
-                </th>
-              ))}
+              <th
+                className="border border-black px-4 py-2 bg-blue-home text-white"
+              >
+                U/I
+              </th>
+              {headers.map((header, index) => {
+                return (
+                  <th
+                    key={index}
+                    className="border border-black px-4 py-2 bg-blue-home text-white"
+                  >
+                    {header}
+                  </th>
+                )
+              }
+              )}
             </tr>
           </thead>
           <tbody>
-            {data.map((row, rowIndex) => (
-              <tr key={rowIndex}>
+            {data.map((row, rowIndex) => {
+              return (<tr key={rowIndex}>
+                <td key={rowIndex} className={`border border-black px-4 py-2 text-center bg-blue-200`}>
+                  {columns[rowIndex]}
+                </td>
                 {row.map((cell, colIndex) => {
-                  // Menentukan kelas berdasarkan nilai sel
-                  const isFirstColumn = colIndex === 0; // Mengecek apakah kolom pertama
                   const cellClass =
                     cell === "?" || cell === ""
                       ? "border border-black px-4 py-2 text-center bg-red-300"
-                      : `border border-black px-4 py-2 text-center ${
-                          isFirstColumn ? "bg-blue-200" : ""
-                        }`; // Warnai kolom pertama
+                      : `border border-black px-4 py-2 text-center`; // Warnai kolom pertama
 
                   return (
                     <td key={colIndex} className={cellClass}>
@@ -68,7 +79,8 @@ function TabelView() {
                   );
                 })}
               </tr>
-            ))}
+              )
+            })}
           </tbody>
         </table>
       </div>

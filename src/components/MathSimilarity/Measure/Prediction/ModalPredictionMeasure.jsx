@@ -24,6 +24,9 @@ const ModalPredictionMeasure = ({
   result,
   kValue,
   close,
+  headers,
+  columns,
+  funnyMode
 }) => {
   //   console.log("topSimilarities", topSimilarities);
 
@@ -130,20 +133,18 @@ const ModalPredictionMeasure = ({
                 <thead>
                   <tr className="bg-gray-200">
                     <th className="border border-black px-4 py-2">
-                      {opsional === "item-based" ? "Item" : "User"}
+                      {opsional === "item-based" ? "I" : "U"}
                     </th>
                     <th className="border border-black px-4 py-2 italic font-serif">
                       r
                       <sub>
                         {opsional === "item-based"
-                          ? `${
-                              selectedIndex[opsional === "item-based" ? 1 : 0] +
-                              1
-                            }*`
-                          : `*${
-                              selectedIndex[opsional === "item-based" ? 1 : 0] +
-                              1
-                            }`}
+                          ? `${selectedIndex[opsional === "item-based" ? 1 : 0] +
+                          1
+                          }*`
+                          : `*${selectedIndex[opsional === "item-based" ? 1 : 0] +
+                          1
+                          }`}
                       </sub>
                     </th>
                   </tr>
@@ -157,12 +158,11 @@ const ModalPredictionMeasure = ({
                     return (
                       <tr key={rowIndex}>
                         <td className="border border-black px-4 py-2 bg-gray-200">
-                          {rowIndex + 1}
+                          {!funnyMode ? (rowIndex + 1) : (opsional == "user-based" ? columns : headers)[rowIndex]}
                         </td>
                         <td
-                          className={`border border-black px-4 py-2 text-center ${
-                            IsZero ? "bg-red-200" : ""
-                          }`}
+                          className={`border border-black px-4 py-2 text-center ${IsZero ? "bg-red-200" : ""
+                            }`}
                         >
                           {!isNotation ? (
                             row[
@@ -209,7 +209,7 @@ const ModalPredictionMeasure = ({
                         className={isActiveUser ? "bg-green-200" : ""}
                       >
                         <td className="border border-black px-4 py-2">
-                          {index + 1}
+                          {!funnyMode ? (index + 1) : (opsional == "user-based" ? columns : headers)[index]}
                         </td>
                         <td className="border border-black px-4 py-2">
                           <div className="text-center">
@@ -248,14 +248,12 @@ const ModalPredictionMeasure = ({
                       S
                       <sub>
                         {opsional === "item-based"
-                          ? `${
-                              selectedIndex[opsional === "item-based" ? 0 : 1] +
-                              1
-                            }*`
-                          : `*${
-                              selectedIndex[opsional === "item-based" ? 0 : 1] +
-                              1
-                            }`}
+                          ? `${selectedIndex[opsional === "item-based" ? 0 : 1] +
+                          1
+                          }*`
+                          : `*${selectedIndex[opsional === "item-based" ? 0 : 1] +
+                          1
+                          }`}
                       </sub>
                     </th>
                   </tr>
@@ -272,12 +270,11 @@ const ModalPredictionMeasure = ({
                     return (
                       <tr key={rowIndex}>
                         <td className="border border-black px-4 py-2 bg-gray-200">
-                          {rowIndex + 1}
+                          {!funnyMode ? (rowIndex + 1) : (opsional == "user-based" ? columns : headers)[rowIndex]}
                         </td>
                         <td
-                          className={`border border-black px-4 py-2 text-center ${
-                            IsZero ? "bg-red-200" : ""
-                          } ${isTopSimilarity ? "bg-green-200" : ""}`}
+                          className={`border border-black px-4 py-2 text-center ${IsZero ? "bg-red-200" : ""
+                            } ${isTopSimilarity ? "bg-green-200" : ""}`}
                         >
                           {!isNotation ? (
                             row[
@@ -288,16 +285,14 @@ const ModalPredictionMeasure = ({
                               S
                               <sub>
                                 {opsional === "item-based"
-                                  ? `${
-                                      selectedIndex[
-                                        opsional === "item-based" ? 0 : 1
-                                      ] + 1
-                                    }${rowIndex + 1}`
-                                  : `${rowIndex + 1}${
-                                      selectedIndex[
-                                        opsional === "item-based" ? 0 : 1
-                                      ] + 1
-                                    }`}
+                                  ? `${selectedIndex[
+                                  opsional === "item-based" ? 0 : 1
+                                  ] + 1
+                                  }${rowIndex + 1}`
+                                  : `${rowIndex + 1}${selectedIndex[
+                                  opsional === "item-based" ? 0 : 1
+                                  ] + 1
+                                  }`}
                               </sub>
                             </span>
                           )}
@@ -311,20 +306,19 @@ const ModalPredictionMeasure = ({
 
             {/* Nilai Top-K */}
             {selectedIndex[opsional === "user-based" ? 0 : 1] <
-            result["similarity"].length ? (
+              result["similarity"].length ? (
               <div>
                 <h2 className="font-semibold text-lg">Nilai Prediksi</h2>
                 <table className="border border-black mt-4 mx-auto text-center w-full">
                   <thead>
                     <tr className="bg-gray-200">
                       <th className="border border-black px-4 py-2">
-                        {opsional === "item-based" ? "Item" : "User"}
+                        {opsional === "item-based" ? "I" : "U"}
                       </th>
                       <th className="border border-black px-4 py-2 italic font-serif">
                         Sim
-                        <sub>{`${
-                          selectedIndex[opsional === "item-based" ? 0 : 1] + 1
-                        }*`}</sub>
+                        <sub>{`${selectedIndex[opsional === "item-based" ? 0 : 1] + 1
+                          }*`}</sub>
                       </th>
                     </tr>
                   </thead>
@@ -336,12 +330,11 @@ const ModalPredictionMeasure = ({
                       return (
                         <tr key={colIndex}>
                           <td className="border border-black px-4 py-2 bg-gray-200">
-                            {colIndex + 1}
+                            {!funnyMode ? (colIndex + 1) : (opsional == "user-based" ? columns : headers)[colIndex]}
                           </td>
                           <td
-                            className={`border border-black px-4 py-2 text-center ${
-                              isTopSimilarity ? "bg-green-200" : ""
-                            }`}
+                            className={`border border-black px-4 py-2 text-center ${isTopSimilarity ? "bg-green-200" : ""
+                              }`}
                           >
                             {!isNotation ? (
                               row[
@@ -352,16 +345,14 @@ const ModalPredictionMeasure = ({
                                 Sim
                                 <sub>
                                   {opsional === "item-based"
-                                    ? `${
-                                        selectedIndex[
-                                          opsional === "item-based" ? 0 : 1
-                                        ] + 1
-                                      }${colIndex + 1}`
-                                    : `${colIndex + 1}${
-                                        selectedIndex[
-                                          opsional === "item-based" ? 0 : 1
-                                        ] + 1
-                                      }`}
+                                    ? `${selectedIndex[
+                                    opsional === "item-based" ? 0 : 1
+                                    ] + 1
+                                    }${colIndex + 1}`
+                                    : `${colIndex + 1}${selectedIndex[
+                                    opsional === "item-based" ? 0 : 1
+                                    ] + 1
+                                    }`}
                                 </sub>
                               </span>
                             )}

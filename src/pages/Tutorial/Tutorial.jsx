@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import TabelView from "../../components/table/TabelView.jsx";
-import CardSteps from "../../components/Card/Main/CardSteps.jsx";
+import * as emoji from "../../helper/generateEmot"
+
 import {
   DropdownMethodBased,
   DropdownSimilarityMeasure,
@@ -30,8 +31,6 @@ import CardWellcome from "../../components/Card/Home/CardWellcome.jsx";
 import ListNavigasiMenu from "../../components/Navigate/ListNavigasiMenu.jsx";
 import CardsSteps from "../../components/Card/Home/CardSteps.jsx";
 import VidioSection from "../../components/modal/VidioSection.jsx";
-import BackToTopButton from "../../components/Navigate/BackToTopNavigate.jsx";
-import { use } from "react";
 import Toast from "../../components/Toggle/Toast.jsx";
 // import Cookies from "js-cookie";
 
@@ -42,6 +41,7 @@ const Tutorial = () => {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState("success");
+  const [funnyMode, setFunnyMode] = useState(false)
 
   // show toast
   useEffect(() => {
@@ -54,6 +54,11 @@ const Tutorial = () => {
   const handleCloseToast = () => {
     setShowToast(false);
   };
+
+  // Toggle funny mode
+  const changeFunny = () => {
+    setFunnyMode(!funnyMode)
+  }
 
   const form = [
     {
@@ -97,6 +102,10 @@ const Tutorial = () => {
     [1, 2, 2, 0, 3, 4],
     [1, 0, 1, 2, 3, 3],
   ]);
+
+  const header = emoji.GEmot(5, "item")
+  const column = emoji.GEmot(5, "user")
+
   const [selectedMethod, setSelectedMethod] = useState("");
   const [selectedSimilarity, setSelectedSimilarity] = useState("");
 
@@ -157,7 +166,10 @@ const Tutorial = () => {
             subheader={Tekssubheader}
             id="data_ratingTutorial"
           >
-            <TabelView />
+            <TabelView
+              changeFunny={changeFunny}
+              headers={funnyMode ? header : ["1", "2", "3", "4", "5", "6"]}
+              columns={funnyMode ? column : ["1", "2", "3", "4", "5"]} />
           </BodyTutorial>
           <section
             id="notasi_ratingTutorial"
@@ -254,6 +266,9 @@ const Tutorial = () => {
                       method={selectedMethod}
                       similarity={selectedSimilarity}
                       data={data}
+                      headers={header}
+                      columns={column}
+                      funnyMode={funnyMode}
                     />
                   </div>
                 </section>

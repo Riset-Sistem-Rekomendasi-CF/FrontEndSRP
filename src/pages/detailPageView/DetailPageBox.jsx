@@ -17,6 +17,9 @@ export default function DetailPageBox({
   similarity,
   data,
   sectionIdDetail,
+  headers,
+  columns,
+  funnyMode
 }) {
   const scrollToSectionDetail = (sectionIdDetail) => {
     const element = document.getElementById(sectionIdDetail);
@@ -25,8 +28,6 @@ export default function DetailPageBox({
     }
   };
   const renderContent = () => {
-    // console.log("detailPage", data);
-    // console.log("detailPage", data.length === 0);
 
     if (!method) {
       return (
@@ -90,21 +91,33 @@ export default function DetailPageBox({
           opsional={method.toLowerCase()}
           similarity={similarity}
           initialData={initialData}
+          headers={headers}
+          columns={columns}
+          funnyMode={funnyMode}
         />
         <MeanCenteredMeasure
           opsional={method.toLowerCase()}
           similarity={similarity}
           initialData={initialData}
+          headers={headers}
+          columns={columns}
+          funnyMode={funnyMode}
         />
         <SimilarityMeasure
           opsional={method.toLowerCase()}
           similarity={similarity}
           initialData={initialData}
+          headers={headers}
+          columns={columns}
+          funnyMode={funnyMode}
         />
         <PredictionMeasure
           dataRating={data}
           opsional={method.toLowerCase()}
           similarity={similarity}
+          headers={headers}
+          columns={columns}
+          funnyMode={funnyMode}
         />
       </>
     );

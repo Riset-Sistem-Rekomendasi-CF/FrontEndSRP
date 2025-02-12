@@ -12,14 +12,17 @@ import LegendTable from "../../../tabelData/LegendTable";
 import MathJaxComponent from "../../../../MathJaxComponent";
 import CloseIcon from "@mui/icons-material/Close";
 
-const ModalMean = ({
+export default function ModalMean({
   opsional,
   similarity,
   data,
   selectedIndex,
   selectedMean,
   close,
-}) => {
+  headers,
+  columns,
+  funnyMode
+}) {
   const [isNotation, setIsNotation] = useState(false);
 
   const dataModify =
@@ -28,8 +31,8 @@ const ModalMean = ({
         ? data
         : transposeMatrix(data)
       : opsional === "user-based"
-      ? data
-      : transposeMatrix(data);
+        ? data
+        : transposeMatrix(data);
 
   const MeanRatingRumusIdx = ({ opsional, data, selectedIndex }) => {
     const meanRumusIdx = getFormulaMeanIndex(opsional, data, selectedIndex);
@@ -135,7 +138,7 @@ const ModalMean = ({
                   {Array.from({ length: dataModify[0].length }, (_, index) => (
                     <th key={index} className="border border-black px-4 py-2">
                       {!isNotation ? (
-                        index + 1
+                        !funnyMode ? (index + 1) : (headers)[index]
                       ) : (
                         <span className="font-serif">
                           i<sub>{index + 1}</sub>
@@ -150,7 +153,7 @@ const ModalMean = ({
                   <tr key={rowIndex}>
                     <td className="border border-black px-4 py-2 w-14 bg-gray-200">
                       {!isNotation ? (
-                        rowIndex + 1
+                        !funnyMode ? (rowIndex + 1) : (columns)[rowIndex]
                       ) : (
                         <span className="font-serif">
                           u<sub>{rowIndex + 1}</sub>
@@ -288,4 +291,3 @@ const ModalMean = ({
   );
 };
 
-export default ModalMean;
