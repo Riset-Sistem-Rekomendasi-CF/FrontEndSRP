@@ -25,7 +25,7 @@ export default function DetailPageACos() {
             paragraph={
               "Menjelaskan tentang Adjusted Cosine (ACos) yang digunakan untuk mengukur kesamaan antara dua objek atau item berdasarkan data pengguna. Dalam perhitungan ini, kita akan membahas bagaimana cara mengimplementasikan metode ini dengan data yang tersedia untuk mendapatkan rekomendasi yang lebih akurat."
             }
-            bgColor={"bg-yellow-btn-primary"}
+            bgColor={"bg-yellow-400"}
             imgSrc={Acos1}
           />
 

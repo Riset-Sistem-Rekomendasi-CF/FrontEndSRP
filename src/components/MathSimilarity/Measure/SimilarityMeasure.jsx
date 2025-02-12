@@ -10,6 +10,7 @@ import { IconButton } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import simGif from "../../../assets/vidioAsset/simGif.gif";
 import MathJaxComponent from "../../../MathJaxComponent.js";
+import Spinner from "../../Navigate/Spinner.jsx";
 
 /**
  * |----------------------------------------------------|
@@ -96,7 +97,13 @@ export default function SimilarityMeasure({
   };
 
   const RenderTabelSimilarity = () => {
-    if (!result || !result["similarity"]) return null;
+    if (!result || !result["similarity"]) {
+      return (
+        <>
+          <Spinner />
+        </>
+      );
+    }
     const numberOfColumnsSim = result["similarity"][0].length;
     // console.log(result["similarity"]);
 
@@ -260,6 +267,7 @@ export default function SimilarityMeasure({
         <h1 className="font-semibold text-xl my-5 underline underline-offset-8 decoration-4 decoration-card_blue_primary">
           PILIH VISUALISASI FUNGSI SIMILARITAS{" "}
         </h1>
+
         <DropdownWithDisplay
           result={result}
           opsional={opsional}

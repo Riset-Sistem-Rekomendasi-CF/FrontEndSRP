@@ -12,6 +12,8 @@ import PrediksiGif from "../../../../assets/vidioAsset/prediksiGIf.gif";
 import LegendTable from "../../../tabelData/LegendTable";
 import { Input } from "@headlessui/react";
 import MathJaxComponent from "../../../../MathJaxComponent";
+import ScatterPlot, { VisualChartJs } from "../../../Graph/ChartJsPlot";
+import Spinner from "../../../Navigate/Spinner";
 
 export default function PredictionMeasure({
   dataRating,
@@ -105,7 +107,13 @@ export default function PredictionMeasure({
 
     const [data] = useState(initialData);
     const { result } = AllSimilaritas(data, similarity);
-    if (!result || !result["prediction"]) return null;
+    if (!result || !result["prediction"]) {
+      return (
+        <>
+          <Spinner />
+        </>
+      );
+    }
 
     return (
       <>
@@ -308,7 +316,7 @@ export default function PredictionMeasure({
             apa saja yang akan direkomendasikan.
           </p>
           {/* user bisa memilih berapa top-n yang ingin */}
-          <p className="text-gray-700 font-medium mt-2 ml-5 text-justify">
+          <p className="font-bold  mt-2 ml-5 text-justify">
             Pengguna dapat memilih berapa banyak rekomendasi <i>item</i>{" "}
             <span className="italic">Top-N</span> yang akan ditampilkan dari{" "}
             <i className="mr-1">user </i>target.

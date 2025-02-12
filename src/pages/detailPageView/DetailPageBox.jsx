@@ -150,9 +150,8 @@ export default function DetailPageBox({
         >
           <section className="max-w-full max-h-full mx-auto text-center px-4 sm:px-3 md:px-4 bg-box-grid-pattern animate-grid z-0">
             <h1 className=" text-black text-2xl sm:text-lg md:text-3xl font-bold font-poppins py-5 leading-snug break-words">
-              Langkah-Langkah Penerapan <i>{method} Collaborative Filtering</i>{" "}
-              dengan Metode
-              <span className="italic"> {similarity}</span>
+              Langkah-Langkah Penerapan {method} Collaborative Filtering dengan
+              Metode {similarity}
             </h1>
             {renderContent()}
           </section>

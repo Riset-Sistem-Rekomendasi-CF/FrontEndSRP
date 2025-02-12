@@ -6,16 +6,16 @@ const VidioSection = () => {
       <div className="p-8 font-poppins max-w-6xl mx-auto">
         <div className="flex items-center justify-center mb-5">
           <a
-            href="https://s.id/GuideBookWebsiteMedia"
+            href="https://s.id/GuideBookWebsiteKoalaERS"
             target="_blank"
             className="py-2 px-2 bg-blue-home text-center rounded-full shadow-sm border-2 border-black text-white font-semibold text-md hover:bg-blue-200"
           >
-            Guide Book Website Media Pembelajaran
+            Guide Book Website KoalaERS
           </a>
         </div>
 
         <h1 className="text-4xl font-bold mb-4 text-center">
-          Video Tutorial Website Media Pembelajaran
+          Video Tutorial Website KoalaERS
         </h1>
         <p className="text-lg font-semibold text-md mb-4 text-center">
           Tutorial kali ini membahas terkait langkah-langkah perhitungan

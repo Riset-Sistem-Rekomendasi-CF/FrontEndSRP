@@ -1,4 +1,5 @@
 import KoalaPage from "../../../assets/icons/KoalaPage.png";
+import GifKoalaPage from "../../../assets/vidioAsset/gifKoala.gif";
 
 const About = () => {
   const faqs = [
@@ -47,16 +48,17 @@ const About = () => {
             </h1>
 
             <p className="text-md font-meddium  text-black text-start">
-              Aplikasi ini merupakan platform media pembelajaran berbasis
-              website yang dirancang untuk mempermudah pembelajaran interaktif.
-              Dengan menggunakan sistem rekomendasi berbasis User-Based dan
+              Koala Edu RecSys (KoalaERS) adalah platform pembelajaran berbasis
+              website yang dirancang untuk meningkatkan pemahaman pengguna
+              mengenai perhitungan fungsi similaritas pada sistem rekomendasi
+              berbasis Collaborative Filtering pada metode User-Based dan
               Item-Based.
             </p>
             {/* Gambar */}
 
             <img
-              src={KoalaPage} // Ganti dengan URL gambar yang sesuai
-              alt="Deskripsi Gambar"
+              src={GifKoalaPage} // Ganti dengan URL gambar yang sesuai
+              alt="Gif Koala"
               className=" w-full h-auto" // Menambahkan styling untuk gambar
             />
           </div>

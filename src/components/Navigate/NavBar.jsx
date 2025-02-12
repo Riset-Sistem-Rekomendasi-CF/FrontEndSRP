@@ -273,7 +273,7 @@ const Navbar = () => {
   return (
     <nav
       className={`bg-white shadow-sm sticky top-0 z-50 transition-transform ${isVisible ? "transform-none" : "-translate-y-full"
-        }`}
+        } ${window.innerWidth <= 768 ? "transform-none" : ""}`} // Menambahkan kondisi untuk mobile
     >
       <div className="flex mx-auto justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between w-full h-16">
@@ -307,8 +307,8 @@ const Navbar = () => {
               className="w-10 h-10 object-cover rounded-full"
             />
             {/* Teks di kanan */}
-            <span>Sistem Rekomendasi</span>
-          </Link>
+            <span>KoalaERS</span>
+          </a>
 
           {/* Menu Desktop */}
           <div className="hidden sm:flex sm:ml-6 space-x-4">
@@ -318,10 +318,10 @@ const Navbar = () => {
                 "/"
               )}`}
             >
-              Home
-            </Link>
-            <Link
-              to="/tutorial"
+              Beranda
+            </a>
+            <a
+              href="/tutorial"
               className={`px-3 py-2 rounded-md text-lg font-medium hover:bg-blue-home hover:text-white ${isActive(
                 "/tutorial"
               )}`}
@@ -407,7 +407,6 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-
       {/* Mobile Menu */}
       <div
         className={`${isOpen ? "block" : "hidden"} sm:hidden`}
@@ -420,10 +419,10 @@ const Navbar = () => {
               "/"
             )}`}
           >
-            Home
-          </Link>
-          <Link
-            to="/tutorial"
+            Beranda
+          </a>
+          <a
+            href="/tutorial"
             className={`text-black block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-home hover:text-white ${isActive(
               "/tutorial"
             )}`}

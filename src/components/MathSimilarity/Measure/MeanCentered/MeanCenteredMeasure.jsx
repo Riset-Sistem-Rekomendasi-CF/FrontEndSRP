@@ -10,6 +10,7 @@ import { IconButton } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import centerdGif from "../../../../assets/vidioAsset/meanCenGif.gif";
 import MathJaxComponent from "../../../../MathJaxComponent";
+import Spinner from "../../../Navigate/Spinner";
 
 const MeanCenteredMeasure = ({ opsional, similarity, initialData, headers, columns, funnyMode }) => {
   const [selectedValue, setSelectedValue] = useState(null); // State untuk menyimpan user yang dipilih
@@ -52,7 +53,13 @@ const MeanCenteredMeasure = ({ opsional, similarity, initialData, headers, colum
   const FormulaMeanCentered = getFormulaMeanCentered(opsionalModify);
 
   const RenderTabelMeanCentered = () => {
-    if (!result || !result["mean-centered"]) return null;
+    if (!result || !result["mean-centered"]) {
+      return (
+        <>
+          <Spinner />
+        </>
+      );
+    }
 
     const resultModify =
       similarity === "Adjusted Cosine"

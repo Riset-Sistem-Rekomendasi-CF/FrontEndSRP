@@ -139,11 +139,13 @@ export default function TableMatrix({
           </table>
         </div>
       </div>
-      <h1 className="p-2 font-poppins font-semibold text-black bg-blue-200 w-1/1.5 rounded-md shadow-md mx-auto text-center">
-        <EditNoteIcon className="mr-2 flex items-center justify-center" />
-        Semua Nilai Rating Di atas bisa diedit dan diganti dengan rentang nilai
-        rating 1-5.
-      </h1>
+      <div className="px-4">
+        <h1 className="p-2 font-poppins font-semibold text-black bg-blue-200 w-1/1.5 rounded-md shadow-md mx-auto text-center">
+          <EditNoteIcon className="mr-2 flex items-center justify-center" />
+          Semua Nilai Rating Di atas bisa diedit dan diganti dengan rentang
+          nilai rating 1-5.
+        </h1>
+      </div>
 
       <div className="mt-6 ml-5 text-left w-full font-poppins">
         <p className="font-bold text-xl mb-3 ">Keterangan:</p>

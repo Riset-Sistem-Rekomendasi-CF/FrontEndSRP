@@ -25,7 +25,7 @@ export default function DetailPagePCC() {
             heading1="Penjelasan Pearson Correlation Coefficient (PCC)"
             heading2="📍 Detail Perhitungan PCC"
             paragraph="Menjelaskan tentang Pearson Correlation Coefficient (PCC) yang digunakan untuk mengukur kesamaan antara dua objek atau item berdasarkan data pengguna. Dalam perhitungan ini, kita akan membahas bagaimana cara mengimplementasikan metode ini dengan data yang tersedia untuk mendapatkan rekomendasi yang lebih akurat."
-            bgColor="bg-blue-home"
+            bgColor="bg-blue-400"
             imgSrc={PCC1}
           />
 

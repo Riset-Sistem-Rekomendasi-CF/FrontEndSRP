@@ -24,7 +24,7 @@ export default function DetailPageBC() {
             paragraph={
               "Menjelaskan tentang Bhattacharyya Coefficient(BC) Sistem rekomendasi menggunakan metode Bhattacharyya Coefficient (BC) yang digunakan untuk mengukur kesamaan antara dua objek atau item berdasarkan data pengguna"
             }
-            bgColor={"bg-red-primary"}
+            bgColor={"bg-red-400"}
             imgSrc={BC1}
           />
           <CardStepper steps={ReaderStepBC} />

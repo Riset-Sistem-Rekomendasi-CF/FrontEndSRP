@@ -116,7 +116,7 @@ const TabelView = ({ changeFunny, headers, columns }) => {
 
       {/* Modal Sparsity */}
       {isModalSparsityOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
+        <div className="p-5 fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
           <div className="bg-white p-4 rounded-lg shadow-lg">
             <h2 className="text-2xl font-semibold text-center text-gray-800 mb-4">
               Rumus untuk Mencari Persentase Sparsity

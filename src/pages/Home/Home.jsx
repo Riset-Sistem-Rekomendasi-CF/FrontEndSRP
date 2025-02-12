@@ -10,7 +10,7 @@ import { BackToTopButtonHome } from "../../components/Navigate/BackToTopNavigate
 import OverViewRekomendasi from "../../components/Toggle/OverViewPage";
 import buifa from "../../assets/images/ibu_Ifada.jpg";
 import alfi from "../../assets/images/alfinur.JPG";
-import dimas from "../../assets/images/Dimas.jpeg";
+import dimas from "../../assets/images/Dimas.png";
 import tutorialPage from "../../assets/images/tutorialPage.png";
 
 import ModalHomeFirst from "../../components/modal/ModalHomeFirst.jsx";
@@ -257,7 +257,7 @@ const Home = () => {
       <HeaderHome>
         <>
           <div>
-            Media Pembelajaran Interaktif Sistem Rekomendasi dan Perhitungan
+            Media Pembelajaran Interaktif Sistem Rekomendasi untuk Perhitungan
             Fungsi Similaritas
           </div>
         </>
@@ -308,7 +308,7 @@ const Home = () => {
       <BodyHome
         header={"Tim Pengembang Website"}
         subheader={
-          "Tim pengembang media pembelajaran sistem rekomendasi dengan metode Fungsi Similaritas terdiri dari mahasiswa yang memiliki minat di bidang sistem rekomendasi. Masing-masing anggota memiliki keahlian unik yang mendukung pengembangan platform, mulai dari pengembangan perangkat lunak, hingga desain antarmuka pengguna."
+          "Tim KoalaERS-AI mengembangan website dengan metode Fungsi Similaritas terdiri dari mahasiswa dan dosen pembimbing yang memiliki minat di bidang sistem rekomendasi. Masing-masing anggota memiliki keahlian unik yang mendukung pengembangan platform, mulai dari pengembangan perangkat lunak, hingga desain antarmuka pengguna."
         }
         type="gridAnggota"
         bgColor={"bg-white"}
