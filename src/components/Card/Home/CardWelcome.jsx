@@ -7,6 +7,7 @@ import pearson from "../../../assets/images/people.png";
 import sinus from "../../../assets/images/sinus.png";
 import probs from "../../../assets/images/probability.png";
 import social from "../../../assets/images/social-distancing.png";
+import { Link } from "react-router-dom";
 
 const CardWelcome = ({ heading, detail, image, bgColor }) => {
   // Fungsi untuk scroll ke section tertentu
@@ -42,7 +43,7 @@ const CardWelcome = ({ heading, detail, image, bgColor }) => {
         <div className="w-full md:w-1/3 mt-6 md:mt-0 md:mr-6">
           <img
             src={image}
-            alt="Card Image"
+            alt="Card"
             className="w-full h-auto object-cover rounded-lg shadow-md hidden md:block" // Gambar disembunyikan pada mobile, muncul di layar medium ke atas
           />
         </div>
@@ -153,7 +154,7 @@ const CardWelcome = ({ heading, detail, image, bgColor }) => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Card 1 */}
-            <a href="/pccDetail">
+            <Link to="/detail/pcc">
               <div className="bg-white rounded-lg p-4 sm:p-6 shadow-md text-center border-2 cursor-pointer border-black hover:bg-blue-100 transition duration-300">
                 <div className="text-4xl text-blue-500 mb-4">
                   <img src={pearson} alt="pearson" className="w-20 mx-auto" />
@@ -162,10 +163,10 @@ const CardWelcome = ({ heading, detail, image, bgColor }) => {
                   PCC
                 </h4>
               </div>
-            </a>
+            </Link>
 
             {/* Card 2 */}
-            <a href="/cosineDetail">
+            <Link to="/detail/cosine">
               <div className="bg-white rounded-lg p-4 sm:p-6 shadow-md text-center border-2 cursor-pointer border-black hover:bg-blue-100 transition duration-300">
                 <div className="text-4xl text-green-500 mb-4">
                   <img src={sinus} alt="cosine" className="w-20 mx-auto" />
@@ -174,10 +175,10 @@ const CardWelcome = ({ heading, detail, image, bgColor }) => {
                   Cosine
                 </h4>
               </div>
-            </a>
+            </Link>
 
             {/* Card 3 */}
-            <a href="/acosDetail">
+            <Link to="/detail/acosine">
               <div className="bg-white rounded-lg p-4 sm:p-6 shadow-md text-center border-2 cursor-pointer border-black hover:bg-blue-100 transition duration-300">
                 <div className="text-4xl text-green-500 mb-4">
                   <img src={social} alt="acos" className="w-20 mx-auto" />
@@ -186,17 +187,17 @@ const CardWelcome = ({ heading, detail, image, bgColor }) => {
                   ACos
                 </h4>
               </div>
-            </a>
+            </Link>
 
             {/* Card 4 */}
-            <a href="/bcDetail">
+            <Link to="/detail/bc">
               <div className="bg-white rounded-lg p-4 sm:p-6 shadow-md text-center border-2 cursor-pointer border-black hover:bg-blue-100 transition duration-300">
                 <div className="text-4xl text-green-500 mb-4">
                   <img src={probs} alt="bc" className="w-20 mx-auto" />
                 </div>
                 <h4 className="text-lg font-semibold text-gray-800 mb-2">BC</h4>
               </div>
-            </a>
+            </Link>
           </div>
         </div>
       </div>
@@ -228,14 +229,14 @@ const ContentUserBasedCF = () => {
         <div className="md:w-1/3 mt-6 md:mt-0 md:ml-6">
           <img
             src={UserBasedSvg}
-            alt="User-Based CF Image"
+            alt="User-Based CF"
             className="w-full h-auto object-cover rounded-lg shadow-md hidden md:block "
           />
-          <a href={UserBasedSvg} target="_blank">
+          <Link to={UserBasedSvg} target="_blank">
             <p className="p-2 bg-yellow-primary rounded-md mt-5 text-center shadow-sm hover:bg-yellow-400 cursor-pointer">
               Lihat Lebih Detail
             </p>
-          </a>
+          </Link>
         </div>
       </div>
     </div>
@@ -264,14 +265,14 @@ const ContentItemBasedCF = () => {
         <div className="md:w-1/3 mt-6 md:mt-0 md:ml-6">
           <img
             src={ItemBasedSvg}
-            alt="Item-Based CF Image"
+            alt="Item-Based CF"
             className="w-full h-auto object-cover rounded-lg shadow-md hidden md:block"
           />
-          <a href={ItemBasedSvg} target="_blank">
+          <Link to={ItemBasedSvg} target="_blank">
             <p className="p-2 bg-yellow-primary rounded-md mt-2 text-center shadow-sm hover:bg-yellow-400 cursor-pointer">
               Lihat Lebih Detail
             </p>
-          </a>
+          </Link>
         </div>
       </div>
     </div>

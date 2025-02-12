@@ -9,7 +9,6 @@ import MeanMeasure from "../../components/MathSimilarity/Measure/Mean/MeanMeasur
 import MeanCenteredMeasure from "../../components/MathSimilarity/Measure/MeanCentered/MeanCenteredMeasure";
 import SimilarityMeasure from "../../components/MathSimilarity/Measure/SimilarityMeasure";
 import PredictionMeasure from "../../components/MathSimilarity/Measure/Prediction/PredictionMeasure";
-import BackToTopButton from "../../components/Navigate/BackToTopNavigate";
 import { checkEmptyRowOrColumn } from "../../helper/helper";
 import KeyboardCapslockIcon from "@mui/icons-material/KeyboardCapslock";
 
@@ -17,7 +16,6 @@ export default function DetailPageBox({
   method,
   similarity,
   data,
-  sectionIdDetail,
   headers,
   columns,
   funnyMode

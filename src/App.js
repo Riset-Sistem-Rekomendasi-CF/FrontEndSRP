@@ -19,10 +19,10 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/tutorial" element={<Tutorial />} />
           <Route path="/eksplorasi" element={<Exploration />} />
-          <Route path="/pccDetail" element={<DetailPagePCC />} />
-          <Route path="/cosineDetail" element={<DetailPageCosine />} />
-          <Route path="/acosDetail" element={<DetailPageACos />} />
-          <Route path="/bcDetail" element={<DetailPageBC />} />
+          <Route path="/detail/pcc" element={<DetailPagePCC />} />
+          <Route path="/detail/cosine" element={<DetailPageCosine />} />
+          <Route path="/detail/acosine" element={<DetailPageACos />} />
+          <Route path="/detail/bc" element={<DetailPageBC />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </>

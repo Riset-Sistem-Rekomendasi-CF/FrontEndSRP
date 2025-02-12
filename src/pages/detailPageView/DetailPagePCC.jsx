@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React from "react";
 import Navbar from "../../components/Navigate/NavBar";
 import CardBanner from "../../components/Card/Home/CardBanner";
 import PCC1 from "../../assets/icons/PCC1.png";

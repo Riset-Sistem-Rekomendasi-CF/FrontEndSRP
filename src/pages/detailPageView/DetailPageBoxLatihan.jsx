@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useEffect } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -8,11 +9,20 @@ import MeanMeasure from "../../components/MathSimilarity/Measure/Mean/MeanMeasur
 import MeanCenteredMeasure from "../../components/MathSimilarity/Measure/MeanCentered/MeanCenteredMeasure";
 import SimilarityMeasure from "../../components/MathSimilarity/Measure/SimilarityMeasure";
 import PredictionMeasure from "../../components/MathSimilarity/Measure/Prediction/PredictionMeasure";
-import BackToTopButton from "../../components/Navigate/BackToTopNavigate";
 import { checkEmptyRowOrColumn } from "../../helper/helper";
 import KeyboardCapslockIcon from "@mui/icons-material/KeyboardCapslock";
 
-export default function DetailPageBoxLatihan({ method, similarity, data }) {
+export default function DetailPageBoxLatihan({ method, similarity, data, headers, columns, funnyMode }) {
+
+  useEffect(() => {
+    const element = document.getElementById("pageBox");
+    console.log(element);
+
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [])
+
   const scrollToSectionDetail = (sectionIdDetail) => {
     const element = document.getElementById(sectionIdDetail);
     if (element) {
@@ -20,8 +30,6 @@ export default function DetailPageBoxLatihan({ method, similarity, data }) {
     }
   };
   const renderContent = () => {
-    // console.log("detailPage", data);
-    // console.log("detailPage", data.length === 0);
 
     if (!method) {
       return (
@@ -99,21 +107,33 @@ export default function DetailPageBoxLatihan({ method, similarity, data }) {
           opsional={method.toLowerCase()}
           similarity={similarity}
           initialData={initialData}
+          headers={headers}
+          columns={columns}
+          funnyMode={funnyMode}
         />
         <MeanCenteredMeasure
           opsional={method.toLowerCase()}
           similarity={similarity}
           initialData={initialData}
+          headers={headers}
+          columns={columns}
+          funnyMode={funnyMode}
         />
         <SimilarityMeasure
           opsional={method.toLowerCase()}
           similarity={similarity}
           initialData={initialData}
+          headers={headers}
+          columns={columns}
+          funnyMode={funnyMode}
         />
         <PredictionMeasure
           dataRating={data}
           opsional={method.toLowerCase()}
           similarity={similarity}
+          headers={headers}
+          columns={columns}
+          funnyMode={funnyMode}
         />
       </>
     );
@@ -144,7 +164,7 @@ export default function DetailPageBoxLatihan({ method, similarity, data }) {
             overflow: "hidden",
           }}
         >
-          <section className="max-w-full mx-auto text-center px-4 sm:px-3 md:px-4">
+          <section id="pageBox" className="max-w-full mx-auto text-center px-4 sm:px-3 md:px-4">
             <h1 className="text-xl sm:text-md md:text-2xl font-bold font-poppins py-5 leading-snug break-words">
               Langkah-Langkah Penerapan <i>{method} Collaborative Filtering</i>{" "}
               dengan Metode

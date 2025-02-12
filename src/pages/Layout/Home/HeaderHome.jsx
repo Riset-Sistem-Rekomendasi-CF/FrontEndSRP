@@ -4,8 +4,6 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import PlayCircleFilledWhiteIcon from "@mui/icons-material/PlayCircleFilledWhite";
 import ModalHomeFirst from "../../../components/modal/ModalHomeFirst";
-import Img1 from "../../../assets/images/img1.png";
-import Img7 from "../../../assets/images/img7.png";
 
 const ScrollButton = () => {
   const [isHovered, setIsHovered] = useState(false);

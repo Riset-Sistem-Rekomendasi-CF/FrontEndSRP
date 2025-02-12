@@ -10,8 +10,7 @@ import NotificationImportantIcon from "@mui/icons-material/NotificationImportant
 import VowelsPana from "../../assets/images/VowelsPna.png";
 import StepperModal, { StepRow } from "../../components/modal/StepeerModal";
 import KoalaPage from "../../assets/icons/KoalaPage.png";
-import { useLocation } from "react-router-dom";
-import { use } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const location = useLocation();
@@ -272,9 +271,8 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`bg-white shadow-sm sticky top-0 z-50 transition-transform ${
-        isVisible ? "transform-none" : "-translate-y-full"
-      } ${window.innerWidth <= 768 ? "transform-none" : ""}`} // Menambahkan kondisi untuk mobile
+      className={`bg-white shadow-sm sticky top-0 z-50 transition-transform ${isVisible ? "transform-none" : "-translate-y-full"
+        } ${window.innerWidth <= 768 ? "transform-none" : ""}`} // Menambahkan kondisi untuk mobile
     >
       <div className="flex mx-auto justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between w-full h-16">
@@ -297,8 +295,8 @@ const Navbar = () => {
           </div>
 
           {/* Navbar Brand */}
-          <a
-            href="/"
+          <Link
+            to="/"
             className="flex items-center space-x-4 text-black text-2xl font-semibold"
           >
             {/* Gambar di kiri */}
@@ -309,34 +307,34 @@ const Navbar = () => {
             />
             {/* Teks di kanan */}
             <span>KoalaERS</span>
-          </a>
+          </Link>
 
           {/* Menu Desktop */}
           <div className="hidden sm:flex sm:ml-6 space-x-4">
-            <a
-              href="/"
+            <Link
+              to="/"
               className={`px-3 py-2 rounded-md text-lg font-medium hover:bg-blue-home hover:text-white ${isActive(
                 "/"
               )}`}
             >
               Beranda
-            </a>
-            <a
-              href="/tutorial"
+            </Link>
+            <Link
+              to="/tutorial"
               className={`px-3 py-2 rounded-md text-lg font-medium hover:bg-blue-home hover:text-white ${isActive(
                 "/tutorial"
               )}`}
             >
               Tutorial
-            </a>
-            <a
-              href="/eksplorasi"
+            </Link>
+            <Link
+              to="/eksplorasi"
               className={`px-3 py-2 rounded-md text-lg font-medium hover:bg-blue-home hover:text-white ${isActive(
                 "/eksplorasi"
               )}`}
             >
               Eksplorasi
-            </a>
+            </Link>
 
             {/* Dropdown Similaritas */}
             <div
@@ -354,38 +352,38 @@ const Navbar = () => {
               {dropdownOpen && (
                 <div className="absolute left-1/2 transform -translate-x-1/2 w-48 mt-2 origin-top-left rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                   <div className="py-1">
-                    <a
-                      href="/pccDetail"
+                    <Link
+                      to="/pccDetail"
                       className={`text-gray-700 block px-4 py-2 text-base hover:bg-blue-400 ${isActive(
                         "/pccDetail"
                       )}`}
                     >
                       PCC
-                    </a>
-                    <a
-                      href="/cosineDetail"
+                    </Link>
+                    <Link
+                      to="/cosineDetail"
                       className={`text-gray-700 block px-4 py-2 text-base hover:bg-blue-400 ${isActive(
                         "/cosineDetail"
                       )}`}
                     >
                       Cosine
-                    </a>
-                    <a
-                      href="/acosDetail"
+                    </Link>
+                    <Link
+                      to="/acosDetail"
                       className={`text-gray-700 block px-4 py-2 text-base hover:bg-blue-400 ${isActive(
                         "/acosDetail"
                       )}`}
                     >
                       ACos
-                    </a>
-                    <a
-                      href="/bcDetail"
+                    </Link>
+                    <Link
+                      to="/bcDetail"
                       className={`text-gray-700 block px-4 py-2 text-base hover:bg-blue-400 ${isActive(
                         "/bcDetail"
                       )}`}
                     >
                       BC
-                    </a>
+                    </Link>
                   </div>
                 </div>
               )}
@@ -414,30 +412,30 @@ const Navbar = () => {
         id="mobile-menu"
       >
         <div className="px-2 pt-2 pb-3 space-y-1">
-          <a
-            href="/"
+          <Link
+            to="/"
             className={`text-black block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-home hover:text-white ${isActive(
               "/"
             )}`}
           >
             Beranda
-          </a>
-          <a
-            href="/tutorial"
+          </Link>
+          <Link
+            to="/tutorial"
             className={`text-black block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-home hover:text-white ${isActive(
               "/tutorial"
             )}`}
           >
             Tutorial
-          </a>
-          <a
-            href="/eksplorasi"
+          </Link>
+          <Link
+            to="/eksplorasi"
             className={`text-black block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-home hover:text-white ${isActive(
               "/eksplorasi"
             )}`}
           >
             Eksplorasi
-          </a>
+          </Link>
           <div
             className="relative"
             onClick={() => setDropdownOpen(!dropdownOpen)} // Toggle dropdown saat diklik
@@ -453,38 +451,38 @@ const Navbar = () => {
             {dropdownOpen && (
               <div className="absolute left-1/2 transform -translate-x-1/2 w-48 mt-2 origin-top-left rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <div className="py-1">
-                  <a
-                    href="/pccDetail"
+                  <Link
+                    to="/pccDetail"
                     className={`text-gray-700 block px-4 py-2 text-base hover:bg-blue-400 ${isActive(
                       "/pccDetail"
                     )}`}
                   >
                     PCC
-                  </a>
-                  <a
-                    href="/cosineDetail"
+                  </Link>
+                  <Link
+                    to="/cosineDetail"
                     className={`text-gray-700 block px-4 py-2 text-base hover:bg-blue-400 ${isActive(
                       "/cosineDetail"
                     )}`}
                   >
                     Cosine
-                  </a>
-                  <a
-                    href="/acosDetail"
+                  </Link>
+                  <Link
+                    to="/acosDetail"
                     className={`text-gray-700 block px-4 py-2 text-base hover:bg-blue-400 ${isActive(
                       "/acosDetail"
                     )}`}
                   >
                     ACos
-                  </a>
-                  <a
-                    href="/bcDetail"
+                  </Link>
+                  <Link
+                    to="/bcDetail"
                     className={`text-gray-700 block px-4 py-2 text-base hover:bg-blue-400 ${isActive(
                       "/bcDetail"
                     )}`}
                   >
                     BC
-                  </a>
+                  </Link>
                 </div>
               </div>
             )}

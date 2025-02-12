@@ -1,16 +1,10 @@
 import { useState } from "react";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import CloseIcon from "@mui/icons-material/Close";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { Link } from "react-router-dom";
 
 const ListNavigasiMenu = ({ menuVersion = 1, scrollToSection }) => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-
-  const handleToggleDropdown = () => {
-    setDropdownOpen(!dropdownOpen);
-  };
 
   const handleScroll = (sectionId) => {
     if (scrollToSection) {
@@ -67,12 +61,12 @@ const ListNavigasiMenu = ({ menuVersion = 1, scrollToSection }) => {
             </h3>
             {langkahItems.map((item, index) => (
               <li key={index}>
-                <a
+                <Link
                   onClick={() => handleScroll(item.scrollTo)}
                   className="block px-4 py-2 text-gray-700 hover:bg-gray-200 rounded-md cursor-pointer"
                 >
                   {item.label}
-                </a>
+                </Link>
               </li>
             ))}
 
@@ -84,47 +78,47 @@ const ListNavigasiMenu = ({ menuVersion = 1, scrollToSection }) => {
             <div className="max-h-60 overflow-y-auto space-y-2 cursor-pointer">
               {/* mean rating */}
               <li>
-                <a
+                <Link
                   onClick={() => handleScroll("mean-rating-section")}
                   className="block px-4 py-2 text-gray-700 hover:bg-gray-200 rounded-md"
                 >
                   Mean Rating
-                </a>
+                </Link>
               </li>
               {/* mean centered */}
               <li>
-                <a
+                <Link
                   onClick={() => handleScroll("mean-cen-section")}
                   className="block px-4 py-2 text-gray-700 hover:bg-gray-200 rounded-md"
                 >
                   Mean Centered
-                </a>
+                </Link>
               </li>
               {/* similarity */}
               <li>
-                <a
+                <Link
                   onClick={() => handleScroll("sim-section")}
                   className="block px-4 py-2 text-gray-700 hover:bg-gray-200 rounded-md"
                 >
                   Similarity
-                </a>
+                </Link>
               </li>
               {/* prediction */}
               <li>
-                <a
+                <Link
                   onClick={() => handleScroll("pred-section")}
                   className="block px-4 py-2 text-gray-700 hover:bg-gray-200 rounded-md"
                 >
                   Prediction
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   onClick={() => handleScroll("topN-section")}
                   className="block px-4 py-2 text-gray-700 hover:bg-gray-200 rounded-md"
                 >
                   Top-N
-                </a>
+                </Link>
               </li>
             </div>
           </ul>
