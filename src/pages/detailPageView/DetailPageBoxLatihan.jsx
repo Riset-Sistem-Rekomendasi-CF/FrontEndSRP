@@ -147,17 +147,17 @@ export default function DetailPageBoxLatihan({ method, similarity, data, headers
         {/* Set maxWidth to "xl" or "false" for maximum width */}
         <Box
           sx={{
-            bgcolor: "#FDF9ED",
+            bgcolor: "#ffd25d",
             minHeight: "100vh",
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            border: "1px solid black",
-            borderRadius: 1,
+            border: "2px solid black",
+            borderRadius: 10,
             margin: { xs: 1, sm: 2, md: 3 }, // Adjust margin based on screen size
             padding: { xs: 1, sm: 2, md: 4 }, // Responsive padding
-            boxShadow: 3,
+            boxShadow: 1,
             width: "100%", // Make the Box take full width
             maxWidth: { xs: "100%", md: "100%" }, // Constrain max width on larger
             // screens
