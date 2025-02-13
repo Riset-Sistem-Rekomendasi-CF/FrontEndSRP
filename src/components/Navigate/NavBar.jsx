@@ -353,7 +353,7 @@ const Navbar = () => {
                 <div className="absolute left-1/2 transform -translate-x-1/2 w-48 mt-2 origin-top-left rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                   <div className="py-1">
                     <Link
-                      to="/pccDetail"
+                      to="/detail/pcc"
                       className={`text-gray-700 block px-4 py-2 text-base hover:bg-blue-400 ${isActive(
                         "/pccDetail"
                       )}`}
@@ -361,7 +361,7 @@ const Navbar = () => {
                       PCC
                     </Link>
                     <Link
-                      to="/cosineDetail"
+                      to="/detail/cosine"
                       className={`text-gray-700 block px-4 py-2 text-base hover:bg-blue-400 ${isActive(
                         "/cosineDetail"
                       )}`}
@@ -369,7 +369,7 @@ const Navbar = () => {
                       Cosine
                     </Link>
                     <Link
-                      to="/acosDetail"
+                      to="/detail/acosine"
                       className={`text-gray-700 block px-4 py-2 text-base hover:bg-blue-400 ${isActive(
                         "/acosDetail"
                       )}`}
@@ -377,7 +377,7 @@ const Navbar = () => {
                       ACos
                     </Link>
                     <Link
-                      to="/bcDetail"
+                      to="/detail/bc"
                       className={`text-gray-700 block px-4 py-2 text-base hover:bg-blue-400 ${isActive(
                         "/bcDetail"
                       )}`}
