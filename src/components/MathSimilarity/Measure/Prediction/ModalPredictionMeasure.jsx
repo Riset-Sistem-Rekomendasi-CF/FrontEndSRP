@@ -191,7 +191,7 @@ const ModalPredictionMeasure = ({
             {/* Matriks Mean-Centered */}
             <div>
               <h2 className="font-semibold text-lg">
-                <span className="italic">Mean-Centered</span>{" "}
+                <span className="italic">Mean-Rating</span>{" "}
               </h2>
               <table className="border border-black mt-4 mx-auto text-center w-full">
                 <thead>
@@ -233,7 +233,7 @@ const ModalPredictionMeasure = ({
 
             {/* Nilai Similarity */}
             <div>
-              <h2 className="font-semibold text-lg">Nilai Similaritas</h2>
+              <h2 className="font-semibold text-lg italic">Mean-Centered</h2>
               <table className="border border-black mt-4 mx-auto text-center w-full">
                 <thead>
                   <tr className="bg-gray-200">
@@ -310,7 +310,9 @@ const ModalPredictionMeasure = ({
             {selectedIndex[opsional === "user-based" ? 0 : 1] <
               result["similarity"].length ? (
               <div>
-                <h2 className="font-semibold text-lg">Nilai Prediksi</h2>
+                <h2 className="font-semibold text-lg">
+                  Nilai <i> similarity</i>{" "}
+                </h2>
                 <table className="border border-black mt-4 mx-auto text-center w-full">
                   <thead>
                     <tr className="bg-gray-200">

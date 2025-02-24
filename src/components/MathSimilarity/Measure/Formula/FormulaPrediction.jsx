@@ -12,34 +12,36 @@ export const getFormulaPrediction = (similarity, opsional) => {
   switch (opsionalModify) {
     case "user-based":
       return {
-        formula: `\\[ {\\widetilde{r}_{ui}} = \\mu_{u} +\\frac{\\sum_{v\\in  X_{u}(j)} Sim_{uv}* s_{vi}}{\\sum_{v \\in  X_{u}(i)}\\mid Sim_{uv} \\mid} \\]`,
+        formula: `\\[ {\\widetilde{r}_{uv}} = \\mu_{u} +\\frac{\\sum_{v\\in  X_{u}(j)} Sim_{uv}* s_{vi}}{\\sum_{v \\in  X_{u}(i)}\\mid Sim_{uv} \\mid} \\]`,
         arg_max: `\\[  X_{u}(i)=\\ \\begin{matrix}k\\\\argmax\\ \\\\j\\ \\in\\ \\ U_{i}\\\\\\end{matrix}{Sim_{ju}}\\  \\]`,
         detail_formula: [
-          `\\[ s_{vi} = \\text{Rata-rata } \\textit{rating} \\text{ yang diberikan oleh } \\textit{user} \\ u \\text{ pada seluruh } \\textit{item} \\]`,
+          `\\[ \\mu_{user(u)} = \\text{Rata-rata } \\textit{rating } \\text{pada } \\textit{user u} \\] `,
+          `\\[ s_{vi} = \\textit{Mean centered } \\textit{rating} \\text{ yang diberikan oleh } \\textit{user} \\ v \\text{ pada } \\textit{item i} \\]`,
           `\\[ Sim_{uv} = \\text{Nilai } \\textit{similarity} \\text{ antara } \\textit{user} \\ u \\text{ dan } \\textit{user} \\ v \\]`,
-          `\\[ X_{u}(j) = \\text{Himpunan tetangga (top-k) dari } \\textit{user} \\ u \\text{ untuk } \\textit{item} \\ i \\]`,
+          `\\[ X_{u}(i) = \\text{Himpunan tetangga (top-k) dari } \\textit{user} \\ u \\text{ untuk } \\textit{item} \\ i \\]`,
         ],
-        TopN: `\\[  TopN_u=\\ \\begin{matrix}N\\\\argmax\\ \\\\i\\ \\in\\ \\ \\hat{I}_u \\\\\\end{matrix}{\\hat{r}}_{ui}\\  \\]`,
+        TopN: `\\[  TopN_u=\\ \\begin{matrix}N\\\\argmax\\ \\\\i\\ \\in\\ \\ \\hat{I}_u \\\\\\end{matrix}{\\widetilde{r}}_{ui}\\  \\]`,
         detailTopN_formula: [
-          `\\[N = \\text{Data jumlah rekomendasi } \\text{ pada himpunan } \\textit{ item } \\text{ target }  {\\hat{r}}_{ui} \\]`,
-          `\\[{\\hat{r}_{ui}} = \\text{Hasil prediksi } \\textit{rating similarity} \\text{ antara } \\textit{user} \\ u \\text{ terhadap } \\textit{item} \\ v \\]`,
-          `\\[{\\hat{I}_u} = \\text{Himpunan } \\textit{ item } \\text{yang belum di rating} \\]`,
+          `\\[N = \\text{Data jumlah rekomendasi } \\text{ pada himpunan } \\textit{ item } \\text{ target }  {\\widetilde{r}}_{uv} \\]`,
+          `\\[{\\widetilde{r}_{uv}} = \\text{Hasil prediksi } \\textit{rating similarity} \\text{ antara } \\textit{user} \\ u \\text{ terhadap } \\textit{item} \\ v \\]`,
+          `\\[{\\hat{I}_u} = \\text{Himpunan } \\textit{ item } \\text{yang belum di } \\textit{rating} \\]`,
         ],
       };
     case "item-based":
       return {
-        formula: `\\[ {\\widetilde{r}_{ui}} = \\mu_{i} +\\frac{\\sum_{j\\in X_{i}(u)} Sim_{uv}* s_{uj}}{\\sum_{j \\in X_{i}(u)}\\mid Sim_{ij} \\mid} \\]`,
+        formula: `\\[ {\\widetilde{r}_{ui}} = \\mu_{i} +\\frac{\\sum_{j\\in X_{i}(u)} Sim_{ij}* s_{uj}}{\\sum_{j \\in X_{i}(u)}\\mid Sim_{ij} \\mid} \\]`,
         arg_max: `\\[  X_{i}(u)=\\ \\begin{matrix}k\\\\argmax\\ \\\\j\\ \\in\\ I_{i}\\\\\\end{matrix}{ Sim_{ju}}\\  \\]`,
         detail_formula: [
-          `\\[ s_{vi} = \\text{Rata-rata } \\textit{rating} \\text{ yang diberikan oleh } \\textit{user} \\ u \\text{ pada seluruh } \\textit{item} \\]`,
-          `\\[ Sim_{uv} = \\text{Nilai } \\textit{similarity} \\text{ antara } \\textit{user} \\ u \\text{ dan } \\textit{user} \\ v \\]`,
-          `\\[ X_{i}(j) = \\text{Himpunan tetangga (top-k) dari } \\textit{item} \\ i \\text{ untuk } \\textit{user} \\ u \\]`,
+          `\\[ \\mu_{item(i)} = \\text{Rata-rata } \\textit{rating } \\text{pada } \\textit{item i} \\] `,
+          `\\[ s_{uj} = \\textit{Mean centered } \\textit{rating} \\text{ yang diberikan oleh } \\textit{user} \\ u \\text{ pada } \\textit{item j} \\]`,
+          `\\[ Sim_{ij} = \\text{Nilai } \\textit{similarity} \\text{ antara } \\textit{item} \\ i \\text{ dan } \\textit{item} \\ j \\]`,
+          `\\[ X_{i}(u) = \\text{Himpunan tetangga (top-k) dari } \\textit{item} \\ i \\text{ untuk } \\textit{user} \\ u \\]`,
         ],
-        TopN: `\\[  TopN_u=\\ \\begin{matrix}n\\\\argmax\\ \\\\i\\ \\in\\ \\ \\hat{I}_u \\\\\\end{matrix}{\\hat{r}}_{ui}\\  \\]`,
+        TopN: `\\[  TopN_i=\\ \\begin{matrix}n\\\\argmax\\ \\\\i\\ \\in\\ \\ \\hat{I}_u \\\\\\end{matrix}{\\widetilde{r}}_{ui}\\  \\]`,
         detailTopN_formula: [
-          `\\[N = \\text{Data jumlah rekomendasi } \\text{ pada himpunan } \\textit{ item } \\text{ target }  {\\hat{r}}_{ui} \\]`,
-          `\\[{\\hat{r}_{ui}} = \\text{Hasil prediksi } \\textit{rating similarity} \\text{ antara } \\textit{user} \\ u \\text{ terhadap } \\textit{item} \\ v \\]`,
-          `\\[{\\hat{I}_u} = \\text{Himpunan } \\textit{ item } \\text{yang belum di rating} \\]`,
+          `\\[N = \\text{Data jumlah rekomendasi } \\text{ pada himpunan } \\textit{ item } \\text{ target }  {\\widetilde{r}}_{ui} \\]`,
+          `\\[{\\widetilde{r}_{ui}} = \\text{Hasil prediksi } \\textit{rating } \\text{ antara } \\textit{user} \\ u \\text{ terhadap } \\textit{item} \\ i \\]`,
+          `\\[{\\hat{I}_u} = \\text{Himpunan } \\textit{ item } \\text{yang belum di }  \\textit{rating} \\]`,
         ],
       };
     default:
