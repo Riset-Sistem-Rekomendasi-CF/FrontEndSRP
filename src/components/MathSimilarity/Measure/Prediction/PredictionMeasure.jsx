@@ -315,12 +315,13 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
           <p className="text-gray-700 font-medium ml-5 text-justify">
             Rekomendasi <span className="italic">Top-N</span> untuk <i>user</i>{" "}
             target dihasilkan dengan cara mengurutkan nilai prediksi{" "}
-            <span className="italic">rating</span> dari <i>user</i> target
-            terhadap daftar <i>item</i> yang belum diberikan <i>rating</i>.
+            <span className="italic"> rating </span> dari <i>user</i> target
+            terhadap daftar <i>item</i> yang belum diberikan <i> rating</i>.
             <br />
-            Semakin tinggi nilai prediksi rating suatu <i>item</i>, maka semakin
-            di rekomendasikan <i>item</i> tersebut untuk{" "}
-            <i className="mr-1">user</i> target. sehingga pengguna akan tau item
+            Semakin tinggi nilai prediksi <i> rating </i> suatu <i> item </i>,
+            maka semakin di rekomendasikan <i>item</i> tersebut untuk{" "}
+            <i className="mr-1">user</i> target. sehingga pengguna akan tau{" "}
+            <i> item </i>
             apa saja yang akan direkomendasikan.
           </p>
           {/* user bisa memilih berapa top-n yang ingin */}
@@ -338,7 +339,8 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
                 </MathJaxComponent>
               </div>
               <p className="mt-4 sm:mt-0 sm:ml-4 items-center text-red-500 font-semibold text-justify">
-                Dimana himpunan didapatkan berdasarkan urutan nilai similaritas
+                Dimana himpunan didapatkan berdasarkan urutan nilai{" "}
+                <i>similarity </i>
                 (dari yang terbesar ke yang terkecil)
               </p>
             </div>
@@ -353,7 +355,7 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
                 htmlFor="user-dropdown"
                 className="font-semibold text-lg mb-2 block"
               >
-                Lihat Top-N Prediksi
+                Lihat <i>user </i> target
               </label>
               <select
                 id="user-dropdown"
@@ -362,7 +364,7 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
                 onChange={handleUserSelectionChange}
               >
                 <option value="" disabled>
-                  Pilih User
+                  Pilih User Target
                 </option>
                 {result["prediction"].map((_, index) => (
                   <option key={index} value={index}>
@@ -398,7 +400,7 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
               <div className="w-full max-w-4xl">
                 <p className="ml-5 font-semibold text-lg sm:text-xl mt-5 ">
                   Hasil Prediksi <span className="italic">rating</span> untuk
-                  <span className="italic">user </span> target{" "}
+                  <span className="italic"> user </span> target{" "}
                   {selectedUserTopN + 1} :
                 </p>
                 <div className="overflow-x-auto">
@@ -551,13 +553,13 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
           2.{" "}
           {opsional === "user-based" ? (
             <>
-              Mencari daftar sistem yang belum diberi <i> rating </i>{" "}
-              <i className="italic">user</i> pada target
+              Mencari daftar <i>item </i> yang belum diberi <i> rating </i> oleh
+              <i className="italic"> user </i> target
             </>
           ) : (
             <>
               Mencari daftar <i className="italic">user</i> yang belum memberi{" "}
-              <i> rating </i> <i> user </i>
+              <i> rating </i> pada <i> item </i>
               target
             </>
           )}
@@ -569,7 +571,7 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
         </h2>
 
         <p className="text-gray-700 font-medium ml-5 text-justify text-xs sm:text-sm md:text-base">
-          Tetangga terdekat X<sub>u</sub>(j) merupakan himpunan sejumlah k{" "}
+          Tetangga terdekat X<sub>u</sub>(i) merupakan himpunan sejumlah k{" "}
           <i>user</i> yang merupakan tetangga terdekat (atau similar dengan){" "}
           <i>user target</i> u, yang telah memberikan <i> rating </i> pada{" "}
           <i>item</i> j
@@ -590,7 +592,8 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
 
             {/* Deskripsi */}
             <p className="mt-4 sm:mt-0 sm:ml-4 items-center text-red-500 font-semibold text-justify">
-              Di mana himpunan didapatkan berdasarkan urutan nilai similaritas
+              Di mana himpunan didapatkan berdasarkan urutan nilai{" "}
+              <i>similarity </i>
               (dari yang terbesar ke yang terkecil)
             </p>
           </div>
@@ -606,7 +609,15 @@ export function PredictionMeasure({ dataRating, opsional, similarity }) {
         <p className="text-gray-700 font-medium ml-5 text-justify text-xs sm:text-sm md:text-base">
           Pengguna dapat menentukan Top-K. Top-K yaitu tetangga terdekat yang
           akan digunakan untuk melihat seberapa mirip{" "}
-          <i className="mr-1">user</i> target dari user yang lain.
+          {opsional === "user-based" ? (
+            <>
+              <i className="mr-1">user </i> target dari <i>user </i> yang lain.
+            </>
+          ) : (
+            <>
+              <i>item </i> target dari <i>item </i> yang lain.
+            </>
+          )}
         </p>
       </div>
 

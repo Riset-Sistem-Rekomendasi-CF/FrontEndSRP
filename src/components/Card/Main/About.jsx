@@ -1,5 +1,5 @@
 import KoalaPage from "../../../assets/icons/KoalaPage.png";
-import GifKoalaPage from "../../../assets/vidioAsset/gifKoala.gif";
+import GifKoalaPage from "../../../assets/vidioAsset/giffNe2w.gif";
 
 const About = () => {
   const faqs = [
