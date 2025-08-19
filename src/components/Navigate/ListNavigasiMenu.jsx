@@ -61,9 +61,9 @@ const ListNavigasiMenu = ({ menuVersion = 1, scrollToSection }) => {
 
           {/* Menu items (Menu Utama) */}
           <ul className="space-y-2">
-            {/* Langkah-Langkah */}
+            {/* Persyaratan */}
             <h3 className="text-xl font-semibold text-gray-800 mb-4">
-              Langkah-Langkah
+              Persyaratan
             </h3>
             {langkahItems.map((item, index) => (
               <li key={index}>
@@ -77,9 +77,9 @@ const ListNavigasiMenu = ({ menuVersion = 1, scrollToSection }) => {
             ))}
 
             <hr />
-            {/* Daftar Perhitungan dengan Scroll */}
+            {/* Urutan Perhitungan dengan Scroll */}
             <h3 className="text-xl font-semibold text-gray-800 mb-4">
-              Daftar Perhitungan
+              Urutan Perhitungan
             </h3>
             <div className="max-h-60 overflow-y-auto space-y-2 cursor-pointer">
               {/* mean rating */}

@@ -6,20 +6,24 @@ export const getFormulaSimilarity = (similarity, opsional) => {
           return {
             formula: `\\[ PCC_{${
               opsional.split("-")[0]
-            }}(u,v) = \\frac{\\sum_{i\\in I_{u} \\cap I_{v}} s_{ui} s_{vi}}{\\sqrt{\\sum_{i\\in I_{u} \\cap I_{i}} s_{ui}^{2}}\\sqrt{\\sum_{i\\in I_{v} \\cap I_{i}} s_{vi}^{2}}} \\]`,
+            }}(u,v) = \\frac{\\sum_{i\\in I_{u} \\cap I_{v}} S_{ui} S_{vi}}{\\sqrt{\\sum_{i\\in I_{u} \\cap I_{i}} S_{ui}^{2}}\\sqrt{\\sum_{i\\in I_{v} \\cap I_{i}} S_{vi}^{2}}} \\]`,
             detail_formula: [
-              `\\[ I_{u} = \\text{Himpunan } \\textit{item} \\text{ yang telah diberi } \\textit{ rating } \\text{oleh } \\textit{user} \\ u \\]`,
-              `\\[ s_{ui} = \\text{Nilai mean-centered dari } \\textit{ rating } \\textit{item} \\ i \\text{ yang telah dinilai oleh } \\textit{user} \\ u \\]`,
+              `\\[ I_{u} = \\text{Himpunan } \\textit{item} \\text{ yang telah diberi } \\textit{rating} \\text{ oleh } \\textit{user} \\ u \\]`,
+              `\\[ I_{v} = \\text{Himpunan } \\textit{item} \\text{ yang telah diberi } \\textit{rating} \\text{ oleh } \\textit{user} \\ v \\]`,
+              `\\[ S_{ui} = \\text{Nilai mean-centered} \\ \\textit{rating item} \\ i \\text{ yang telah dinilai oleh } \\textit{user} \\ u \\]`,
+              `\\[ S_{vi} = \\text{Nilai mean-centered} \\ \\textit{rating item} \\ i \\text{ yang telah dinilai oleh } \\textit{user} \\ v \\]`,
             ],
           };
         case "item-based":
           return {
             formula: `\\[ PCC_{${
               opsional.split("-")[0]
-            }}(i,j) = \\frac{\\sum_{u\\in U_{i} \\cap U_{j}} s_{ui} s_{uj}}{\\sqrt{\\sum_{u\\in U_{i} \\cap U_{j}} s^{2}_{ui}}\\sqrt{\\sum_{u\\in U_{i} \\cap U_{j}} s^{2}_{uj}}} \\]`,
+            }}(i,j) = \\frac{\\sum_{u\\in U_{i} \\cap U_{j}} S_{ui} S_{uj}}{\\sqrt{\\sum_{u\\in U_{i} \\cap U_{j}} S^{2}_{ui}}\\sqrt{\\sum_{u\\in U_{i} \\cap U_{j}} S^{2}_{uj}}} \\]`,
             detail_formula: [
-              `\\[ U_{ij} = \\text{Kumpulan } \\textit{user} \\text{ yang telah merating pada } \\textit{item} \\text{ yang sama oleh } \\textit{user} \\ u \\text{ dan } \\textit{user} \\ v \\]`,
-              `\\[ s_{ui} = \\text{Nilai mean-centered dari } \\textit{ rating } \\textit{item} \\ i \\text{ yang telah dinilai oleh } \\textit{user} \\ u \\]`,
+              `\\[ U_{i} = \\text{Himpunan } \\textit{user} \\text{ yang telah memberi } \\textit{rating} \\text{ pada item } \\ i \\]`,
+              `\\[ U_{j} = \\text{Himpunan } \\textit{user} \\text{ yang telah memberi } \\textit{rating} \\text{ pada item } \\ j \\]`,
+              `\\[ S_{ui} = \\text{Nilai mean-centered} \\ \\textit{rating} \\textit{item} \\ i \\text{ oleh } \\textit{user} \\ u \\]`,
+              `\\[ S_{uj} = \\text{Nilai mean-centered} \\ \\textit{rating} \\textit{item} \\ j \\text{ oleh } \\textit{user} \\ u \\]`,
             ],
           };
         default:
@@ -36,6 +40,7 @@ export const getFormulaSimilarity = (similarity, opsional) => {
             detail_formula: [
               `\\[ I_{u} = \\text{Himpunan } \\textit{item} \\text{ yang telah diberi } \\textit{rating } \\text{oleh } \\textit{user} \\ u \\]`,
               `\\[ r_{ui} = \\textit{Rating } \\textit{user } \\ u \\text{ terhadap } \\textit{item} \\ i \\]`,
+              `\\[ r_{vi} = \\textit{Rating } \\textit{user } \\ v \\text{ terhadap } \\textit{item} \\ i \\]`,
             ],
           };
         case "item-based":
@@ -46,6 +51,7 @@ export const getFormulaSimilarity = (similarity, opsional) => {
             detail_formula: [
               `\\[ U_{i} = \\text{Himpunan } \\textit{user } \\text{ yang telah memberi } \\textit{ rating } \\textit{item} \\ i \\]`,
               `\\[ r_{ui} = \\text{Nilai } \\textit{rating } \\text{pada}  \\textit{user } \\ u \\text{ pada } \\textit{item} \\ i \\]`,
+              `\\[ r_{uj} = \\text{Nilai } \\textit{rating } \\text{pada}  \\textit{user } \\ u \\text{ pada } \\textit{item} \\ j \\]`,
             ],
           };
         default:
@@ -57,20 +63,24 @@ export const getFormulaSimilarity = (similarity, opsional) => {
           return {
             formula: `\\[ ACosine_{${
               opsional.split("-")[0]
-            }}(u,v) = \\frac{\\sum_{i\\in I_{u} \\cap I_{v}} s_{ui} s_{vi}}{\\sqrt{\\sum_{u \\in I_{u} \\cap I_{v}} s_{ui}^{2}}\\sqrt{\\sum_{i \\in I_{u} \\cap I_{v}} s_{vi}^{2}}} \\]`,
+            }}(u,v) = \\frac{\\sum_{i\\in I_{u} \\cap I_{v}} S_{ui} S_{vi}}{\\sqrt{\\sum_{u \\in I_{u} \\cap I_{v}} S_{ui}^{2}}\\sqrt{\\sum_{i \\in I_{u} \\cap I_{v}} S_{vi}^{2}}} \\]`,
             detail_formula: [
-              `\\[ s_{ui} = \\text{Nilai mean-centered dari } \\textit{user } \\ u \\text{ pada } \\textit{item } \\ i \\]`,
+              `\\[ S_{ui} = \\text{Nilai mean-centered dari } \\textit{user } \\ u \\text{ pada } \\textit{item } \\ i \\]`,
+              `\\[ S_{vi} = \\text{Nilai mean-centered dari } \\textit{user } \\ v \\text{ pada } \\textit{item } \\ i \\]`,
               `\\[ I_{u} = \\text{Himpunan } \\textit{item } \\text{ yang telah diberi } \\textit{ rating } \\text{oleh} \\textit{ user } \\ u \\]`,
+              `\\[ I_{v} = \\text{Himpunan } \\textit{item } \\text{ yang telah diberi } \\textit{ rating } \\text{oleh} \\textit{ user } \\ v \\]`,
             ],
           };
         case "item-based":
           return {
             formula: `\\[ ACosine_{${
               opsional.split("-")[0]
-            }}(i,j) = \\frac{\\sum_{u\\in U_{i} \\cap U_{j}} s_{ui} s_{uj}}{\\sqrt{\\sum_{u \\in U_{i} \\cap U_{j}} s_{ui}^{2}}\\sqrt{\\sum_{i \\in U_{i} \\cap U_{j}} s_{uj}^{2}}} \\]`,
+            }}(i,j) = \\frac{\\sum_{u\\in U_{i} \\cap U_{j}} S_{ui} S_{uj}}{\\sqrt{\\sum_{u \\in U_{i} \\cap U_{j}} S_{ui}^{2}}\\sqrt{\\sum_{i \\in U_{i} \\cap U_{j}} S_{uj}^{2}}} \\]`,
             detail_formula: [
-              `\\[ s_{ui} = \\text{Nilai mean-centered dari } \\textit{user } \\ u \\text{ pada } \\textit{ item } \\ i \\]`,
+              `\\[ S_{ui} = \\text{Nilai mean-centered dari } \\textit{user } \\ u \\text{ pada } \\textit{ item } \\ i \\]`,
+              `\\[ S_{uj} = \\text{Nilai mean-centered dari } \\textit{user } \\ u \\text{ pada } \\textit{ item } \\ j \\]`,
               `\\[ U_{i} = \\text{Himpunan } \\textit{ user } \\text{ yang memberi } \\textit{rating } \\textit{ item } \\ i \\]`,
+              `\\[ U_{j} = \\text{Himpunan } \\textit{ user } \\text{ yang memberi } \\textit{rating } \\textit{ item } \\ j \\]`,
             ],
           };
 
@@ -134,24 +144,24 @@ export const FormulaSimilarityIndex = (
                 colIndex + 1
               }) = \\frac{\\sum_{i\\in I_{${rowIndex + 1}} \\cap I_{${
                 colIndex + 1
-              }}} s_{${rowIndex + 1}i} s_{${
+              }}} S_{${rowIndex + 1}i} S_{${
                 colIndex + 1
               }i}}{\\sqrt{\\sum_{i\\in I_{${rowIndex + 1}} \\cap I_{${
                 colIndex + 1
-              }}} s_{${rowIndex + 1}i}^{2}}\\sqrt{\\sum_{i\\in I_{${
+              }}} S_{${rowIndex + 1}i}^{2}}\\sqrt{\\sum_{i\\in I_{${
                 rowIndex + 1
-              }} \\cap I_{${rowIndex + 1}}} s_{${colIndex + 1}i}^{2}}} \\]`
+              }} \\cap I_{${rowIndex + 1}}} S_{${colIndex + 1}i}^{2}}} \\]`
             : `\\[ PCC_{user}(u_${rowIndex + 1},u_${
                 colIndex + 1
               }) = \\frac{\\sum_{i\\in I_{${rowIndex + 1}} \\cap I_{${
                 colIndex + 1
-              }}} s_{${rowIndex + 1}i} s_{${
+              }}} S_{${rowIndex + 1}i} S_{${
                 colIndex + 1
               }i}}{\\sqrt{\\sum_{i\\in I_{${rowIndex + 1}} \\cap I_{${
                 colIndex + 1
-              }}} s_{${rowIndex + 1}i}^{2}}\\sqrt{\\sum_{i\\in I_{${
+              }}} S_{${rowIndex + 1}i}^{2}}\\sqrt{\\sum_{i\\in I_{${
                 rowIndex + 1
-              }} \\cap I_{${rowIndex + 1}}} s_{${colIndex + 1}i}^{2}}} \\]`;
+              }} \\cap I_{${rowIndex + 1}}} S_{${colIndex + 1}i}^{2}}} \\]`;
 
         case "item-based":
           return !isNotation
@@ -159,24 +169,24 @@ export const FormulaSimilarityIndex = (
                 colIndex + 1
               }) = \\frac{\\sum_{u\\in U_{${rowIndex + 1}} \\cap U_{${
                 colIndex + 1
-              }}} s_{${rowIndex + 1}i} s_{${
+              }}} S_{${rowIndex + 1}i} S_{${
                 colIndex + 1
               }i}}{\\sqrt{\\sum_{u\\in U_{${rowIndex + 1}} \\cap U_{${
                 colIndex + 1
-              }}} s_{${rowIndex + 1}i}^{2}}\\sqrt{\\sum_{i\\in U_{${
+              }}} S_{${rowIndex + 1}i}^{2}}\\sqrt{\\sum_{i\\in U_{${
                 rowIndex + 1
-              }} \\cap U_{${colIndex + 1}}} s_{${colIndex + 1}i}^{2}}} \\]`
+              }} \\cap U_{${colIndex + 1}}} S_{${colIndex + 1}i}^{2}}} \\]`
             : `\\[ PCC_{item}(i_${rowIndex + 1},i_${
                 colIndex + 1
               }) = \\frac{\\sum_{u\\in U_{${rowIndex + 1}} \\cap U_{${
                 colIndex + 1
-              }}} s_{${rowIndex + 1}i} s_{${
+              }}} S_{${rowIndex + 1}i} S_{${
                 colIndex + 1
               }i}}{\\sqrt{\\sum_{u\\in U_{${rowIndex + 1}} \\cap U_{${
                 colIndex + 1
-              }}} s_{${rowIndex + 1}i}^{2}}\\sqrt{\\sum_{i\\in U_{${
+              }}} S_{${rowIndex + 1}i}^{2}}\\sqrt{\\sum_{i\\in U_{${
                 rowIndex + 1
-              }} \\cap U_{${colIndex + 1}}} s_{${colIndex + 1}i}^{2}}} \\]`;
+              }} \\cap U_{${colIndex + 1}}} S_{${colIndex + 1}i}^{2}}} \\]`;
 
         default:
           return;
@@ -243,24 +253,24 @@ export const FormulaSimilarityIndex = (
                 colIndex + 1
               }) = \\frac{\\sum_{i\\in I_{${rowIndex + 1}} \\cap I_{${
                 colIndex + 1
-              }}} s_{i${rowIndex + 1}} s_{i${
+              }}} S_{i${rowIndex + 1}} S_{i${
                 colIndex + 1
               }}}{\\sqrt{\\sum_{i\\in I_{${rowIndex + 1}} \\cap I_{${
                 colIndex + 1
-              }}} s_{i${rowIndex + 1}}^{2}}\\sqrt{\\sum_{i\\in I_{${
+              }}} S_{i${rowIndex + 1}}^{2}}\\sqrt{\\sum_{i\\in I_{${
                 rowIndex + 1
-              }} \\cap I_{${colIndex + 1}}} s_{i${colIndex + 1}}^{2}}} \\]`
+              }} \\cap I_{${colIndex + 1}}} S_{i${colIndex + 1}}^{2}}} \\]`
             : `\\[ ACosine_{user}(u_${rowIndex + 1},u_${
                 colIndex + 1
               }) = \\frac{\\sum_{i\\in I_{${rowIndex + 1}} \\cap I_{${
                 colIndex + 1
-              }}} s_{i${rowIndex + 1}} s_{i${
+              }}} S_{i${rowIndex + 1}} S_{i${
                 colIndex + 1
               }}}{\\sqrt{\\sum_{i\\in I_{${rowIndex + 1}} \\cap I_{${
                 colIndex + 1
-              }}} s_{i${rowIndex + 1}}^{2}}\\sqrt{\\sum_{i\\in I_{${
+              }}} S_{i${rowIndex + 1}}^{2}}\\sqrt{\\sum_{i\\in I_{${
                 rowIndex + 1
-              }} \\cap I_{${colIndex + 1}}} s_{i${colIndex + 1}}^{2}}} \\]`;
+              }} \\cap I_{${colIndex + 1}}} S_{i${colIndex + 1}}^{2}}} \\]`;
 
         case "item-based":
           return !isNotation
@@ -268,24 +278,24 @@ export const FormulaSimilarityIndex = (
                 colIndex + 1
               }) = \\frac{\\sum_{i\\in U_{${rowIndex + 1}} \\cap U_{${
                 colIndex + 1
-              }}} s_{${rowIndex + 1}i} s_{${
+              }}} S_{${rowIndex + 1}i} S_{${
                 colIndex + 1
               }i}}{\\sqrt{\\sum_{i\\in U_{${rowIndex + 1}} \\cap U_{${
                 colIndex + 1
-              }}} s_{${rowIndex + 1}i}^{2}}\\sqrt{\\sum_{i\\in U_{${
+              }}} S_{${rowIndex + 1}i}^{2}}\\sqrt{\\sum_{i\\in U_{${
                 rowIndex + 1
-              }} \\cap U_{${colIndex + 1}}} s_{${colIndex + 1}i}^{2}}} \\]`
+              }} \\cap U_{${colIndex + 1}}} S_{${colIndex + 1}i}^{2}}} \\]`
             : `\\[ ACosine_{item}(i_${rowIndex + 1},i_${
                 colIndex + 1
               }) = \\frac{\\sum_{i\\in U_{${rowIndex + 1}} \\cap U_{${
                 colIndex + 1
-              }}} s_{${rowIndex + 1}i} s_{${
+              }}} S_{${rowIndex + 1}i} S_{${
                 colIndex + 1
               }i}}{\\sqrt{\\sum_{i\\in U_{${rowIndex + 1}} \\cap U_{${
                 colIndex + 1
-              }}} s_{${rowIndex + 1}i}^{2}}\\sqrt{\\sum_{i\\in U_{${
+              }}} S_{${rowIndex + 1}i}^{2}}\\sqrt{\\sum_{i\\in U_{${
                 rowIndex + 1
-              }} \\cap U_{${colIndex + 1}}} s_{${colIndex + 1}i}^{2}}} \\]`;
+              }} \\cap U_{${colIndex + 1}}} S_{${colIndex + 1}i}^{2}}} \\]`;
         default:
           return;
       }

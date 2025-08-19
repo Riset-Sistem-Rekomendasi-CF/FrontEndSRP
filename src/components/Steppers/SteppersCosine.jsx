@@ -88,8 +88,8 @@ export const StepsCosine = [
             height="315"
             src="https://www.youtube.com/embed/e9U0QAFbfLI?si=JdjHjRtLpm8Q0lmF"
             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-            frameborder="0"
-            allowfullscreen
+            frameBorder="0"
+            allowFullScreen
             className="rounded-md shadow-sm"
           ></iframe>
         </div>

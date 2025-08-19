@@ -19,7 +19,7 @@ export default function DetailPageBox({
   sectionIdDetail,
   headers,
   columns,
-  funnyMode
+  funnyMode,
 }) {
   const scrollToSectionDetail = (sectionIdDetail) => {
     const element = document.getElementById(sectionIdDetail);
@@ -27,8 +27,14 @@ export default function DetailPageBox({
       element.scrollIntoView({ behavior: "smooth" });
     }
   };
-  const renderContent = () => {
 
+  // Pindahkan useMemo ke sini (di luar renderContent)
+  const initialData = React.useMemo(() => {
+    if (!method) return null;
+    return getInitialData(data, method.toLowerCase());
+  }, [data, method]);
+
+  const renderContent = () => {
     if (!method) {
       return (
         <div className="text-center text-red-600 font-semibold">
@@ -83,8 +89,7 @@ export default function DetailPageBox({
       );
     }
 
-    const initialData = getInitialData(data, method.toLowerCase());
-
+    // Gunakan initialData yang sudah dihitung
     return (
       <>
         <MeanMeasure
@@ -127,8 +132,6 @@ export default function DetailPageBox({
     <React.Fragment>
       <CssBaseline />
       <Container maxWidth="xl">
-        {" "}
-        {/* Set maxWidth to "xl" or "false" for maximum width */}
         <Box
           sx={{
             bgcolor: "#ffd25d",
@@ -139,16 +142,23 @@ export default function DetailPageBox({
             alignItems: "center",
             border: "2px solid black",
             borderRadius: 10,
-            margin: { xs: 1, sm: 2, md: 3 }, // Adjust margin based on screen size
-            padding: { xs: 1, sm: 2, md: 3 }, // Responsive padding
+            mx: "auto",
+            my: { xs: 2, sm: 3, md: 4 },
+            px: { xs: 2, sm: 3, md: 4 },
+            py: { xs: 2, sm: 3, md: 4 },
             boxShadow: 1,
-            width: "100%", // Make the Box take full width
-            maxWidth: { xs: "100%", md: "100%" }, // Constrain max width on larger
-            // screens
+            width: "100%",
+            maxWidth: {
+              xs: "100%",
+              sm: "100%",
+              md: "900px",
+              lg: "1100px",
+              xl: "1280px",
+            },
             overflow: "hidden",
           }}
         >
-          <section className="max-w-full max-h-full mx-auto text-center px-4 sm:px-3 md:px-4 bg-box-grid-pattern animate-grid z-0">
+          <section className="max-w-full max-h-full mx-auto text-center px-1 sm:px-2 md:px-2 bg-box-grid-pattern animate-grid z-0">
             <h1 className=" text-black text-2xl sm:text-lg md:text-3xl font-bold font-poppins py-5 leading-snug break-words">
               Langkah-Langkah Penerapan {method} Collaborative Filtering dengan
               Metode {similarity}

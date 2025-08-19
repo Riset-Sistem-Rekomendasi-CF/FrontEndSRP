@@ -1,5 +1,6 @@
 import {
   getFormulaArgMax,
+  getFormulaPrediction,
   getFormulaPredictionIndex,
   getFormulaPredictionValue,
 } from "../Formula/FormulaPrediction";
@@ -14,6 +15,9 @@ import MathJaxComponent from "../../../../MathJaxComponent";
 import CloseIcon from "@mui/icons-material/Close";
 import ScatterPlot from "../../../Graph/ChartJsPlot";
 import ScatterPlotChart from "../../../Graph/ChartJsPlot";
+import { ArgMaxNeighbor } from "./PredictionArgMax";
+import { PredictionIndex } from "./PredictionIndex";
+import { PredictionValue } from "./PredictionValue";
 
 const ModalPredictionMeasure = ({
   dataRating,
@@ -28,7 +32,7 @@ const ModalPredictionMeasure = ({
   close,
   headers,
   columns,
-  funnyMode
+  funnyMode,
 }) => {
   //   console.log("topSimilarities", topSimilarities);
 
@@ -45,79 +49,61 @@ const ModalPredictionMeasure = ({
   const handleIsNotation = () => {
     setIsNotation(!isNotation);
   };
-  const PredictionIndex = ({ rowIndex, colIndex, similarity, opsional }) => {
-    const expression = getFormulaPredictionIndex(
-      rowIndex,
-      colIndex,
-      similarity,
-      opsional
-    );
-    return <MathJaxComponent>{expression}</MathJaxComponent>;
-  };
 
-  const PredictionValue = ({
-    rowIndex,
-    colIndex,
-    similarValues,
-    result,
-    dataRating,
-    similarity,
-    opsional,
-    isNotation,
-    selectedValue,
-  }) => {
-    const expression = getFormulaPredictionValue(
-      rowIndex,
-      colIndex,
-      similarValues,
-      result,
+  const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
+  const current = opsional.split("-")[0]; // "user" atau "item"
+  const opposite = current === "user" ? "item" : "user";
+
+  const handleOpenDetailPrediksi = () => {
+    const detailData = {
       dataRating,
-      similarity,
-      opsional,
-      isNotation,
-      selectedValue
-    );
-    // console.log(expression);
-
-    return (
-      <MathJaxComponent>
-        {expression.formula}
-        {expression.proses_formula}
-        {expression.result}
-      </MathJaxComponent>
-    );
-  };
-
-  const ArgMaxNeighbor = ({
-    rowIndex,
-    colIndex,
-    opsional,
-    similarity,
-    topSimilarity,
-  }) => {
-    const expression = getFormulaArgMax(
-      rowIndex,
-      colIndex,
       opsional,
       similarity,
-      topSimilarity
-    );
-    return <MathJaxComponent>{expression}</MathJaxComponent>;
+      topSimilarities,
+      selectedValue,
+      selectedIndex,
+      data,
+      result,
+      kValue,
+      close,
+      headers,
+      columns,
+      funnyMode,
+    };
+
+    // simpan ke sessionStorage
+    sessionStorage.setItem("prediksiDetail", JSON.stringify(detailData));
+    // buka jendela baru
+    setTimeout(() => {
+      const newTab = window.open("/detail-prediksi", "_blank");
+      if (!newTab) {
+        alert(
+          "Silakan nonaktifkan pop-up blocker untuk membuka detail similarity."
+        );
+      }
+    }, 100);
   };
 
   return (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-full sm:w-11/12 md:w-8/12 lg:w-6/12 xl:w-5/12 max-h-[80%] overflow-y-auto m-6 relative">
-        <h2 className="text-lg sm:text-xl font-semibold mb-4 sticky top-0 bg-white p-2 z-10 shadow-sm">
-          Detail Perhitungan Prediksi
+      <div
+        className="bg-white p-4 sm:p-6 rounded-lg shadow-lg 
+            w-full max-w-4xl 
+            max-h-[90vh] overflow-y-auto mt-6 ml-4 mr-4 relative"
+      >
+        {/* Header / Title */}
+        <div className="relative">
+          <h2 className="text-base sm:text-lg md:text-xl font-semibold mb-4 bg-white p-4 pr-12 z-10 shadow-sm">
+            <span>Detail Perhitungan Prediksi</span>
+          </h2>
           <button
             onClick={close}
-            className="absolute top-1 right-3 text-2xl text-gray-600 hover:text-gray-800 focus:outline-none bg-red-200 px-2 py-1 rounded-full z-10"
+            className="absolute top-1 right-2 text-lg text-gray-600 hover:text-gray-800 focus:outline-none bg-red-200 px-2 py-1 rounded-full z-20"
+            aria-label="Tutup"
           >
-            <CloseIcon className="text-md" />
+            <CloseIcon className="w-4 h-4" />
           </button>
-        </h2>
-
+        </div>
         {/* Switch Toggle */}
         <SwitchToggle
           title={"Tampilkan Notasi"}
@@ -128,9 +114,7 @@ const ModalPredictionMeasure = ({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Matrik Rating */}
             <div>
-              <h2 className="font-semibold text-lg">
-                Data <i> Rating </i>
-              </h2>
+              <h2 className="font-semibold text-lg">Data Rating</h2>
               <table className="border border-black mt-4 mx-auto text-center w-full">
                 <thead>
                   <tr className="bg-gray-200">
@@ -141,12 +125,14 @@ const ModalPredictionMeasure = ({
                       r
                       <sub>
                         {opsional === "item-based"
-                          ? `${selectedIndex[opsional === "item-based" ? 1 : 0] +
-                          1
-                          }*`
-                          : `*${selectedIndex[opsional === "item-based" ? 1 : 0] +
-                          1
-                          }`}
+                          ? `${
+                              selectedIndex[opsional === "item-based" ? 1 : 0] +
+                              1
+                            }*`
+                          : `*${
+                              selectedIndex[opsional === "item-based" ? 1 : 0] +
+                              1
+                            }`}
                       </sub>
                     </th>
                   </tr>
@@ -160,11 +146,16 @@ const ModalPredictionMeasure = ({
                     return (
                       <tr key={rowIndex}>
                         <td className="border border-black px-4 py-2 bg-gray-200">
-                          {!funnyMode ? (rowIndex + 1) : (opsional == "user-based" ? columns : headers)[rowIndex]}
+                          {!funnyMode
+                            ? rowIndex + 1
+                            : (opsional === "user-based" ? columns : headers)[
+                                rowIndex
+                              ]}
                         </td>
                         <td
-                          className={`border border-black px-4 py-2 text-center ${IsZero ? "bg-red-200" : ""
-                            }`}
+                          className={`border border-black px-4 py-2 text-center ${
+                            IsZero ? "bg-red-200" : ""
+                          }`}
                         >
                           {!isNotation ? (
                             row[
@@ -188,10 +179,10 @@ const ModalPredictionMeasure = ({
               </table>
             </div>
 
-            {/* Matriks Mean-Centered */}
+            {/* Matriks Mean-Rating */}
             <div>
               <h2 className="font-semibold text-lg">
-                <span className="italic">Mean-Centered</span>{" "}
+                <span>Mean-Rating</span>{" "}
               </h2>
               <table className="border border-black mt-4 mx-auto text-center w-full">
                 <thead>
@@ -211,7 +202,11 @@ const ModalPredictionMeasure = ({
                         className={isActiveUser ? "bg-green-200" : ""}
                       >
                         <td className="border border-black px-4 py-2">
-                          {!funnyMode ? (index + 1) : (opsional == "user-based" ? columns : headers)[index]}
+                          {!funnyMode
+                            ? index + 1
+                            : (opsional === "user-based" ? columns : headers)[
+                                index
+                              ]}
                         </td>
                         <td className="border border-black px-4 py-2">
                           <div className="text-center">
@@ -231,9 +226,9 @@ const ModalPredictionMeasure = ({
               </table>
             </div>
 
-            {/* Nilai Similarity */}
+            {/* Nilai Mean-Centered */}
             <div>
-              <h2 className="font-semibold text-lg">Nilai Similaritas</h2>
+              <h2 className="font-semibold text-lg">Nilai Mean-Centered</h2>
               <table className="border border-black mt-4 mx-auto text-center w-full">
                 <thead>
                   <tr className="bg-gray-200">
@@ -250,12 +245,14 @@ const ModalPredictionMeasure = ({
                       S
                       <sub>
                         {opsional === "item-based"
-                          ? `${selectedIndex[opsional === "item-based" ? 0 : 1] +
-                          1
-                          }*`
-                          : `*${selectedIndex[opsional === "item-based" ? 0 : 1] +
-                          1
-                          }`}
+                          ? `${
+                              selectedIndex[opsional === "item-based" ? 0 : 1] +
+                              1
+                            }*`
+                          : `*${
+                              selectedIndex[opsional === "item-based" ? 0 : 1] +
+                              1
+                            }`}
                       </sub>
                     </th>
                   </tr>
@@ -272,11 +269,16 @@ const ModalPredictionMeasure = ({
                     return (
                       <tr key={rowIndex}>
                         <td className="border border-black px-4 py-2 bg-gray-200">
-                          {!funnyMode ? (rowIndex + 1) : (opsional == "user-based" ? columns : headers)[rowIndex]}
+                          {!funnyMode
+                            ? rowIndex + 1
+                            : (opsional === "user-based" ? columns : headers)[
+                                rowIndex
+                              ]}
                         </td>
                         <td
-                          className={`border border-black px-4 py-2 text-center ${IsZero ? "bg-red-200" : ""
-                            } ${isTopSimilarity ? "bg-green-200" : ""}`}
+                          className={`border border-black px-4 py-2 text-center ${
+                            IsZero ? "bg-red-200" : ""
+                          } ${isTopSimilarity ? "bg-green-200" : ""}`}
                         >
                           {!isNotation ? (
                             row[
@@ -287,14 +289,16 @@ const ModalPredictionMeasure = ({
                               S
                               <sub>
                                 {opsional === "item-based"
-                                  ? `${selectedIndex[
-                                  opsional === "item-based" ? 0 : 1
-                                  ] + 1
-                                  }${rowIndex + 1}`
-                                  : `${rowIndex + 1}${selectedIndex[
-                                  opsional === "item-based" ? 0 : 1
-                                  ] + 1
-                                  }`}
+                                  ? `${
+                                      selectedIndex[
+                                        opsional === "item-based" ? 0 : 1
+                                      ] + 1
+                                    }${rowIndex + 1}`
+                                  : `${rowIndex + 1}${
+                                      selectedIndex[
+                                        opsional === "item-based" ? 0 : 1
+                                      ] + 1
+                                    }`}
                               </sub>
                             </span>
                           )}
@@ -306,11 +310,11 @@ const ModalPredictionMeasure = ({
               </table>
             </div>
 
-            {/* Nilai Top-K */}
+            {/* Nilai Similaritas */}
             {selectedIndex[opsional === "user-based" ? 0 : 1] <
-              result["similarity"].length ? (
+            result["similarity"].length ? (
               <div>
-                <h2 className="font-semibold text-lg">Nilai Prediksi</h2>
+                <h2 className="font-semibold text-lg">Nilai Similaritas</h2>
                 <table className="border border-black mt-4 mx-auto text-center w-full">
                   <thead>
                     <tr className="bg-gray-200">
@@ -319,8 +323,9 @@ const ModalPredictionMeasure = ({
                       </th>
                       <th className="border border-black px-4 py-2 italic font-serif">
                         Sim
-                        <sub>{`${selectedIndex[opsional === "item-based" ? 0 : 1] + 1
-                          }*`}</sub>
+                        <sub>{`${
+                          selectedIndex[opsional === "item-based" ? 0 : 1] + 1
+                        }*`}</sub>
                       </th>
                     </tr>
                   </thead>
@@ -332,11 +337,16 @@ const ModalPredictionMeasure = ({
                       return (
                         <tr key={colIndex}>
                           <td className="border border-black px-4 py-2 bg-gray-200">
-                            {!funnyMode ? (colIndex + 1) : (opsional == "user-based" ? columns : headers)[colIndex]}
+                            {!funnyMode
+                              ? colIndex + 1
+                              : (opsional === "user-based" ? columns : headers)[
+                                  colIndex
+                                ]}
                           </td>
                           <td
-                            className={`border border-black px-4 py-2 text-center ${isTopSimilarity ? "bg-green-200" : ""
-                              }`}
+                            className={`border border-black px-4 py-2 text-center ${
+                              isTopSimilarity ? "bg-green-200" : ""
+                            }`}
                           >
                             {!isNotation ? (
                               row[
@@ -347,14 +357,16 @@ const ModalPredictionMeasure = ({
                                 Sim
                                 <sub>
                                   {opsional === "item-based"
-                                    ? `${selectedIndex[
-                                    opsional === "item-based" ? 0 : 1
-                                    ] + 1
-                                    }${colIndex + 1}`
-                                    : `${colIndex + 1}${selectedIndex[
-                                    opsional === "item-based" ? 0 : 1
-                                    ] + 1
-                                    }`}
+                                    ? `${
+                                        selectedIndex[
+                                          opsional === "item-based" ? 0 : 1
+                                        ] + 1
+                                      }${colIndex + 1}`
+                                    : `${colIndex + 1}${
+                                        selectedIndex[
+                                          opsional === "item-based" ? 0 : 1
+                                        ] + 1
+                                      }`}
                                 </sub>
                               </span>
                             )}
@@ -369,6 +381,15 @@ const ModalPredictionMeasure = ({
               <p>Data for this user is not available.</p>
             )}
           </div>
+        </div>
+
+        <div>
+          <button
+            className="p-2 mt-2 bg-orange-300 rounded-md shadow-sm hover:bg-orange-500 transition-colors  font-semibold"
+            onClick={handleOpenDetailPrediksi}
+          >
+            Detail Prediksi {capitalize(opsional.split("-")[0])}
+          </button>
         </div>
 
         {/* Legend Table */}
@@ -411,18 +432,19 @@ const ModalPredictionMeasure = ({
             ]}
           />
         </div>
-        <h1 className="font-semibold text-xl my-5 underline underline-offset-8 decoration-4 decoration-card_blue_primary">
+        {/* PLOT */}
+        {/* <h1 className="font-semibold text-xl my-5 underline underline-offset-8 decoration-4 decoration-card_blue_primary">
           Grafik Top-K
         </h1>
         <div className="flex flex-col justify-center my-3">
-          {/* <ScatterPlotDataFilter
+          <ScatterPlotDataFilter
             kValue={kValue}
             result={result}
             opsional={opsional}
             topSimilarities={topSimilarities}
             rowIndex={selectedIndex[0]}
             colIndex={selectedIndex[1]}
-          /> */}
+          />
           <ScatterPlotChart
             kValue={kValue}
             result={result}
@@ -431,69 +453,88 @@ const ModalPredictionMeasure = ({
             rowIndex={selectedIndex[0]}
             colIndex={selectedIndex[1]}
           />
-        </div>
+        </div> */}
+        {/* END PLOT */}
         {/* Perhitungan Manual */}
         <MathJaxContext options={mathjaxConfig}>
-          <div className="overflow-x-auto mt-6 flex justify-center items-center flex-col px-4 sm:px-10">
-            {selectedIndex ? (
-              <div className="w-full min-w-[300px]">
-                <ArgMaxNeighbor
-                  rowIndex={selectedIndex[0]}
-                  colIndex={selectedIndex[1]}
-                  opsional={opsional}
-                  similarity={similarity}
-                  topSimilarity={topSimilarities}
-                />
-              </div>
-            ) : (
-              <p>No expression selected.</p>
-            )}
+          <div className="w-full overflow-x-auto overflow-y-hidden mb-4">
+            <div className="text-[0.75rem] sm:text-sm md:text-base flex justify-center items-center flex-col px-4 sm:px-10">
+              {selectedIndex ? (
+                <div>
+                  <ArgMaxNeighbor
+                    rowIndex={selectedIndex[0]}
+                    colIndex={selectedIndex[1]}
+                    opsional={opsional}
+                    similarity={similarity}
+                    topSimilarity={topSimilarities}
+                    kValue={kValue}
+                  />
+                </div>
+              ) : (
+                <p>No expression selected.</p>
+              )}
+            </div>
           </div>
         </MathJaxContext>
+
+        <div>
+          <MathJaxContext options={mathjaxConfig}>
+            <div className="w-full overflow-x-auto overflow-y-hidden mb-4">
+              <div className="text-[0.75rem] sm:text-sm md:text-base flex justify-center items-center flex-col px-4 sm:px-10">
+                {selectedIndex ? (
+                  <div>
+                    <PredictionIndex
+                      rowIndex={selectedIndex[0]}
+                      colIndex={selectedIndex[1]}
+                      opsional={opsional}
+                      similarity={similarity}
+                    />
+                  </div>
+                ) : (
+                  <p>No expression selected.</p>
+                )}
+              </div>
+            </div>
+          </MathJaxContext>
+        </div>
 
         <MathJaxContext options={mathjaxConfig}>
-          <div className="overflow-x-auto mt-6 flex justify-center items-center flex-col px-4 sm:px-10">
-            {selectedIndex ? (
-              <div className="w-full min-w-[300px]">
-                <PredictionIndex
-                  rowIndex={selectedIndex[0]}
-                  colIndex={selectedIndex[1]}
-                  opsional={opsional}
-                  similarity={similarity}
-                />
-              </div>
-            ) : (
-              <p>No expression selected.</p>
-            )}
+          <div className="w-full overflow-x-auto overflow-y-hidden">
+            <div className="text-[0.75rem] sm:text-sm md:text-base flex justify-center items-center flex-col px-4 sm:px-10">
+              {selectedIndex ? (
+                <div>
+                  <PredictionValue
+                    rowIndex={selectedIndex[0]}
+                    colIndex={selectedIndex[1]}
+                    similarValues={topSimilarities}
+                    result={result}
+                    dataRating={dataRating}
+                    opsional={opsional}
+                    similarity={similarity}
+                    isNotation={isNotation}
+                    selectedValue={selectedValue}
+                  />
+                </div>
+              ) : (
+                <p>No expression selected.</p>
+              )}
+            </div>
           </div>
         </MathJaxContext>
-
-        <MathJaxContext options={mathjaxConfig}>
-          <div className="overflow-x-auto mt-6 flex justify-center items-center flex-col px-4 sm:px-10">
-            {selectedIndex ? (
-              <div className="w-full min-w-[200px]">
-                <PredictionValue
-                  rowIndex={selectedIndex[0]}
-                  colIndex={selectedIndex[1]}
-                  similarValues={topSimilarities}
-                  result={result}
-                  dataRating={dataRating}
-                  opsional={opsional}
-                  similarity={similarity}
-                  isNotation={isNotation}
-                  selectedValue={selectedValue}
-                />
-              </div>
-            ) : (
-              <p>No expression selected.</p>
-            )}
-          </div>
-        </MathJaxContext>
-
-        <p className="text-xl font-bold text-gray-700 mt-5 sm:text-md md:text-lg lg:text-xl xl:text-2xl">
-          Hasil prediksi <i>user</i> {selectedIndex[0] + 1} untuk{" "}
-          <span className="italic mr-1 ">Item </span>
-          target {selectedIndex[1] + 1} adalah: {selectedValue.toFixed(3)}
+        <p className="mt-5 text-xl font-bold text-gray-700 sm:text-md md:text-lg lg:text-xl xl:text-2xl">
+          Hasil prediksi {similarity} pada untuk{" "}
+          {opsional === "User-Based" ? (
+            <>
+              <i>User-{selectedIndex[0] + 1}</i> dengan target{" "}
+              <i>Item-{selectedIndex[1] + 1}</i>
+            </>
+          ) : (
+            <>
+              <i>Item-{selectedIndex[0] + 1}</i> dengan target{" "}
+              <i>User-{selectedIndex[1] + 1}</i>
+            </>
+          )}{" "}
+          adalah: {selectedValue.toFixed(3)}
         </p>
 
         <button

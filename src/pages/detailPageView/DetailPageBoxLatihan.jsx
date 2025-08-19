@@ -12,7 +12,14 @@ import BackToTopButton from "../../components/Navigate/BackToTopNavigate";
 import { checkEmptyRowOrColumn } from "../../helper/helper";
 import KeyboardCapslockIcon from "@mui/icons-material/KeyboardCapslock";
 
-export default function DetailPageBoxLatihan({ method, similarity, data, headers, columns, funnyMode }) {
+export default function DetailPageBoxLatihan({
+  method,
+  similarity,
+  data,
+  headers,
+  columns,
+  funnyMode,
+}) {
   const scrollToSectionDetail = (sectionIdDetail) => {
     const element = document.getElementById(sectionIdDetail);
     if (element) {

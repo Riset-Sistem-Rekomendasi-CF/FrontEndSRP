@@ -12,12 +12,18 @@ export const getFormulaPrediction = (similarity, opsional) => {
   switch (opsionalModify) {
     case "user-based":
       return {
-        formula: `\\[ {\\widetilde{r}_{ui}} = \\mu_{u} +\\frac{\\sum_{v\\in  X_{u}(j)} Sim_{uv}* s_{vi}}{\\sum_{v \\in  X_{u}(i)}\\mid Sim_{uv} \\mid} \\]`,
-        arg_max: `\\[  X_{u}(i)=\\ \\begin{matrix}k\\\\argmax\\ \\\\j\\ \\in\\ \\ U_{i}\\\\\\end{matrix}{Sim_{ju}}\\  \\]`,
+        formula: `\\[ {\\hat{r}^{User}_{u,i}} = \\mu_{User(u)} +\\frac{\\sum_{v\\in  X_{u}(j)} Sim_{User}(u,v)* S_{User(v,i)}}{\\sum_{v \\in  X_{u}(i)}\\mid Sim_{User}(u,v) \\mid} \\]`,
+        arg_max: `\\[ TopK_{u}(i)=\\ \\begin{matrix}k_{User}\\\\argmax\\ \\\\v\\ \\in\\ \\ U_{i}\\\\\\end{matrix}{Sim_{User}(u,v)}\\  \\]`,
+        detail_ArgMax: [
+          `\\[ TopK_{u}(I) =\\text{Tetangga terdekat dari } \\textit{user} \\ \\text{target} \\]`,
+          `\\[ k_{User} = \\text{Jumlah tetangga terdekat dari nilai} \\ \\textit{similarity} \\]`,
+          `\\[ Sim_{User}(u,v) = \\text{Nilai } \\textit{similarity} \\text{ antara } \\textit{user} \\ u \\text{ dan } \\textit{user} \\ v \\]`,
+        ],
         detail_formula: [
-          `\\[ s_{vi} = \\text{Rata-rata } \\textit{rating} \\text{ yang diberikan oleh } \\textit{user} \\ u \\text{ pada seluruh } \\textit{item} \\]`,
-          `\\[ Sim_{uv} = \\text{Nilai } \\textit{similarity} \\text{ antara } \\textit{user} \\ u \\text{ dan } \\textit{user} \\ v \\]`,
-          `\\[ X_{u}(j) = \\text{Himpunan tetangga (top-k) dari } \\textit{user} \\ u \\text{ untuk } \\textit{item} \\ i \\]`,
+          `\\[ S_{User(v,i)} = \\textit{Mean-Centerd} \\text{ pada } \\textit{user} \\ u \\text{ terhadap } \\textit{item} \\ i \\]`,
+          `\\[ Sim_{User}(u,v) = \\text{Nilai } \\textit{similarity} \\text{ antara } \\textit{user} \\ u \\text{ dan } \\textit{user} \\ v \\]`,
+          `\\[ X_{u}(j) = \\text{Himpunan tetangga (TopK) dari } \\textit{user} \\ u \\text{ untuk } \\textit{item} \\ i \\]`,
+          `\\[ \\mu_{User(u)} = \\text{Rata-rata rating dari } \\textit{user} \\ u \\]`,
         ],
         TopN: `\\[  TopN_u=\\ \\begin{matrix}N\\\\argmax\\ \\\\i\\ \\in\\ \\ \\hat{I}_u \\\\\\end{matrix}{\\hat{r}}_{ui}\\  \\]`,
         detailTopN_formula: [
@@ -28,12 +34,18 @@ export const getFormulaPrediction = (similarity, opsional) => {
       };
     case "item-based":
       return {
-        formula: `\\[ {\\widetilde{r}_{ui}} = \\mu_{i} +\\frac{\\sum_{j\\in X_{i}(u)} Sim_{uv}* s_{uj}}{\\sum_{j \\in X_{i}(u)}\\mid Sim_{ij} \\mid} \\]`,
-        arg_max: `\\[  X_{i}(u)=\\ \\begin{matrix}k\\\\argmax\\ \\\\j\\ \\in\\ I_{i}\\\\\\end{matrix}{ Sim_{ju}}\\  \\]`,
+        formula: `\\[ {\\hat{r}^{Item}_{u,i}} = \\mu_{Item(i)} +\\frac{\\sum_{j\\in X_{i}(u)} Sim_{Item}(i,j)* S_{Item}(u,j)}{\\sum_{j \\in X_{i}(u)}\\mid Sim_{Item}(i,j) \\mid} \\]`,
+        arg_max: `\\[  TopK_{u}(i)=\\ \\begin{matrix}k_{Item}\\\\argmax\\ \\\\j\\ \\in\\ I_{u}\\\\\\end{matrix}{ Sim_{Item}(i,j)}\\  \\]`,
+        detail_ArgMax: [
+          `\\[ TopK_{u}(I) = \\text{Tetangga terdekat dari } \\textit{item} \\ \\text{target} \\]`,
+          `\\[ k_{Item} = \\text{Jumlah tetangga terdekat dari nilai} \\ \\textit{similarity} \\]`,
+          `\\[ Sim_{Item}(i,j) = \\text{Nilai } \\textit{similarity} \\text{ antara } \\textit{item} \\ i \\text{ dan } \\textit{item} \\ j  \\]`,
+        ],
         detail_formula: [
-          `\\[ s_{vi} = \\text{Rata-rata } \\textit{rating} \\text{ yang diberikan oleh } \\textit{user} \\ u \\text{ pada seluruh } \\textit{item} \\]`,
-          `\\[ Sim_{uv} = \\text{Nilai } \\textit{similarity} \\text{ antara } \\textit{user} \\ u \\text{ dan } \\textit{user} \\ v \\]`,
-          `\\[ X_{i}(j) = \\text{Himpunan tetangga (top-k) dari } \\textit{item} \\ i \\text{ untuk } \\textit{user} \\ u \\]`,
+          `\\[ S_{Item}(u,j) = \\textit{Mean-Centered} \\text{ pada } \\textit{item} \\ i \\text{ terhadap } \\textit{user} \\ u \\]`,
+          `\\[ Sim_{Item}(i,j) = \\text{Nilai } \\textit{similarity} \\text{ antara } \\textit{item} \\ i \\text{ dan } \\textit{item} \\ j \\]`,
+          `\\[ X_{i}(j) = \\text{Himpunan tetangga (TopK) dari } \\textit{item} \\ i \\text{ untuk } \\textit{user} \\ u \\]`,
+          `\\[ \\mu_{Item(i)} = \\text{Rata-rata rating dari } \\textit{item} \\ i \\]`,
         ],
         TopN: `\\[  TopN_u=\\ \\begin{matrix}n\\\\argmax\\ \\\\i\\ \\in\\ \\ \\hat{I}_u \\\\\\end{matrix}{\\hat{r}}_{ui}\\  \\]`,
         detailTopN_formula: [
@@ -52,21 +64,22 @@ export const getFormulaArgMax = (
   colIndex,
   opsional,
   similarity,
-  topSimilarity
+  topSimilarity,
+  kValue
 ) => {
   switch (opsional) {
     case "user-based":
-      return `\\[  X_{${rowIndex + 1}}(${
+      return `\\[  TopK_{${rowIndex + 1}}(${
         colIndex + 1
-      })=\\ \\begin{matrix}2\\\\argmax\\ \\\\i \\in I_{${
+      })=\\ \\begin{matrix}${kValue}\\\\argmax\\ \\\\i \\in I_{${
         rowIndex + 1
       }} \\end{matrix}Sim(i,${colIndex + 1})\\ = \\ \\{ ${topSimilarity
         .map((sim) => sim.index + 1)
         .join(",")} \\} \\]`;
     case "item-based":
-      return `\\[  X_{${colIndex + 1}}(${
+      return `\\[  TopK_{${colIndex + 1}}(${
         rowIndex + 1
-      })=\\ \\begin{matrix}2\\\\argmax\\ \\\\u \\in U_{${
+      })=\\ \\begin{matrix}${kValue}\\\\argmax\\ \\\\u \\in U_{${
         colIndex + 1
       }} \\end{matrix}Sim(${rowIndex + 1},u)\\ = \\{ ${topSimilarity
         .map((sim) => sim.index + 1)
@@ -91,7 +104,7 @@ export const getFormulaPredictionIndex = (
 
   switch (opsionalModify) {
     case "user-based":
-      return `\\[ {\\widetilde{r}_{${rowIndex + 1}${colIndex + 1}}} = \\mu_{${
+      return `\\[ {\\hat{r}_{${rowIndex + 1}${colIndex + 1}}} = \\mu_{${
         rowIndex + 1
       }} +\\frac{\\sum_{v\\in X_{${rowIndex + 1}}(${colIndex + 1})} Sim_{${
         rowIndex + 1
@@ -99,7 +112,7 @@ export const getFormulaPredictionIndex = (
         colIndex + 1
       })}\\mid Sim_{${rowIndex + 1}v} \\mid} \\]`;
     case "item-based":
-      return `\\[ {\\widetilde{r}_{${rowIndex + 1}${colIndex + 1}}} = \\mu_{${
+      return `\\[ {\\hat{r}_{${rowIndex + 1}${colIndex + 1}}} = \\mu_{${
         colIndex + 1
       }} +\\frac{\\sum_{v\\in X_{${colIndex + 1}}(${rowIndex + 1})} Sim_{v${
         rowIndex + 1
@@ -160,9 +173,9 @@ export const getFormulaPredictionValue = (
       // console.log("denominatorUser", denominatorUser);
       return {
         formula: !isNotation
-          ? `\\[ {\\widetilde{r}_{${rowIndex + 1}${
-              colIndex + 1
-            }}} = {${resultMean[rowIndex].toFixed(3)}} + \\frac{${similarValues
+          ? `\\[ {\\hat{r}_{${rowIndex + 1}${colIndex + 1}}} = {${resultMean[
+              rowIndex
+            ].toFixed(3)}} + \\frac{${similarValues
               .filter((sim) => resultDataRating[sim.index][colIndex] !== 0)
               .map(
                 (sim) =>
@@ -176,7 +189,7 @@ export const getFormulaPredictionValue = (
               .filter((sim) => resultDataRating[sim.index][colIndex] !== 0)
               .map((sim) => `\\mid ${sim.value.toFixed(4)} \\mid`)
               .join(" + ")}} \\]`
-          : `\\[ {\\widetilde{r}_{${rowIndex + 1}${colIndex + 1}}} = {\\mu_{${
+          : `\\[ {\\hat{r}_{${rowIndex + 1}${colIndex + 1}}} = {\\mu_{${
               rowIndex + 1
             }}} + \\frac{${similarValues
               .filter((sim) => resultDataRating[sim.index][colIndex] !== 0)
@@ -192,14 +205,14 @@ export const getFormulaPredictionValue = (
               .filter((sim) => resultDataRating[sim.index][colIndex] !== 0)
               .map((sim) => `\\mid Sim_{${sim.index + 1}${colIndex + 1}} \\mid`)
               .join(" + ")}} \\]`,
-        proses_formula: `\\[ \\widetilde{r}_{${rowIndex + 1}${
+        proses_formula: `\\[ \\hat{r}_{${rowIndex + 1}${
           colIndex + 1
         }} = ${resultMean[rowIndex].toFixed(
           3
         )} + \\frac{${numeratorUser.toFixed(4)}}{${denominatorUser.toFixed(
           4
         )}} \\]`,
-        result: `\\[ \\widetilde{r}_{${rowIndex + 1}${
+        result: `\\[ \\hat{r}_{${rowIndex + 1}${
           colIndex + 1
         }} = ${selectedValue.toFixed(3)} \\]`,
       };
@@ -225,9 +238,9 @@ export const getFormulaPredictionValue = (
 
       return {
         formula: !isNotation
-          ? `\\[ {\\widetilde{r}_{${rowIndex + 1}${
-              colIndex + 1
-            }}} = {${resultMean[colIndex].toFixed(3)}} + \\frac{${similarValues
+          ? `\\[ {\\hat{r}_{${rowIndex + 1}${colIndex + 1}}} = {${resultMean[
+              colIndex
+            ].toFixed(3)}} + \\frac{${similarValues
               .filter((sim) => resultDataRating[sim.index][rowIndex] !== 0)
               .map(
                 (sim) =>
@@ -241,7 +254,7 @@ export const getFormulaPredictionValue = (
               .filter((sim) => resultDataRating[sim.index][rowIndex] !== 0)
               .map((sim) => `\\mid ${sim.value.toFixed(4)} \\mid`)
               .join(" + ")}} \\]`
-          : `\\[ {\\widetilde{r_{${rowIndex + 1}${colIndex + 1}}}} = {\\mu_{${
+          : `\\[ {\\hat{r_{${rowIndex + 1}${colIndex + 1}}}} = {\\mu_{${
               rowIndex + 1
             }}} + \\frac{${similarValues
               .filter((sim) => resultDataRating[sim.index][colIndex] !== 0)
@@ -257,14 +270,14 @@ export const getFormulaPredictionValue = (
               .filter((sim) => resultDataRating[sim.index][colIndex] !== 0)
               .map((sim) => `\\mid Sim_{${rowIndex + 1}${sim.index + 1}} \\mid`)
               .join(" + ")}} \\]`,
-        proses_formula: `\\[ \\widetilde{r}_{${rowIndex + 1}${
+        proses_formula: `\\[ \\hat{r}_{${rowIndex + 1}${
           colIndex + 1
         }} = ${resultMean[colIndex].toFixed(
           3
         )} + \\frac{${numeratorItem.toFixed(4)}}{${denominatorItem.toFixed(
           4
         )}} \\]`,
-        result: `\\[ \\widetilde{r}_{${rowIndex + 1}${
+        result: `\\[ \\hat{r}_{${rowIndex + 1}${
           colIndex + 1
         }} = ${selectedValue.toFixed(3)} \\]`,
       };

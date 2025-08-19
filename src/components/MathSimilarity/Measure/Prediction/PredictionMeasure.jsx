@@ -21,7 +21,7 @@ export default function PredictionMeasure({
   similarity,
   headers,
   columns,
-  funnyMode
+  funnyMode,
 }) {
   const [kValue, setKValue] = useState(2);
   // const [k, setK] = useState(null);
@@ -63,8 +63,8 @@ export default function PredictionMeasure({
           index === (opsional === "item-based" ? itemIndex : userIndex)
             ? false
             : (opsional === "item-based"
-              ? transposeMatrix(dataModify)[userIndex][index]
-              : dataModify[index][itemIndex]) !== 0,
+                ? transposeMatrix(dataModify)[userIndex][index]
+                : dataModify[index][itemIndex]) !== 0,
       };
     });
 
@@ -120,7 +120,7 @@ export default function PredictionMeasure({
         <div className="flex justify-center mt-4">
           {/* Wrapper with scroll for horizontal overflow */}
           <div className="overflow-x-auto w-full">
-            <table className="border border-black mt-4 min-w-full">
+            <table className="border border-black mt-4 text-xs sm:text-sm md:text-base lg:text-lg min-w-full">
               <thead>
                 <tr className="bg-gray-200">
                   <th className="border border-black px-4 py-2 text-xs sm:text-sm md:text-base w-1/6 min-w-[80px]">
@@ -133,7 +133,7 @@ export default function PredictionMeasure({
                         key={index}
                         className="border border-black px-4 py-2 text-xs sm:text-sm"
                       >
-                        {!funnyMode ? (index + 1) : (headers)[index]}
+                        {!funnyMode ? index + 1 : headers[index]}
                       </th>
                     )
                   )}
@@ -143,17 +143,18 @@ export default function PredictionMeasure({
                 {result["prediction"].map((row, rowIndex) => (
                   <tr key={rowIndex}>
                     <td className="border border-black px-4 py-2 bg-blue-200 text-xs sm:text-sm">
-                      {!funnyMode ? (rowIndex + 1) : (columns)[rowIndex]}
+                      {!funnyMode ? rowIndex + 1 : columns[rowIndex]}
                     </td>
                     {row.map((value, colIndex) => {
                       const IsZero = dataOnly[rowIndex][colIndex] === 0;
                       return (
                         <td
                           key={colIndex}
-                          className={`border border-black px-4 py-2 text-center text-xs sm:text-sm ${IsZero
-                            ? "bg-red-200 cursor-pointer hover:bg-card_green_primary"
-                            : ""
-                            }`}
+                          className={`border border-black px-4 py-2 text-center text-xs sm:text-sm ${
+                            IsZero
+                              ? "bg-red-200 cursor-pointer hover:bg-card_green_primary"
+                              : ""
+                          }`}
                           onClick={
                             IsZero
                               ? () => handleMeanClick(value, rowIndex, colIndex)
@@ -203,6 +204,10 @@ export default function PredictionMeasure({
     const [topNCount, setTopNCount] = useState(2); // Nilai default untuk Top-N
     const [redCells, setRedCells] = useState([]);
 
+    // untuk validasi ketika top-n lebih dari yang belum di prediksi
+    const [showModal, setShowModal] = useState(false);
+    const [maxPrediksiKosong, setMaxPrediksiKosong] = useState(0);
+
     if (!result || !result["prediction"]) return null;
 
     // Cek apakah nilai prediksi untuk Top-N adalah 0
@@ -216,8 +221,8 @@ export default function PredictionMeasure({
       // Ambil prediksi dan urutkan berdasarkan nilai terbesar
       return result["prediction"][userIndex]
         ? result["prediction"][userIndex]
-          .map((value, index) => ({ value, index })) // Membuat array objek untuk bisa disort
-          .sort((a, b) => b.value - a.value) // Urutkan berdasarkan nilai terbesar
+            .map((value, index) => ({ value, index })) // Membuat array objek untuk bisa disort
+            .sort((a, b) => b.value - a.value) // Urutkan berdasarkan nilai terbesar
         : [];
     };
 
@@ -226,9 +231,26 @@ export default function PredictionMeasure({
         ? getTopPredictions(selectedUserTopN, result)
         : [];
 
+    // const handleTopNChange = (e) => {
+    //   const value = parseInt(e.target.value, 10);
+    //   setTopNCount(Math.min(Math.max(1, value), topNPredictions.length));
+    // };
+
     const handleTopNChange = (e) => {
       const value = parseInt(e.target.value, 10);
-      setTopNCount(Math.min(Math.max(1, value), topNPredictions.length));
+
+      if (selectedUserTopN !== null) {
+        const maxAvailable =
+          redCellsGroupedByUser[selectedUserTopN]?.length || 0;
+
+        if (value > maxAvailable) {
+          setMaxPrediksiKosong(maxAvailable); // simpan info untuk ditampilkan di modal
+          setShowModal(true);
+          return;
+        }
+      }
+
+      setTopNCount(Math.max(1, value));
     };
 
     // Menyaring Top-N berdasarkan jumlah yang diinginkan
@@ -324,12 +346,12 @@ export default function PredictionMeasure({
 
           <MathJaxContext options={mathjaxConfig}>
             <div className="flex flex-col sm:flex-row my-5 pl-5">
-              <div className="border-2 py-3 px-3 border-black rounded-lg w-full sm:w-auto overflow-x-auto sm:overflow-x-visible">
-                <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed">
-                  {formula.TopN}
-                </MathJaxComponent>
+              <div className="border-2 border-black rounded-lg w-full sm:w-fit overflow-x-auto overflow-y-hidden sm:overflow-visible px-2 py-2 sm:px-4 sm:py-3 mx-auto sm:mx-0">
+                <div className="text-[0.75rem] sm:text-sm md:text-base leading-[1.4] text-center sm:text-left">
+                  <MathJaxComponent>{formula.TopN}</MathJaxComponent>
+                </div>
               </div>
-              <p className="mt-4 sm:mt-0 sm:ml-4 items-center text-red-500 font-semibold text-justify">
+              <p className="text-sm sm:text-sm md:text-base lg:text-lg  mt-4 sm:mt-0 sm:ml-4 items-center text-red-500 font-semibold text-justify">
                 Dimana himpunan didapatkan berdasarkan urutan nilai similaritas
                 (dari yang terbesar ke yang terkecil)
               </p>
@@ -338,12 +360,12 @@ export default function PredictionMeasure({
 
           <FunctionMeasureDropdown DetailRumus={formula.detailTopN_formula} />
 
-          <div className="flex justify-center items-center space-x-4">
+          <div className="flex flex-col md:flex-row md:items-end justify-center gap-4 mt-4">
             {/* Dropdown untuk memilih user */}
-            <div className="mt-4 w-full max-w-xs">
+            <div className="w-full max-w-xs">
               <label
                 htmlFor="user-dropdown"
-                className="font-semibold text-lg mb-2 block"
+                className="font-semibold text-base mb-1 block text-gray-800"
               >
                 Lihat Top-N Prediksi
               </label>
@@ -358,17 +380,20 @@ export default function PredictionMeasure({
                 </option>
                 {result["prediction"].map((_, index) => (
                   <option key={index} value={index}>
-                    User {!funnyMode ? (index + 1) : (opsional == "user-based" ? columns : headers)[index]}
+                    User{" "}
+                    {!funnyMode
+                      ? index + 1
+                      : (opsional === "user-based" ? columns : headers)[index]}
                   </option>
                 ))}
               </select>
             </div>
 
-            {/* Form untuk memilih jumlah Top-N */}
-            <div className="mt-4 w-full max-w-xs">
+            {/* Input untuk jumlah Top-N */}
+            <div className="w-full max-w-xs">
               <label
                 htmlFor="top-n-dropdown"
-                className="font-semibold text-lg mb-2 block"
+                className="font-semibold text-base mb-1 block text-gray-800"
               >
                 Jumlah Top-N
               </label>
@@ -394,16 +419,16 @@ export default function PredictionMeasure({
                   {selectedUserTopN + 1} :
                 </p>
                 <div className="overflow-x-auto">
-                  <table className="ml-5 my-2 font-semibold text-lg sm:text-xl table-auto border-collapse border">
+                  <table className="border border-black mt-4 text-xs sm:text-sm md:text-base lg:text-lg min-w-full">
                     <thead>
-                      <tr>
-                        <th className="border border-black text-left px-3 py-2">
+                      <tr className="bg-gray-200">
+                        <th className="border border-black px-4 py-2 text-xs sm:text-sm md:text-base w-1/6 min-w-[80px]">
                           Rank
                         </th>
-                        <th className="border border-black text-left px-3 py-2">
+                        <th className="border border-black px-4 py-2 text-xs sm:text-sm md:text-base w-1/6 min-w-[80px]">
                           Nilai r
                         </th>
-                        <th className="border border-black text-left px-3 py-2">
+                        <th className="border border-black px-4 py-2 text-xs sm:text-sm md:text-base w-1/6 min-w-[80px]">
                           Prediksi
                         </th>
                       </tr>
@@ -414,20 +439,26 @@ export default function PredictionMeasure({
                           key={index}
                           className="border border-black bg-red-200"
                         >
-                          <td className="border border-black px-3 py-2">
+                          <td className="border border-black px-4 py-2 bg-blue-200 text-xs sm:text-sm">
                             {index + 1}
                           </td>
                           <td className="px-3 py-2 font-stix">
-                            {!funnyMode ? (<><span className="relative inline-block">
-                              <sup className="absolute top-0 left-0 text-xs">
-                                ^
-                              </sup>
-                              <span>r</span>
-                            </span>
-                              <sub>
-                                {selectedUserTopN + 1}
-                                {pred.colIndex + 1}
-                              </sub></>) : (headers)[pred.colIndex]}
+                            {!funnyMode ? (
+                              <>
+                                <span className="relative inline-block">
+                                  <sup className="absolute top-0 left-0 text-xs">
+                                    ^
+                                  </sup>
+                                  <span>r</span>
+                                </span>
+                                <sub>
+                                  {selectedUserTopN + 1}
+                                  {pred.colIndex + 1}
+                                </sub>
+                              </>
+                            ) : (
+                              headers[pred.colIndex]
+                            )}
                           </td>
                           <td className="border border-black px-3 py-2">
                             {pred.value.toFixed(3)}
@@ -458,15 +489,20 @@ export default function PredictionMeasure({
                     Oleh karena{" "}
                     {displayTopPredictionsRedUser
                       .map((pred, idx) => {
-                        const rDataTopN = `\\[ {\\widehat{r}_{${selectedUserTopN + 1
-                          }${pred.colIndex + 1}}} \\] `;
+                        const rDataTopN = `\\[ {\\widehat{r}_{${
+                          selectedUserTopN + 1
+                        }${pred.colIndex + 1}}} \\] `;
                         return (
                           <span
                             key={idx}
                             className="inline-block p-0.5 rounded-lg font-bold mx-1 my-0.5"
                           >
                             <MathJaxContext option={mathjaxConfig}>
-                              <MathJaxComponent>{!funnyMode ? rDataTopN : (headers)[pred.colIndex]}</MathJaxComponent>
+                              <MathJaxComponent>
+                                {!funnyMode
+                                  ? rDataTopN
+                                  : headers[pred.colIndex]}
+                              </MathJaxComponent>
                             </MathJaxContext>
                           </span>
                         );
@@ -482,22 +518,35 @@ export default function PredictionMeasure({
                         ];
                       }, null)}
                     , maka daftar rekomendasi prediksi <i>ranking</i> Top-N
-                    untuk <i>user</i> target {!funnyMode ? (selectedUserTopN + 1) : columns[selectedUserTopN]} adalah
-                    sebagai berikut:
+                    untuk <i>user</i> target{" "}
+                    {!funnyMode
+                      ? selectedUserTopN + 1
+                      : columns[selectedUserTopN]}{" "}
+                    adalah sebagai berikut:
                     {displayTopPredictionsRedUser.length > 1
                       ? displayTopPredictionsRedUser.map((pred, idx, array) => (
-                        <span key={idx}>
-                          <i>Item {!funnyMode ? (pred.colIndex + 1) : headers[pred.colIndex]}</i>
-                          {idx === array.length - 2
-                            ? " dan "
-                            : idx === array.length - 1
+                          <span key={idx}>
+                            <i>
+                              Item{" "}
+                              {!funnyMode
+                                ? pred.colIndex + 1
+                                : headers[pred.colIndex]}
+                            </i>
+                            {idx === array.length - 2
+                              ? " dan "
+                              : idx === array.length - 1
                               ? ""
                               : ", "}
-                        </span>
-                      ))
+                          </span>
+                        ))
                       : displayTopPredictionsRedUser.map((pred, idx) => (
-                        <i key={idx}>Item {!funnyMode ? (pred.colIndex + 1) : headers[pred.colIndex]}</i>
-                      ))}
+                          <i key={idx}>
+                            Item{" "}
+                            {!funnyMode
+                              ? pred.colIndex + 1
+                              : headers[pred.colIndex]}
+                          </i>
+                        ))}
                     .
                   </p>
                 </div>
@@ -505,6 +554,33 @@ export default function PredictionMeasure({
             </div>
           )}
         </div>
+        {showModal && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+            <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
+              <h2 className="text-xl font-semibold text-red-600 mb-2">
+                Peringatan
+              </h2>
+              <p className="text-gray-700">
+                Jumlah Top-N yang Anda masukkan melebihi jumlah data rating yang
+                belum diprediksi.
+              </p>
+              <p className="mt-2 font-medium">
+                Data yang belum diprediksi untuk{" "}
+                <i>User-{selectedUserTopN + 1}</i> ini hanya:{" "}
+                <span className="font-bold">{maxPrediksiKosong}</span>{" "}
+                <i>Item</i> yang belum diprediksi.
+              </p>
+              <div className="mt-4 flex justify-end space-x-2">
+                <button
+                  onClick={() => setShowModal(false)}
+                  className="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-black rounded"
+                >
+                  Tutup
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   };
@@ -518,7 +594,7 @@ export default function PredictionMeasure({
         />
         {/* Vertical Line */}
         <div className="flex items-center flex-wrap">
-          <div className="w-8 h-8 flex items-center justify-center bg-blue-500 text-white rounded-full text-lg font-semibold mr-3 sm:w-10 sm:h-10 sm:text-xl md:w-12 md:h-12 md:text-2xl">
+          <div className="flex items-center justify-center w-8 h-8 text-lg sm:w-10 sm:h-10 sm:text-xl md:w-12 md:h-12 md:text-2xl lg:w-14 lg:h-14 lg:text-3xl bg-blue-500 text-white rounded-full font-semibold mr-3">
             4
           </div>
 
@@ -573,20 +649,20 @@ export default function PredictionMeasure({
         <MathJaxContext options={mathjaxConfig}>
           <div className="flex flex-col sm:flex-row my-5 pl-5">
             {/* MathJax Container */}
-            <div className="border-2 py-3 px-3 border-black rounded-lg w-full sm:w-auto overflow-x-auto sm:overflow-x-visible">
-              <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed">
-                {formula.arg_max}
-              </MathJaxComponent>
+            <div className="border-2 border-black rounded-lg w-full sm:w-fit overflow-x-auto overflow-y-hidden sm:overflow-visible px-2 py-2 sm:px-4 sm:py-3 mx-auto sm:mx-0">
+              <div className="text-[0.75rem] sm:text-sm md:text-base leading-[1.4] text-center sm:text-left">
+                <MathJaxComponent>{formula.arg_max}</MathJaxComponent>
+              </div>
             </div>
 
             {/* Deskripsi */}
-            <p className="mt-4 sm:mt-0 sm:ml-4 items-center text-red-500 font-semibold text-justify">
+            <p className="text-sm sm:text-sm md:text-base lg:text-lg  mt-4 sm:mt-0 sm:ml-4 items-center text-red-500 font-semibold text-justify">
               Di mana himpunan didapatkan berdasarkan urutan nilai similaritas
               (dari yang terbesar ke yang terkecil)
             </p>
           </div>
         </MathJaxContext>
-
+        <FunctionMeasureDropdown DetailRumus={formula.detail_ArgMax} />
         <h2 className="font-semibold text-sm sm:text-base md:text-lg">
           4. Menentukan prediksi <i> rating </i>
         </h2>
@@ -604,7 +680,7 @@ export default function PredictionMeasure({
       <div className="flex items-center  mt-5">
         <div className="border-l-4 border-card_blue_primary h-10 mr-4" />
         {/* Vertical Line */}
-        <h1 className="font-poppins text-start text-xl font-semibold text-black">
+        <h1 className="font-poppins capitalize text-sm sm:text-sm md:text-base lg:text-lg font-semibold text-black text-start">
           Mencari Prediksi{" "}
           <span className="italic">
             {opsional
@@ -614,12 +690,9 @@ export default function PredictionMeasure({
         </h1>
       </div>
       <MathJaxContext options={mathjaxConfig}>
-        <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
-          {/* Membungkus MathJax dengan overflow dan responsif */}
-          <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
-            <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
-              {formula.formula}
-            </MathJaxComponent>
+        <div className="w-full max-w-full overflow-x-auto overflow-y-hidden sm:overflow-x-visible">
+          <div className="text-[0.75rem] sm:text-sm md:text-base leading-[1.4] mt-4 text-center sm:text-left">
+            <MathJaxComponent>{formula.formula}</MathJaxComponent>
           </div>
         </div>
       </MathJaxContext>
@@ -635,57 +708,62 @@ export default function PredictionMeasure({
         </h1>
 
         {/* Tombol dengan ikon */}
-        <div
-          className="flex items-center justify-end my-4 bg-card_blue_primary p-4 rounded-lg cursor-pointer hover:bg-blue-500 transition-all w-[130px] h-[35px] shadow-md outline outline-2 outline-white"
-          onClick={() => setShowModalTutorial(true)}
-        >
-          {/* Info Button */}
-          <IconButton
-            className="text-white hover:text-green-500 transition-colors duration-300"
-            aria-label="Info"
+        <div className="flex justify-center mt-4">
+          <div
+            className="flex items-center gap-2 px-3 py-2 bg-card_blue_primary rounded-md cursor-pointer hover:bg-blue-500 transition-all shadow-md outline outline-2 outline-white w-fit"
+            onClick={() => setShowModalTutorial(true)}
           >
-            <InfoIcon className="text-white hover:text-green-500" />
-          </IconButton>
+            {/* Info Icon */}
+            <InfoIcon className="text-white text-lg sm:text-xl" />
 
-          {/* Tutorial Title */}
-          <h1 className="text-md font-medium text-white">Tutorial</h1>
+            {/* Tutorial Title */}
+            <span className="text-white text-sm sm:text-base font-medium">
+              Tutorial
+            </span>
+          </div>
         </div>
 
-        <div className="my-4 flex gap-3 justify-center items-center">
-          <label htmlFor="k" className="mb-3 font-bold">
-            Tentukan nilai TopK :
+        <div className="my-4 flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+          <label htmlFor="k" className="font-bold text-gray-800 md:mb-0 mb-1">
+            Tentukan nilai TopK:
           </label>
-          <div className="outline outline-1 inline-flex items-center rounded-md bg-yellow-primary px-3 py-2 shadow-sm ring-1 ring-inset ring-gray-300">
+
+          <div className="inline-flex items-center rounded-md bg-white px-3 py-2 shadow-sm ring-1 ring-inset ring-black w-full md:w-40">
             <Input
               id="itemInput"
               name="k"
               placeholder={kValue}
               type="text"
-              className="w-full h-5 border-none bg-transparent font-poppins focus:outline-none text-gray-900"
+              className="w-full border-none bg-transparent font-poppins focus:outline-none text-black text-sm"
               onChange={(e) => setKValue(e.target.value)}
             />
           </div>
-
-          {/* <button className="bg-purple-btn-primary p-2 text-white rounded-lg " onClick={(e) => setK(kValue)}>Submit</button> */}
         </div>
+
+        {/* <button className="bg-purple-btn-primary p-2 text-white rounded-lg " onClick={(e) => setK(kValue)}>Submit</button> */}
 
         {/*    call api */}
 
         {kValue !== null && <RenderTabelPrediksi k={kValue} />}
         {/* Modal pop-up */}
         {showModalTutorial && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-            <div className="bg-white rounded-lg p-6 shadow-lg w-[600px]">
-              <h2 className="text-xl font-semibold mb-4">Tutorial Prediksi </h2>
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 px-4">
+            <div className="bg-white rounded-lg p-6 shadow-lg w-full max-w-lg">
+              <h2 className="text-xl font-semibold mb-4 text-center">
+                Tutorial Prediksi
+              </h2>
+
               <img
                 src={PrediksiGif}
                 alt="Video Tutorial Cover"
-                className="w-full h-full object-cover"
+                className="w-full rounded-md mb-4 object-cover"
               />
-              <p className="text-gray-700 text-justify font-semibold my-2">
+
+              <p className="text-gray-700 text-justify font-medium">
                 Ini adalah tutorial untuk memberikan informasi tambahan terkait
                 Prediksi cara perhitungan.
               </p>
+
               <div className="mt-6 flex justify-end">
                 <button
                   className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
@@ -702,5 +780,3 @@ export default function PredictionMeasure({
     </div>
   );
 }
-
-

@@ -25,7 +25,9 @@ import Spinner from "../../Navigate/Spinner.jsx";
 const TableSimilarity = ({ children }) => {
   return (
     <>
-      <table className="border border-black mt-4 min-w-full">{children}</table>
+      <table className="border border-black mt-4 text-xs sm:text-sm md:text-base lg:text-lg min-w-full">
+        {children}
+      </table>
     </>
   );
 };
@@ -50,8 +52,9 @@ const TrTableSimilarity = ({ children }, key) => {
 const TdTableSimilarity = ({ rowIndex, colIndex, onClick, children }, key) => {
   return (
     <td
-      className={`border border-black px-4 py-2 text-center text-xs sm:text-sm cursor-pointer hover:bg-card_green_primary ${rowIndex === colIndex ? "bg-red-200" : ""
-        }`}
+      className={`border border-black px-4 py-2 text-center text-xs sm:text-sm cursor-pointer hover:bg-card_green_primary ${
+        rowIndex === colIndex ? "bg-red-200" : ""
+      }`}
       onClick={onClick}
     >
       {children}
@@ -117,17 +120,29 @@ export default function SimilarityMeasure({
               {Array.from({ length: numberOfColumnsSim }, (_, index) => (
                 <th
                   key={index}
-                  className={`border border-black px-4 py-2 text-xs sm:text-sm ${opsional == "user-based" ? "bg-blue-200" : ""}`}
+                  className={`border border-black px-4 py-2 text-xs sm:text-sm ${
+                    opsional == "user-based" ? "bg-blue-200" : ""
+                  }`}
                 >
-                  {!funnyMode ? (index + 1) : (opsional == "user-based" ? columns : headers)[index]}
+                  {!funnyMode
+                    ? index + 1
+                    : (opsional == "user-based" ? columns : headers)[index]}
                 </th>
               ))}
             </HeadTableSimilarity>
             <tbody>
               {result["similarity"].map((row, rowIndex) => (
                 <TrTableSimilarity key={rowIndex}>
-                  <td className={`border border-black px-4 py-2 ${opsional == "user-based" ? "bg-blue-200" : "bg-gray-200"} text-xs sm:text-sm`}>
-                    {!funnyMode ? (rowIndex + 1) : (opsional == "user-based" ? columns : headers)[rowIndex]}
+                  <td
+                    className={`border border-black px-4 py-2 ${
+                      opsional == "user-based" ? "bg-blue-200" : "bg-gray-200"
+                    } text-xs sm:text-sm`}
+                  >
+                    {!funnyMode
+                      ? rowIndex + 1
+                      : (opsional == "user-based" ? columns : headers)[
+                          rowIndex
+                        ]}
                   </td>
                   {row.map((value, colIndex) => (
                     <TdTableSimilarity
@@ -171,11 +186,11 @@ export default function SimilarityMeasure({
         />
         {/* Vertical Line */}
         <div className="flex items-center flex-wrap">
-          <div className="w-8 h-8 flex items-center justify-center bg-blue-500 text-white rounded-full text-lg font-semibold mr-3 sm:w-10 sm:h-10 sm:text-xl md:w-12 md:h-12 md:text-2xl">
+          <div className="flex items-center justify-center w-8 h-8 text-lg sm:w-10 sm:h-10 sm:text-xl md:w-12 md:h-12 md:text-2xl lg:w-14 lg:h-14 lg:text-3xl bg-blue-500 text-white rounded-full font-semibold mr-3">
             3
           </div>
 
-          <h1 className="font-poppins text-xl text-start font-semibold text-black">
+          <h1 className="font-poppins capitalize text-sm sm:text-sm md:text-base lg:text-lg font-semibold text-black text-start">
             Mencari Fungsi Similaritas{" "}
             <span className="italic">
               {" "}
@@ -188,12 +203,9 @@ export default function SimilarityMeasure({
         </div>
       </div>
       <MathJaxContext options={mathjaxConfig}>
-        <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
-          {/* Membungkus MathJax dengan overflow dan responsif */}
-          <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
-            <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
-              {FormulaSimilarity.formula}
-            </MathJaxComponent>
+        <div className="w-full max-w-full overflow-x-auto overflow-y-hidden sm:overflow-x-visible">
+          <div className="text-[0.75rem] sm:text-sm md:text-base leading-[1.4] mt-4 text-center sm:text-left">
+            <MathJaxComponent>{FormulaSimilarity.formula}</MathJaxComponent>
           </div>
         </div>
       </MathJaxContext>
@@ -212,20 +224,19 @@ export default function SimilarityMeasure({
         </h1>
 
         {/* Tombol dengan ikon */}
-        <div
-          className="flex items-center justify-end my-4 bg-card_blue_primary p-4 rounded-lg cursor-pointer hover:bg-blue-500 transition-all w-[130px] h-[35px] shadow-md outline outline-2 outline-white"
-          onClick={() => setShowModalTutorial(true)}
-        >
-          {/* Info Button */}
-          <IconButton
-            className="text-white hover:text-green-500 transition-colors duration-300"
-            aria-label="Info"
+        <div className="flex justify-center mt-4">
+          <div
+            className="flex items-center gap-2 px-3 py-2 bg-card_blue_primary rounded-md cursor-pointer hover:bg-blue-500 transition-all shadow-md outline outline-2 outline-white w-fit"
+            onClick={() => setShowModalTutorial(true)}
           >
-            <InfoIcon className="text-white hover:text-green-500" />
-          </IconButton>
+            {/* Info Icon */}
+            <InfoIcon className="text-white text-lg sm:text-xl" />
 
-          {/* Tutorial Title */}
-          <h1 className="text-md font-medium text-white">Tutorial</h1>
+            {/* Tutorial Title */}
+            <span className="text-white text-sm sm:text-base font-medium">
+              Tutorial
+            </span>
+          </div>
         </div>
         {/* Tabel similaritas rating */}
         <RenderTabelSimilarity

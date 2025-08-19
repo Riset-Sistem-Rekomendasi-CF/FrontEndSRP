@@ -15,17 +15,19 @@ const Toast = ({ message, type, onClose }) => {
   }, [onClose]);
 
   return (
-    <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50">
+    <div className="fixed bottom-0 left-0 w-full  z-50">
       <div
-        className={` max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl w-full px-2 py-4 mb-4 text-sm rounded-lg ${toastClasses[type]} shadow-lg transition-opacity duration-300 opacity-100`}
+        className={`w-full px-4 py-4 ${toastClasses[type]} shadow-lg transition-all duration-300`}
       >
-        <div className="flex items-center">
-          <img
-            src={KoalaPage}
-            alt="Icon"
-            className="w-10 h-10 object-cover rounded-full mr-3"
-          />
-          <p className="font-poppins font-semibold text-md">{message}</p>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center">
+            <img
+              src={KoalaPage}
+              alt="Icon"
+              className="w-10 h-10 object-cover rounded-full mr-3"
+            />
+            <p className="font-poppins font-semibold text-md">{message}</p>
+          </div>
           <button
             onClick={onClose}
             className="ml-3 text-black focus:outline-none"

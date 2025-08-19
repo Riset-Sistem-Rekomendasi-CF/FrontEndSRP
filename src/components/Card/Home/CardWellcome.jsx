@@ -106,7 +106,7 @@ const CardWellcome = ({ heading, detail, image, bgColor }) => {
 
         {isModalOpen && (
           <div
-            className="py-5 fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50 overflow-y-auto"
+            className="py-5 fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50 overflow-y-auto pt-10"
             onClick={closeModal}
           >
             <div
@@ -233,9 +233,9 @@ const ContentUserBasedCF = () => {
             className="w-full h-auto object-cover rounded-lg shadow-md hidden md:block "
           />
           <a href={UserBasedSvg} target="_blank">
-            <p className="p-2 bg-yellow-primary rounded-md mt-5 text-center shadow-sm hover:bg-yellow-400 cursor-pointer">
+            <div className="p-2 bg-yellow-primary rounded-md mt-5 text-center shadow-sm hover:bg-yellow-400 cursor-pointer">
               Lihat Lebih Detail
-            </p>
+            </div>
           </a>
         </div>
       </div>
@@ -269,9 +269,9 @@ const ContentItemBasedCF = () => {
             className="w-full h-auto object-cover rounded-lg shadow-md hidden md:block"
           />
           <a href={ItemBasedSvg} target="_blank">
-            <p className="p-2 bg-yellow-primary rounded-md mt-2 text-center shadow-sm hover:bg-yellow-400 cursor-pointer">
+            <div className="p-2 bg-yellow-primary rounded-md mt-2 text-center shadow-sm hover:bg-yellow-400 cursor-pointer">
               Lihat Lebih Detail
-            </p>
+            </div>
           </a>
         </div>
       </div>

@@ -1,9 +1,10 @@
 import CardBanner from "../../components/Card/Home/CardBanner";
-import Navbar from "../../components/Navigate/NavBar";
+
 import Acos1 from "../../assets/icons/ACOS1.png";
 import CardStepper from "../../components/Card/Home/CardStepper";
 import { StepsACos } from "../../components/Steppers/SteppersACos";
 import { BackToTopButtonHome } from "../../components/Navigate/BackToTopNavigate";
+import Navbar from "../../components/Navigate/Navbar/Navbar";
 
 export default function DetailPageACos() {
   const ReaderStepACos = StepsACos;

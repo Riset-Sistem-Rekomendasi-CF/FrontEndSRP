@@ -12,7 +12,14 @@ import centerdGif from "../../../../assets/vidioAsset/meanCenGif.gif";
 import MathJaxComponent from "../../../../MathJaxComponent";
 import Spinner from "../../../Navigate/Spinner";
 
-const MeanCenteredMeasure = ({ opsional, similarity, initialData, headers, columns, funnyMode }) => {
+const MeanCenteredMeasure = ({
+  opsional,
+  similarity,
+  initialData,
+  headers,
+  columns,
+  funnyMode,
+}) => {
   const [selectedValue, setSelectedValue] = useState(null); // State untuk menyimpan user yang dipilih
   const [showModal, setShowModal] = useState(false); // State untuk menampilkan modal
   const [selectedIndex, setSelectedIndex] = useState(null);
@@ -42,8 +49,8 @@ const MeanCenteredMeasure = ({ opsional, similarity, initialData, headers, colum
         ? transposeMatrix(dataOnly)
         : transposeMatrix(dataOnly)
       : opsional === "user-based"
-        ? dataOnly
-        : transposeMatrix(dataOnly);
+      ? dataOnly
+      : transposeMatrix(dataOnly);
   const opsionalModify =
     similarity === "Adjusted Cosine"
       ? opsional === "item-based"
@@ -65,8 +72,8 @@ const MeanCenteredMeasure = ({ opsional, similarity, initialData, headers, colum
       similarity === "Adjusted Cosine"
         ? transposeMatrix(result["mean-centered"])
         : opsional === "user-based"
-          ? result["mean-centered"]
-          : transposeMatrix(result["mean-centered"]);
+        ? result["mean-centered"]
+        : transposeMatrix(result["mean-centered"]);
 
     const numberOfColumns = resultModify[0].length; // Ambil jumlah kolom dari baris pertama
 
@@ -74,7 +81,7 @@ const MeanCenteredMeasure = ({ opsional, similarity, initialData, headers, colum
       <div className="flex justify-center mt-4">
         {/* Wrapper dengan overflow-x-auto untuk scroll horizontal */}
         <div className="overflow-x-auto w-full">
-          <table className="border border-black mt-4 min-w-full">
+          <table className="border border-black mt-4 text-xs sm:text-sm md:text-base lg:text-lg min-w-full">
             <thead>
               <tr className="bg-gray-200">
                 {/* Kolom pertama (U/I) dengan lebar yang responsif */}
@@ -87,7 +94,7 @@ const MeanCenteredMeasure = ({ opsional, similarity, initialData, headers, colum
                     key={index}
                     className="border border-black px-4 py-2 text-xs sm:text-sm md:text-base"
                   >
-                    {!funnyMode ? (index + 1) : (headers)[index]}
+                    {!funnyMode ? index + 1 : headers[index]}
                   </th>
                 ))}
               </tr>
@@ -97,7 +104,7 @@ const MeanCenteredMeasure = ({ opsional, similarity, initialData, headers, colum
                 <tr key={rowIndex}>
                   {/* Kolom pertama (U/I) dengan padding dan lebar responsif */}
                   <td className="border border-black px-4 py-2 bg-gray-200 text-xs sm:text-sm md:text-base w-1/6 min-w-[80px]">
-                    {!funnyMode ? (rowIndex + 1) : (columns)[rowIndex]}
+                    {!funnyMode ? rowIndex + 1 : columns[rowIndex]}
                   </td>
 
                   {row.map((value, colIndex) => {
@@ -107,16 +114,17 @@ const MeanCenteredMeasure = ({ opsional, similarity, initialData, headers, colum
                           ? dataModify[colIndex][rowIndex]
                           : dataModify[colIndex][rowIndex]
                         : opsional === "user-based"
-                          ? dataModify[rowIndex][colIndex]
-                          : dataModify[colIndex][rowIndex];
+                        ? dataModify[rowIndex][colIndex]
+                        : dataModify[colIndex][rowIndex];
 
                     const IsZero = OriginalValue === 0;
 
                     return (
                       <td
                         key={colIndex}
-                        className={`border border-black px-4 py-2 text-center cursor-pointer hover:bg-card_green_primary text-xs sm:text-sm md:text-base ${IsZero ? "bg-red-200" : ""
-                          }`}
+                        className={`border border-black px-4 py-2 text-center cursor-pointer hover:bg-card_green_primary text-xs sm:text-sm md:text-base ${
+                          IsZero ? "bg-red-200" : ""
+                        }`}
                         onClick={() =>
                           handleMeanClick(value, rowIndex, colIndex)
                         }
@@ -152,18 +160,17 @@ const MeanCenteredMeasure = ({ opsional, similarity, initialData, headers, colum
 
   return (
     <div className="mt-5 bg-yellow-secondary shadow-md p-5 rounded-md outline outline-2 outline-black">
-      <div className="flex items-center">
+      <div className="flex items-center justify-start mb-4">
         <div
           id="mean-cen-section"
           className="border-l-4 border-card_blue_primary h-10 mr-4"
         />
         {/* Vertical Line */}
         <div className="flex items-center flex-wrap">
-          <div className="w-8 h-8 flex items-center justify-center bg-blue-500 text-white rounded-full text-lg font-semibold mr-3 sm:w-10 sm:h-10 sm:text-xl md:w-12 md:h-12 md:text-2xl">
+          <div className="flex items-center justify-center w-8 h-8 text-lg sm:w-10 sm:h-10 sm:text-xl md:w-12 md:h-12 md:text-2xl lg:w-14 lg:h-14 lg:text-3xl bg-blue-500 text-white rounded-full font-semibold mr-3">
             2
           </div>
-
-          <h1 className="font-poppins text-xl text-start font-semibold text-black">
+          <h1 className="font-poppins capitalize text-sm sm:text-sm md:text-base lg:text-lg font-semibold text-black text-start">
             Mencari Mean-Centered <i> Rating </i>{" "}
             <span className="italic">
               {opsional
@@ -175,12 +182,9 @@ const MeanCenteredMeasure = ({ opsional, similarity, initialData, headers, colum
       </div>
 
       <MathJaxContext options={mathjaxConfig}>
-        <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
-          {/* Membungkus MathJax dengan overflow dan responsif */}
-          <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
-            <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
-              {FormulaMeanCentered.formula}
-            </MathJaxComponent>
+        <div className="w-full max-w-full overflow-x-auto overflow-y-hidden sm:overflow-x-visible">
+          <div className="text-[0.75rem] sm:text-sm md:text-base leading-[1.4] text-center sm:text-left">
+            <MathJaxComponent>{FormulaMeanCentered.formula}</MathJaxComponent>
           </div>
         </div>
       </MathJaxContext>
@@ -189,8 +193,9 @@ const MeanCenteredMeasure = ({ opsional, similarity, initialData, headers, colum
       />
       <div className="px-4 sm:px-8 md:px-10 py-5">
         <h1 className="text-lg font-semibold font-poppins underline underline-offset-8 decoration-4 decoration-card_blue_primary">
-          Hasil Mean-Centered{" "}
+          Hasil{" "}
           <span className="italic">
+            Mean-Centered Rating{" "}
             {opsional
               .toLowerCase()
               .replace(/\b[a-z]/g, (letter) => letter.toUpperCase())}
@@ -198,20 +203,19 @@ const MeanCenteredMeasure = ({ opsional, similarity, initialData, headers, colum
         </h1>
 
         {/* Tombol dengan ikon */}
-        <div
-          className="flex items-center justify-end my-4 bg-card_blue_primary p-4 rounded-lg cursor-pointer hover:bg-blue-500 transition-all w-[130px] h-[35px] shadow-md outline outline-2 outline-white"
-          onClick={() => setShowModalTutorial(true)}
-        >
-          {/* Info Button */}
-          <IconButton
-            className="text-white hover:text-green-500 transition-colors duration-300"
-            aria-label="Info"
+        <div className="flex justify-center mt-4">
+          <div
+            className="flex items-center gap-2 px-3 py-2 bg-card_blue_primary rounded-md cursor-pointer hover:bg-blue-500 transition-all shadow-md outline outline-2 outline-white w-fit"
+            onClick={() => setShowModalTutorial(true)}
           >
-            <InfoIcon className="text-white hover:text-green-500" />
-          </IconButton>
+            {/* Info Icon */}
+            <InfoIcon className="text-white text-lg sm:text-xl" />
 
-          {/* Tutorial Title */}
-          <h1 className="text-md font-medium text-white">Tutorial</h1>
+            {/* Tutorial Title */}
+            <span className="text-white text-sm sm:text-base font-medium">
+              Tutorial
+            </span>
+          </div>
         </div>
         {/* Tabel mean-centerd rating */}
         <RenderTabelMeanCentered />

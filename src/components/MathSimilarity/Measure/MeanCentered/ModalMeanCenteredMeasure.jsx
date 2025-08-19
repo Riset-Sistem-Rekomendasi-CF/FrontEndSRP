@@ -1,4 +1,5 @@
 import {
+  getFormulaMeanCentered,
   getFormulaMeanCenteredIndex,
   getFormulaMeanCenteredValue,
 } from "../Formula/FormulaMeanCentered";
@@ -8,6 +9,9 @@ import LegendTable from "../../../tabelData/LegendTable";
 import MathJaxComponent from "../../../../MathJaxComponent";
 import Warm from "../../../Warm/Warm";
 import CloseIcon from "@mui/icons-material/Close";
+import InfoIcon from "@mui/icons-material/Info";
+import { MeanCenteredIndex } from "./MeanCenteredIndex";
+import { MeanCenteredValue } from "./MeanCenteredValue";
 
 const ModalMeanCenteredMeasure = ({
   selectedIndex,
@@ -18,7 +22,7 @@ const ModalMeanCenteredMeasure = ({
   close,
   headers,
   columns,
-  funnyMode
+  funnyMode,
 }) => {
   const [isNotation, setIsNotation] = useState(false);
   const dataModify = dataOnly;
@@ -28,52 +32,63 @@ const ModalMeanCenteredMeasure = ({
     setIsNotation(!isNotation);
   };
 
-  const MeanCenteredIndex = ({ rowIndex, colIndex }) => {
-    const expression = getFormulaMeanCenteredIndex(
-      rowIndex,
-      colIndex,
-      opsional
-    );
-    return <MathJaxComponent>{expression}</MathJaxComponent>;
-  };
+  // console.log("selectedIndex:", selectedIndex);
+  // console.log("selectedValue:", selectedValue);
 
-  const MeanCenteredValue = ({
-    rowIndex,
-    colIndex,
-    data,
-    result,
-    selectedValue,
-  }) => {
-    const expression = getFormulaMeanCenteredValue(
-      rowIndex,
-      colIndex,
-      data,
+  // helper untuk uppercase
+  const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
+  const current = opsional.split("-")[0]; // "user" atau "item"
+  const opposite = current === "user" ? "item" : "user";
+
+  const handleOpenDetailMeanCentered = () => {
+    const detailData = {
+      selectedIndex,
+      selectedValue,
+      dataOnly,
       result,
       opsional,
-      selectedValue
-    );
-    return (
-      <MathJaxComponent>
-        {expression.formula}
-        {expression.result}
-      </MathJaxComponent>
-    );
+      close,
+      headers,
+      columns,
+      funnyMode,
+    };
+
+    // simpan ke sessionStorage
+    sessionStorage.setItem("meanCenteredDetail", JSON.stringify(detailData));
+
+    // buka halaman detail
+    setTimeout(() => {
+      const newTab = window.open("/detail-mean-centered", "_blank");
+      if (!newTab) {
+        alert(
+          "Pastikan pop-up tidak diblokir untuk membuka halaman detail perhitungan."
+        );
+      }
+    }, 100);
   };
 
   return (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
       {/* Modal Content */}
 
-      <div className="bg-white p-6 rounded-lg shadow-lg w-full sm:w-11/12 md:w-8/12 lg:w-6/12 xl:w-5/12 max-h-[80%] overflow-y-auto m-6 relative">
-        <h2 className="text-lg sm:text-xl font-semibold mb-4 sticky top-0 bg-white p-2 z-10 shadow-sm">
-          Detail Menghitung <span className="italic">Mean-Centered</span>
+      <div
+        className="bg-white p-4 sm:p-6 rounded-lg shadow-lg 
+            w-full max-w-4xl 
+            max-h-[90vh] overflow-y-auto mt-6 ml-4 mr-4 relative"
+      >
+        {/* Header / Title */}
+        <div className="relative">
+          <h2 className="text-base sm:text-lg md:text-xl font-semibold mb-4 bg-white p-4 pr-12 z-10 shadow-sm">
+            <span>Detail Perhitungan Mean-Centered Rating</span>
+          </h2>
           <button
             onClick={close}
-            className="absolute top-1 right-3 text-2xl text-gray-600 hover:text-gray-800 focus:outline-none bg-red-200 px-2 py-1 rounded-full z-10"
+            className="absolute top-1 right-2 text-lg text-gray-600 hover:text-gray-800 focus:outline-none bg-red-200 px-2 py-1 rounded-full z-20"
+            aria-label="Tutup"
           >
-            <CloseIcon className="text-md" />
+            <CloseIcon className="w-4 h-4" />
           </button>
-        </h2>
+        </div>
 
         {/* Menampilkan rumus mean menggunakan MathJax */}
         <SwitchToggle
@@ -84,9 +99,7 @@ const ModalMeanCenteredMeasure = ({
         <div className="flex flex-col  sm:flex-row justify-center m-3 overflow-x-auto">
           {/* Tabel Data Rating */}
           <div className="overflow-x-auto w-full sm:w-auto">
-            <h2 className="font-semibold text-lg">
-              Data <i> Rating </i> (R)
-            </h2>
+            <h2 className="font-semibold text-lg">Data Rating (R)</h2>
             <table className="border border-black mt-4 mr-3 w-full">
               <thead>
                 <tr className="bg-gray-200">
@@ -97,7 +110,11 @@ const ModalMeanCenteredMeasure = ({
                       className="border border-black px-4 py-2 w-14"
                     >
                       {!isNotation ? (
-                        !funnyMode ? (index + 1) : (headers)[index]
+                        !funnyMode ? (
+                          index + 1
+                        ) : (
+                          headers[index]
+                        )
                       ) : (
                         <span className="font-serif">
                           i<sub>{index + 1}</sub>
@@ -112,7 +129,11 @@ const ModalMeanCenteredMeasure = ({
                   <tr key={rowIndex + "data-body"}>
                     <td className="border border-black px-4 py-2 w-14 bg-gray-200">
                       {!isNotation ? (
-                        !funnyMode ? (rowIndex + 1) : (columns)[rowIndex]
+                        !funnyMode ? (
+                          rowIndex + 1
+                        ) : (
+                          columns[rowIndex]
+                        )
                       ) : (
                         <span className="font-serif">
                           u<sub>{rowIndex + 1}</sub>
@@ -123,9 +144,9 @@ const ModalMeanCenteredMeasure = ({
                       const isSelected =
                         opsional === "item-based"
                           ? selectedIndex[1] === colIndex &&
-                          selectedIndex[0] === rowIndex
+                            selectedIndex[0] === rowIndex
                           : selectedIndex[0] === rowIndex &&
-                          selectedIndex[1] === colIndex;
+                            selectedIndex[1] === colIndex;
                       const cellClass =
                         value === 0
                           ? "border border-black px-4 py-2 text-center w-14 bg-red-200"
@@ -133,8 +154,9 @@ const ModalMeanCenteredMeasure = ({
                       return (
                         <td
                           key={rowIndex + "-" + colIndex}
-                          className={`${cellClass} ${isSelected ? "bg-card_green_primary" : ""
-                            }`}
+                          className={`${cellClass} ${
+                            isSelected ? "bg-card_green_primary" : ""
+                          }`}
                           title={
                             isNotation
                               ? value.toFixed
@@ -167,9 +189,9 @@ const ModalMeanCenteredMeasure = ({
             </table>
           </div>
 
-          <div className="mt-4 sm:mt-0">
+          <div className="mt-4 sm:mt-0 ml-4">
             <h2 className="font-semibold text-lg">Mean (μ)</h2>
-            <table className="border border-black mt-4 ml-3 w-full sm:w-auto">
+            <table className="border border-black mt-4 w-full sm:w-auto">
               <thead>
                 <tr className="bg-gray-200">
                   <th className="border border-black px-4 py-2 w-10 italic">
@@ -184,16 +206,21 @@ const ModalMeanCenteredMeasure = ({
                 {result["mean-list"].map((mean, index) => (
                   <tr key={index + "mean-body"}>
                     <td className="border border-black px-4 py-2 w-14">
-                      {!funnyMode ? (index + 1) : (opsional == "user-based" ? columns : headers)[index]}
+                      {!funnyMode
+                        ? index + 1
+                        : (opsional === "user-based" ? columns : headers)[
+                            index
+                          ]}
                     </td>
                     <td
                       className={`border border-black px-4 py-2 w-20 text-center
-                                     ${selectedIndex[
-                          opsional === "user-based" ? 0 : 1
-                        ] === index
-                          ? "bg-yellow-200"
-                          : ""
-                        }`}
+                                     ${
+                                       selectedIndex[
+                                         opsional === "user-based" ? 0 : 1
+                                       ] === index
+                                         ? "bg-yellow-200"
+                                         : ""
+                                     }`}
                     >
                       <span
                         className="text-center"
@@ -223,6 +250,36 @@ const ModalMeanCenteredMeasure = ({
               </tbody>
             </table>
           </div>
+        </div>
+
+        <div>
+          <button
+            className="p-2 bg-orange-300 rounded-md shadow-sm hover:bg-orange-500 transition-colors  font-semibold"
+            onClick={handleOpenDetailMeanCentered}
+          >
+            Detail Mean-Centered {capitalize(opsional.split("-")[0])}
+          </button>
+        </div>
+        <div className="flex items-start gap-2 pt-2">
+          {/* Icon di pojok kiri atas */}
+          <InfoIcon className="text-blue-500 mt-1" />
+
+          {/* Teks paragraf */}
+          <p className="text-justify">
+            Untuk mempermudah pemahaman bisa dilihat detail perhitungan untuk
+            mencari nilai <i>mean-centered rating</i>
+            <strong>
+              {" "}
+              <i>
+                {capitalize(opsional.split("-")[0])}-{selectedIndex[0] + 1}
+              </i>{" "}
+              antara{" "}
+              <i>
+                {opposite}-{selectedIndex[1] + 1}
+              </i>
+            </strong>{" "}
+            pada data <i>toy dataset</i> di atas.
+          </p>
         </div>
 
         <div>
@@ -282,36 +339,41 @@ const ModalMeanCenteredMeasure = ({
 
         {currentValue !== 0 && (
           <div className="flex justify-center items-center flex-col px-10">
-            {isNotation ? (
+            {!isNotation && selectedIndex && (
               <MeanCenteredIndex
                 rowIndex={selectedIndex[0]}
                 colIndex={selectedIndex[1]}
                 opsional={opsional}
               />
-            ) : (
-              ""
             )}
 
-            {!isNotation && selectedIndex ? (
+            {!isNotation && selectedIndex && (
               <MeanCenteredValue
                 rowIndex={selectedIndex[0]}
                 colIndex={selectedIndex[1]}
                 data={dataModify}
                 result={result}
+                opsional={opsional}
                 selectedValue={selectedValue}
               />
-            ) : (
-              <p>No expression selected.</p>
             )}
           </div>
         )}
 
-        <p className="text-xl font-bold text-gray-700 mt-5 sm:text-md md:text-lg lg:text-xl xl:text-2xl">
-          Hasil dari <span className="italic">Mean-Centered</span> adalah dari
-          <span className="italic"> {opsional.split("-")[0]} </span>{" "}
-          {selectedIndex[0] + 1} dan
-          <span className="italic"> item {selectedIndex[1] + 1}</span> ={" "}
-          {selectedValue.toFixed(2)}
+        <p className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold text-gray-700 mt-5">
+          Hasil dari <span className="italic">Mean-Centered rating</span> dari
+          <span className="italic">
+            {" "}
+            {opsional.split("-")[0]}-{selectedIndex[0] + 1}
+          </span>{" "}
+          antara
+          <span className="italic">
+            {" "}
+            <i>
+              {opposite}-{selectedIndex[1] + 1}
+            </i>
+          </span>{" "}
+          yaitu = {selectedValue.toFixed(2)}
         </p>
 
         <button

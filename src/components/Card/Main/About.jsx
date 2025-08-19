@@ -1,5 +1,5 @@
 import KoalaPage from "../../../assets/icons/KoalaPage.png";
-import GifKoalaPage from "../../../assets/vidioAsset/gifKoala.gif";
+import GifKoalaPage from "../../../assets/vidioAsset/NewKoala.gif";
 
 const About = () => {
   const faqs = [
@@ -34,13 +34,13 @@ const About = () => {
           {/* Kolom 1: Heading */}
           <div className="text-start text-lg">
             <h1 className="text-5xl mb-6 text-blue-home font-semibold">
-              <span class="curved-underline">
+              <span className="curved-underline">
                 Tentang Aplikasi
                 <svg viewBox="0 0 100 20" preserveAspectRatio="none">
                   <path
                     d="M0 20 Q 50 0, 100 20"
                     stroke="white"
-                    stroke-width="4"
+                    strokeWidth="4"
                     fill="none"
                   />
                 </svg>

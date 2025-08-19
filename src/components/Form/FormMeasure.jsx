@@ -7,7 +7,14 @@ import TuneIcon from "@mui/icons-material/Tune";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import SwitchToggle from "../Toggle/SwitchToggle";
 
-export default function FormMeasure({ onDataChange, onDescriptionChange, changeFunny, headers, columns, funnyMode }) {
+export default function FormMeasure({
+  onDataChange,
+  onDescriptionChange,
+  changeFunny,
+  headers,
+  columns,
+  funnyMode,
+}) {
   const [n, setN] = useState(0);
   const [m, setM] = useState(0);
   const [sparsity, setSparsity] = useState(0);
@@ -215,29 +222,35 @@ export default function FormMeasure({ onDataChange, onDescriptionChange, changeF
           </div>
 
           {/* Submit Button */}
-          <div className="md:col-span-3 gap-4 flex justify-center mt-5">
-            <button
-              disabled={isOneClick}
-              type="button"
-              onClick={submitHandler}
-              className={`${!isOneClick
-                ? "bg-purple-btn-primary"
-                : "bg-violet-400 pointer-events-none"
-                } text-white font-semibold px-3 py-2 rounded-md shadow-md hover:bg-blue-600 focus:outline-none flex items-center`}
-            >
-              <TuneIcon className="mr-2" /> Buat Tabel Rating
-            </button>
-            <button
-              disabled={!isOneClick}
-              type="button"
-              onClick={handleResetData}
-              className={`${isOneClick
-                ? "bg-purple-btn-primary"
-                : "bg-violet-400 pointer-events-none"
-                } text-white font-semibold px-3 py-2 rounded-md shadow-md hover:bg-blue-600 focus:outline-none flex items-center`}
-            >
-              <RefreshIcon className="mr-2" /> Reset Data Rating
-            </button>
+          {/* Submit Button */}
+          <div className="col-span-1 md:col-span-3 flex justify-center mt-6">
+            <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md justify-center items-center">
+              <button
+                disabled={isOneClick}
+                onClick={submitHandler}
+                className={`${
+                  !isOneClick
+                    ? "bg-purple-btn-primary hover:bg-blue-600"
+                    : "bg-violet-400 pointer-events-none"
+                } 
+      text-white font-semibold px-4 py-2 rounded-md shadow-md flex items-center justify-center w-full sm:w-auto min-w-[200px]`}
+              >
+                <TuneIcon className="mr-2" /> Buat Tabel Rating
+              </button>
+
+              <button
+                disabled={!isOneClick}
+                onClick={handleResetData}
+                className={`${
+                  isOneClick
+                    ? "bg-purple-btn-primary hover:bg-blue-600"
+                    : "bg-violet-400 pointer-events-none"
+                } 
+      text-white font-semibold px-4 py-2 rounded-md shadow-md flex items-center justify-center w-full sm:w-auto min-w-[200px]`}
+              >
+                <RefreshIcon className="mr-2" /> Reset Data Rating
+              </button>
+            </div>
           </div>
         </form>
       </div>
@@ -269,10 +282,7 @@ export default function FormMeasure({ onDataChange, onDescriptionChange, changeF
 
       {data.length > 0 && (
         <>
-          <SwitchToggle
-            title={"Funny Mode"}
-            changeToggle={changeFunny}
-          />
+          <SwitchToggle title={"Funny Mode"} changeToggle={changeFunny} />
           <TableMatrix
             Data={data}
             onDataChange={onDataChange}

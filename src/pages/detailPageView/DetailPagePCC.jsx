@@ -1,10 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
-import Navbar from "../../components/Navigate/NavBar";
+
 import CardBanner from "../../components/Card/Home/CardBanner";
 import PCC1 from "../../assets/icons/PCC1.png";
 import CardStepper from "../../components/Card/Home/CardStepper";
 import { StepsPcc } from "../../components/Steppers/SteppersPCC";
 import { BackToTopButtonHome } from "../../components/Navigate/BackToTopNavigate";
+import Navbar from "../../components/Navigate/Navbar/Navbar";
 
 export default function DetailPagePCC() {
   const ReaderStepPCC = StepsPcc;

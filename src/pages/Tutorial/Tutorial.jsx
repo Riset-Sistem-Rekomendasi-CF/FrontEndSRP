@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import TabelView from "../../components/table/TabelView.jsx";
-import * as emoji from "../../helper/generateEmot"
+import * as emoji from "../../helper/generateEmot";
 
 import {
   DropdownMethodBased,
@@ -25,13 +25,14 @@ import {
   Lightbulb,
 } from "@mui/icons-material";
 
-import Navbar from "../../components/Navigate/NavBar.jsx";
+// import Navbar from "../../components/Navigate/NavBar.jsx";
 import KoalaPage from "../../assets/icons/KoalaPage.png";
 import CardWellcome from "../../components/Card/Home/CardWellcome.jsx";
 import ListNavigasiMenu from "../../components/Navigate/ListNavigasiMenu.jsx";
 import CardsSteps from "../../components/Card/Home/CardSteps.jsx";
 import VidioSection from "../../components/modal/VidioSection.jsx";
 import Toast from "../../components/Toggle/Toast.jsx";
+import Navbar from "../../components/Navigate/Navbar/Navbar.jsx";
 // import Cookies from "js-cookie";
 
 const Tutorial = () => {
@@ -41,7 +42,7 @@ const Tutorial = () => {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState("success");
-  const [funnyMode, setFunnyMode] = useState(false)
+  const [funnyMode, setFunnyMode] = useState(false);
 
   // show toast
   useEffect(() => {
@@ -57,19 +58,42 @@ const Tutorial = () => {
 
   // Toggle funny mode
   const changeFunny = () => {
-    setFunnyMode(!funnyMode)
-  }
+    setFunnyMode(!funnyMode);
+  };
+
+  // definisikan handleTurnDescription
+  const handleTurnDescription = useCallback((value) => {
+    setDescriptionVisible(value);
+  }, []);
+
+  const toggleDescription = () => {
+    setDescriptionVisible(!isDescriptionVisible);
+  };
+
+  // 2. Baru pakai di useCallback yang lain
+  const handleMethodChange = useCallback(
+    (method) => {
+      setSelectedMethod(method);
+      handleTurnDescription(false);
+    },
+    [handleTurnDescription]
+  );
+
+  const handleSimilarityChange = useCallback(
+    (similarity) => {
+      setSelectedSimilarity(similarity);
+      handleTurnDescription(false);
+    },
+    [handleTurnDescription]
+  );
 
   const form = [
     {
       header: "Pilih Metode Prediksi",
       element: (
         <DropdownMethodBased
-          turnDescription={setDescriptionVisible}
-          onChange={(method) => {
-            setSelectedMethod(method);
-            handleTurnDescription(false);
-          }}
+          onChange={handleMethodChange}
+          turnDescription={handleTurnDescription}
         />
       ),
     },
@@ -77,23 +101,12 @@ const Tutorial = () => {
       header: "Pilih Fungsi Similaritas",
       element: (
         <DropdownSimilarityMeasure
-          turnDescription={setDescriptionVisible}
-          onChange={(similaritas) => {
-            setSelectedSimilarity(similaritas);
-            handleTurnDescription(false);
-          }}
+          onChange={handleSimilarityChange}
+          turnDescription={handleTurnDescription}
         />
       ),
     },
   ];
-
-  const toggleDescription = () => {
-    setDescriptionVisible(!isDescriptionVisible);
-  };
-
-  const handleTurnDescription = (condition) => {
-    setDescriptionVisible(condition);
-  };
 
   const [data] = useState([
     [5, 0, 4, 3, 5, 4],
@@ -103,8 +116,8 @@ const Tutorial = () => {
     [1, 0, 1, 2, 3, 3],
   ]);
 
-  const header = emoji.GEmot(5, "item")
-  const column = emoji.GEmot(5, "user")
+  const header = emoji.GEmot(5, "item");
+  const column = emoji.GEmot(5, "user");
 
   const [selectedMethod, setSelectedMethod] = useState("");
   const [selectedSimilarity, setSelectedSimilarity] = useState("");
@@ -169,7 +182,8 @@ const Tutorial = () => {
             <TabelView
               changeFunny={changeFunny}
               headers={funnyMode ? header : ["1", "2", "3", "4", "5", "6"]}
-              columns={funnyMode ? column : ["1", "2", "3", "4", "5"]} />
+              columns={funnyMode ? column : ["1", "2", "3", "4", "5"]}
+            />
           </BodyTutorial>
           <section
             id="notasi_ratingTutorial"
@@ -183,20 +197,18 @@ const Tutorial = () => {
           </section>
           <FormLayoutTutorial id="metode_ratingTutorial" data={form} />
 
-          <section className="max-w-6xl mx-auto text-center my-10 p-10 relative">
-            <div className="p-5">
-              <button
-                onClick={toggleDescription}
-                className="w-full sm:w-auto font-semibold font-poppins bg-blue-home border-2 border-black text-center text-white px-4 py-2 sm:px-6 sm:py-3 rounded-full hover:bg-blue-700 shadow-md flex items-center justify-center mx-auto"
-              >
-                Cek Hasil Perhitungan Metode Prediksi dan Fungsi Similaritas
-                {isDescriptionVisible ? (
-                  <ExpandLessIcon className="ml-2 text-lg" />
-                ) : (
-                  <ExpandMoreIcon className="ml-2 text-lg" />
-                )}
-              </button>
-            </div>
+          <section className="max-w-full mx-auto text-center my-10  relative">
+            <button
+              onClick={toggleDescription}
+              className="max-w-6xl sm:w-auto font-semibold font-poppins bg-blue-home border-2 border-black text-center text-white px-4 py-2 sm:px-6 sm:py-3 rounded-full hover:bg-blue-700 shadow-md flex items-center justify-center mx-auto"
+            >
+              Cek Hasil Perhitungan
+              {isDescriptionVisible ? (
+                <ExpandLessIcon className="ml-2 text-lg" />
+              ) : (
+                <ExpandMoreIcon className="ml-2 text-lg" />
+              )}
+            </button>
 
             {isDescriptionVisible && (
               <div className="mt-8">

@@ -1,20 +1,18 @@
-const FieldForm = ({ increment, children, header }, key) => {
+import React from "react";
+
+const FieldForm = React.memo(({ increment, children, header }) => {
   return (
-    <>
-      <div className="flex flex-col items-center">
-        <div className="flex flex-row items-center">
-          <div className="w-10 h-10 rounded-full bg-green-500 text-white flex items-center justify-center text-lg">
-            {increment}
-          </div>
-          <h1 className="text-2xl font-bold font-poppins py-10 px-3">
-            {header}
-          </h1>
+    <div className="flex flex-col items-center">
+      <div className="flex flex-row items-center">
+        <div className="w-10 h-10 rounded-full bg-green-500 text-white flex items-center justify-center text-lg">
+          {increment}
         </div>
-        {children}
+        <h1 className="text-2xl font-bold font-poppins py-10 px-3">{header}</h1>
       </div>
-    </>
+      {children}
+    </div>
   );
-};
+});
 
 const FormLayoutTutorial = ({ data, id }) => {
   return (

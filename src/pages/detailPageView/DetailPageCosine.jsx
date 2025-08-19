@@ -1,9 +1,10 @@
 import CardBanner from "../../components/Card/Home/CardBanner";
 import CardStepper from "../../components/Card/Home/CardStepper";
-import Navbar from "../../components/Navigate/NavBar";
+
 import Cosine1 from "../../assets/icons/COSIEN1.png";
 import { StepsCosine } from "../../components/Steppers/SteppersCosine";
 import { BackToTopButtonHome } from "../../components/Navigate/BackToTopNavigate";
+import Navbar from "../../components/Navigate/Navbar/Navbar";
 
 export default function DetailPageCosine() {
   const ReaderStepCosine = StepsCosine;

@@ -115,9 +115,9 @@ export const StepsPcc = [
               width="560"
               height="315"
               src="https://www.youtube.com/embed/k7IctLRiZmo?si=p6H1OxuPi44ROY_-"
-              frameborder="0"
+              frameBorder="0"
               allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
+              allowFullScreen
               className="rounded-md shadow-sm"
             ></iframe>
           </div>

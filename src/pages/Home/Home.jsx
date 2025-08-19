@@ -257,8 +257,8 @@ const Home = () => {
       <HeaderHome>
         <>
           <div>
-            Media Pembelajaran Interaktif Sistem Rekomendasi untuk Perhitungan
-            Fungsi Similaritas
+            Media Pembelajaran Interaktif Sistem Rekomendasi Berbasis
+            Collaborative Filtering User-Based dan Item-Based
           </div>
         </>
       </HeaderHome>
@@ -329,7 +329,6 @@ const Home = () => {
           email={"dimasdliyaurrahman@gmail.com"}
         />
       </BodyHome>
-
       <BackToTopButtonHome />
     </LayoutHome>
   );

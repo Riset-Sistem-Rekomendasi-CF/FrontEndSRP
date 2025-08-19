@@ -1,9 +1,10 @@
 import CardBanner from "../../components/Card/Home/CardBanner";
 import CardStepper from "../../components/Card/Home/CardStepper";
-import Navbar from "../../components/Navigate/NavBar";
+
 import BC1 from "../../assets/icons/BC1.png";
 import { StepsBC } from "../../components/Steppers/SteppersBC";
 import { BackToTopButtonHome } from "../../components/Navigate/BackToTopNavigate";
+import Navbar from "../../components/Navigate/Navbar/Navbar";
 export default function DetailPageBC() {
   const ReaderStepBC = StepsBC;
   return (
