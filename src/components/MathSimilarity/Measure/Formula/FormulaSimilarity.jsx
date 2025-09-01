@@ -8,10 +8,13 @@ export const getFormulaSimilarity = (similarity, opsional) => {
               opsional.split("-")[0]
             }}(u,v) = \\frac{\\sum_{i\\in I_{u} \\cap I_{v}} S_{ui} S_{vi}}{\\sqrt{\\sum_{i\\in I_{u} \\cap I_{i}} S_{ui}^{2}}\\sqrt{\\sum_{i\\in I_{v} \\cap I_{i}} S_{vi}^{2}}} \\]`,
             detail_formula: [
-              `\\[ I_{u} = \\text{Himpunan } \\textit{item} \\text{ yang telah diberi } \\textit{rating} \\text{ oleh } \\textit{user} \\ u \\]`,
-              `\\[ I_{v} = \\text{Himpunan } \\textit{item} \\text{ yang telah diberi } \\textit{rating} \\text{ oleh } \\textit{user} \\ v \\]`,
-              `\\[ S_{ui} = \\text{Nilai mean-centered} \\ \\textit{rating item} \\ i \\text{ yang telah dinilai oleh } \\textit{user} \\ u \\]`,
-              `\\[ S_{vi} = \\text{Nilai mean-centered} \\ \\textit{rating item} \\ i \\text{ yang telah dinilai oleh } \\textit{user} \\ v \\]`,
+              `\\[ 
+              \\begin{array}{ll}
+              I_{u} &: \\text{Himpunan } \\textit{item} \\text{ yang telah diberi } \\textit{rating} \\text{ oleh } \\textit{user} \\ u \\\\
+              I_{v} &: \\text{Himpunan } \\textit{item} \\text{ yang telah diberi } \\textit{rating} \\text{ oleh } \\textit{user} \\ v \\\\
+              S_{ui} &: \\text{Nilai mean-centered} \\ \\textit{rating item} \\ i \\text{ yang telah dinilai oleh } \\textit{user} \\ u \\\\
+              S_{vi} &: \\text{Nilai mean-centered} \\ \\textit{rating item} \\ i \\text{ yang telah dinilai oleh } \\textit{user} \\ v 
+              \\end{array}\\]`,
             ],
           };
         case "item-based":
@@ -20,10 +23,13 @@ export const getFormulaSimilarity = (similarity, opsional) => {
               opsional.split("-")[0]
             }}(i,j) = \\frac{\\sum_{u\\in U_{i} \\cap U_{j}} S_{ui} S_{uj}}{\\sqrt{\\sum_{u\\in U_{i} \\cap U_{j}} S^{2}_{ui}}\\sqrt{\\sum_{u\\in U_{i} \\cap U_{j}} S^{2}_{uj}}} \\]`,
             detail_formula: [
-              `\\[ U_{i} = \\text{Himpunan } \\textit{user} \\text{ yang telah memberi } \\textit{rating} \\text{ pada item } \\ i \\]`,
-              `\\[ U_{j} = \\text{Himpunan } \\textit{user} \\text{ yang telah memberi } \\textit{rating} \\text{ pada item } \\ j \\]`,
-              `\\[ S_{ui} = \\text{Nilai mean-centered} \\ \\textit{rating} \\textit{item} \\ i \\text{ oleh } \\textit{user} \\ u \\]`,
-              `\\[ S_{uj} = \\text{Nilai mean-centered} \\ \\textit{rating} \\textit{item} \\ j \\text{ oleh } \\textit{user} \\ u \\]`,
+              `\\[ 
+              \\begin{array}{ll}
+              U_{i} &: \\text{Himpunan } \\textit{user} \\text{ yang telah memberi } \\textit{rating} \\text{ pada item } \\ i \\\\
+             U_{j} &: \\text{Himpunan } \\textit{user} \\text{ yang telah memberi } \\textit{rating} \\text{ pada item } \\ j \\\\
+             S_{ui} &: \\text{Nilai mean-centered} \\ \\textit{rating} \\textit{item} \\ i \\text{ oleh } \\textit{user} \\ u \\\\
+             S_{uj} &: \\text{Nilai mean-centered} \\ \\textit{rating} \\textit{item} \\ j \\text{ oleh } \\textit{user} \\ u 
+              \\end{array}\\]`,
             ],
           };
         default:
@@ -38,9 +44,12 @@ export const getFormulaSimilarity = (similarity, opsional) => {
               opsional.split("-")[0]
             }}\\left(u,v\\right) = \\frac{\\sum_{i\\in I_{u} \\cap I_{v}}r_{ui}r_{vi}}{\\sqrt{\\sum_{u\\in I_{u}}r^{2}_{ui}}\\sqrt{\\sum_{u\\in I_{v}}r^{2}_{vi}}} \\]`,
             detail_formula: [
-              `\\[ I_{u} = \\text{Himpunan } \\textit{item} \\text{ yang telah diberi } \\textit{rating } \\text{oleh } \\textit{user} \\ u \\]`,
-              `\\[ r_{ui} = \\textit{Rating } \\textit{user } \\ u \\text{ terhadap } \\textit{item} \\ i \\]`,
-              `\\[ r_{vi} = \\textit{Rating } \\textit{user } \\ v \\text{ terhadap } \\textit{item} \\ i \\]`,
+              `\\[ 
+              \\begin{array}{ll}
+              I_{u}&: \\text{Himpunan } \\textit{item} \\text{ yang telah diberi } \\textit{rating } \\text{oleh } \\textit{user} \\ u \\\\
+             r_{ui}&: \\textit{Rating } \\textit{user } \\ u \\text{ terhadap } \\textit{item} \\ i \\\\
+             r_{vi}&: \\textit{Rating } \\textit{user } \\ v \\text{ terhadap } \\textit{item} \\ i 
+              \\end{array}\\]`,
             ],
           };
         case "item-based":
@@ -49,9 +58,12 @@ export const getFormulaSimilarity = (similarity, opsional) => {
               opsional.split("-")[0]
             }}\\left(i,j\\right) = \\frac{\\sum_{u\\in U_{ij}}r_{ui}r_{uj}}{\\sqrt{\\sum_{u\\in U_{i}}r^{2}_{ui}}\\sqrt{\\sum_{u\\in U_{j}}r^{2}_{uj}}} \\]`,
             detail_formula: [
-              `\\[ U_{i} = \\text{Himpunan } \\textit{user } \\text{ yang telah memberi } \\textit{ rating } \\textit{item} \\ i \\]`,
-              `\\[ r_{ui} = \\text{Nilai } \\textit{rating } \\text{pada}  \\textit{user } \\ u \\text{ pada } \\textit{item} \\ i \\]`,
-              `\\[ r_{uj} = \\text{Nilai } \\textit{rating } \\text{pada}  \\textit{user } \\ u \\text{ pada } \\textit{item} \\ j \\]`,
+              `\\[ 
+              \\begin{array}{ll}
+              U_{i} &= \\text{Himpunan } \\textit{user } \\text{ yang telah memberi } \\textit{ rating } \\textit{item} \\ i \\\\
+             r_{ui} &= \\text{Nilai } \\textit{rating } \\text{pada}  \\textit{user } \\ u \\text{ pada } \\textit{item} \\ i \\\\
+             r_{uj} &= \\text{Nilai } \\textit{rating } \\text{pada}  \\textit{user } \\ u \\text{ pada } \\textit{item} \\ j 
+              \\end{array}\\]`,
             ],
           };
         default:
@@ -65,10 +77,13 @@ export const getFormulaSimilarity = (similarity, opsional) => {
               opsional.split("-")[0]
             }}(u,v) = \\frac{\\sum_{i\\in I_{u} \\cap I_{v}} S_{ui} S_{vi}}{\\sqrt{\\sum_{u \\in I_{u} \\cap I_{v}} S_{ui}^{2}}\\sqrt{\\sum_{i \\in I_{u} \\cap I_{v}} S_{vi}^{2}}} \\]`,
             detail_formula: [
-              `\\[ S_{ui} = \\text{Nilai mean-centered dari } \\textit{user } \\ u \\text{ pada } \\textit{item } \\ i \\]`,
-              `\\[ S_{vi} = \\text{Nilai mean-centered dari } \\textit{user } \\ v \\text{ pada } \\textit{item } \\ i \\]`,
-              `\\[ I_{u} = \\text{Himpunan } \\textit{item } \\text{ yang telah diberi } \\textit{ rating } \\text{oleh} \\textit{ user } \\ u \\]`,
-              `\\[ I_{v} = \\text{Himpunan } \\textit{item } \\text{ yang telah diberi } \\textit{ rating } \\text{oleh} \\textit{ user } \\ v \\]`,
+              `\\[
+              \\begin{array}{ll}
+              S_{ui} &: \\text{Nilai mean-centered dari } \\textit{user } \\ u \\text{ pada } \\textit{item } \\ i \\\\
+             S_{vi} &: \\text{Nilai mean-centered dari } \\textit{user } \\ v \\text{ pada } \\textit{item } \\ i \\\\
+             I_{u} &: \\text{Himpunan } \\textit{item } \\text{ yang telah diberi } \\textit{ rating } \\text{oleh} \\textit{ user } \\ u \\\\
+             I_{v} &: \\text{Himpunan } \\textit{item } \\text{ yang telah diberi } \\textit{ rating } \\text{oleh} \\textit{ user } \\ v 
+              \\end{array}\\]`,
             ],
           };
         case "item-based":
@@ -77,10 +92,13 @@ export const getFormulaSimilarity = (similarity, opsional) => {
               opsional.split("-")[0]
             }}(i,j) = \\frac{\\sum_{u\\in U_{i} \\cap U_{j}} S_{ui} S_{uj}}{\\sqrt{\\sum_{u \\in U_{i} \\cap U_{j}} S_{ui}^{2}}\\sqrt{\\sum_{i \\in U_{i} \\cap U_{j}} S_{uj}^{2}}} \\]`,
             detail_formula: [
-              `\\[ S_{ui} = \\text{Nilai mean-centered dari } \\textit{user } \\ u \\text{ pada } \\textit{ item } \\ i \\]`,
-              `\\[ S_{uj} = \\text{Nilai mean-centered dari } \\textit{user } \\ u \\text{ pada } \\textit{ item } \\ j \\]`,
-              `\\[ U_{i} = \\text{Himpunan } \\textit{ user } \\text{ yang memberi } \\textit{rating } \\textit{ item } \\ i \\]`,
-              `\\[ U_{j} = \\text{Himpunan } \\textit{ user } \\text{ yang memberi } \\textit{rating } \\textit{ item } \\ j \\]`,
+              `\\[ 
+              \\begin{array}{ll}
+              S_{ui} &: \\text{Nilai mean-centered dari } \\textit{user } \\ u \\text{ pada } \\textit{ item } \\ i \\\\
+              S_{uj} &: \\text{Nilai mean-centered dari } \\textit{user } \\ u \\text{ pada } \\textit{ item } \\ j \\\\
+              U_{i} &: \\text{Himpunan } \\textit{ user } \\text{ yang memberi } \\textit{rating } \\textit{ item } \\ i \\\\
+              U_{j} &: \\text{Himpunan } \\textit{ user } \\text{ yang memberi } \\textit{rating } \\textit{ item } \\ j 
+              \\end{array}\\]`,
             ],
           };
 
@@ -95,9 +113,12 @@ export const getFormulaSimilarity = (similarity, opsional) => {
               opsional.split("-")[0]
             }}(u,v) = \\sum_a \\sqrt{P\\left(r_{u*}=a\\right)\\times P\\left(r_{v*}=a\\right)} \\]`,
             detail_formula: [
-              `\\[ a = \\text{mewakili semua nilai dalam distribusi atau seluruh nilai } \\textit{rating } \\]`,
-              `\\[ P = \\text{Menghitung probabilitas} \\]`,
-              `\\[ r_{i*} = \\text{Seluruh nilai } \\textit{rating } \\textit{ item } \\text{ yang telah diberi oleh } \\textit{ user } \\ i \\]`,
+              `\\[ 
+              \\begin{array}{ll}
+              a &: \\text{mewakili semua nilai dalam distribusi atau seluruh nilai } \\textit{rating } \\\\
+             P &: \\text{Menghitung probabilitas} \\\\
+             r_{i*} &: \\text{Seluruh nilai } \\textit{rating } \\textit{ item } \\text{ yang telah diberi oleh } \\textit{ user } \\ i 
+              \\end{array}\\]`,
             ],
           };
         case "item-based":
@@ -106,11 +127,222 @@ export const getFormulaSimilarity = (similarity, opsional) => {
               opsional.split("-")[0]
             }}(i,j) = \\sum_a \\sqrt{P\\left(r_{*i}=a\\right)\\times P\\left(r_{*j}=a\\right)}  \\]`,
             detail_formula: [
-              `\\[ a = \\text{mewakili semua nilai dalam distribusi atau seluruh nilai } \\textit{rating } \\]`,
-              `\\[ P = \\text{Menghitung probabilitas} \\]`,
-              `\\[ r_{*i} = \\text{Seluruh nilai } \\textit{rating } \\textit{ item } \\text{ yang telah diberi oleh } \\textit{ user } \\ i \\]`,
+              `\\[ 
+              \\begin{array}{ll}
+              a &: \\text{mewakili semua nilai dalam distribusi atau seluruh nilai } \\textit{rating } \\\\
+             P &: \\text{Menghitung probabilitas} \\\\
+             r_{*i} &: \\text{Seluruh nilai } \\textit{rating } \\textit{ item } \\text{ yang telah diberi oleh } \\textit{ user } \\ i 
+              \\end{array}\\]`,
             ],
           };
+        default:
+          return;
+      }
+    default:
+      return;
+  }
+};
+
+export const getFormulaSimilarityDetail = (
+  rowIndex,
+  colIndex,
+  similarity,
+  opsional
+) => {
+  switch (similarity) {
+    case "Pearson Correlation Coefficient":
+      switch (opsional) {
+        case "user-based":
+          return [
+            `\\[ 
+            \\begin{array}{ll}
+            I_{${
+              rowIndex + 1
+            }} &: \\text{Himpunan } \\textit{item} \\text{ yang telah diberi } \\textit{rating} \\text{ oleh } \\textit{user} \\ ${
+              rowIndex + 1
+            } \\\\
+            I_{${
+              colIndex + 1
+            }} &: \\text{Himpunan } \\textit{item} \\text{ yang telah diberi } \\textit{rating} \\text{ oleh } \\textit{user} \\ ${
+              colIndex + 1
+            } \\\\
+            S_{${
+              rowIndex + 1
+            }i} &: \\text{Nilai mean-centered} \\ \\textit{rating item} \\ i \\text{ yang telah dinilai oleh } \\textit{user} \\ ${
+              rowIndex + 1
+            } \\\\
+            S_{${
+              colIndex + 1
+            }i} &: \\text{Nilai mean-centered} \\ \\textit{rating item} \\ i \\text{ yang telah dinilai oleh } \\textit{user} \\ ${
+              colIndex + 1
+            } 
+            \\end{array}\\]`,
+          ];
+        case "item-based":
+          return [
+            `\\[ 
+            \\begin{array}{ll}
+            U_{${
+              rowIndex + 1
+            }} &: \\text{Himpunan } \\textit{user} \\text{ yang telah memberi } \\textit{rating} \\text{ pada item } \\ ${
+              rowIndex + 1
+            } \\\\
+            U_{${
+              colIndex + 1
+            }} &: \\text{Himpunan } \\textit{user} \\text{ yang telah memberi } \\textit{rating} \\text{ pada item } \\ ${
+              colIndex + 1
+            } \\\\
+            S_{u${
+              rowIndex + 1
+            }} &: \\text{Nilai mean-centered} \\ \\textit{rating} \\textit{item} \\ ${
+              rowIndex + 1
+            } \\text{ oleh } \\textit{user} \\ u \\\\
+            S_{u${
+              colIndex + 1
+            }} &: \\text{Nilai mean-centered} \\ \\textit{rating} \\textit{item} \\ ${
+              colIndex + 1
+            } \\text{ oleh } \\textit{user} \\ u 
+            \\end{array}\\]`,
+          ];
+        default:
+          return;
+      }
+    case "Cosine":
+      switch (opsional) {
+        case "user-based":
+          return [
+            `\\[ 
+            \\begin{array}{ll}
+            I_{${
+              rowIndex + 1
+            }} &: \\text{Himpunan } \\textit{item} \\text{ yang telah diberi } \\textit{rating } \\text{oleh } \\textit{user} \\ ${
+              rowIndex + 1
+            } \\\\
+          r_{${rowIndex + 1}i} &: \\textit{Rating } \\textit{user } \\ ${
+              rowIndex + 1
+            } \\text{ terhadap } \\textit{item} \\ i \\\\
+          r_{${colIndex + 1}i} &: \\textit{Rating } \\textit{user } \\ ${
+              colIndex + 1
+            } \\text{ terhadap } \\textit{item} \\ i 
+            \\end{array}\\]`,
+          ];
+        case "item-based":
+          return [
+            `\\[ 
+            \\begin{array}{ll}
+            U_{${
+              rowIndex + 1
+            }} &: \\text{Himpunan } \\textit{user } \\text{ yang telah memberi } \\textit{ rating } \\textit{item} \\ ${
+              rowIndex + 1
+            } \\\\
+           r_{u${
+             rowIndex + 1
+           }} &: \\text{Nilai } \\textit{rating } \\text{pada}  \\textit{user } \\ u \\text{ pada } \\textit{item} \\ ${
+              rowIndex + 1
+            } \\\\
+           r_{u${
+             colIndex + 1
+           }} &: \\text{Nilai } \\textit{rating } \\text{pada}  \\textit{user } \\ u \\text{ pada } \\textit{item} \\ ${
+              colIndex + 1
+            } 
+            \\end{array}\\]`,
+          ];
+        default:
+          return;
+      }
+    case "Adjusted Cosine":
+      switch (opsional) {
+        case "user-based":
+          return [
+            `\\[ 
+            \\begin{array}{ll}
+            S_{${
+              rowIndex + 1
+            }i} &: \\text{Nilai mean-centered dari } \\textit{user } \\ ${
+              rowIndex + 1
+            } \\text{ pada } \\textit{item } \\ i \\\\
+            S_{${
+              colIndex + 1
+            }i} &: \\text{Nilai mean-centered dari } \\textit{user } \\ ${
+              colIndex + 1
+            } \\text{ pada } \\textit{item } \\ i \\\\
+            I_{${
+              rowIndex + 1
+            }} &: \\text{Himpunan } \\textit{item } \\text{ yang telah diberi } \\textit{ rating } \\text{oleh} \\textit{ user } \\ ${
+              rowIndex + 1
+            } \\\\
+            I_{${
+              colIndex + 1
+            }} &: \\text{Himpunan } \\textit{item } \\text{ yang telah diberi } \\textit{ rating } \\text{oleh} \\textit{ user } \\ ${
+              colIndex + 1
+            } 
+          \\end{array}\\]`,
+          ];
+        case "item-based":
+          return [
+            `\\[ S_{u${
+              rowIndex + 1
+            }} &: \\text{Nilai mean-centered dari } \\textit{user } \\ u \\text{ pada } \\textit{ item } \\ ${
+              rowIndex + 1
+            } \\\\
+            S_{u${
+              colIndex + 1
+            }} &: \\text{Nilai mean-centered dari } \\textit{user } \\ u \\text{ pada } \\textit{ item } \\ ${
+              colIndex + 1
+            } \\\\
+            U_{${
+              rowIndex + 1
+            }} &: \\text{Himpunan } \\textit{ user } \\text{ yang memberi } \\textit{rating } \\textit{ item } \\ ${
+              rowIndex + 1
+            } \\\\
+            U_{${
+              colIndex + 1
+            }} &: \\text{Himpunan } \\textit{ user } \\text{ yang memberi } \\textit{rating } \\textit{ item } \\ ${
+              colIndex + 1
+            } 
+            \\end{array}\\]`,
+          ];
+        default:
+          return;
+      }
+    case "Bhattacharyya Coefficient":
+      switch (opsional) {
+        case "user-based":
+          return [
+            `\\[ 
+            \\begin{array}{ll}
+            a &: \\text{mewakili semua nilai dalam distribusi atau seluruh nilai } \\textit{rating } \\\\
+            P &: \\text{Menghitung probabilitas} \\\\
+            r_{${
+              rowIndex + 1
+            }*} &: \\text{Seluruh nilai } \\textit{rating } \\textit{ item } \\text{ yang telah diberi oleh } \\textit{ user } \\ ${
+              rowIndex + 1
+            } \\\\
+            r_{${
+              colIndex + 1
+            }*} &: \\text{Seluruh nilai } \\textit{rating } \\textit{ item } \\text{ yang telah diberi oleh } \\textit{ user } \\ ${
+              colIndex + 1
+            } 
+            \\end{array}\\]`,
+          ];
+        case "item-based":
+          return [
+            `\\[ 
+            \\begin{array}{ll}
+            a &: \\text{mewakili semua nilai dalam distribusi atau seluruh nilai } \\textit{rating } \\\\
+            P &: \\text{Menghitung probabilitas} \\\\
+            r_{*${
+              rowIndex + 1
+            }} &: \\text{Seluruh nilai } \\textit{rating } \\textit{ item } \\text{ yang telah diberi oleh } \\textit{ user } \\ ${
+              rowIndex + 1
+            } \\\\
+            r_{*${
+              colIndex + 1
+            }} &: \\text{Seluruh nilai } \\textit{rating } \\textit{ item } \\text{ yang telah diberi oleh } \\textit{ user } \\ ${
+              colIndex + 1
+            } 
+            \\end{array}\\]`,
+          ];
         default:
           return;
       }

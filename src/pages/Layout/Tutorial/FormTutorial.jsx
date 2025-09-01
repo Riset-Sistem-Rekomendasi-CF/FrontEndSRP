@@ -18,7 +18,17 @@ const FormLayoutTutorial = ({ data, id }) => {
   return (
     <section id={id} className="max-w-6xl mx-auto text-center p-5">
       <h1 className="text-5xl sm:text-6xl font-bold font-poppins py-10">
-        Pilih Metode Prediksi dan Fungsi Similaritas
+        <span className="curved-underline">
+          Pilih Metode Prediksi dan Fungsi Similaritas
+          <svg viewBox="0 0 100 20" preserveAspectRatio="none">
+            <path
+              d="M0 20 Q 50 0, 100 20"
+              stroke="white"
+              strokeWidth="4"
+              fill="none"
+            />
+          </svg>
+        </span>
       </h1>
       <div className="flex flex-col sm:flex-row sm:justify-around gap-8 sm:gap-10">
         {data.map((list, index) => {

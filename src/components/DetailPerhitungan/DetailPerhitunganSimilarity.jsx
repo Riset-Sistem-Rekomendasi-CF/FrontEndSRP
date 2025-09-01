@@ -28,7 +28,6 @@ export default function DetailPerhitunganSimilarity() {
 
   const {
     data,
-    close,
     selectedIndex,
     selectedMean,
     dataOnly,
@@ -40,11 +39,8 @@ export default function DetailPerhitunganSimilarity() {
   } = stateData;
 
   const toggleIsNotation = () => setIsNotation((prev) => !prev);
-  const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
   const current = opsional.split("-")[0];
-  const opposite = current === "user" ? "item" : "user";
   const dataModify = dataOnly;
-  const currentValue = dataModify[selectedIndex[0]][selectedIndex[1]];
   const numberOfColumnsCen = dataOnly[0].length;
 
   return (
@@ -52,6 +48,12 @@ export default function DetailPerhitunganSimilarity() {
       <h2 className="text-2xl font-bold text-center text-gray-800 mb-8 shadow-sm">
         <span>Detail Perhitungan Fungsi Similaritas</span>
       </h2>
+      <button
+        onClick={() => window.close()}
+        className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+      >
+        Kembali
+      </button>
 
       <SwitchToggle
         changeToggle={toggleIsNotation}

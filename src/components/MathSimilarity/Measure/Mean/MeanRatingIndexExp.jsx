@@ -23,7 +23,7 @@ export const MeanRatingIndexExp = ({
 
   return (
     <>
-      <div className="pt-4">
+      <div className="pt-2">
         <MathJaxComponent>{meanIndexExp}</MathJaxComponent>
       </div>
     </>

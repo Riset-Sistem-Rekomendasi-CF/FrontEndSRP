@@ -36,8 +36,9 @@ function InputList({
       placeholder={children}
       onChange={handleInputChange}
       value={children === "?" ? "" : children}
-      className={`w-full px-4 py-2 text-center ${children === "?" ? "bg-red-200 text-black" : "bg-transparent text-black"
-        }`}
+      className={`w-full px-4 py-2 text-center ${
+        children === "?" ? "bg-red-200 text-black" : "bg-transparent text-black"
+      }`}
       disabled={disabled}
     />
   );
@@ -49,7 +50,7 @@ export default function TableMatrix({
   onDescriptionChange,
   headers,
   columns,
-  funnyMode
+  funnyMode,
 }) {
   const [data, setData] = useState(Data);
   const [showAlert, setShowAlert] = useState(false); // State to manage modal visibility
@@ -88,7 +89,7 @@ export default function TableMatrix({
   return (
     <div className="flex flex-col justify-center">
       <h1 className="text-2xl font-bold font-poppins py-5 mb-5 underline underline-offset-8 decoration-4 decoration-card_blue_primary">
-        Hasil Tabel Data Matrik <i>Rating</i> Yang Digunakan
+        Hasil Tabel Data Matrik Rating Yang Digunakan
       </h1>
 
       <div className="flex flex-col items-center justify-center p-4">
@@ -106,7 +107,7 @@ export default function TableMatrix({
                     key={index}
                     className="border border-black px-4 py-2 bg-blue-home text-sm sm:text-base text-white"
                   >
-                    {!funnyMode ? (index + 1) : (headers)[index]}
+                    {!funnyMode ? index + 1 : headers[index]}
                   </th>
                 ))}
               </tr>
@@ -115,7 +116,7 @@ export default function TableMatrix({
               {Data.map((value, i) => (
                 <tr key={i}>
                   <td className="border border-black px-4 py-2 text-center bg-blue-200 text-sm sm:text-base">
-                    {!funnyMode ? (i + 1) : (columns)[i]}
+                    {!funnyMode ? i + 1 : columns[i]}
                   </td>
                   {value.map((value1, j) => (
                     <td
@@ -154,17 +155,15 @@ export default function TableMatrix({
             <div className="w-10 h-5 bg-red-300 border border-1 border-black mr-2 flex items-center justify-center text-black">
               ?
             </div>
-            <p>
-              Data <i>sparsity</i>{" "}
-            </p>
+            <p>Data Sparsity</p>
           </li>
           <li className="flex items-center">
             <div className="w-10 h-5 bg-blue-200 border border-1 border-black mr-2"></div>
-            Index <i className="ml-1">User</i>
+            Index User
           </li>
           <li className="flex items-center">
             <div className="w-10 h-5 bg-blue-home border border-1 border-black mr-2"></div>
-            Index <i className="ml-1">Item</i>
+            Index Item
           </li>
           <li className="flex items-center">
             <div className="w-10 h-5 flex items-center justify-center border border-1 border-black mr-2">

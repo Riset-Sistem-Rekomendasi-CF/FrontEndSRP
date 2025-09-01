@@ -6,27 +6,33 @@ export default function HeatMapVisualDataSim({ opsional, result, similarity }) {
     const similarityDataHeatMap = result["similarity"];
 
     useEffect(() => {
-      // Clear previous SVG if present
       d3.select("#heatmap").select("svg").remove();
       d3.select("#colorbar").select("svg").remove();
 
-      const size = 400; // Default size for heatmap (will be scaled)
+      const cellSize = 80;
+      const numCells = similarityDataHeatMap.length;
+
       const margin = { top: 20, right: 20, bottom: 30, left: 40 };
-      const width = size - margin.left - margin.right;
-      const height = size - margin.top - margin.bottom;
+      const width = cellSize * numCells;
+      const height = cellSize * numCells;
 
       const usersIndex = Array.from(
-        { length: similarityDataHeatMap.length },
+        { length: numCells },
         (_, i) => `${opsional === "user-based" ? "user" : "item"}-${i + 1}`
       );
 
-      // SVG container setup
       const svg = d3
         .select("#heatmap")
         .append("svg")
-        .attr("width", "100%")
-        .attr("height", "100%")
-        .attr("viewBox", `0 0 ${size} ${size}`)
+        .attr(
+          "viewBox",
+          `0 0 ${width + margin.left + margin.right} ${
+            height + margin.top + margin.bottom
+          }`
+        )
+        .attr("preserveAspectRatio", "xMidYMid meet")
+        .style("width", "100%")
+        .style("height", "auto")
         .append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
@@ -44,49 +50,46 @@ export default function HeatMapVisualDataSim({ opsional, result, similarity }) {
 
       const colorScale = d3
         .scaleLinear()
-        .range(["#69b3a2", "#6A5AE0", "#FCC822"]);
+        .domain(
+          similarity === "Adjusted Cosine" ||
+            similarity === "Pearson Correlation Coefficient"
+            ? [-1, 0, 1]
+            : [0, 0.5, 1]
+        )
+        .range(["#68FF64", "#69b3a2", "#6A5AE0"]);
 
-      // Adding rectangles for heatmap cells
       svg
         .append("g")
         .selectAll("rect")
         .data(similarityDataHeatMap.flat())
         .enter()
         .append("rect")
-        .attr("x", (d, i) => x(usersIndex[i % usersIndex.length]))
-        .attr("y", (d, i) => y(usersIndex[Math.floor(i / usersIndex.length)]))
+        .attr("x", (d, i) => x(usersIndex[i % numCells]))
+        .attr("y", (d, i) => y(usersIndex[Math.floor(i / numCells)]))
         .attr("width", x.bandwidth())
         .attr("height", y.bandwidth())
         .attr("fill", (d) => colorScale(d));
 
-      // Add text inside cells to display values
       svg
         .append("g")
         .selectAll("text")
         .data(similarityDataHeatMap.flat())
         .enter()
         .append("text")
-        .attr(
-          "x",
-          (d, i) => x(usersIndex[i % usersIndex.length]) + x.bandwidth() / 2
-        )
+        .attr("x", (d, i) => x(usersIndex[i % numCells]) + x.bandwidth() / 2)
         .attr(
           "y",
-          (d, i) =>
-            y(usersIndex[Math.floor(i / usersIndex.length)]) + y.bandwidth() / 2
+          (d, i) => y(usersIndex[Math.floor(i / numCells)]) + y.bandwidth() / 2
         )
         .attr("dy", ".35em")
         .attr("text-anchor", "middle")
         .text((d) => d.toFixed(4))
         .attr("fill", "black")
-        .style("font-size", (d, i) => {
-          const cellWidth = x.bandwidth();
-          const cellHeight = y.bandwidth();
-          const fontSize = Math.min(cellWidth, cellHeight) * 0.2;
-          return `${fontSize}px`;
-        });
+        .style(
+          "font-size",
+          `${Math.min(x.bandwidth(), y.bandwidth()) * 0.2}px`
+        );
 
-      // Add axes to the heatmap
       svg
         .append("g")
         .attr("transform", `translate(0, ${height})`)
@@ -94,30 +97,29 @@ export default function HeatMapVisualDataSim({ opsional, result, similarity }) {
 
       svg.append("g").call(d3.axisLeft(y));
 
-      // Color Bar setup
+      // COLOR BAR
       const colorBarWidth = 20;
-      const colorBarHeight = height;
-
       const colorBarSvg = d3
         .select("#colorbar")
         .append("svg")
-        .attr("width", colorBarWidth + 70)
-        .attr("height", colorBarHeight + 40)
+        .attr(
+          "viewBox",
+          `0 0 ${colorBarWidth + 70} ${height + margin.top + margin.bottom}`
+        )
+        .attr("preserveAspectRatio", "xMidYMid meet")
+        .style("width", "100%")
+        .style("height", "auto")
         .append("g")
-        .attr("transform", `translate(20, 20)`);
+        .attr("transform", `translate(20, ${margin.top})`);
 
       let colorScaleBar;
       let gradient;
 
-      // Check the similarity type and define color scale
       if (
         similarity === "Adjusted Cosine" ||
         similarity === "Pearson Correlation Coefficient"
       ) {
-        colorScaleBar = d3
-          .scaleLinear()
-          .range([colorBarHeight, 0])
-          .domain([-1, 1]);
+        colorScaleBar = d3.scaleLinear().range([height, 0]).domain([-1, 1]);
 
         gradient = colorBarSvg
           .append("defs")
@@ -142,14 +144,8 @@ export default function HeatMapVisualDataSim({ opsional, result, similarity }) {
           .append("stop")
           .attr("offset", "100%")
           .attr("style", "stop-color: #68FF64; stop-opacity: 1");
-      } else if (
-        similarity === "Cosine" ||
-        similarity === "Bhattacharyya Coefficient"
-      ) {
-        colorScaleBar = d3
-          .scaleLinear()
-          .range([colorBarHeight, 0])
-          .domain([0, 1]);
+      } else {
+        colorScaleBar = d3.scaleLinear().range([height, 0]).domain([0, 1]);
 
         gradient = colorBarSvg
           .append("defs")
@@ -169,57 +165,34 @@ export default function HeatMapVisualDataSim({ opsional, result, similarity }) {
           .append("stop")
           .attr("offset", "100%")
           .attr("style", "stop-color: #69b3a2; stop-opacity: 1");
-      } else {
-        // Default fallback color scale
-        colorScaleBar = d3
-          .scaleLinear()
-          .range([colorBarHeight, 0])
-          .domain([0, 1]);
       }
 
-      // Apply the gradient as the fill for the color bar
       colorBarSvg
         .append("rect")
         .attr("x", 0)
         .attr("y", 0)
         .attr("width", colorBarWidth)
-        .attr("height", colorBarHeight)
-        .style("fill", "url(#gradient)"); // Apply the gradient here
+        .attr("height", height)
+        .style("fill", "url(#gradient)");
 
-      // Create color bar axis if colorScaleBar is defined
-      if (colorScaleBar) {
-        const colorBarAxis = d3
-          .axisRight(colorScaleBar)
-          .ticks(3)
-          .tickFormat(d3.format(".1f"));
-
-        colorBarSvg
-          .append("g")
-          .attr("transform", `translate(${colorBarWidth}, 0)`)
-          .call(colorBarAxis);
-      }
+      colorBarSvg
+        .append("g")
+        .attr("transform", `translate(${colorBarWidth}, 0)`)
+        .call(
+          d3.axisRight(colorScaleBar).ticks(3).tickFormat(d3.format(".1f"))
+        );
     }, [similarityDataHeatMap, similarity]);
 
     return (
-      <div className="flex justify-center w-full mb-5 md:flex-row md:w-1/2">
+      <div className="flex justify-center w-full mb-5 md:flex-row flex-wrap">
         <div
           id="heatmap"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            width: "100%",
-            height: "100%",
-          }}
+          className="flex justify-center items-center overflow-auto"
         />
         <div
           id="colorbar"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "10px",
-            marginLeft: "10px",
-            height: "100%", // Ensure colorbar is responsive
-          }}
+          className="mt-5 md:mt-0 md:ml-4 w-[60px] max-w-full"
+          style={{ display: "flex", justifyContent: "center" }}
         />
       </div>
     );
@@ -228,7 +201,6 @@ export default function HeatMapVisualDataSim({ opsional, result, similarity }) {
   const ExplanationSectionHeatMap = () => {
     const [isExpanded, setIsExpanded] = useState(false);
 
-    // Fungsi untuk toggle teks
     const toggleText = () => setIsExpanded(!isExpanded);
 
     return (
@@ -264,6 +236,7 @@ export default function HeatMapVisualDataSim({ opsional, result, similarity }) {
       </div>
     );
   };
+
   return (
     <div className="flex flex-col my-5 font-poppins items-center">
       <RenderingHeatMap />

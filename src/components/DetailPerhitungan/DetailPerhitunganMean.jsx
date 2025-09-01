@@ -63,25 +63,27 @@ export default function DetailPerhitunganMean() {
   const modifiedData = dataModify(data, similarity, opsional);
   const toggleIsNotation = () => setIsNotation((prev) => !prev);
 
-  // handle back to modal
-  const handleBack = () => {
-    navigate(-1);
-  };
-
   const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
   const current = opsional.split("-")[0]; // "user" atau "item"
-  const opposite = current === "user" ? "item" : "user";
 
   return (
     <div className="container mx-auto p-8">
       {/* Header / Title */}
-      <h2 className="text-xl md:text-2xl font-semibold mb-4 p-4 shadow-sm text-center">
-        <span>
-          Detail Perhitungan Mean nilai <i>Rating</i>{" "}
-          <span className="italic mr-1">(μ)</span>
-          <i>{opsional.split("-")[0]}</i> ke-{Number(selIdx[0]) + 1}
-        </span>
-      </h2>
+      <div>
+        <h2 className="text-xl md:text-2xl font-semibold mb-4 p-4 shadow-sm text-center">
+          <span>
+            Detail Perhitungan Mean nilai <i>Rating</i>{" "}
+            <span className="italic mr-1">(μ)</span>
+            <i>{opsional.split("-")[0]}</i> ke-{Number(selIdx[0]) + 1}
+          </span>
+        </h2>
+        <button
+          onClick={() => window.close()}
+          className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+        >
+          Kembali
+        </button>
+      </div>
 
       <div className="max-w-4xl mx-auto">
         <SwitchToggle

@@ -6,11 +6,15 @@ import { AllSimilaritas } from "../../../api/getDataSet.js";
 import { getFormulaSimilarity } from "./Formula/FormulaSimilarity.jsx";
 import ModalSimilarity from "./ModalSimilarityMeasure.jsx";
 import DropdownWithDisplay from "../../Graph/DropdownVisual";
-import { IconButton } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import simGif from "../../../assets/vidioAsset/simGif.gif";
 import MathJaxComponent from "../../../MathJaxComponent.js";
 import Spinner from "../../Navigate/Spinner.jsx";
+import { TutorialModal } from "../../modal/TutorialModal.jsx";
+import {
+  DividerHeading,
+  DividerHeadingBlue,
+} from "../../tabelData/DividerHeading.jsx";
 
 /**
  * |----------------------------------------------------|
@@ -35,7 +39,7 @@ const TableSimilarity = ({ children }) => {
 const HeadTableSimilarity = ({ children, opsional }) => {
   return (
     <thead>
-      <tr className={opsional == "user-based" ? "bg-blue-200" : "bg-gray-200"}>
+      <tr className={opsional === "user-based" ? "bg-blue-200" : "bg-gray-200"}>
         <th className="border border-black px-4 py-2">
           {opsional === "user-based" ? "U/U" : "I/I"}
         </th>
@@ -121,12 +125,12 @@ export default function SimilarityMeasure({
                 <th
                   key={index}
                   className={`border border-black px-4 py-2 text-xs sm:text-sm ${
-                    opsional == "user-based" ? "bg-blue-200" : ""
+                    opsional === "user-based" ? "bg-blue-200" : ""
                   }`}
                 >
                   {!funnyMode
                     ? index + 1
-                    : (opsional == "user-based" ? columns : headers)[index]}
+                    : (opsional === "user-based" ? columns : headers)[index]}
                 </th>
               ))}
             </HeadTableSimilarity>
@@ -135,12 +139,12 @@ export default function SimilarityMeasure({
                 <TrTableSimilarity key={rowIndex}>
                   <td
                     className={`border border-black px-4 py-2 ${
-                      opsional == "user-based" ? "bg-blue-200" : "bg-gray-200"
+                      opsional === "user-based" ? "bg-blue-200" : "bg-gray-200"
                     } text-xs sm:text-sm`}
                   >
                     {!funnyMode
                       ? rowIndex + 1
-                      : (opsional == "user-based" ? columns : headers)[
+                      : (opsional === "user-based" ? columns : headers)[
                           rowIndex
                         ]}
                   </td>
@@ -177,6 +181,9 @@ export default function SimilarityMeasure({
     );
   };
 
+  const [showSimilarity, setShowSimilarity] = useState(false);
+  const toogleShowSimilarity = () => setShowSimilarity((prev) => !prev);
+
   return (
     <div className="mt-5 bg-yellow-secondary shadow-md p-5 rounded-md outline outline-2 outline-black">
       <div className="flex items-center">
@@ -191,14 +198,10 @@ export default function SimilarityMeasure({
           </div>
 
           <h1 className="font-poppins capitalize text-sm sm:text-sm md:text-base lg:text-lg font-semibold text-black text-start">
-            Mencari Fungsi Similaritas{" "}
-            <span className="italic">
-              {" "}
-              {similarity}{" "}
-              {opsional
-                .toLowerCase()
-                .replace(/\b[a-z]/g, (letter) => letter.toUpperCase())}
-            </span>
+            Mencari Fungsi Similaritas {similarity}{" "}
+            {opsional
+              .toLowerCase()
+              .replace(/\b[a-z]/g, (letter) => letter.toUpperCase())}
           </h1>
         </div>
       </div>
@@ -213,77 +216,57 @@ export default function SimilarityMeasure({
       <FunctionMeasureDropdown DetailRumus={FormulaSimilarity.detail_formula} />
 
       <div className="px-4 sm:px-8 md:px-10 py-5">
-        <h1 className="text-lg font-semibold font-poppins underline underline-offset-8 decoration-4 decoration-card_blue_primary">
-          Hasil Fungsi Similaritas{" "}
-          <span className="italic">
-            {" "}
-            {opsional
-              .toLowerCase()
-              .replace(/\b[a-z]/g, (letter) => letter.toUpperCase())}
-          </span>
-        </h1>
-
-        {/* Tombol dengan ikon */}
-        <div className="flex justify-center mt-4">
-          <div
-            className="flex items-center gap-2 px-3 py-2 bg-card_blue_primary rounded-md cursor-pointer hover:bg-blue-500 transition-all shadow-md outline outline-2 outline-white w-fit"
-            onClick={() => setShowModalTutorial(true)}
-          >
-            {/* Info Icon */}
-            <InfoIcon className="text-white text-lg sm:text-xl" />
-
-            {/* Tutorial Title */}
-            <span className="text-white text-sm sm:text-base font-medium">
-              Tutorial
-            </span>
-          </div>
-        </div>
-        {/* Tabel similaritas rating */}
-        <RenderTabelSimilarity
-          result={result}
-          handleMeanClick={handleMeanClick}
-          closeModal={closeModal}
+        <DividerHeadingBlue
+          show={showSimilarity}
+          onClick={toogleShowSimilarity}
+          text={`Similaritas`}
         />
+
+        {showSimilarity && (
+          <>
+            <div className="mt-4 space-y-4">
+              {/* Tombol dengan ikon */}
+              <div className="flex justify-center mt-4">
+                <div
+                  className="flex items-center gap-2 px-3 py-2 bg-card_blue_primary rounded-md cursor-pointer hover:bg-blue-500 transition-all shadow-md outline outline-2 outline-white w-fit"
+                  onClick={() => setShowModalTutorial(true)}
+                >
+                  {/* Info Icon */}
+                  <InfoIcon className="text-white text-lg sm:text-xl" />
+
+                  {/* Tutorial Title */}
+                  <span className="text-white text-sm sm:text-base font-medium">
+                    Tutorial
+                  </span>
+                </div>
+              </div>
+              {/* Tabel similaritas rating */}
+              <RenderTabelSimilarity
+                result={result}
+                handleMeanClick={handleMeanClick}
+                closeModal={closeModal}
+              />
+              <div>
+                <DividerHeading text={"Pilih Visualisasi"} />
+
+                <DropdownWithDisplay
+                  result={result}
+                  opsional={opsional}
+                  similarity={similarity}
+                />
+              </div>
+            </div>
+          </>
+        )}
 
         {/* Modal pop-up */}
         {showModalTutorial && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-            <div className="bg-white rounded-lg p-6 shadow-lg w-[600px]">
-              <h2 className="text-xl font-semibold mb-4">
-                Tutorial Similaritas
-              </h2>
-              <img
-                src={simGif}
-                alt="Video Tutorial Cover"
-                className="w-full h-full object-cover"
-              />
-              <p className="text-gray-700 text-justify font-semibold my-2">
-                Ini adalah tutorial untuk memberikan informasi tambahan terkait
-                Similaritas cara perhitungan.
-              </p>
-              <div className="mt-6 flex justify-end">
-                <button
-                  className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-                  onClick={() => setShowModalTutorial(false)}
-                >
-                  Tutup
-                </button>
-              </div>
-            </div>
-          </div>
+          <TutorialModal
+            title={"Fungsi Similaritas"}
+            content={simGif}
+            onClose={() => setShowModalTutorial(false)}
+          />
         )}
-      </div>
-
-      <div>
-        <h1 className="font-semibold text-xl my-5 underline underline-offset-8 decoration-4 decoration-card_blue_primary">
-          PILIH VISUALISASI FUNGSI SIMILARITAS{" "}
-        </h1>
-
-        <DropdownWithDisplay
-          result={result}
-          opsional={opsional}
-          similarity={similarity}
-        />
       </div>
     </div>
   );

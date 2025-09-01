@@ -6,12 +6,12 @@ import { MathJaxContext } from "better-react-mathjax";
 import mathjaxConfig from "../../../../mathjax-config";
 import { FunctionMeasureDropdown } from "../../DropdownFunction/FunctionMeasureDropdown";
 import { AllSimilaritas } from "../../../../api/getDataSet";
-import { IconButton } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import MeanGif from "../../../../assets/vidioAsset/MeanGif.gif";
 import MathJaxComponent from "../../../../MathJaxComponent";
-import CloseIcon from "@mui/icons-material/Close";
 import Spinner from "../../../Navigate/Spinner";
+import { TutorialModal } from "../../../modal/TutorialModal";
+import { DividerHeadingBlue } from "../../../tabelData/DividerHeading";
 
 export default function MeanMeasure({
   opsional,
@@ -137,6 +137,9 @@ export default function MeanMeasure({
     );
   };
 
+  const [showMean, setShowMean] = useState(false);
+  const toggleShowMean = () => setShowMean((prev) => !prev);
+
   return (
     <>
       {/* <div className="h-[5rem]"></div> */}
@@ -154,7 +157,8 @@ export default function MeanMeasure({
             </div>
 
             <h1 className="font-poppins capitalize text-sm sm:text-sm md:text-base lg:text-lg font-semibold text-black text-start">
-              Mencari <i>Mean Rating </i> <i>{opsional}</i>
+              Mencari Mean Rating {""}
+              {opsional}
             </h1>
           </div>
         </div>
@@ -169,67 +173,44 @@ export default function MeanMeasure({
         <FunctionMeasureDropdown DetailRumus={meanFormula.formula_detail} />
 
         <div className="px-4 sm:px-8 md:px-10 py-5 ">
-          <h1 className="text-base sm:text-lg md:text-xl font-semibold font-poppins underline underline-offset-8 decoration-4 decoration-card_blue_primary">
-            Hasil <i>Mean Rating</i>{" "}
-            <i>
-              {opsionalModify
-                .toLowerCase()
-                .replace(/\b[a-z]/g, (letter) => letter.toUpperCase())}
-            </i>
-          </h1>
+          <DividerHeadingBlue
+            show={showMean}
+            onClick={toggleShowMean}
+            text={`Mean Rating`}
+          />
 
-          {/* Tombol dengan ikon */}
-          <div className="flex justify-center mt-4">
-            <div
-              className="flex items-center gap-2 px-3 py-2 bg-card_blue_primary rounded-md cursor-pointer hover:bg-blue-500 transition-all shadow-md outline outline-2 outline-white w-fit"
-              onClick={() => setShowModalTutorial(true)}
-            >
-              {/* Info Icon */}
-              <InfoIcon className="text-white text-lg sm:text-xl" />
+          {/* modal hasil */}
+          {showMean && (
+            <>
+              <div className="mt-4 space-y-4">
+                <div className="flex justify-center mt-4">
+                  <div
+                    className="flex items-center gap-2 px-3 py-2 bg-card_blue_primary rounded-md cursor-pointer hover:bg-blue-500 transition-all shadow-md outline outline-2 outline-white w-fit"
+                    onClick={() => setShowModalTutorial(true)}
+                  >
+                    {/* Info Icon */}
+                    <InfoIcon className="text-white text-lg sm:text-xl" />
 
-              {/* Tutorial Title */}
-              <span className="text-white text-sm sm:text-base font-medium">
-                Tutorial
-              </span>
-            </div>
-          </div>
+                    {/* Tutorial Title */}
+                    <span className="text-white text-sm sm:text-base font-medium">
+                      Tutorial
+                    </span>
+                  </div>
+                </div>
 
-          {/* Tabel mean rating */}
-          <RenderTableMean />
+                {/* Tabel mean rating */}
+                <RenderTableMean />
+              </div>
+            </>
+          )}
 
           {/* Modal pop-up */}
           {showModalTutorial && (
-            <div className="fixed inset-0  bg-black bg-opacity-50 flex justify-center items-center z-50">
-              <div className=" bg-white rounded-lg p-4 md:p-6 shadow-lg w-[90%] sm:w-[600px] relative">
-                <button
-                  onClick={() => setShowModalTutorial(false)}
-                  className="absolute top-3 right-3 text-3xl text-gray-600 hover:text-gray-800 focus:outline-none"
-                >
-                  <CloseIcon />{" "}
-                  {/* Pastikan CloseIcon adalah komponen atau ikon yang benar */}
-                </button>
-                <h2 className="text-xl font-semibold mb-6 sm:mb-4">
-                  Tutorial rata-rata Measure
-                </h2>
-                <img
-                  src={MeanGif}
-                  alt="Video Tutorial Cover"
-                  className="w-full h-auto object-cover rounded-md"
-                />
-                <p className="text-gray-700 text-justify font-semibold my-2">
-                  Ini adalah tutorial untuk memberikan informasi tambahan
-                  terkait rata-rata <i>Rating</i> cara perhitungan.
-                </p>
-                <div className="mt-6 flex justify-end">
-                  <button
-                    className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-                    onClick={() => setShowModalTutorial(false)}
-                  >
-                    Tutup
-                  </button>
-                </div>
-              </div>
-            </div>
+            <TutorialModal
+              title={"Mean"}
+              content={MeanGif}
+              onClose={() => setShowModalTutorial(false)}
+            />
           )}
         </div>
       </div>

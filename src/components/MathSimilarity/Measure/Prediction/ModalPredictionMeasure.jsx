@@ -18,6 +18,9 @@ import ScatterPlotChart from "../../../Graph/ChartJsPlot";
 import { ArgMaxNeighbor } from "./PredictionArgMax";
 import { PredictionIndex } from "./PredictionIndex";
 import { PredictionValue } from "./PredictionValue";
+import InfoIcon from "@mui/icons-material/Info";
+import FullscreenIcon from "@mui/icons-material/Fullscreen";
+import { DividerHeading, OnlyDivider } from "../../../tabelData/DividerHeading";
 
 const ModalPredictionMeasure = ({
   dataRating,
@@ -114,7 +117,7 @@ const ModalPredictionMeasure = ({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Matrik Rating */}
             <div>
-              <h2 className="font-semibold text-lg">Data Rating</h2>
+              <DividerHeading text={"Data Rating"} />
               <table className="border border-black mt-4 mx-auto text-center w-full">
                 <thead>
                   <tr className="bg-gray-200">
@@ -181,9 +184,7 @@ const ModalPredictionMeasure = ({
 
             {/* Matriks Mean-Rating */}
             <div>
-              <h2 className="font-semibold text-lg">
-                <span>Mean-Rating</span>{" "}
-              </h2>
+              <DividerHeading text={"Mean-Rating"} />
               <table className="border border-black mt-4 mx-auto text-center w-full">
                 <thead>
                   <tr className="bg-gray-200">
@@ -228,7 +229,7 @@ const ModalPredictionMeasure = ({
 
             {/* Nilai Mean-Centered */}
             <div>
-              <h2 className="font-semibold text-lg">Nilai Mean-Centered</h2>
+              <DividerHeading text={"Mean-Centered"} />
               <table className="border border-black mt-4 mx-auto text-center w-full">
                 <thead>
                   <tr className="bg-gray-200">
@@ -314,7 +315,7 @@ const ModalPredictionMeasure = ({
             {selectedIndex[opsional === "user-based" ? 0 : 1] <
             result["similarity"].length ? (
               <div>
-                <h2 className="font-semibold text-lg">Nilai Similaritas</h2>
+                <DividerHeading text={"Similaritas"} />
                 <table className="border border-black mt-4 mx-auto text-center w-full">
                   <thead>
                     <tr className="bg-gray-200">
@@ -381,29 +382,16 @@ const ModalPredictionMeasure = ({
               <p>Data for this user is not available.</p>
             )}
           </div>
-        </div>
 
-        <div>
-          <button
-            className="p-2 mt-2 bg-orange-300 rounded-md shadow-sm hover:bg-orange-500 transition-colors  font-semibold"
-            onClick={handleOpenDetailPrediksi}
-          >
-            Detail Prediksi {capitalize(opsional.split("-")[0])}
-          </button>
-        </div>
+          {/* Legend Table */}
 
-        {/* Legend Table */}
-        <div>
           <LegendTable
             list={[
               {
                 color: "bg-green-200",
                 description: (
                   <>
-                    <p>
-                      Menandakan Data <i className="mx-1"> Rating </i> yang akan
-                      dihitung
-                    </p>
+                    <p>Menandakan Data Rating yang akan dihitung</p>
                   </>
                 ),
               },
@@ -411,10 +399,7 @@ const ModalPredictionMeasure = ({
                 color: "bg-yellow-200",
                 description: (
                   <>
-                    <p>
-                      Menandakan Data Mean <i className="mx-1"> Rating </i> yang
-                      akan dihitung
-                    </p>
+                    <p>Menandakan Data Mean Rating yang akan dihitung</p>
                   </>
                 ),
               },
@@ -422,120 +407,143 @@ const ModalPredictionMeasure = ({
                 color: "bg-red-200",
                 description: (
                   <>
-                    <p>
-                      Menandakan Data <i className="mx-1"> Rating </i> yang
-                      tidak diketahui
-                    </p>
+                    <p>Menandakan Data Rating yang tidak diketahui</p>
                   </>
                 ),
               },
             ]}
           />
-        </div>
-        {/* PLOT */}
-        {/* <h1 className="font-semibold text-xl my-5 underline underline-offset-8 decoration-4 decoration-card_blue_primary">
-          Grafik Top-K
-        </h1>
-        <div className="flex flex-col justify-center my-3">
-          <ScatterPlotDataFilter
-            kValue={kValue}
-            result={result}
-            opsional={opsional}
-            topSimilarities={topSimilarities}
-            rowIndex={selectedIndex[0]}
-            colIndex={selectedIndex[1]}
-          />
-          <ScatterPlotChart
-            kValue={kValue}
-            result={result}
-            opsional={opsional}
-            topSimilarities={topSimilarities}
-            rowIndex={selectedIndex[0]}
-            colIndex={selectedIndex[1]}
-          />
-        </div> */}
-        {/* END PLOT */}
-        {/* Perhitungan Manual */}
-        <MathJaxContext options={mathjaxConfig}>
-          <div className="w-full overflow-x-auto overflow-y-hidden mb-4">
-            <div className="text-[0.75rem] sm:text-sm md:text-base flex justify-center items-center flex-col px-4 sm:px-10">
-              {selectedIndex ? (
-                <div>
-                  <ArgMaxNeighbor
-                    rowIndex={selectedIndex[0]}
-                    colIndex={selectedIndex[1]}
-                    opsional={opsional}
-                    similarity={similarity}
-                    topSimilarity={topSimilarities}
-                    kValue={kValue}
-                  />
-                </div>
-              ) : (
-                <p>No expression selected.</p>
-              )}
-            </div>
-          </div>
-        </MathJaxContext>
 
-        <div>
+          <div className="mt-2 w-40 bg-orange-300 rounded-md shadow-sm hover:bg-orange-500 transition-colors">
+            <FullscreenIcon className="text-gray-600 inline-block mr-2" />
+            <button
+              className="p-2 font-semibold"
+              onClick={handleOpenDetailPrediksi}
+            >
+              Full Page
+            </button>
+          </div>
+          <div className="flex items-start gap-2 pt-2">
+            {/* Icon di pojok kiri atas */}
+            <InfoIcon className="text-blue-500 mt-1" />
+
+            {/* Teks paragraf */}
+            <p className="text-justify">
+              Untuk mempermudah pemahaman bisa dilihat detail perhitungan untuk
+              mencari nilai prediksi rating untuk{" "}
+              <strong>
+                {opsional === "User-Based" ? (
+                  <>
+                    User-{selectedIndex[0] + 1} dengan target Item-
+                    {selectedIndex[1] + 1}
+                  </>
+                ) : (
+                  <>
+                    Item-{selectedIndex[0] + 1} dengan target User-
+                    {selectedIndex[1] + 1}
+                  </>
+                )}
+              </strong>
+              {""}pada data toy dataset di atas.
+            </p>
+          </div>
+          <OnlyDivider />
+          <p className="text-base text-justify sm:text-md md:text-lg lg:text-xl xl:text-2xl font-bold text-gray-700 m-2">
+            Hasil prediksi {similarity} pada untuk{" "}
+            {opsional === "User-Based" ? (
+              <>
+                User-{selectedIndex[0] + 1} dengan target Item-
+                {selectedIndex[1] + 1}
+              </>
+            ) : (
+              <>
+                Item-{selectedIndex[0] + 1} dengan target User-
+                {selectedIndex[1] + 1}
+              </>
+            )}{" "}
+            adalah:{" "}
+            <span className="bg-green-100 rounded-md p-1 ">
+              {selectedValue.toFixed(3)}
+            </span>
+          </p>
+        </div>
+
+        {/* Perhitungan Manual */}
+        <div className="bg-blue-100 p-2 m-2 rounded-md shadow-sm">
           <MathJaxContext options={mathjaxConfig}>
-            <div className="w-full overflow-x-auto overflow-y-hidden mb-4">
-              <div className="text-[0.75rem] sm:text-sm md:text-base flex justify-center items-center flex-col px-4 sm:px-10">
+            <div className="w-full max-w-full overflow-x-auto overflow-y-hidden sm:overflow-x-visible">
+              <div className="text-[0.75rem] sm:text-sm md:text-base leading-[1.4] mb-4 text-center sm:text-left">
                 {selectedIndex ? (
                   <div>
-                    <PredictionIndex
+                    <ArgMaxNeighbor
                       rowIndex={selectedIndex[0]}
                       colIndex={selectedIndex[1]}
                       opsional={opsional}
                       similarity={similarity}
+                      topSimilarity={topSimilarities}
+                      kValue={kValue}
                     />
                   </div>
                 ) : (
                   <p>No expression selected.</p>
                 )}
+
+                <div className="w-full min-w-[200px]">
+                  {selectedIndex ? (
+                    <div>
+                      <PredictionIndex
+                        rowIndex={selectedIndex[0]}
+                        colIndex={selectedIndex[1]}
+                        opsional={opsional}
+                        similarity={similarity}
+                      />
+                    </div>
+                  ) : (
+                    <p>No expression selected.</p>
+                  )}
+                </div>
+
+                <div className="w-full min-w-[200px] ">
+                  {selectedIndex ? (
+                    <div>
+                      <PredictionValue
+                        rowIndex={selectedIndex[0]}
+                        colIndex={selectedIndex[1]}
+                        similarValues={topSimilarities}
+                        result={result}
+                        dataRating={dataRating}
+                        opsional={opsional}
+                        similarity={similarity}
+                        isNotation={isNotation}
+                        selectedValue={selectedValue}
+                      />
+                    </div>
+                  ) : (
+                    <p>No expression selected.</p>
+                  )}
+                </div>
               </div>
             </div>
           </MathJaxContext>
         </div>
-
-        <MathJaxContext options={mathjaxConfig}>
-          <div className="w-full overflow-x-auto overflow-y-hidden">
-            <div className="text-[0.75rem] sm:text-sm md:text-base flex justify-center items-center flex-col px-4 sm:px-10">
-              {selectedIndex ? (
-                <div>
-                  <PredictionValue
-                    rowIndex={selectedIndex[0]}
-                    colIndex={selectedIndex[1]}
-                    similarValues={topSimilarities}
-                    result={result}
-                    dataRating={dataRating}
-                    opsional={opsional}
-                    similarity={similarity}
-                    isNotation={isNotation}
-                    selectedValue={selectedValue}
-                  />
-                </div>
-              ) : (
-                <p>No expression selected.</p>
-              )}
-            </div>
+        <OnlyDivider />
+        <div className="bg-blue-100 p-2 m-2 rounded-md shadow-sm">
+          <h1 className="font-semibold text-xl my-5 underline underline-offset-8 decoration-4 decoration-card_blue_primary">
+            Grafik Prediksi Data Filter
+          </h1>
+          {/* PLOT */}
+          <div className="flex flex-col justify-center my-3">
+            <ScatterPlotDataFilter
+              kValue={kValue}
+              result={result}
+              opsional={opsional}
+              topSimilarities={topSimilarities}
+              rowIndex={selectedIndex[0]}
+              colIndex={selectedIndex[1]}
+            />
           </div>
-        </MathJaxContext>
-        <p className="mt-5 text-xl font-bold text-gray-700 sm:text-md md:text-lg lg:text-xl xl:text-2xl">
-          Hasil prediksi {similarity} pada untuk{" "}
-          {opsional === "User-Based" ? (
-            <>
-              <i>User-{selectedIndex[0] + 1}</i> dengan target{" "}
-              <i>Item-{selectedIndex[1] + 1}</i>
-            </>
-          ) : (
-            <>
-              <i>Item-{selectedIndex[0] + 1}</i> dengan target{" "}
-              <i>User-{selectedIndex[1] + 1}</i>
-            </>
-          )}{" "}
-          adalah: {selectedValue.toFixed(3)}
-        </p>
+          {/* END PLOT */}
+        </div>
 
         <button
           className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"

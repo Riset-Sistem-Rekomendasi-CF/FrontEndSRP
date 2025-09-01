@@ -24,12 +24,9 @@ export const MeanCenteredValue = ({
 
   return (
     <>
-      <div className="pb-2 pt-2">
-        <MathJaxComponent>{fullFormula}</MathJaxComponent>
-      </div>
-      <div>
-        <MathJaxComponent>{fullResult}</MathJaxComponent>
-      </div>
+      <MathJaxComponent>{fullFormula}</MathJaxComponent>
+
+      <MathJaxComponent>{fullResult}</MathJaxComponent>
     </>
   );
 };

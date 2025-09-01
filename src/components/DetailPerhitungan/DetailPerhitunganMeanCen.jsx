@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from "react";
 import SwitchToggle from "../Toggle/SwitchToggle";
-import {
-  getFormulaMeanCenteredIndex,
-  getFormulaMeanCenteredValue,
-} from "../MathSimilarity/Measure/Formula/FormulaMeanCentered";
-import MathJaxComponent from "../../MathJaxComponent";
 import LegendTable from "../tabelData/LegendTable";
 import Warm from "../Warm/Warm";
 import { MeanCenteredIndex } from "../MathSimilarity/Measure/MeanCentered/MeanCenteredIndex";
@@ -56,6 +51,12 @@ export default function DetailPerhitunganMeanCen() {
       <h2 className="text-2xl font-bold text-center text-gray-800 mb-8 shadow-sm">
         Detail Perhitungan Mean-Centered Rating
       </h2>
+      <button
+        onClick={() => window.close()}
+        className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+      >
+        Kembali
+      </button>
 
       <SwitchToggle
         changeToggle={toggleIsNotation}

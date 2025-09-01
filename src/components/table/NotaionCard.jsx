@@ -4,6 +4,7 @@ import { getInitialData } from "../../api/getDataSet";
 import { transposeMatrix } from "../../helper/helper";
 import SwitchToggle from "../Toggle/SwitchToggle";
 import KeyboardCapslockIcon from "@mui/icons-material/KeyboardCapslock";
+import { OnlyDivider } from "../tabelData/DividerHeading";
 
 export const TabelRatingData = ({ data, opsional }) => {
   const initialData = getInitialData(data, opsional);
@@ -185,10 +186,10 @@ export const TabelRatingData = ({ data, opsional }) => {
         )}
         <div>
           <h3 className="text-lg sm:text-xl md:text-2xl font-semibold my-2">
-            Informasi Matriks <i> Rating</i>
+            Informasi Matriks Rating
           </h3>
           <h3 className="text-md sm:text-lg font-semibold mb-2">
-            Matriks <i> Rating </i> dibentuk berdasarkan data <i>Rating</i>.
+            Matriks Rating dibentuk berdasarkan data Rating.
           </h3>
 
           <div className="flex items-start justify-start space-x-6">
@@ -197,7 +198,7 @@ export const TabelRatingData = ({ data, opsional }) => {
               <div className="flex flex-col sm:flex-row justify-between sm:space-x-6">
                 {/* Kolom Kiri */}
                 <div className="w-full sm:w-1/2 mx-1">
-                  <p>
+                  <div className="border border-black rounded-md p-2 bg-blue-100">
                     <span className="italic font-serif">I</span> :{" "}
                     {!isNotation
                       ? Array.from({ length: item }, (_, i) => i + 1).join(
@@ -208,10 +209,10 @@ export const TabelRatingData = ({ data, opsional }) => {
                             {i !== 0 ? "," : ""}i<sub>{+(i + 1)}</sub>
                           </span>
                         ))}
-                  </p>
+                  </div>
+
                   <h2 className="font-medium my-2">
-                    Lihat Himpunan <i> Item </i> yang telah diberi{" "}
-                    <i> Rating </i> oleh <i> User </i> u (
+                    Lihat Himpunan item yang telah diberi Rating oleh user u (
                     <span className="font-serif">
                       I<sub>u</sub>
                     </span>
@@ -231,7 +232,7 @@ export const TabelRatingData = ({ data, opsional }) => {
                   </select>
 
                   {selectedUser !== null && (
-                    <div>
+                    <div className="border border-black p-2 rounded-md mt-2">
                       <p>
                         <strong className="italic">
                           I<sub>{selectedUser + 1}</sub> :
@@ -245,6 +246,7 @@ export const TabelRatingData = ({ data, opsional }) => {
                             .join(", ") +
                           "}"}
                       </p>
+                      <OnlyDivider />
                       <p>
                         <strong className="italic">
                           r<sub>{selectedUser + 1}*</sub> :
@@ -259,7 +261,7 @@ export const TabelRatingData = ({ data, opsional }) => {
 
                 {/* Kolom Kanan */}
                 <div className="w-full sm:w-1/2 mx-1 mt-6 sm:mt-0">
-                  <p>
+                  <div className="border border-black rounded-md p-2 bg-green-100">
                     <span className="italic font-serif">U</span> :{" "}
                     {!isNotation
                       ? Array.from({ length: user }, (_, i) => i + 1).join(
@@ -270,12 +272,10 @@ export const TabelRatingData = ({ data, opsional }) => {
                             {i !== 0 ? "," : ""}u<sub>{+(i + 1)}</sub>
                           </span>
                         ))}
-                  </p>
+                  </div>
 
                   <h2 className="font-medium my-2">
-                    Lihat Himpunan <i> User </i> yang telah memberi{" "}
-                    <i> rating </i>
-                    <i> item </i> i (
+                    Lihat Himpunan User yang telah memberi rating item i (
                     <span className="font-serif">
                       U<sub>i</sub>
                     </span>
@@ -295,7 +295,7 @@ export const TabelRatingData = ({ data, opsional }) => {
                   </select>
 
                   {selectedItem !== null && (
-                    <div>
+                    <div className="border border-black p-2 rounded-md mt-2">
                       <p>
                         <strong className="italic">
                           U<sub>{selectedItem + 1}</sub> :
@@ -309,6 +309,7 @@ export const TabelRatingData = ({ data, opsional }) => {
                             .join(", ") +
                           "}"}
                       </p>
+                      <OnlyDivider />
                       <p>
                         <strong className="italic">
                           r<sub>*{selectedItem + 1}</sub> :
@@ -358,25 +359,25 @@ export const NotationCard = ({ data, opsional, id }) => {
               <strong>
                 <i>m</i>
               </strong>{" "}
-              : Jumlah <span className="italic">user</span>
+              : Jumlah user
             </p>
             <p>
               <strong>
                 <i>n</i>
               </strong>{" "}
-              : Jumlah <span className="italic">item</span>
+              : Jumlah item
             </p>
             <p>
               <strong>
                 <i>U</i>
               </strong>{" "}
-              : Himpunan <span className="italic">user</span>
+              : Himpunan user
             </p>
             <p>
               <strong>
                 <i>I</i>
               </strong>{" "}
-              : Himpunan <span className="italic">item</span>
+              : Himpunan item
             </p>
             <p>
               <strong>
@@ -384,8 +385,7 @@ export const NotationCard = ({ data, opsional, id }) => {
                   I<sub>u</sub>
                 </i>
               </strong>{" "}
-              : Himpunan <span className="italic">item</span> yang telah diberi{" "}
-              <i> rating </i> oleh <span className="italic">user</span>{" "}
+              : Himpunan item yang telah diberi rating oleh user {""}
               <em>u</em>
             </p>
           </div>
@@ -398,8 +398,7 @@ export const NotationCard = ({ data, opsional, id }) => {
                   U<sub>i</sub>
                 </i>
               </strong>{" "}
-              : Himpunan <span className="italic">User</span> yang telah memberi{" "}
-              <i> rating </i> <br /> <span className="italic">item</span>{" "}
+              : Himpunan user yang telah memberi rating <br /> item {""}
               <em>i</em>
             </p>
             <p>
@@ -414,8 +413,8 @@ export const NotationCard = ({ data, opsional, id }) => {
               <strong>
                 r<sub>ui</sub>
               </strong>{" "}
-              : <i> rating </i> <span className="italic"> user </span>
-              <em> u</em> terhadap <span className="italic">item</span>{" "}
+              : rating user
+              <em> u</em> terhadap item {""}
               <em>i</em>
             </p>
           </div>

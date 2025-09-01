@@ -68,14 +68,38 @@ export const SimilarityValue = ({
             : dataSimilarity[colIndex][i]
         );
 
+  // const numeratorArrayMeasure =
+  //   similarity !== "Bhattacharyya Coefficient"
+  //     ? sum(
+  //         dataSimilarityRow.map(
+  //           (val, idx) => val.toFixed(2) * dataSimilarityCol[idx].toFixed(2)
+  //         )
+  //       )
+  //     : null;
   const numeratorArrayMeasure =
     similarity !== "Bhattacharyya Coefficient"
       ? sum(
-          dataSimilarityRow.map(
-            (val, idx) => val.toFixed(2) * dataSimilarityCol[idx].toFixed(2)
-          )
+          dataSimilarityRow.map((val, idx) => {
+            const colVal = dataSimilarityCol[idx];
+
+            // Debug log sebelum pakai .toFixed
+            console.log(`🔍 index ${idx}: val =`, val, "colVal =", colVal);
+
+            if (
+              typeof val === "number" &&
+              typeof colVal === "number" &&
+              !isNaN(val) &&
+              !isNaN(colVal)
+            ) {
+              return Number(val.toFixed(2)) * Number(colVal.toFixed(2));
+            } else {
+              console.warn(`❌ Invalid at index ${idx}:`, val, colVal);
+              return 0; // fallback aman
+            }
+          })
         )
       : null;
+
   const denominatorArrayMeasure =
     similarity !== "Bhattacharyya Coefficient"
       ? Math.sqrt(sum(dataSimilarityRow.map((val, idx) => val ** 2))) *

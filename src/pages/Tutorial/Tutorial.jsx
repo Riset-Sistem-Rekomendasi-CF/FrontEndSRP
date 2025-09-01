@@ -9,21 +9,12 @@ import {
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import DetailPageBox from "../detailPageView/DetailPageBox.jsx";
-import Navigator from "../../components/Navigate/Navigator";
-import VideoTutorialModal from "../../components/modal/VidioTutorialModal";
 import BodyTutorial from "../Layout/Tutorial/BodyTutorial.jsx";
 import FormLayoutTutorial from "../Layout/Tutorial/FormTutorial.jsx";
 import NotationCard from "../../components/table/NotaionCard.jsx";
 import Chip from "@mui/material/Chip";
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
-import {
-  RateReview,
-  Build,
-  Star,
-  ShowChart,
-  People,
-  Lightbulb,
-} from "@mui/icons-material";
+import { Star, ShowChart, People, Lightbulb } from "@mui/icons-material";
 
 // import Navbar from "../../components/Navigate/NavBar.jsx";
 import KoalaPage from "../../assets/icons/KoalaPage.png";
@@ -133,14 +124,25 @@ const Tutorial = () => {
   const TeksHeader = (
     <span>
       <h1>
-        Data <i>Rating</i> Yang Digunakan
+        {" "}
+        <span className="curved-underline">
+          Data Rating Yang Digunakan
+          <svg viewBox="0 0 100 20" preserveAspectRatio="none">
+            <path
+              d="M0 20 Q 50 0, 100 20"
+              stroke="white"
+              strokeWidth="4"
+              fill="none"
+            />
+          </svg>
+        </span>
       </h1>
     </span>
   );
   const Tekssubheader = (
     <span>
-      Data <i>rating</i> yaitu suatu kumpulan data yang telah diberikan{" "}
-      <i>rating</i> pada <i>item</i> tertentu oleh <i>user</i>.
+      Data Rating yaitu suatu kumpulan data yang telah diberikan Rating pada
+      item tertentu oleh user.
     </span>
   );
 
@@ -190,14 +192,24 @@ const Tutorial = () => {
             className="max-w-4xl mx-auto text-center py-5"
           >
             <h1 className="text-3xl sm:text-4xl font-bold font-poppins   ">
-              Notasi dan Penjelasan Data Rating
+              <span className="curved-underline">
+                Notasi dan Penjelasan Data Rating
+                <svg viewBox="0 0 100 20" preserveAspectRatio="none">
+                  <path
+                    d="M0 20 Q 50 0, 100 20"
+                    stroke="white"
+                    strokeWidth="4"
+                    fill="none"
+                  />
+                </svg>
+              </span>
             </h1>
 
             <NotationCard opsional={selectedMethod.toLowerCase()} data={data} />
           </section>
           <FormLayoutTutorial id="metode_ratingTutorial" data={form} />
 
-          <section className="max-w-full mx-auto text-center my-10  relative">
+          <section className="max-w-full mx-auto text-center my-10  pt-10 relative">
             <button
               onClick={toggleDescription}
               className="max-w-6xl sm:w-auto font-semibold font-poppins bg-blue-home border-2 border-black text-center text-white px-4 py-2 sm:px-6 sm:py-3 rounded-full hover:bg-blue-700 shadow-md flex items-center justify-center mx-auto"

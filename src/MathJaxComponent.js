@@ -34,15 +34,13 @@ import React, { useEffect, useState } from 'react';
 import { MathJax, MathJaxContext } from 'better-react-mathjax';
 import mathjaxConfig from './mathjax-config';
 
-const MathJaxComponent = ({ children }) => {
+const MathJaxComponent = ({ children, className }) => {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    // Simulasi tunggu DOM & konten siap
     const timeout = setTimeout(() => {
       setReady(true);
     }, 100);
-
     return () => clearTimeout(timeout);
   }, [children]);
 
@@ -52,16 +50,19 @@ const MathJaxComponent = ({ children }) => {
     <MathJaxContext version={3} config={mathjaxConfig}>
       {!ready ? (
         <div className="flex justify-center items-center h-10">
-            <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-gray-800"></div>
+          <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-gray-800"></div>
         </div>
       ) : (
-        <MathJax dynamic inline>
-          {children}
-        </MathJax>
+        <div className={className}>
+          <MathJax dynamic inline>
+            {children}
+          </MathJax>
+        </div>
       )}
     </MathJaxContext>
   );
 };
+
 
 export default MathJaxComponent;
 

@@ -3,6 +3,14 @@
 @tailwind utilities;
 
 
+/* jadikan popins based dari font */
+@layer base {
+  body {
+    @apply font-sans
+  }
+}
+
+
 
  /*styles.css or App.css */
 @keyframes fadeIn {
@@ -166,8 +174,10 @@
 
 
 /* add to mjx container scroll-up down */
-mjx-container {
+.keterangan-rumus mjx-container {
   margin: 0 !important;
   padding: 0 !important;
+  text-align: left !important;
+  display: block !important;
 }
 /* end mjx container */

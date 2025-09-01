@@ -6,22 +6,83 @@ export const getFormulaMean = (opsional) => {
       return {
         formula: `\\[ \\mu_{User(u)} = \\frac{\\sum_{i\\in I_{u}} r_{ui}}{\\left|I_{u}\\right|} \\ \\ \\  \\forall u\\in\\left\\{1...m\\right\\} \\]`,
         formula_detail: [
-          `\\[ \\mu_{User(u)} = \\textit{Mean rating} \\ \\text{pada} \\ \\textit{user} \\ u \\] `,
-          `\\[ I_{u} = \\text{Himpunan } \\textit{item} \\text{ yang telah diberi} \\textit{ rating } \\text{oleh} \\ \\textit{user} \\ u \\] `,
-          `\\[ r_{uj} = \\text{Nilai} \\ \\textit{Rating } \\textit{user} \\ u \\text{ terhadap } \\textit{item} \\ i \\]`,
+          `\\[
+           \\begin{array}{ll}
+      \\mu_{User(u)} &: \\text{Mean rating pada user } u \\\\
+      I_{u} &: \\text{Himpunan item yang telah diberi rating oleh user } u \\\\
+      r_{ui} &: \\text{Nilai Rating user terhadap item } i
+    \\end{array}\\]`,
         ],
       };
     case "item-based":
       return {
         formula: `\\[ \\mu_{Item(i)} = \\frac{\\sum_{u\\in U_{i}} r_{ui}}{\\left|U_{i}\\right|}  \\ \\ \\   \\forall u\\in\\left\\{1...m\\right\\} \\]`,
         formula_detail: [
-          `\\[ \\mu_{Item(i)} = \\textit{Mean rating} \\ \\text{pada} \\ \\textit{item} \\ i \\] `,
-          `\\[ U_{i} = \\text{Himpunan} \\ \\textit{user} \\ \\text{yang telah memberikan} \\ \\textit{rating} \\ \\text{pada} \\ \\textit{item} \\ i \\] `,
-          `\\[ r_{ui} = \\textit{Rating} \\ \\textit{user} \\ u \\text{ terhadap} \\ \\textit{item} \\ i \\]`,
+          `\\[
+            \\begin{array}{ll}
+              \\mu_{Item(i)} & : \\text{Mean rating pada item } i \\\\
+              U_{i} & : \\text{Himpunan user yang telah memberikan rating pada item } i \\\\
+              r_{ui} & : \\text{Rating user } u \\text{ terhadap item } i
+            \\end{array}
+          \\]`,
         ],
       };
     default:
       return { formula: "", formula_detail: [] };
+  }
+};
+
+// detail rumus pada formula index
+export const getDetailFormulaMeanIndex = (opsional, selectedIndex) => {
+  switch (opsional) {
+    case "user-based":
+      return [
+        `\\[
+          \\begin{array}{ll}
+            \\mu_{User(${
+              selectedIndex[0] + 1
+            })} & : \\text{Mean rating pada user } ${
+          selectedIndex[0] + 1
+        } \\ (u_{${selectedIndex[0] + 1}}) \\\\
+            I_{u_{${
+              selectedIndex[0] + 1
+            }}} & : \\text{Himpunan item yang telah diberi rating oleh user } ${
+          selectedIndex[0] + 1
+        } \\ (u_{${selectedIndex[0] + 1}}) \\\\
+            r_{u_{${
+              selectedIndex[0] + 1
+            }},i} & : \\text{Nilai rating user } u_{${
+          selectedIndex[0] + 1
+        }} \\ \\text{terhadap item } i
+          \\end{array}
+        \\]`,
+      ];
+
+    case "item-based":
+      return [
+        `\\[
+          \\begin{array}{ll}
+            \\mu_{Item(${
+              selectedIndex[0] + 1
+            })} & : \\text{Mean rating pada item } ${
+          selectedIndex[0] + 1
+        } \\ (i_{${selectedIndex[0] + 1}}) \\\\
+            U_{${
+              selectedIndex[0] + 1
+            }} & : \\text{Himpunan user yang telah memberikan rating pada item } ${
+          selectedIndex[0] + 1
+        } \\ (i_{${selectedIndex[0] + 1}}) \\\\
+            r_{u,${
+              selectedIndex[0] + 1
+            }} & : \\text{Rating user } u \\ \\text{terhadap item } ${
+          selectedIndex[0] + 1
+        }
+          \\end{array}
+        \\]`,
+      ];
+
+    default:
+      return;
   }
 };
 

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import { useState, useCallback, memo } from "react";
 import { Menu } from "@headlessui/react";
 import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
 import FormControl from "@mui/material/FormControl";
@@ -7,8 +7,7 @@ import HeatMapVisualDataSim from "./HeatMapVisual";
 import { ScatterPlotData } from "./SccaterPlotVisual";
 import ChartJsScatter2D from "./ChartJsPlot2D";
 
-// Membungkus komponen visualisasi dengan React.memo agar tidak di-render ulang secara tidak perlu
-const MemoizedHeatMap = React.memo(({ result, opsional, similarity }) => {
+const MemoizedHeatMap = memo(({ result, opsional, similarity }) => {
   return (
     <HeatMapVisualDataSim
       result={result}
@@ -18,7 +17,7 @@ const MemoizedHeatMap = React.memo(({ result, opsional, similarity }) => {
   );
 });
 
-const MemoizedScatterPlot = React.memo(({ result, opsional }) => {
+const MemoizedScatterPlot = memo(({ result, opsional }) => {
   return <ChartJsScatter2D result={result} opsional={opsional} />;
 });
 

@@ -11,6 +11,8 @@ import InfoIcon from "@mui/icons-material/Info";
 import centerdGif from "../../../../assets/vidioAsset/meanCenGif.gif";
 import MathJaxComponent from "../../../../MathJaxComponent";
 import Spinner from "../../../Navigate/Spinner";
+import { TutorialModal } from "../../../modal/TutorialModal";
+import { DividerHeadingBlue } from "../../../tabelData/DividerHeading";
 
 const MeanCenteredMeasure = ({
   opsional,
@@ -86,7 +88,7 @@ const MeanCenteredMeasure = ({
               <tr className="bg-gray-200">
                 {/* Kolom pertama (U/I) dengan lebar yang responsif */}
                 <th className="border border-black px-4 py-2 text-xs sm:text-sm md:text-base w-1/6 min-w-[80px]">
-                  U/I
+                  {opsional === "user-based" ? "U/I" : "I/U"}
                 </th>
 
                 {Array.from({ length: numberOfColumns }, (_, index) => (
@@ -158,6 +160,9 @@ const MeanCenteredMeasure = ({
     );
   };
 
+  const [showMeanCentered, setShowMeanCentered] = useState(false);
+  const toggleShowMeaCentered = () => setShowMeanCentered((prev) => !prev);
+
   return (
     <div className="mt-5 bg-yellow-secondary shadow-md p-5 rounded-md outline outline-2 outline-black">
       <div className="flex items-center justify-start mb-4">
@@ -171,12 +176,10 @@ const MeanCenteredMeasure = ({
             2
           </div>
           <h1 className="font-poppins capitalize text-sm sm:text-sm md:text-base lg:text-lg font-semibold text-black text-start">
-            Mencari Mean-Centered <i> Rating </i>{" "}
-            <span className="italic">
-              {opsional
-                .toLowerCase()
-                .replace(/\b[a-z]/g, (letter) => letter.toUpperCase())}
-            </span>
+            Mencari Mean-Centered Rating {""}
+            {opsional
+              .toLowerCase()
+              .replace(/\b[a-z]/g, (letter) => letter.toUpperCase())}
           </h1>
         </div>
       </div>
@@ -192,60 +195,43 @@ const MeanCenteredMeasure = ({
         DetailRumus={FormulaMeanCentered.detail_formula}
       />
       <div className="px-4 sm:px-8 md:px-10 py-5">
-        <h1 className="text-lg font-semibold font-poppins underline underline-offset-8 decoration-4 decoration-card_blue_primary">
-          Hasil{" "}
-          <span className="italic">
-            Mean-Centered Rating{" "}
-            {opsional
-              .toLowerCase()
-              .replace(/\b[a-z]/g, (letter) => letter.toUpperCase())}
-          </span>
-        </h1>
+        <DividerHeadingBlue
+          show={showMeanCentered}
+          onClick={toggleShowMeaCentered}
+          text={`Mean-Centered Rating`}
+        />
 
-        {/* Tombol dengan ikon */}
-        <div className="flex justify-center mt-4">
-          <div
-            className="flex items-center gap-2 px-3 py-2 bg-card_blue_primary rounded-md cursor-pointer hover:bg-blue-500 transition-all shadow-md outline outline-2 outline-white w-fit"
-            onClick={() => setShowModalTutorial(true)}
-          >
-            {/* Info Icon */}
-            <InfoIcon className="text-white text-lg sm:text-xl" />
+        {/* modal mean centered */}
+        {showMeanCentered && (
+          <>
+            <div className="mt-4 space-y-4">
+              {/* Tombol dengan ikon */}
+              <div className="flex justify-center mt-4">
+                <div
+                  className="flex items-center gap-2 px-3 py-2 bg-card_blue_primary rounded-md cursor-pointer hover:bg-blue-500 transition-all shadow-md outline outline-2 outline-white w-fit"
+                  onClick={() => setShowModalTutorial(true)}
+                >
+                  {/* Info Icon */}
+                  <InfoIcon className="text-white text-lg sm:text-xl" />
 
-            {/* Tutorial Title */}
-            <span className="text-white text-sm sm:text-base font-medium">
-              Tutorial
-            </span>
-          </div>
-        </div>
-        {/* Tabel mean-centerd rating */}
-        <RenderTabelMeanCentered />
-
+                  {/* Tutorial Title */}
+                  <span className="text-white text-sm sm:text-base font-medium">
+                    Tutorial
+                  </span>
+                </div>
+              </div>
+              {/* Tabel mean-centerd rating */}
+              <RenderTabelMeanCentered />
+            </div>
+          </>
+        )}
         {/* Modal pop-up */}
         {showModalTutorial && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-            <div className="bg-white rounded-lg p-6 shadow-lg w-[600px]">
-              <h2 className="text-xl font-semibold mb-4">
-                Tutorial Mean-Centered
-              </h2>
-              <img
-                src={centerdGif}
-                alt="Video Tutorial Cover"
-                className="w-full h-full object-cover"
-              />
-              <p className="text-gray-700 text-justify font-semibold my-2">
-                Ini adalah tutorial untuk memberikan informasi tambahan terkait
-                Mean-Centerd <i> Rating </i> cara perhitungan.
-              </p>
-              <div className="mt-6 flex justify-end">
-                <button
-                  className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-                  onClick={() => setShowModalTutorial(false)}
-                >
-                  Tutup
-                </button>
-              </div>
-            </div>
-          </div>
+          <TutorialModal
+            title={"Mean-Centered Rating"}
+            content={centerdGif}
+            onClose={() => setShowModalTutorial(false)}
+          />
         )}
       </div>
     </div>

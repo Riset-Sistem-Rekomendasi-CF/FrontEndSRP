@@ -212,7 +212,7 @@ function Eksplorasi() {
             </div>
           </section>
 
-          <section className="max-w-full mx-auto text-center my-10  relative">
+          <section className="max-w-full mx-auto text-center my-10 pt-10 relative">
             <button
               onClick={toggleDescription}
               // className="w-full sm:w-auto font-semibold font-poppins bg-blue-home border-2 border-black text-center text-white px-4 py-2 sm:px-6 sm:py-3 rounded-full hover:bg-blue-700 shadow-md flex items-center justify-center mx-auto"

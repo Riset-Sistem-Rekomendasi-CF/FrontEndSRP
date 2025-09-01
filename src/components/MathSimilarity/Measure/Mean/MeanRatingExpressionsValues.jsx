@@ -30,18 +30,14 @@ export const MeanRatingExpressionsValues = ({
 
   return (
     <>
-      <div className="p-2 leading-relaxed">
-        <div className="p-2">
-          <MathJaxComponent>{meanExpressionsValues.formula}</MathJaxComponent>
-        </div>
-        <div className="p-2">
-          <MathJaxComponent>
-            {meanExpressionsValues.process_formal}
-          </MathJaxComponent>
-        </div>
-        <div className="p-2">
-          <MathJaxComponent>{meanExpressionsValues.result}</MathJaxComponent>
-        </div>
+      <div className="leading-relaxed">
+        <MathJaxComponent>{meanExpressionsValues.formula}</MathJaxComponent>
+
+        <MathJaxComponent>
+          {meanExpressionsValues.process_formal}
+        </MathJaxComponent>
+
+        <MathJaxComponent>{meanExpressionsValues.result}</MathJaxComponent>
       </div>
     </>
   );
