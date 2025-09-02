@@ -47,6 +47,13 @@ const ModalPredictionMeasure = ({
     similarity === "Adjusted Cosine"
       ? transposeMatrix(result["mean-centered-brother"])
       : result["mean-centered"];
+
+  const resultMeanCenteredTranspose =
+    opsional === "item-based"
+      ? transposeMatrix(resultMeanCentered)
+      : resultMeanCentered;
+
+  console.log("mean-cented", resultMeanCentered);
   const [isNotation, setIsNotation] = useState(false);
 
   const handleIsNotation = () => {
@@ -259,7 +266,7 @@ const ModalPredictionMeasure = ({
                   </tr>
                 </thead>
                 <tbody>
-                  {resultMeanCentered.map((row, rowIndex) => {
+                  {resultMeanCenteredTranspose.map((row, rowIndex) => {
                     const IsZero =
                       opsional === "item-based"
                         ? data[rowIndex][selectedIndex[0]] === 0
@@ -440,11 +447,11 @@ const ModalPredictionMeasure = ({
                 ) : (
                   <>
                     Item-{selectedIndex[0] + 1} dengan target User-
-                    {selectedIndex[1] + 1}
+                    {selectedIndex[1] + 1} {""}
                   </>
                 )}
               </strong>
-              {""}pada data toy dataset di atas.
+              pada data toy dataset di atas.
             </p>
           </div>
           <OnlyDivider />

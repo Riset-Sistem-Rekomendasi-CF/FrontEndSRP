@@ -20,7 +20,9 @@ export default function SimilarityTabelRating({
         <table className="border border-black mx-auto text-center w-full">
           <thead>
             <tr className="bg-gray-200">
-              <th className="border border-black px-4 py-2">U/I</th>
+              <th className="border border-black px-4 py-2">
+                {opsional === "user-based" ? "U/I" : "I/U"}
+              </th>
               {dataOnly[0].map((_, index) => (
                 <th key={index} className="border border-black px-4 py-2">
                   {!isNotation ? (
@@ -61,8 +63,8 @@ export default function SimilarityTabelRating({
                     opsional === "user-based"
                       ? rowIndex === selectedIndex[0] ||
                         rowIndex === selectedIndex[1]
-                      : colIndex === selectedIndex[0] ||
-                        colIndex === selectedIndex[1];
+                      : rowIndex === selectedIndex[0] ||
+                        rowIndex === selectedIndex[1];
 
                   const isBothNotZero = (() => {
                     if (opsional === "user-based") {
@@ -76,8 +78,8 @@ export default function SimilarityTabelRating({
                       const itemA = selectedIndex[0];
                       const itemB = selectedIndex[1];
                       return (
-                        dataOnly[rowIndex][itemA] !== 0 &&
-                        dataOnly[rowIndex][itemB] !== 0
+                        dataOnly[itemA][colIndex] !== 0 &&
+                        dataOnly[itemB][colIndex] !== 0
                       );
                     }
                   })();

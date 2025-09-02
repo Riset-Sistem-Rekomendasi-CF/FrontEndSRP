@@ -53,6 +53,7 @@ const MeanCenteredMeasure = ({
       : opsional === "user-based"
       ? dataOnly
       : transposeMatrix(dataOnly);
+
   const opsionalModify =
     similarity === "Adjusted Cosine"
       ? opsional === "item-based"
@@ -77,7 +78,12 @@ const MeanCenteredMeasure = ({
         ? result["mean-centered"]
         : transposeMatrix(result["mean-centered"]);
 
-    const numberOfColumns = resultModify[0].length; // Ambil jumlah kolom dari baris pertama
+    // const numberOfColumns = resultModify[0].length; // Ambil jumlah kolom dari baris pertama
+    const numberOfColumns =
+      resultModify && resultModify[0] ? resultModify[0].length : 0;
+    console.log("result:", result);
+    console.log("result[mean-centered]:", result["mean-centered"]);
+    console.log("resultModify:", resultModify);
 
     return (
       <div className="flex justify-center mt-4">
@@ -111,13 +117,9 @@ const MeanCenteredMeasure = ({
 
                   {row.map((value, colIndex) => {
                     const OriginalValue =
-                      similarity === "Adjusted Cosine"
-                        ? opsional === "user-based"
-                          ? dataModify[colIndex][rowIndex]
-                          : dataModify[colIndex][rowIndex]
-                        : opsional === "user-based"
-                        ? dataModify[rowIndex][colIndex]
-                        : dataModify[colIndex][rowIndex];
+                      opsional === "user-based"
+                        ? dataOnly[rowIndex][colIndex]
+                        : dataOnly[colIndex][rowIndex];
 
                     const IsZero = OriginalValue === 0;
 

@@ -111,7 +111,7 @@ export const getFormulaSimilarity = (similarity, opsional) => {
           return {
             formula: `\\[  BC_{${
               opsional.split("-")[0]
-            }}(u,v) = \\sum_a \\sqrt{P\\left(r_{u*}=a\\right)\\times P\\left(r_{v*}=a\\right)} \\]`,
+            }}(u,v) = \\sum_a \\sqrt{P\\left(r_{u*}=a\\right)* P\\left(r_{v*}=a\\right)} \\]`,
             detail_formula: [
               `\\[ 
               \\begin{array}{ll}
@@ -125,7 +125,7 @@ export const getFormulaSimilarity = (similarity, opsional) => {
           return {
             formula: `\\[ BC_{${
               opsional.split("-")[0]
-            }}(i,j) = \\sum_a \\sqrt{P\\left(r_{*i}=a\\right)\\times P\\left(r_{*j}=a\\right)}  \\]`,
+            }}(i,j) = \\sum_a \\sqrt{P\\left(r_{*i}=a\\right)* P\\left(r_{*j}=a\\right)}  \\]`,
             detail_formula: [
               `\\[ 
               \\begin{array}{ll}
@@ -237,12 +237,12 @@ export const getFormulaSimilarityDetail = (
             } \\\\
            r_{u${
              rowIndex + 1
-           }} &: \\text{Nilai } \\textit{rating } \\text{pada}  \\textit{user } \\ u \\text{ pada } \\textit{item} \\ ${
+           }} &: \\text{Nilai } \\textit{rating } \\text{pada }  \\textit{user } \\ u \\text{ pada } \\textit{item} \\ ${
               rowIndex + 1
             } \\\\
            r_{u${
              colIndex + 1
-           }} &: \\text{Nilai } \\textit{rating } \\text{pada}  \\textit{user } \\ u \\text{ pada } \\textit{item} \\ ${
+           }} &: \\text{Nilai } \\textit{rating } \\text{pada }  \\textit{user } \\ u \\text{ pada } \\textit{item} \\ ${
               colIndex + 1
             } 
             \\end{array}\\]`,
@@ -540,7 +540,7 @@ export const FormulaSimilarityIndex = (
               opsional === "user-based"
                 ? `${rowIndex + 1}*`
                 : `*${rowIndex + 1}`
-            } }= ${rating}\\right)\\times P\\left(r_{${
+            } }= ${rating}\\right)* P\\left(r_{${
               opsional === "user-based"
                 ? `${colIndex + 1}*`
                 : `*${colIndex + 1}`
@@ -813,7 +813,7 @@ export const FormulaSimilarityValue = (
                     ? `${dataSimilarityRow
                         .map(
                           (val, idx) =>
-                            `(${val.toFixed(2)} \\times ${dataSimilarityCol[
+                            `(${val.toFixed(2)} * ${dataSimilarityCol[
                               idx
                             ].toFixed(2)})`
                         )
@@ -823,7 +823,7 @@ export const FormulaSimilarityValue = (
                   dataSimilarityRow.length !== 0
                     ? `\\sqrt{${dataSimilarityRow
                         .map((val) => `(${val.toFixed(2)})^2`)
-                        .join(" + ")}} \\times \\sqrt{${dataSimilarityCol
+                        .join(" + ")}} * \\sqrt{${dataSimilarityCol
                         .map((val) => `(${val.toFixed(2)})^2`)
                         .join(" + ")}}`
                     : `0`
@@ -833,9 +833,9 @@ export const FormulaSimilarityValue = (
                     ? `${intersection
                         .map(
                           (val) =>
-                            `(s_{${val + 1}${rowIndex + 1}} \\times s_{${
-                              val + 1
-                            }${colIndex + 1}})`
+                            `(s_{${val + 1}${rowIndex + 1}} * s_{${val + 1}${
+                              colIndex + 1
+                            }})`
                         )
                         .join(" + ")}`
                     : `0`
@@ -843,7 +843,7 @@ export const FormulaSimilarityValue = (
                   intersection.length !== 0
                     ? `\\sqrt{${intersection
                         .map((val) => `(s_{${val + 1}${rowIndex + 1}})^2`)
-                        .join(" + ")}} \\times \\sqrt{${intersection
+                        .join(" + ")}} * \\sqrt{${intersection
                         .map((val) => `(s_{${val + 1}${colIndex + 1}})^2`)
                         .join(" + ")}}`
                     : `0`
@@ -866,7 +866,7 @@ export const FormulaSimilarityValue = (
                     ? `${dataSimilarityRow
                         .map(
                           (val, idx) =>
-                            `(${val.toFixed(2)} \\times ${dataSimilarityCol[
+                            `(${val.toFixed(2)} * ${dataSimilarityCol[
                               idx
                             ].toFixed(2)})`
                         )
@@ -876,7 +876,7 @@ export const FormulaSimilarityValue = (
                   intersection.length !== 0
                     ? `\\sqrt{${dataSimilarityRow
                         .map((val) => `(${val.toFixed(2)})^2`)
-                        .join(" + ")}} \\times \\sqrt{${dataSimilarityCol
+                        .join(" + ")}} * \\sqrt{${dataSimilarityCol
                         .map((val) => `(${val.toFixed(2)})^2`)
                         .join(" + ")}}`
                     : "0"
@@ -887,7 +887,7 @@ export const FormulaSimilarityValue = (
                     : `${intersection
                         .map(
                           (val) =>
-                            `(s_{${rowIndex + 1}${val + 1}} \\times s_{${
+                            `(s_{${rowIndex + 1}${val + 1}} * s_{${
                               colIndex + 1
                             }${val + 1}})`
                         )
@@ -897,7 +897,7 @@ export const FormulaSimilarityValue = (
                     ? "0"
                     : `\\sqrt{${intersection
                         .map((val) => `(s_{${rowIndex + 1}${val + 1}})^2`)
-                        .join(" + ")}} \\times \\sqrt{${intersection
+                        .join(" + ")}} * \\sqrt{${intersection
                         .map((val) => `(r_{${colIndex + 1}${val + 1}})^2`)
                         .join(" + ")}`
                 }}} \\newline \\]`,
@@ -925,7 +925,7 @@ export const FormulaSimilarityValue = (
                     : `{${dataSimilarityRow
                         .map(
                           (val, idx) =>
-                            `(${val.toFixed(0)} \\times ${dataSimilarityCol[
+                            `(${val.toFixed(0)} * ${dataSimilarityCol[
                               idx
                             ].toFixed(0)})`
                         )
@@ -935,7 +935,7 @@ export const FormulaSimilarityValue = (
                     ? `0`
                     : `\\sqrt{${dataSimilarityRow
                         .map((val) => `(${val.toFixed(0)})^2`)
-                        .join(" + ")}} \\times \\sqrt{${dataSimilarityCol
+                        .join(" + ")}} * \\sqrt{${dataSimilarityCol
                         .map((val) => `(${val.toFixed(0)})^2`)
                         .join(" + ")}}`
                 }} \\newline \\]`
@@ -944,13 +944,13 @@ export const FormulaSimilarityValue = (
                 }) = \\frac{${dataSimilarityRow
                   .map(
                     (val, idx) =>
-                      `(r_{${val + 1}${rowIndex + 1}} \\times r_{${val + 1}${
+                      `(r_{${val + 1}${rowIndex + 1}} * r_{${val + 1}${
                         colIndex + 1
                       }})`
                   )
                   .join(" + ")}}{\\sqrt{${dataSimilarityRow
                   .map((val) => `(r_{${val + 1}${rowIndex + 1}})^2`)
-                  .join(" + ")}} \\times \\sqrt{${dataSimilarityCol
+                  .join(" + ")}} * \\sqrt{${dataSimilarityCol
                   .map((val) => `(r_{${val + 1}${colIndex + 1}})^2`)
                   .join(" + ")}}} \\newline \\]`,
             process_formula: `\\[ Cosine_{user}(${rowIndex + 1},${
@@ -972,7 +972,7 @@ export const FormulaSimilarityValue = (
                     : `${dataSimilarityRow
                         .map(
                           (val, idx) =>
-                            `(${val.toFixed(0)} \\times ${dataSimilarityCol[
+                            `(${val.toFixed(0)} * ${dataSimilarityCol[
                               idx
                             ].toFixed(0)})`
                         )
@@ -982,7 +982,7 @@ export const FormulaSimilarityValue = (
                     ? `0`
                     : `\\sqrt{${dataSimilarityRow
                         .map((val) => `(${val.toFixed(0)})^2`)
-                        .join(" + ")}} \\times \\sqrt{${dataSimilarityCol
+                        .join(" + ")}} * \\sqrt{${dataSimilarityCol
                         .map((val) => `(${val.toFixed(0)})^2`)
                         .join(" + ")}}`
                 }} \\newline \\]`
@@ -991,13 +991,13 @@ export const FormulaSimilarityValue = (
                 }) = \\frac{${intersection
                   .map(
                     (val) =>
-                      `(r_{${rowIndex + 1}${val + 1}} \\times r_{${
-                        colIndex + 1
-                      }${val + 1}})`
+                      `(r_{${rowIndex + 1}${val + 1}} * r_{${colIndex + 1}${
+                        val + 1
+                      }})`
                   )
                   .join(" + ")}}{\\sqrt{${intersection
                   .map((val) => `(r_{${rowIndex + 1}${val + 1}})^2`)
-                  .join(" + ")}} \\times \\sqrt{${intersection
+                  .join(" + ")}} * \\sqrt{${intersection
                   .map((val) => `(r_{${colIndex + 1}${val + 1}})^2`)
                   .join(" + ")}}} \\newline \\]`,
             process_formula: `\\[ Cosine_{user} = \\frac{${numerator.toFixed(
@@ -1020,7 +1020,7 @@ export const FormulaSimilarityValue = (
                     ? `${dataSimilarityRow
                         .map(
                           (val, idx) =>
-                            `(${val.toFixed(2)} \\times ${dataSimilarityCol[
+                            `(${val.toFixed(2)} * ${dataSimilarityCol[
                               idx
                             ].toFixed(2)})`
                         )
@@ -1037,7 +1037,7 @@ export const FormulaSimilarityValue = (
                               2
                             )})^2}`
                         )
-                        .join(" \\times ")}`
+                        .join(" * ")}`
                     : `0`
                 }} \\]`
               : `\\[ ACosine_{user}(u_${rowIndex + 1},u_${
@@ -1047,9 +1047,9 @@ export const FormulaSimilarityValue = (
                     ? `${intersection
                         .map(
                           (val) =>
-                            `(s_{${val + 1}${rowIndex + 1}} \\times s_{${
-                              val + 1
-                            }${colIndex + 1}})`
+                            `(s_{${val + 1}${rowIndex + 1}} * s_{${val + 1}${
+                              colIndex + 1
+                            }})`
                         )
                         .join(" + ")}`
                     : `0`
@@ -1057,7 +1057,7 @@ export const FormulaSimilarityValue = (
                   intersection.length !== 0
                     ? `\\sqrt{${intersection
                         .map((val) => `(s_{${val + 1}${rowIndex + 1}})^2`)
-                        .join(" + ")}} \\times \\sqrt{${intersection
+                        .join(" + ")}} * \\sqrt{${intersection
                         .map((val) => `(s_{${val + 1}${colIndex + 1}})^2`)
                         .join(" + ")}}`
                     : `0`
@@ -1079,7 +1079,7 @@ export const FormulaSimilarityValue = (
                     ? `${dataSimilarityRow
                         .map(
                           (val, idx) =>
-                            `(${val.toFixed(2)} \\times ${dataSimilarityCol[
+                            `(${val.toFixed(2)} * ${dataSimilarityCol[
                               idx
                             ].toFixed(2)})`
                         )
@@ -1096,7 +1096,7 @@ export const FormulaSimilarityValue = (
                               2
                             )})^2}`
                         )
-                        .join(" \\times ")}`
+                        .join(" * ")}`
                     : `0`
                 }} \\]`
               : `\\[ ACosine_{item}(i_${rowIndex + 1},i_${
@@ -1106,7 +1106,7 @@ export const FormulaSimilarityValue = (
                     ? `${intersection
                         .map(
                           (val) =>
-                            `(s_{${rowIndex + 1}${val + 1}} \\times s_{${
+                            `(s_{${rowIndex + 1}${val + 1}} * s_{${
                               colIndex + 1
                             }${val + 1}})`
                         )
@@ -1116,7 +1116,7 @@ export const FormulaSimilarityValue = (
                   intersection.length !== 0
                     ? `${intersection
                         .map((val) => `(s_{${rowIndex + 1}${val + 1}})^2`)
-                        .join(" + ")}} \\times \\sqrt{${intersection
+                        .join(" + ")}} * \\sqrt{${intersection
                         .map((val) => `(r_{${colIndex + 1}${val + 1}})^2`)
                         .join(" + ")}`
                     : `0`
@@ -1143,7 +1143,7 @@ export const FormulaSimilarityValue = (
 
           return `\\sqrt{\\left(${rowProb.toFixed(
             2
-          )}\\right)\\times \\left(${colProb.toFixed(2)}\\right)}`;
+          )}\\right)* \\left(${colProb.toFixed(2)}\\right)}`;
         })
         .join(" + ");
 
@@ -1175,9 +1175,7 @@ export const IndexProbability = (rowIndex, colIndex, opsional) => {
   const sumTerms = ratings
     .map(
       (rating) =>
-        `\\sqrt{P\\left(r_{${
-          rowIndex + 1
-        }}= ${rating}\\right)\\times P\\left(r_{${
+        `\\sqrt{P\\left(r_{${rowIndex + 1}}= ${rating}\\right)* P\\left(r_{${
           colIndex + 1
         }}= ${rating}\\right)}`
     )

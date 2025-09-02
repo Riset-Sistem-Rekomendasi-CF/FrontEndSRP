@@ -14,14 +14,9 @@ export const SimilarityValue = ({
   opsional,
   isNotation,
 }) => {
-  const dataModify =
-    similarity === "Adjusted Cosine"
-      ? opsional === "item-based"
-        ? transposeMatrix(dataOnly)
-        : dataOnly
-      : opsional === "item-based"
-      ? transposeMatrix(dataOnly)
-      : dataOnly;
+  // FIX 1: The parent component `ModalSimilarity` already transposes `dataOnly` for item-based scenarios.
+  // The original code incorrectly transposed it a second time. We now use it directly.
+  const dataModify = dataOnly;
 
   const nonZeroIndexesRow = dataModify[rowIndex]
     .map((row, index) => (row !== 0 ? index : null))
@@ -35,11 +30,16 @@ export const SimilarityValue = ({
     nonZeroIndexesCol.includes(index)
   );
 
+  // FIX 2: Added a condition to transpose `data["mean-centered"]`
+  // when using Pearson Correlation Coefficient with an item-based approach.
+  // This ensures the calculation aligns with the transposed table data.
   const dataSimilarity =
     similarity !== "Cosine"
       ? similarity === "Bhattacharyya Coefficient"
         ? data["probability"]
-        : similarity === "Adjusted Cosine"
+        : similarity === "Adjusted Cosine" ||
+          (similarity === "Pearson Correlation Coefficient" &&
+            opsional === "item-based")
         ? transposeMatrix(data["mean-centered"])
         : data["mean-centered"]
       : dataModify;
@@ -68,22 +68,11 @@ export const SimilarityValue = ({
             : dataSimilarity[colIndex][i]
         );
 
-  // const numeratorArrayMeasure =
-  //   similarity !== "Bhattacharyya Coefficient"
-  //     ? sum(
-  //         dataSimilarityRow.map(
-  //           (val, idx) => val.toFixed(2) * dataSimilarityCol[idx].toFixed(2)
-  //         )
-  //       )
-  //     : null;
   const numeratorArrayMeasure =
     similarity !== "Bhattacharyya Coefficient"
       ? sum(
           dataSimilarityRow.map((val, idx) => {
             const colVal = dataSimilarityCol[idx];
-
-            // Debug log sebelum pakai .toFixed
-            console.log(`🔍 index ${idx}: val =`, val, "colVal =", colVal);
 
             if (
               typeof val === "number" &&
@@ -94,7 +83,7 @@ export const SimilarityValue = ({
               return Number(val.toFixed(2)) * Number(colVal.toFixed(2));
             } else {
               console.warn(`❌ Invalid at index ${idx}:`, val, colVal);
-              return 0; // fallback aman
+              return 0; // safe fallback
             }
           })
         )
@@ -122,8 +111,6 @@ export const SimilarityValue = ({
     numeratorArrayMeasure
   );
 
-  // console.log(formula, result_formula);
-
   return (
     <>
       <MathJaxComponent>{formula.formula}</MathJaxComponent>
@@ -149,8 +136,8 @@ export const SimilarityValue = ({
           maka, nilai Similaritas akan diisi dengan{" "}
           {similarity === "Bhattacharyya Coefficient" ||
           similarity === "Vector Cosine"
-            ? `0`
-            : `-10`}{" "}
+            ? 0
+            : -10}{" "}
           agar tidak mempengaruhi proses prediksi
         </Warm>
       ) : (
