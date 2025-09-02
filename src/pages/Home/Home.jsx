@@ -12,7 +12,6 @@ import dimas from "../../assets/images/Dimas.png";
 import tutorialPage from "../../assets/images/tutorialPage.png";
 import About from "../../components/Card/Main/About.jsx";
 import CardSimilaritas from "../../components/Card/Home/CardSimilaritas.jsx";
-// import Cookies from "js-cookie";
 
 const Home = () => {
   return (

@@ -11,6 +11,9 @@ import { SimilarityValue } from "./Similarity/SimilarityValue";
 import InfoIcon from "@mui/icons-material/Info";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import { DividerHeading, OnlyDivider } from "../../tabelData/DividerHeading";
+import SimilarityTabelRating from "./Similarity/SimilarityTabelRating";
+import BCSimilarityRating from "./Similarity/BcSimilarityRating";
+import BcSimilarityWrapper from "./Similarity/BcSimilarityWrapper";
 
 export default function ModalSimilarity({
   data,
@@ -37,8 +40,10 @@ export default function ModalSimilarity({
     cols: dataOnly?.[0]?.length,
   });
 
+  console.log("similarity", similarity);
+
   const dataModify =
-    similarity !== "Cosine" && similarity !== "Bhattacharyya Coefficient"
+    similarity !== "Cosine"
       ? opsional === "item-based"
         ? transposeMatrix(data["mean-centered"])
         : data["mean-centered"]
@@ -75,6 +80,10 @@ export default function ModalSimilarity({
     setIsNotation(!isNotation);
   };
 
+  const shouldShowTable =
+    similarity === "Adjusted Cosine" ||
+    similarity === "Pearson Correlation Coefficient" ||
+    similarity === "Bhattacharyya Coefficient";
   const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
   // Emoji
@@ -134,211 +143,156 @@ export default function ModalSimilarity({
           changeToggle={handleIsNotation}
           title={"Tampilkan Notasi"}
         />
-        <div>
-          <div className="overflow-x-auto">
+        {shouldShowTable && (
+          <>
             <DividerHeading text="Data Rating (R)" />
-
-            <table className="border border-black mt-4 mx-auto text-center w-full">
-              <thead>
-                <tr className="bg-gray-200">
-                  <th className="border border-black px-4 py-2">U/I</th>
-                  {Array.from({ length: dataOnly[0].length }, (_, index) => (
-                    <th key={index} className="border border-black px-4 py-2">
-                      {!isNotation ? (
-                        !funnyMode ? (
-                          index + 1
-                        ) : (
-                          headers[index]
-                        )
-                      ) : (
-                        <span className="font-serif">
-                          i<sub>{index + 1}</sub>
-                        </span>
-                      )}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {dataOnly.map((row, rowIndex) => (
-                  <tr key={rowIndex}>
-                    <td className="border border-black px-4 py-2 w-14 bg-gray-200">
-                      {!isNotation ? (
-                        !funnyMode ? (
-                          rowIndex + 1
-                        ) : (
-                          columns[rowIndex]
-                        )
-                      ) : (
-                        <span className="font-serif">
-                          u<sub>{rowIndex + 1}</sub>
-                        </span>
-                      )}
-                    </td>
-                    {row.map((value, colIndex) => {
-                      const cellClass =
-                        value === 0
-                          ? "border border-black px-4 py-2 text-center w-14 bg-red-200"
-                          : "border border-black px-4 py-2 text-center w-14";
-                      const indicator = selectedIndex.includes(
-                        opsional === "user-based" ? rowIndex : colIndex
-                      )
-                        ? "bg-green-200"
-                        : "";
-
-                      return (
-                        <td
-                          key={colIndex}
-                          className={`${indicator} ${cellClass}`}
-                          title={
-                            isNotation
-                              ? value.toFixed
-                                ? value.toFixed(0)
-                                : value
-                              : `r${colIndex + 1}${rowIndex + 1}`
-                          }
-                        >
-                          {!isNotation ? (
-                            value.toFixed ? (
-                              value.toFixed(0)
-                            ) : (
-                              value
-                            )
-                          ) : (
-                            <span className="font-serif">
-                              r
-                              <sub>
-                                {colIndex + 1}
-                                {rowIndex + 1}
-                              </sub>
-                            </span>
-                          )}
-                        </td>
-                      );
-                    })}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <DividerHeading text={`Data Tabel Mean-Centered ${similarity}`} />
+            <SimilarityTabelRating
+              dataOnly={dataOnly}
+              headers={headers}
+              columns={columns}
+              opsional={opsional}
+              isNotation={isNotation}
+              funnyMode={funnyMode}
+              selectedIndex={selectedIndex}
+              similarity={similarity}
+            />
+          </>
+        )}
 
         {/* Tabel dengan Scroll Horizontal */}
         <div>
-          {/* tabel data rating */}
-
-          {/* end data rating */}
-          <div className="overflow-x-auto mt-4">
-            <table className="border border-black mx-auto text-center w-full">
-              <thead>
-                <tr className="bg-gray-200">
-                  <th className="border border-black px-4 py-2">U/I</th>
-                  {Array.from({ length: numberOfColumnsCen }, (_, index) => (
-                    <th key={index} className="border border-black px-4 py-2">
-                      {!isNotation ? (
-                        !funnyMode ? (
-                          index + 1
-                        ) : (
-                          colHeaders[index] || index + 1
+          {similarity !== "Bhattacharyya Coefficient" && (
+            <>
+              <DividerHeading text={`Data Tabel Mean-Centered`} />
+              <div className="overflow-x-auto mt-4">
+                <table className="border border-black mx-auto text-center w-full">
+                  <thead>
+                    <tr className="bg-gray-200">
+                      <th className="border border-black px-4 py-2">U/I</th>
+                      {Array.from(
+                        { length: numberOfColumnsCen },
+                        (_, index) => (
+                          <th
+                            key={index}
+                            className="border border-black px-4 py-2"
+                          >
+                            {!isNotation ? (
+                              !funnyMode ? (
+                                index + 1
+                              ) : (
+                                colHeaders[index] || index + 1
+                              )
+                            ) : (
+                              <span className="font-serif">
+                                i<sub>{index + 1}</sub>
+                              </span>
+                            )}
+                          </th>
                         )
-                      ) : (
-                        <span className="font-serif">
-                          i<sub>{index + 1}</sub>
-                        </span>
                       )}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {dataModify.map((row, rowIndex) => (
-                  <tr key={rowIndex}>
-                    <td className="border border-black px-4 py-2 w-20 bg-gray-200">
-                      {!isNotation ? (
-                        !funnyMode ? (
-                          rowIndex + 1
-                        ) : (
-                          rowHeaders[rowIndex] || rowIndex + 1
-                        )
-                      ) : (
-                        <span className="font-serif">
-                          u<sub>{rowIndex + 1}</sub>
-                        </span>
-                      )}
-                    </td>
-                    {row.map((value, colIndex) => {
-                      const IsZero = dataOnly[rowIndex][colIndex] === 0;
-                      // const IsZero =
-                      //   similarity === "Adjusted Cosine" ||
-                      //   opsional === "item-based"
-                      //     ? dataOnly?.[colIndex]?.[rowIndex] === 0
-                      //     : dataOnly?.[rowIndex]?.[colIndex] === 0;
-
-                      return (
-                        <td
-                          key={colIndex}
-                          className={`border border-black px-4 py-2 text-center w-20 
-                    ${IsZero ? "bg-red-200" : ""} 
-                    ${
-                      !IsZero &&
-                      selectedIndex.includes(
-                        opsional === "item-based" ? colIndex : rowIndex
-                      )
-                        ? "bg-green-200"
-                        : ""
-                    }`}
-                        >
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {dataModify.map((row, rowIndex) => (
+                      <tr key={rowIndex}>
+                        <td className="border border-black px-4 py-2 w-20 bg-gray-200">
                           {!isNotation ? (
-                            value.toFixed(
-                              similarity !== "Cosine" &&
-                                similarity !== "Bhattacharyya Coefficient (BC)"
-                                ? 2
-                                : 0
+                            !funnyMode ? (
+                              rowIndex + 1
+                            ) : (
+                              rowHeaders[rowIndex] || rowIndex + 1
                             )
                           ) : (
                             <span className="font-serif">
-                              {`${
-                                similarity !== "Cosine" &&
-                                similarity !== "Bhattacharyya Coefficient"
-                                  ? "s"
-                                  : "r"
-                              }`}
-                              <sub>
-                                {colIndex + 1}
-                                {rowIndex + 1}
-                              </sub>
+                              u<sub>{rowIndex + 1}</sub>
                             </span>
                           )}
                         </td>
-                      );
-                    })}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          {/* Tabel Legend */}
-          <LegendTable
-            list={[
-              {
-                color: "bg-green-200",
-                description: (
-                  <>
-                    <p>Menandakan data Rating yang akan dihitung</p>
-                  </>
-                ),
-              },
-              {
-                color: "bg-red-200",
-                description: (
-                  <>
-                    <p>Menandakan data rating yang tidak diketahui</p>
-                  </>
-                ),
-              },
-            ]}
-          />
+                        {row.map((value, colIndex) => {
+                          const IsZero = dataOnly[rowIndex][colIndex] === 0;
+
+                          // ✅ Cek apakah sel ini merupakan bagian dari IRISAN
+                          const isIntersection =
+                            opsional === "user-based"
+                              ? (rowIndex === selectedIndex[0] ||
+                                  rowIndex === selectedIndex[1]) &&
+                                dataOnly[selectedIndex[0]][colIndex] !== 0 &&
+                                dataOnly[selectedIndex[1]][colIndex] !== 0
+                              : (colIndex === selectedIndex[0] ||
+                                  colIndex === selectedIndex[1]) &&
+                                dataOnly[rowIndex][selectedIndex[0]] !== 0 &&
+                                dataOnly[rowIndex][selectedIndex[1]] !== 0;
+
+                          return (
+                            <td
+                              key={colIndex}
+                              className={`border border-black px-4 py-2 text-center w-20 
+                ${IsZero ? "bg-red-200" : ""} 
+                ${!IsZero && isIntersection ? "bg-green-200" : ""}
+              `}
+                            >
+                              {!isNotation ? (
+                                value.toFixed(
+                                  similarity !== "Cosine" &&
+                                    similarity !==
+                                      "Bhattacharyya Coefficient (BC)"
+                                    ? 2
+                                    : 0
+                                )
+                              ) : (
+                                <span className="font-serif">
+                                  {similarity !== "Cosine" &&
+                                  similarity !== "Bhattacharyya Coefficient"
+                                    ? "s"
+                                    : "r"}
+                                  <sub>
+                                    {colIndex + 1}
+                                    {rowIndex + 1}
+                                  </sub>
+                                </span>
+                              )}
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              {/* Tabel Legend */}
+              <LegendTable
+                list={[
+                  {
+                    color: "bg-green-200",
+                    description: (
+                      <>
+                        <p>Menandakan data Rating yang akan dihitung</p>
+                      </>
+                    ),
+                  },
+                  {
+                    color: "bg-red-200",
+                    description: (
+                      <>
+                        <p>Menandakan data rating yang tidak diketahui</p>
+                      </>
+                    ),
+                  },
+                ]}
+              />
+            </>
+          )}
+          <OnlyDivider />
+          {similarity === "Bhattacharyya Coefficient" && <BCSimilarityRating />}
+          {similarity === "Bhattacharyya Coefficient" && (
+            <BcSimilarityWrapper
+              dataOnly={dataOnly}
+              selectedIndex={selectedIndex}
+              opsional={opsional}
+              isNotation={isNotation}
+              similarity={similarity}
+            />
+          )}
 
           <div className="mt-2 w-40 bg-orange-300 rounded-md shadow-sm hover:bg-orange-500 transition-colors">
             <FullscreenIcon className="text-gray-600 inline-block mr-2" />
