@@ -8,10 +8,11 @@ import { MeanRatingRumusIdx } from "../MathSimilarity/Measure/Mean/MeanRatingRum
 import { MeanRatingIndexExp } from "../MathSimilarity/Measure/Mean/MeanRatingIndexExp";
 import { MeanRatingExpressionsValues } from "../MathSimilarity/Measure/Mean/MeanRatingExpressionsValues";
 import { dataModify } from "../MathSimilarity/Measure/Mean/dataModify";
+import { DividerHeading, OnlyDivider } from "../tabelData/DividerHeading";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import InfoIcon from "@mui/icons-material/Info";
 
 export default function DetailPerhitunganMean() {
-  const navigate = useNavigate();
-
   const [stateData, setStateData] = useState(null);
   const [isNotation, setIsNotation] = useState(false);
 
@@ -64,38 +65,35 @@ export default function DetailPerhitunganMean() {
   const toggleIsNotation = () => setIsNotation((prev) => !prev);
 
   const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
-  const current = opsional.split("-")[0]; // "user" atau "item"
 
   return (
-    <div className="container mx-auto p-8">
+    <div className="mx-auto p-8">
       {/* Header / Title */}
-      <div>
-        <h2 className="text-xl md:text-2xl font-semibold mb-4 p-4 shadow-sm text-center">
-          <span>
-            Detail Perhitungan Mean nilai <i>Rating</i>{" "}
-            <span className="italic mr-1">(μ)</span>
-            <i>{opsional.split("-")[0]}</i> ke-{Number(selIdx[0]) + 1}
-          </span>
-        </h2>
-        <button
-          onClick={() => window.close()}
-          className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
-        >
-          Kembali
-        </button>
-      </div>
 
-      <div className="max-w-4xl mx-auto">
+      <h2 className="text-xl md:text-2xl font-semibold mb-4 p-4 shadow-sm text-center">
+        <span>
+          Detail Perhitungan Mean nilai Rating {""}
+          <span className="italic mr-1">(μ)</span>
+          {opsional.split("-")[0]} ke-{Number(selIdx[0]) + 1}
+        </span>
+      </h2>
+      <div className="max-w-full p-4 mx-auto">
+        <div>
+          <button
+            onClick={() => window.close()}
+            className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition flex items-center gap-2"
+          >
+            <ArrowBackIcon className="text-white" />
+            Kembali
+          </button>
+        </div>
         <SwitchToggle
           changeToggle={toggleIsNotation}
           title={"Tampilkan Notasi"}
         />
-
         <div className="flex flex-col justify-center m-3 overflow-x-auto">
           <div className="overflow-x-auto">
-            <h2 className="font-semibold text-lg text-center">
-              Data <i> Rating </i> (R)
-            </h2>
+            <DividerHeading text="Data Rating (R)" />
             <table className="border border-black mt-4 mx-auto text-center w-full">
               <thead>
                 <tr className="bg-gray-200">
@@ -187,60 +185,66 @@ export default function DetailPerhitunganMean() {
             list={[
               {
                 color: "bg-green-200",
-                description: (
-                  <p>
-                    Menandakan Data <i> Rating </i> yang akan dihitung
-                  </p>
-                ),
+                description: <p>Menandakan Data Rating yang akan dihitung</p>,
               },
               {
                 color: "bg-red-200",
-                description: (
-                  <p>
-                    Menandakan Data <i> Rating </i> yang tidak diketahui
-                  </p>
-                ),
+                description: <p>Menandakan Data Rating yang tidak diketahui</p>,
               },
             ]}
           />
-        </div>
+          <div className="flex items-start gap-2 pt-2">
+            {/* Icon di pojok kiri atas */}
+            <InfoIcon className="text-blue-500 mt-1" />
 
-        <MathJaxContext options={mathjaxConfig}>
-          <div className="text-[0.75rem] sm:text-sm md:text-base flex justify-center items-center flex-col px-4 sm:px-10">
-            <MeanRatingRumusIdx
-              opsional={opsional}
-              data={data}
-              selectedIndex={selIdx}
-            />
-            <div className="text-center">
-              <MeanRatingIndexExp
-                opsional={opsional}
-                data={data}
-                selectedIndex={selIdx}
-                isNotation={isNotation}
-              />
-            </div>
-            <div className="text-center">
-              <MeanRatingExpressionsValues
-                opsional={opsional}
-                data={data}
-                selectedIndex={selIdx}
-                isNotation={isNotation}
-                selectedMean={selectedMean}
-              />
-            </div>
+            {/* Teks paragraf */}
+            <p className="text-justify">
+              Untuk mempermudah pemahaman bisa dilihat detail perhitungan untuk
+              mencari nilai mean rating dari {""}
+              <strong>
+                {capitalize(opsional.split("-")[0])} ke-{selectedIndex[0] + 1}{" "}
+                {""}
+              </strong>
+              pada data toy dataset di atas.
+            </p>
           </div>
-        </MathJaxContext>
-
-        <p className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold text-gray-700 mt-5 text-center">
-          Hasil <i>mean</i> nilai
-          <i> rating </i> dari
-          <span className="italic">
-            {" "}
-            {capitalize(opsional.split("-")[0])}-{selIdx[0] + 1} adalah
-          </span>{" "}
-          = {selectedMean.toFixed(2)}
+        </div>
+        <OnlyDivider />{" "}
+        <p className="text-base text-justify sm:text-md md:text-lg lg:text-xl xl:text-2xl font-bold text-gray-700 m-2">
+          Hasil Mean Rating {capitalize(opsional.split("-")[0])} pada {""}
+          {capitalize(opsional.split("-")[0])}-{selectedIndex[0] + 1} yaitu ={" "}
+          <span className="bg-green-100 rounded-md p-1 ">
+            {selectedMean.toFixed(2)}
+          </span>
         </p>
+        <div className="bg-blue-100 m-2 rounded-md shadow-sm">
+          <MathJaxContext options={mathjaxConfig}>
+            <div className="text-[0.75rem] sm:text-sm md:text-base flex justify-center items-center flex-col px-4 sm:px-10">
+              <MeanRatingRumusIdx
+                opsional={opsional}
+                data={data}
+                selectedIndex={selIdx}
+              />
+              <div className="text-center">
+                <MeanRatingIndexExp
+                  opsional={opsional}
+                  data={data}
+                  selectedIndex={selIdx}
+                  isNotation={isNotation}
+                />
+              </div>
+              <div className="text-center">
+                <MeanRatingExpressionsValues
+                  opsional={opsional}
+                  data={data}
+                  selectedIndex={selIdx}
+                  isNotation={isNotation}
+                  selectedMean={selectedMean}
+                />
+              </div>
+            </div>
+          </MathJaxContext>
+        </div>
       </div>
     </div>
   );

@@ -142,14 +142,26 @@ const ModalMeanCenteredMeasure = ({
                           : columns?.[rowIndex] || rowIndex + 1}
                       </td>
                       {row.map((value, colIndex) => {
+                        const isAdjustedUserBased =
+                          similarity === "Adjusted Cosine" &&
+                          opsional === "user-based";
+
                         const isSelected =
                           isValidIndex &&
-                          ((opsional === "item-based" &&
-                            selectedIndex[0] === rowIndex &&
-                            selectedIndex[1] === colIndex) ||
-                            (opsional === "user-based" &&
-                              selectedIndex[0] === rowIndex &&
-                              selectedIndex[1] === colIndex));
+                          // Kalau Adjusted Cosine (selalu pakai transpose)
+                          ((similarity === "Adjusted Cosine" &&
+                            rowIndex === selectedIndex[1] &&
+                            colIndex === selectedIndex[0]) ||
+                            // Kalau user-based biasa (tanpa transpose)
+                            (similarity !== "Adjusted Cosine" &&
+                              opsional === "user-based" &&
+                              rowIndex === selectedIndex[0] &&
+                              colIndex === selectedIndex[1]) ||
+                            // Kalau item-based biasa (transpose)
+                            (similarity !== "Adjusted Cosine" &&
+                              opsional === "item-based" &&
+                              rowIndex === selectedIndex[1] &&
+                              colIndex === selectedIndex[0]));
 
                         const cellClass =
                           value === 0
@@ -159,10 +171,9 @@ const ModalMeanCenteredMeasure = ({
                         return (
                           <td
                             key={`${rowIndex}-${colIndex}`}
-                            className={`${cellClass} ${
-                              isSelected ? "bg-card_green_primary" : ""
-                            }`}
-                            title={<>{`r${colIndex + 1}${rowIndex + 1}`}</>}
+                            className={`border border-black px-4 py-2 text-center w-14 ${
+                              value === 0 ? "bg-red-200" : ""
+                            } ${isSelected ? "bg-card_green_primary" : ""}`}
                           >
                             {value?.toFixed ? value.toFixed(2) : value}
                           </td>
@@ -198,7 +209,7 @@ const ModalMeanCenteredMeasure = ({
                     const isSelected =
                       Array.isArray(selectedIndex) &&
                       selectedIndex.length === 2 &&
-                      selectedIndex[0] === index; // ✅ karena mean diambil berdasarkan rowIndex
+                      selectedIndex[0] === index;
 
                     return (
                       <tr key={`mean-body-${index}`}>

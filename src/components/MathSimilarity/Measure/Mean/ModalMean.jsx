@@ -186,10 +186,7 @@ export default function ModalMean({
                 color: "bg-green-200",
                 description: (
                   <>
-                    <p>
-                      Menandakan Data <i className="mx-1"> Rating </i> yang akan
-                      dihitung
-                    </p>
+                    <p>Menandakan Data Rating yang akan dihitung</p>
                   </>
                 ),
               },

@@ -73,7 +73,9 @@ const MeanCenteredMeasure = ({
 
     const resultModify =
       similarity === "Adjusted Cosine"
-        ? transposeMatrix(result["mean-centered"])
+        ? opsional === "user-based"
+          ? result["mean-centered"]
+          : transposeMatrix(result["mean-centered"])
         : opsional === "user-based"
         ? result["mean-centered"]
         : transposeMatrix(result["mean-centered"]);
