@@ -42,11 +42,17 @@ const ModalPredictionMeasure = ({
 
   const resultMean =
     similarity === "Adjusted Cosine"
-      ? result["mean-list-brother"]
+      ? transposeMatrix(result["mean-list"])
       : result["mean-list"];
+  // const resultMeanCentered =
+  //   similarity === "Adjusted Cosine"
+  //     ? transposeMatrix(result["mean-centered-brother"])
+  //     : result["mean-centered"];
   const resultMeanCentered =
     similarity === "Adjusted Cosine"
-      ? transposeMatrix(result["mean-centered-brother"])
+      ? result["mean-centered"]
+        ? transposeMatrix(result["mean-centered"])
+        : []
       : result["mean-centered"];
 
   const resultMeanCenteredTranspose =

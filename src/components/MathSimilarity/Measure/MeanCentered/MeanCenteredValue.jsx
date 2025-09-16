@@ -8,6 +8,7 @@ export const MeanCenteredValue = ({
   result,
   opsional,
   selectedValue,
+  similarity,
 }) => {
   const expression = getFormulaMeanCenteredValue(
     rowIndex,
@@ -15,7 +16,8 @@ export const MeanCenteredValue = ({
     data,
     result,
     opsional,
-    selectedValue
+    selectedValue,
+    similarity
   );
 
   const fullFormula = `${expression.formula}`;

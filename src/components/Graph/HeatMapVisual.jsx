@@ -102,15 +102,12 @@ export default function HeatMapVisualDataSim({ opsional, result, similarity }) {
       const colorBarSvg = d3
         .select("#colorbar")
         .append("svg")
-        .attr(
-          "viewBox",
-          `0 0 ${colorBarWidth + 70} ${height + margin.top + margin.bottom}`
-        )
+        .attr("viewBox", `0 0 ${colorBarWidth + 50} ${height}`) // Jangan tambah margin di viewBox
         .attr("preserveAspectRatio", "xMidYMid meet")
         .style("width", "100%")
         .style("height", "auto")
         .append("g")
-        .attr("transform", `translate(20, ${margin.top})`);
+        .attr("transform", `translate(20, 0)`); // Tanpa margin.top
 
       let colorScaleBar;
       let gradient;
@@ -172,7 +169,7 @@ export default function HeatMapVisualDataSim({ opsional, result, similarity }) {
         .attr("x", 0)
         .attr("y", 0)
         .attr("width", colorBarWidth)
-        .attr("height", height)
+        .attr("height", height + margin.top + margin.bottom) // Sesuaikan tingginya
         .style("fill", "url(#gradient)");
 
       colorBarSvg

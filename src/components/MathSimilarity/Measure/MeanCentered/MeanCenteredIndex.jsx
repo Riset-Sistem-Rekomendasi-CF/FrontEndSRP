@@ -6,12 +6,23 @@ import {
   getFormulaMeanCenteredIndex,
 } from "../Formula/FormulaMeanCentered";
 
-export const MeanCenteredIndex = ({ rowIndex, colIndex, opsional }) => {
-  const expression = getFormulaMeanCenteredIndex(rowIndex, colIndex, opsional);
+export const MeanCenteredIndex = ({
+  rowIndex,
+  colIndex,
+  opsional,
+  similarity,
+}) => {
+  const expression = getFormulaMeanCenteredIndex(
+    rowIndex,
+    colIndex,
+    opsional,
+    similarity
+  );
   const getDetailFormulaindex = getDetailFormulaMeanCenterdIndex(
     rowIndex,
     colIndex,
-    opsional
+    opsional,
+    similarity
   );
 
   // console.log("exp1", expression);

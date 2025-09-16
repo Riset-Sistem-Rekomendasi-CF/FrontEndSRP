@@ -280,7 +280,10 @@ export const getFormulaSimilarityDetail = (
           ];
         case "item-based":
           return [
-            `\\[ S_{u${
+            `\\[ 
+          \\begin{array}{ll}
+            
+            S_{u${
               rowIndex + 1
             }} &: \\text{Nilai mean-centered dari } \\textit{user } \\ u \\text{ pada } \\textit{ item } \\ ${
               rowIndex + 1

@@ -36,49 +36,59 @@ export const getFormulaMeanCentered = (opsional) => {
 export const getDetailFormulaMeanCenterdIndex = (
   rowIndex,
   colIndex,
-  opsional
+  opsional,
+  similarity
 ) => {
+  const isAdjustedCosine = similarity === "Adjusted Cosine";
+
+  // Tentukan i dan u sesuai aturan transpose dan similarity
+  const i = isAdjustedCosine ? colIndex + 1 : rowIndex + 1;
+  const u = isAdjustedCosine ? rowIndex + 1 : colIndex + 1;
+
   switch (opsional) {
     case "user-based":
-      return [
-        `\\[ 
-        \\begin{array}{ll}
-        S_{User{(u_{${rowIndex + 1}}, i_{${
-          colIndex + 1
-        }})}} &: \\text{Mean-centered} \\ \\text{pada} \\ \\text{user} \\ ${
-          rowIndex + 1
-        } \\ \\text{terhadap} \\ \\text{item} \\ ${colIndex + 1} \\\\
-      r_{u_{${rowIndex + 1}}, i_{${
-          colIndex + 1
-        }}} &: \\text{Rating } \\text{user} \\ ${
-          rowIndex + 1
-        } \\text{ terhadap } \\text{item} \\ ${colIndex + 1} \\\\
-       \\mu_{User(u_{${
-         rowIndex + 1
-       }})} &: \\text{Mean rating} \\ \\text{pada} \\ \\text{user} \\ ${
-          rowIndex + 1
-        }  \\end{array}\\] `,
-      ];
+      if (isAdjustedCosine) {
+        // Adjusted Cosine selalu item-user, tapi opsional user-based artinya ambil notasi yg benar sesuai transpose
+        return [
+          `\\[ 
+          \\begin{array}{ll}
+          S_{Item{(i_${i}, u_${u})}} &: \\text{Mean-centered} \\ \\text{pada} \\ \\text{item} \\ ${i} \\ \\text{terhadap} \\ \\text{user} \\ ${u} \\\\
+          r_{i_${i}, u_${u}} &: \\text{Rating pada item } ${i} \\text{ terhadap user } ${u} \\\\
+          \\mu_{Item(i_${i})} &: \\text{Mean rating pada item } ${i} 
+          \\end{array}\\] `,
+        ];
+      } else {
+        return [
+          `\\[ 
+          \\begin{array}{ll}
+          S_{User{(u_${i}, i_${u})}} &: \\text{Mean-centered pada user } ${i} \\text{ terhadap item } ${u} \\\\
+          r_{u_${i}, i_${u}} &: \\text{Rating user } ${i} \\text{ terhadap item } ${u} \\\\
+          \\mu_{User(u_${i})} &: \\text{Mean rating pada user } ${i}
+          \\end{array}\\] `,
+        ];
+      }
+
     case "item-based":
-      return [
-        `\\[ 
-        \\begin{array}{ll}
-        S_{Item{(i_{${rowIndex + 1}}, u_{${
-          colIndex + 1
-        }})}} &: \\text{Mean-centered} \\ \\text{pada} \\ \\text{item} \\ ${
-          rowIndex + 1
-        } \\ \\text{terhadap} \\ \\text{user} \\ ${colIndex + 1} \\\\
-        r_{i_{${rowIndex + 1}}, u_{${
-          colIndex + 1
-        }}} &: \\text{Rating} \\ \\text{pada item} \\ ${
-          rowIndex + 1
-        } \\text{ terhadap} \\ \\text{user} \\ ${colIndex + 1} \\\\
-       \\mu_{Item(i_{${
-         rowIndex + 1
-       }})} &: \\text{Mean rating} \\ \\text{pada} \\ \\text{item} \\ ${
-          rowIndex + 1
-        } \\end{array}\\] `,
-      ];
+      if (isAdjustedCosine) {
+        return [
+          `\\[ 
+          \\begin{array}{ll}
+          S_{Item{(i_${i}, u_${u})}} &: \\text{Mean-centered pada item } ${i} \\text{ terhadap user } ${u} \\\\
+          r_{i_${i}, u_${u}} &: \\text{Rating pada item } ${i} \\text{ terhadap user } ${u} \\\\
+          \\mu_{User(u_${u})} &: \\text{Mean rating pada user } ${u} 
+          \\end{array}\\] `,
+        ];
+      } else {
+        return [
+          `\\[ 
+          \\begin{array}{ll}
+          S_{Item{(i_${i}, u_${u})}} &: \\text{Mean-centered pada item } ${i} \\text{ terhadap user } ${u} \\\\
+          r_{i_${i}, u_${u}} &: \\text{Rating pada item } ${i} \\text{ terhadap user } ${u} \\\\
+          \\mu_{Item(i_${i})} &: \\text{Mean rating pada item } ${i} 
+          \\end{array}\\] `,
+        ];
+      }
+
     default:
       return;
   }
@@ -109,26 +119,38 @@ export const getFormulaMeanCenteredValue = (
   data,
   result,
   opsional,
-  selectedValue
+  selectedValue,
+  similarity
 ) => {
+  const isAdjustedCosine = similarity === "Adjusted Cosine";
+
+  // Koreksi indeks berdasarkan apakah data ditranspose
+  const i = isAdjustedCosine ? colIndex + 1 : rowIndex + 1;
+  const u = isAdjustedCosine ? rowIndex + 1 : colIndex + 1;
+
+  // Ambil nilai rating yang benar dari data (sudah ditranspose sebelumnya)
   const selectedValueRating =
     rowIndex !== null && colIndex !== null
-      ? opsional === "user-based"
-        ? transposeMatrix(data)[colIndex][rowIndex]
+      ? isAdjustedCosine
+        ? data[colIndex][rowIndex] // data sudah ditranspose, jadi ambil dari data[col][row]
         : data[rowIndex][colIndex]
       : null;
 
+  // Ambil mean item jika Adjusted Cosine, lainnya default dari rowIndex
   const selectedMeanValue =
     rowIndex !== null && colIndex !== null
-      ? result["mean-list"][rowIndex]
+      ? isAdjustedCosine
+        ? result["mean-list"][colIndex] // mean item berdasarkan index i
+        : result["mean-list"][rowIndex]
       : null;
 
+  // Notasi rumus
+  const indexLabel = `S_{(i_${i}, u_${u})}`;
+
   return {
-    formula: `\\[ S_{(${rowIndex + 1},${
-      colIndex + 1
-    })} = ${selectedValueRating} - ${selectedMeanValue?.toFixed(2)} \\]`,
-    result: `\\[ S_{(${rowIndex + 1},${
-      colIndex + 1
-    })} = ${selectedValue?.toFixed(2)} \\]`,
+    formula: `\\[ ${indexLabel} = ${selectedValueRating} - ${selectedMeanValue?.toFixed(
+      2
+    )} \\]`,
+    result: `\\[ ${indexLabel} = ${selectedValue?.toFixed(2)} \\]`,
   };
 };

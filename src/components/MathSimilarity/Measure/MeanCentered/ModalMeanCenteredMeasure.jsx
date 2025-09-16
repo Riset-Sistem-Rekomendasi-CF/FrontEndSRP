@@ -203,7 +203,9 @@ const ModalMeanCenteredMeasure = ({
                     const isSelected =
                       Array.isArray(selectedIndex) &&
                       selectedIndex.length === 2 &&
-                      selectedIndex[0] === index;
+                      (shouldTranspose
+                        ? selectedIndex[1] === index
+                        : selectedIndex[0] === index);
 
                     return (
                       <tr key={`mean-body-${index}`}>
@@ -294,16 +296,27 @@ const ModalMeanCenteredMeasure = ({
               mencari nilai mean-centered rating
               <strong>
                 {" "}
-                {capitalize(opsional.split("-")[0])}-{selectedIndex[0] + 1}{" "}
-                terhadap {opposite}-{selectedIndex[1] + 1}
+                {similarity === "Adjusted Cosine" && opsional === "user-based"
+                  ? `User-${selectedIndex[0] + 1} terhadap Item-${
+                      selectedIndex[1] + 1
+                    }`
+                  : `${capitalize(opsional.split("-")[0])}-${
+                      selectedIndex[0] + 1
+                    } terhadap ${opposite}-${selectedIndex[1] + 1}`}
               </strong>{" "}
               pada data toy dataset di atas.
             </p>
           </div>
           <OnlyDivider />
           <p className="text-base text-justify sm:text-md md:text-lg lg:text-xl xl:text-2xl font-bold text-gray-700 m-2 font-poppins">
-            Hasil dari Mean-Centered rating dari {opsional.split("-")[0]}-
-            {selectedIndex[0] + 1} terhadap {opposite}-{selectedIndex[1] + 1}{" "}
+            Hasil dari Mean-Centered rating dari{" "}
+            {similarity === "Adjusted Cosine" && opsional === "user-based"
+              ? `User-${selectedIndex[0] + 1} terhadap Item-${
+                  selectedIndex[1] + 1
+                }`
+              : `${capitalize(opsional.split("-")[0])}-${
+                  selectedIndex[0] + 1
+                } terhadap ${opposite}-${selectedIndex[1] + 1}`}{" "}
             yaitu ={" "}
             <span className="bg-green-100 rounded-md p-1 ">
               {selectedValue.toFixed(2)}
@@ -343,6 +356,7 @@ const ModalMeanCenteredMeasure = ({
                   result={result}
                   opsional={opsional}
                   selectedValue={selectedValue}
+                  similarity={similarity}
                 />
               )}
             </div>

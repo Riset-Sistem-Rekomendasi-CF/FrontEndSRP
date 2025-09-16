@@ -295,12 +295,16 @@ export default function ModalSimilarity({
               `}
                               >
                                 {!isNotation ? (
-                                  value.toFixed(
-                                    similarity !== "Cosine" &&
-                                      similarity !==
-                                        "Bhattacharyya Coefficient (BC)"
-                                      ? 2
-                                      : 0
+                                  typeof value === "number" ? (
+                                    value.toFixed(
+                                      similarity !== "Cosine" &&
+                                        similarity !==
+                                          "Bhattacharyya Coefficient (BC)"
+                                        ? 2
+                                        : 0
+                                    )
+                                  ) : (
+                                    "N/A"
                                   )
                                 ) : (
                                   <span className="font-serif">
@@ -390,7 +394,9 @@ export default function ModalSimilarity({
             {selectedIndex[0] + 1} {""}
             dengan {opsional.split("-")[0]}-{selectedIndex[1] + 1} ={" "}
             <span className="bg-green-100 rounded-md p-1 ">
-              {selectedMean.toFixed(4)}
+              {typeof selectedMean === "number"
+                ? selectedMean.toFixed(4)
+                : "N/A"}
             </span>
           </p>
         </div>

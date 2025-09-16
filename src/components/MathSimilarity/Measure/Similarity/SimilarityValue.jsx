@@ -33,13 +33,16 @@ export const SimilarityValue = ({
   // FIX 2: Added a condition to transpose `data["mean-centered"]`
   // when using Pearson Correlation Coefficient with an item-based approach.
   // This ensures the calculation aligns with the transposed table data.
+  const isItemBasedWithTranspose =
+    opsional === "item-based" &&
+    (similarity === "Adjusted Cosine" ||
+      similarity === "Pearson Correlation Coefficient");
+
   const dataSimilarity =
     similarity !== "Cosine"
       ? similarity === "Bhattacharyya Coefficient"
         ? data["probability"]
-        : similarity === "Adjusted Cosine" ||
-          (similarity === "Pearson Correlation Coefficient" &&
-            opsional === "item-based")
+        : isItemBasedWithTranspose
         ? transposeMatrix(data["mean-centered"])
         : data["mean-centered"]
       : dataModify;
@@ -49,24 +52,12 @@ export const SimilarityValue = ({
   const dataSimilarityRow =
     similarity === "Bhattacharyya Coefficient"
       ? data["probability"][rowIndex]
-      : intersection.map((i) =>
-          similarity === "Adjusted Cosine"
-            ? opsional === "item-based"
-              ? dataSimilarity[i][rowIndex]
-              : dataSimilarity[rowIndex][i]
-            : dataSimilarity[rowIndex][i]
-        );
+      : intersection.map((i) => dataSimilarity[rowIndex][i]);
 
   const dataSimilarityCol =
     similarity === "Bhattacharyya Coefficient"
       ? data["probability"][colIndex]
-      : intersection.map((i) =>
-          similarity === "Adjusted Cosine"
-            ? opsional === "item-based"
-              ? dataSimilarity[i][colIndex]
-              : dataSimilarity[colIndex][i]
-            : dataSimilarity[colIndex][i]
-        );
+      : intersection.map((i) => dataSimilarity[colIndex][i]);
 
   const numeratorArrayMeasure =
     similarity !== "Bhattacharyya Coefficient"
