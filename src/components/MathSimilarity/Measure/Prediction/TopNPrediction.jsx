@@ -8,6 +8,7 @@ import mathjaxConfig from "../../../../mathjax-config";
 import { getFormulaPrediction } from "../Formula/FormulaPrediction";
 import { FunctionMeasureDropdown } from "../../DropdownFunction/FunctionMeasureDropdown";
 import CloseIcon from "@mui/icons-material/Close";
+import { DividerHeading, OnlyDivider } from "../../../tabelData/DividerHeading";
 
 export const TopNPrediction = ({
   k,
@@ -154,7 +155,7 @@ export const TopNPrediction = ({
         </h1>
       </div>
       <div className="text-start">
-        <p className="text-gray-700 font-medium ml-5 text-justify">
+        <p className="text-gray-700 font-medium ml-5 text-justify font-poppins">
           Rekomendasi Top-N untuk user target dihasilkan dengan cara mengurutkan
           nilai prediksi Rating dari user target terhadap daftar item yang belum
           diberikan rating.
@@ -164,7 +165,7 @@ export const TopNPrediction = ({
           tau item apa saja yang akan direkomendasikan.
         </p>
         {/* user bisa memilih berapa top-n yang ingin */}
-        <p className="font-bold  mt-2 ml-5 text-justify">
+        <p className="font-bold  mt-2 ml-5 text-justify font-poppins">
           Pengguna dapat memilih berapa banyak rekomendasi item Top-N yang akan
           ditampilkan dari user target. Tetapi tidak boleh melebihi dari user
           yang belum memberikan rating
@@ -177,7 +178,7 @@ export const TopNPrediction = ({
                 <MathJaxComponent>{formula.TopN}</MathJaxComponent>
               </div>
             </div>
-            <p className="text-sm sm:text-sm md:text-base lg:text-lg  mt-4 sm:mt-0 sm:ml-4 items-center text-red-500 font-semibold text-justify">
+            <p className="text-sm sm:text-sm md:text-base lg:text-lg  mt-4 sm:mt-0 sm:ml-4 items-center text-red-500 font-semibold text-justify font-poppins">
               Dimana himpunan didapatkan berdasarkan urutan nilai similaritas
               (dari yang terbesar ke yang terkecil)
             </p>
@@ -186,195 +187,195 @@ export const TopNPrediction = ({
 
         <FunctionMeasureDropdown DetailRumus={formula.detailTopN_formula} />
 
-        <div className="flex flex-col md:flex-row md:items-end justify-center gap-4 mt-4">
-          {/* Dropdown untuk memilih user */}
-          <div className="w-full max-w-xs">
-            <label
-              htmlFor="user-dropdown"
-              className="font-semibold text-base mb-1 block text-gray-800"
-            >
-              Lihat Top-N Prediksi
-            </label>
-            <select
-              id="user-dropdown"
-              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              value={selectedUserTopN !== null ? selectedUserTopN : ""}
-              onChange={handleUserSelectionChange}
-            >
-              <option value="" disabled>
-                Pilih User
-              </option>
-              {result["prediction"].map((_, index) => (
-                <option key={index} value={index}>
-                  User{" "}
-                  {!funnyMode
-                    ? index + 1
-                    : (opsional === "user-based" ? columns : headers)[index]}
+        <div className="m-5 bg-green-200 rounded-md shadow-sm border border-black p-2">
+          <div className="flex flex-col md:flex-row md:items-end justify-center gap-4 ">
+            {/* Dropdown untuk memilih user */}
+            <div className="w-full max-w-xs">
+              <label
+                htmlFor="user-dropdown"
+                className="font-semibold text-base mb-1 block text-gray-800 font-poppins"
+              >
+                Lihat Top-N Prediksi
+              </label>
+              <select
+                id="user-dropdown"
+                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 font-poppins"
+                value={selectedUserTopN !== null ? selectedUserTopN : ""}
+                onChange={handleUserSelectionChange}
+              >
+                <option value="" disabled className="font-poppins">
+                  Pilih User
                 </option>
-              ))}
-            </select>
-          </div>
+                {result["prediction"].map((_, index) => (
+                  <option key={index} value={index}>
+                    User{" "}
+                    {!funnyMode
+                      ? index + 1
+                      : (opsional === "user-based" ? columns : headers)[index]}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-          {/* Input untuk jumlah Top-N */}
-          <div className="w-full max-w-xs">
-            <label
-              htmlFor="top-n-dropdown"
-              className="font-semibold text-base mb-1 block text-gray-800"
-            >
-              Jumlah Top-N
-            </label>
-            <input
-              type="number"
-              id="top-n-dropdown"
-              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              value={topNCount}
-              onChange={handleTopNChange}
-              min={1}
-              max={topNPredictions.length}
-              placeholder="Masukkan jumlah Top-N"
-            />
-          </div>
-        </div>
-
-        {selectedUserTopN !== null && (
-          <div className="mt-4 flex justify-center">
-            <div className="w-full max-w-4xl">
-              <p className="ml-5 font-semibold text-lg sm:text-xl mt-5 ">
-                Hasil Prediksi rating untuk user target {selectedUserTopN + 1} :
-              </p>
-              <div className="overflow-x-auto shadow-md sm:rounded-lg">
-                <table className="border border-gray-400 mt-4 text-xs sm:text-sm md:text-base lg:text-lg min-w-full ">
-                  <thead>
-                    <tr className="bg-purple-btn-primary">
-                      <th className="text-white border border-gray-400 px-4 py-2 text-xs sm:text-sm md:text-base w-1/6 min-w-[80px]">
-                        Rank
-                      </th>
-                      <th className="text-white border border-gray-400 px-4 py-2 text-xs sm:text-sm md:text-base w-1/6 min-w-[80px]">
-                        Nilai r
-                      </th>
-                      <th className="text-white border border-gray-400 px-4 py-2 text-xs sm:text-sm md:text-base w-1/6 min-w-[80px]">
-                        Prediksi
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {displayTopPredictionsRedUser.map((pred, index) => (
-                      <tr
-                        key={index}
-                        className="border broder-gray-400 bg-red-primary"
-                      >
-                        <td className="border broder-gray-400 px-4 py-2 bg-card_yellow_primary text-xs sm:text-sm">
-                          {index + 1}
-                        </td>
-                        <td className="px-3 py-2 font-stix">
-                          {!funnyMode ? (
-                            <>
-                              <span className="relative inline-block">
-                                <sup className="absolute top-0 left-0 text-xs">
-                                  ^
-                                </sup>
-                                <span>r</span>
-                              </span>
-                              <sub>
-                                {selectedUserTopN + 1}
-                                {pred.colIndex + 1}
-                              </sub>
-                            </>
-                          ) : (
-                            headers[pred.colIndex]
-                          )}
-                        </td>
-                        <td className="border broder-gray-400 px-3 py-2">
-                          {pred.value.toFixed(3)}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-              <div>
-                <LegendTable
-                  list={[
-                    {
-                      color: "bg-red-200",
-                      description: (
-                        <p>
-                          Menunjukkan hasil prediksi nilai rating yang belum
-                          diketahui sebelumnya.
-                        </p>
-                      ),
-                    },
-                  ]}
-                />
-              </div>
-              <div className="flex flex-wrap items-center">
-                <p className="font-semibold text-md sm:text-lg ml-5 my-4 text-justify">
-                  Oleh karena{" "}
-                  {displayTopPredictionsRedUser
-                    .map((pred, idx) => {
-                      const rDataTopN = `\\[ {\\widehat{r}_{${
-                        selectedUserTopN + 1
-                      }${pred.colIndex + 1}}} \\] `;
-                      return (
-                        <span
-                          key={idx}
-                          className="inline-block p-0.5 rounded-lg font-bold mx-1 my-0.5"
-                        >
-                          <MathJaxContext option={mathjaxConfig}>
-                            <MathJaxComponent>
-                              {!funnyMode ? rDataTopN : headers[pred.colIndex]}
-                            </MathJaxComponent>
-                          </MathJaxContext>
-                        </span>
-                      );
-                    })
-                    .reduce((prev, curr, idx, array) => {
-                      if (prev === null) {
-                        return [curr];
-                      }
-                      return [
-                        ...prev,
-                        idx < array.length - 1 ? " > " : " > ",
-                        curr,
-                      ];
-                    }, null)}
-                  , maka daftar rekomendasi prediksi rangking Top-N untuk user
-                  target{" "}
-                  {!funnyMode
-                    ? selectedUserTopN + 1
-                    : columns[selectedUserTopN]}{" "}
-                  adalah sebagai berikut:
-                  {displayTopPredictionsRedUser.length > 1
-                    ? displayTopPredictionsRedUser.map((pred, idx, array) => (
-                        <span key={idx}>
-                          Item{" "}
-                          {!funnyMode
-                            ? pred.colIndex + 1
-                            : headers[pred.colIndex]}
-                          {idx === array.length - 2
-                            ? " dan "
-                            : idx === array.length - 1
-                            ? ""
-                            : ", "}
-                        </span>
-                      ))
-                    : displayTopPredictionsRedUser.map((pred, idx) => (
-                        <p key={idx}>
-                          Item{" "}
-                          {!funnyMode
-                            ? pred.colIndex + 1
-                            : headers[pred.colIndex]}
-                        </p>
-                      ))}
-                  .
-                </p>
-              </div>
+            {/* Input untuk jumlah Top-N */}
+            <div className="w-full max-w-xs">
+              <label
+                htmlFor="top-n-dropdown"
+                className="font-semibold text-base mb-1 block text-gray-800"
+              >
+                Jumlah Top-N
+              </label>
+              <input
+                type="number"
+                id="top-n-dropdown"
+                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                value={topNCount}
+                onChange={handleTopNChange}
+                min={1}
+                max={topNPredictions.length}
+                placeholder="Masukkan jumlah Top-N"
+              />
             </div>
           </div>
-        )}
+
+          {selectedUserTopN !== null && (
+            <div className="mt-4 flex justify-center">
+              <div className="w-full max-w-4xl">
+                <p className="font-semibold text-lg sm:text-xl mt-5 font-poppins ">
+                  Hasil Prediksi rating untuk user target {selectedUserTopN + 1}{" "}
+                  :
+                </p>
+                <div className="overflow-x-auto shadow-md sm:rounded-lg">
+                  <table className="min-w-full mt-4 text-sm border-separate border-spacing-0 rounded-md shadow overflow-hidden">
+                    <thead>
+                      <tr className="bg-purple-600 text-white font-poppins">
+                        <th className="px-4 py-2 border border-purple-500">
+                          Rank
+                        </th>
+                        <th className="px-4 py-2 border border-purple-500">
+                          Nilai r
+                        </th>
+                        <th className="px-4 py-2 border border-purple-500">
+                          Prediksi
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {displayTopPredictionsRedUser.map((pred, index) => (
+                        <tr
+                          key={index}
+                          className={`${
+                            index % 2 === 0 ? "bg-pink-100" : "bg-pink-200"
+                          } text-gray-800`}
+                        >
+                          <td className="px-4 py-2 text-sm font-poppins font-medium bg-yellow-200 border border-gray-300 text-center">
+                            {index + 1}
+                          </td>
+                          <td className="px-4 py-2 font-stix border border-gray-300 text-center">
+                            {!funnyMode ? (
+                              <>
+                                <span className="relative inline-block align-top">
+                                  <sup className="text-xs">^</sup>
+                                </span>
+                                <span>r</span>
+                                <sub>
+                                  {selectedUserTopN + 1}
+                                  {pred.colIndex + 1}
+                                </sub>
+                              </>
+                            ) : (
+                              headers[pred.colIndex]
+                            )}
+                          </td>
+                          <td className="px-4 py-2 font-semibold border border-gray-300 text-center">
+                            {pred.value.toFixed(3)}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+        <div className="m-5">
+          <LegendTable
+            list={[
+              {
+                color: "bg-red-200",
+                description: (
+                  <p>
+                    Menunjukkan hasil prediksi nilai rating yang belum diketahui
+                    sebelumnya.
+                  </p>
+                ),
+              },
+            ]}
+          />
+        </div>
+        <div className="flex flex-wrap items-center m-5">
+          <DividerHeading text={"Hasil Rangking Top-N Rekomendasi"} />
+          <div className="bg-blue-200 rounded-md shadow-sm p-2 border border-black">
+            <p className="font-semibold text-md sm:text-lg text-justify">
+              Oleh karena{" "}
+              {displayTopPredictionsRedUser
+                .map((pred, idx) => {
+                  const rDataTopN = `\\[ {\\widehat{r}_{${
+                    selectedUserTopN + 1
+                  }${pred.colIndex + 1}}} \\] `;
+                  return (
+                    <span
+                      key={idx}
+                      className="inline-block p-0.5 rounded-lg font-bold mx-1 my-0.5"
+                    >
+                      <MathJaxContext option={mathjaxConfig}>
+                        <MathJaxComponent>
+                          {!funnyMode ? rDataTopN : headers[pred.colIndex]}
+                        </MathJaxComponent>
+                      </MathJaxContext>
+                    </span>
+                  );
+                })
+                .reduce((prev, curr, idx, array) => {
+                  if (prev === null) {
+                    return [curr];
+                  }
+                  return [
+                    ...prev,
+                    idx < array.length - 1 ? " > " : " > ",
+                    curr,
+                  ];
+                }, null)}
+              , maka daftar rekomendasi prediksi rangking Top-N untuk user
+              target{" "}
+              {!funnyMode ? selectedUserTopN + 1 : columns[selectedUserTopN]}{" "}
+              adalah sebagai berikut:
+              {displayTopPredictionsRedUser.length > 1
+                ? displayTopPredictionsRedUser.map((pred, idx, array) => (
+                    <span key={idx}>
+                      Item{" "}
+                      {!funnyMode ? pred.colIndex + 1 : headers[pred.colIndex]}
+                      {idx === array.length - 2
+                        ? " dan "
+                        : idx === array.length - 1
+                        ? ""
+                        : ", "}
+                    </span>
+                  ))
+                : displayTopPredictionsRedUser.map((pred, idx) => (
+                    <p key={idx}>
+                      Item{" "}
+                      {!funnyMode ? pred.colIndex + 1 : headers[pred.colIndex]}
+                    </p>
+                  ))}
+              .
+            </p>
+          </div>
+        </div>
       </div>
       {showToast && (
-        <div className="bg-yellow-100 border border-yellow-400 text-red-700 px-4 py-3 rounded relative mt-2 w-full max-w-xl mx-auto shadow-sm transition-all duration-300">
+        <div className="bg-yellow-100 border border-yellow-400 text-red-700 px-4 py-3 rounded relative mt-2 w-full max-w-xl mx-auto shadow-sm transition-all duration-300 font-poppins">
           <strong className="font-bold">Peringatan: </strong>
           <span className="block sm:inline">
             Jumlah Top-N tidak boleh melebihi jumlah item yang belum diberi

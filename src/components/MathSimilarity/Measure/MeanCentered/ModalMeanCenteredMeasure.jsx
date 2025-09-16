@@ -23,14 +23,20 @@ const ModalMeanCenteredMeasure = ({
   similarity,
 }) => {
   const [isNotation, setIsNotation] = useState(false);
-  const dataModify =
-    similarity === "Adjusted Cosine"
-      ? opsional === "user-based"
-        ? transposeMatrix(dataOnly)
-        : transposeMatrix(dataOnly)
-      : opsional === "user-based"
-      ? dataOnly
-      : transposeMatrix(dataOnly);
+  const shouldTranspose =
+    similarity === "Adjusted Cosine" ||
+    (similarity !== "Adjusted Cosine" && opsional === "item-based");
+
+  const dataModify = shouldTranspose ? transposeMatrix(dataOnly) : dataOnly;
+
+  // const dataModify =
+  //   similarity === "Adjusted Cosine"
+  //     ? opsional === "user-based"
+  //       ? transposeMatrix(dataOnly)
+  //       : transposeMatrix(dataOnly)
+  //     : opsional === "user-based"
+  //     ? dataOnly
+  //     : transposeMatrix(dataOnly);
 
   // Safety check untuk selectedIndex
   const isValidIndex =
@@ -88,7 +94,7 @@ const ModalMeanCenteredMeasure = ({
       >
         {/* Header / Title */}
         <div className="relative">
-          <h2 className="text-base sm:text-lg md:text-xl font-semibold mb-4 bg-white p-4 pr-12 z-10 shadow-sm">
+          <h2 className="font-poppins text-base sm:text-lg md:text-xl font-semibold mb-4 bg-white p-4 pr-12 z-10 shadow-sm">
             <span>Detail Perhitungan Mean-Centered Rating</span>
           </h2>
           <button
@@ -142,31 +148,19 @@ const ModalMeanCenteredMeasure = ({
                           : columns?.[rowIndex] || rowIndex + 1}
                       </td>
                       {row.map((value, colIndex) => {
-                        const isAdjustedUserBased =
-                          similarity === "Adjusted Cosine" &&
-                          opsional === "user-based";
-
                         const isSelected =
                           isValidIndex &&
-                          // Kalau Adjusted Cosine (selalu pakai transpose)
                           ((similarity === "Adjusted Cosine" &&
                             rowIndex === selectedIndex[1] &&
                             colIndex === selectedIndex[0]) ||
-                            // Kalau user-based biasa (tanpa transpose)
                             (similarity !== "Adjusted Cosine" &&
                               opsional === "user-based" &&
                               rowIndex === selectedIndex[0] &&
                               colIndex === selectedIndex[1]) ||
-                            // Kalau item-based biasa (transpose)
                             (similarity !== "Adjusted Cosine" &&
                               opsional === "item-based" &&
-                              rowIndex === selectedIndex[1] &&
-                              colIndex === selectedIndex[0]));
-
-                        const cellClass =
-                          value === 0
-                            ? "border border-black px-4 py-2 text-center w-14 bg-red-200"
-                            : "border border-black px-4 py-2 text-center w-14";
+                              rowIndex === selectedIndex[0] &&
+                              colIndex === selectedIndex[1]));
 
                         return (
                           <td
@@ -284,7 +278,7 @@ const ModalMeanCenteredMeasure = ({
           <div className="mt-2 w-40 bg-orange-300 rounded-md shadow-sm hover:bg-orange-500 transition-colors">
             <FullscreenIcon className="text-gray-600 inline mr-2" />
             <button
-              className="p-2  font-semibold"
+              className="p-2  font-semibold font-poppins"
               onClick={handleOpenDetailMeanCentered}
             >
               Full Page
@@ -295,7 +289,7 @@ const ModalMeanCenteredMeasure = ({
             <InfoIcon className="text-blue-500 mt-1" />
 
             {/* Teks paragraf */}
-            <p className="text-justify">
+            <p className="text-justify font-poppins">
               Untuk mempermudah pemahaman bisa dilihat detail perhitungan untuk
               mencari nilai mean-centered rating
               <strong>
@@ -307,7 +301,7 @@ const ModalMeanCenteredMeasure = ({
             </p>
           </div>
           <OnlyDivider />
-          <p className="text-base text-justify sm:text-md md:text-lg lg:text-xl xl:text-2xl font-bold text-gray-700 m-2">
+          <p className="text-base text-justify sm:text-md md:text-lg lg:text-xl xl:text-2xl font-bold text-gray-700 m-2 font-poppins">
             Hasil dari Mean-Centered rating dari {opsional.split("-")[0]}-
             {selectedIndex[0] + 1} terhadap {opposite}-{selectedIndex[1] + 1}{" "}
             yaitu ={" "}
@@ -356,7 +350,7 @@ const ModalMeanCenteredMeasure = ({
         </div>
 
         <button
-          className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
+          className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-sm font-poppins"
           onClick={close} // Menutup modal saat tombol ditekan
         >
           Tutup

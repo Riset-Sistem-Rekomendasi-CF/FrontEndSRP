@@ -33,6 +33,8 @@ import * as Emoji from "../../helper/generateEmot.js";
 import { transposeMatrix } from "../../helper/helper.js";
 import DetailPageBox from "../detailPageView/DetailPageBox.jsx";
 import Navbar from "../../components/Navigate/Navbar/Navbar.jsx";
+import { useExplanationModal } from "../../components/hooks/useExplanationModal.jsx";
+import { ModalTutorialYoutube } from "../../components/modal/ModalTutorialYoutube.jsx";
 // import Cookies from "js-cookie";
 
 function Eksplorasi() {
@@ -105,6 +107,15 @@ function Eksplorasi() {
     }
   };
 
+  const {
+    showModal,
+    dontShowAgain,
+    setShowModal,
+    toggleExplanation,
+    handleContinue,
+    handleCheckboxChange,
+  } = useExplanationModal("hideExplanationModal_Eksplorasi");
+
   return (
     <>
       <div>
@@ -137,7 +148,17 @@ function Eksplorasi() {
             className="max-w-4xl mx-auto text-center py-5"
           >
             <h1 className="text-4xl sm:text-5xl font-bold font-poppins py-10 ">
-              Buat Tabel Data Rating Yang Akan Digunakan
+              <span className="curved-underline">
+                Buat Tabel Data Rating Yang Akan Digunakan
+                <svg viewBox="0 0 100 20" preserveAspectRatio="none">
+                  <path
+                    d="M0 20 Q 50 0, 100 20"
+                    stroke="white"
+                    strokeWidth="4"
+                    fill="none"
+                  />
+                </svg>
+              </span>
             </h1>
             <div className="flex flex-row items-center justify-center">
               <div className="w-10 h-10 font-poppins rounded-full bg-green-500 text-white flex items-center justify-center text-lg">
@@ -161,8 +182,18 @@ function Eksplorasi() {
             id="notasi_ratingLatihan"
             className="max-w-4xl mx-auto text-center py-5"
           >
-            <h1 className="text-3xl sm:text-4xl font-bold font-poppins  ">
-              Notasi dan Penjelasan Data Rating
+            <h1 className="text-3xl sm:text-4xl font-bold font-poppins   ">
+              <span className="curved-underline">
+                Notasi dan Penjelasan Data Rating
+                <svg viewBox="0 0 100 20" preserveAspectRatio="none">
+                  <path
+                    d="M0 20 Q 50 0, 100 20"
+                    stroke="white"
+                    strokeWidth="4"
+                    fill="none"
+                  />
+                </svg>
+              </span>
             </h1>
             <NotationCard opsional={selectedMethod.toLowerCase()} data={data} />
           </section>
@@ -173,7 +204,17 @@ function Eksplorasi() {
           >
             <div className="px-5">
               <h1 className="text-5xl sm:text-6xl font-bold font-poppins py-10">
-                Pilih Metode Prediksi dan Fungsi Similaritas
+                <span className="curved-underline">
+                  Pilih Metode Prediksi dan Fungsi Similaritas
+                  <svg viewBox="0 0 100 20" preserveAspectRatio="none">
+                    <path
+                      d="M0 20 Q 50 0, 100 20"
+                      stroke="white"
+                      strokeWidth="4"
+                      fill="none"
+                    />
+                  </svg>
+                </span>
               </h1>
             </div>
 
@@ -214,7 +255,9 @@ function Eksplorasi() {
 
           <section className="max-w-full mx-auto text-center my-10 pt-10 relative">
             <button
-              onClick={toggleDescription}
+              onClick={() =>
+                toggleExplanation(isDescriptionVisible, setDescriptionVisible)
+              }
               // className="w-full sm:w-auto font-semibold font-poppins bg-blue-home border-2 border-black text-center text-white px-4 py-2 sm:px-6 sm:py-3 rounded-full hover:bg-blue-700 shadow-md flex items-center justify-center mx-auto"
               className="max-w-6xl sm:w-auto font-semibold font-poppins bg-blue-home border-2 border-black text-center text-white px-4 py-2 sm:px-6 sm:py-3 rounded-full hover:bg-blue-700 shadow-md flex items-center justify-center mx-auto"
             >
@@ -225,6 +268,16 @@ function Eksplorasi() {
                 <ExpandMoreIcon className="ml-2 text-lg" />
               )}
             </button>
+
+            {showModal && (
+              <ModalTutorialYoutube
+                dontShowAgain={dontShowAgain}
+                handleCheckboxChange={handleCheckboxChange}
+                handleContinue={() => handleContinue(setDescriptionVisible)}
+                onClose={() => setShowModal(false)}
+              />
+            )}
+
             {isDescriptionVisible && (
               <div className="mt-8">
                 <section className="max-w-6xl mx-auto text-center py-10">

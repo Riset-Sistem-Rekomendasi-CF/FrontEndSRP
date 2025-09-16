@@ -188,7 +188,7 @@ export const getFormulaPredictionIndex = (
         rowIndex + 1
       }} +\\frac{\\sum_{v\\in X_{${rowIndex + 1}}(${colIndex + 1})} Sim_{${
         rowIndex + 1
-      }v} \\times s_{v${colIndex + 1}}}{\\sum_{v \\in X_{${rowIndex + 1}}(${
+      }v} * s_{v${colIndex + 1}}}{\\sum_{v \\in X_{${rowIndex + 1}}(${
         colIndex + 1
       })}\\mid Sim_{${rowIndex + 1}v} \\mid} \\]`;
     case "item-based":
@@ -196,7 +196,7 @@ export const getFormulaPredictionIndex = (
         colIndex + 1
       }} +\\frac{\\sum_{v\\in X_{${colIndex + 1}}(${rowIndex + 1})} Sim_{v${
         rowIndex + 1
-      }} \\times s_{${colIndex + 1}v}}{\\sum_{v \\in X_{${colIndex + 1}}(${
+      }} * s_{${colIndex + 1}v}}{\\sum_{v \\in X_{${colIndex + 1}}(${
         rowIndex + 1
       })}\\mid Sim_{${rowIndex + 1}v} \\mid} \\]`;
     default:
@@ -259,11 +259,9 @@ export const getFormulaPredictionValue = (
               .filter((sim) => resultDataRating[sim.index][colIndex] !== 0)
               .map(
                 (sim) =>
-                  `\\left(${sim.value.toFixed(
-                    4
-                  )} \\times \\left(${resultMeanCentered[sim.index][
-                    colIndex
-                  ].toFixed(2)}\\right)\\right)`
+                  `\\left(${sim.value.toFixed(4)} * \\left(${resultMeanCentered[
+                    sim.index
+                  ][colIndex].toFixed(2)}\\right)\\right)`
               )
               .join(" + ")}}{${similarValues
               .filter((sim) => resultDataRating[sim.index][colIndex] !== 0)
@@ -275,11 +273,9 @@ export const getFormulaPredictionValue = (
               .filter((sim) => resultDataRating[sim.index][colIndex] !== 0)
               .map(
                 (sim) =>
-                  `\\left(Sim_{${sim.index + 1}${
-                    colIndex + 1
-                  }} \\times \\left(s_{${sim.index + 1}${
-                    colIndex + 1
-                  }}\\right)\\right)`
+                  `\\left(Sim_{${sim.index + 1}${colIndex + 1}} * \\left(s_{${
+                    sim.index + 1
+                  }${colIndex + 1}}\\right)\\right)`
               )
               .join(" + ")}}{${similarValues
               .filter((sim) => resultDataRating[sim.index][colIndex] !== 0)
@@ -324,11 +320,9 @@ export const getFormulaPredictionValue = (
               .filter((sim) => resultDataRating[sim.index][rowIndex] !== 0)
               .map(
                 (sim) =>
-                  `\\left(${sim.value.toFixed(
-                    4
-                  )} \\times \\left(${resultMeanCentered[sim.index][
-                    rowIndex
-                  ].toFixed(2)}\\right)\\right)`
+                  `\\left(${sim.value.toFixed(4)} * \\left(${resultMeanCentered[
+                    sim.index
+                  ][rowIndex].toFixed(2)}\\right)\\right)`
               )
               .join(" + ")}}{${similarValues
               .filter((sim) => resultDataRating[sim.index][rowIndex] !== 0)
@@ -340,11 +334,9 @@ export const getFormulaPredictionValue = (
               .filter((sim) => resultDataRating[sim.index][colIndex] !== 0)
               .map(
                 (sim) =>
-                  `\\left(Sim_{${rowIndex + 1}${
-                    sim.index + 1
-                  }} \\times \\left(s_{${rowIndex + 1}${
-                    sim.index + 1
-                  }}\\right)\\right)`
+                  `\\left(Sim_{${rowIndex + 1}${sim.index + 1}} * \\left(s_{${
+                    rowIndex + 1
+                  }${sim.index + 1}}\\right)\\right)`
               )
               .join(" + ")}}{${similarValues
               .filter((sim) => resultDataRating[sim.index][colIndex] !== 0)

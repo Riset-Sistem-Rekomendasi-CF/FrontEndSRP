@@ -9,7 +9,7 @@ const DesktopMenu = () => {
     location.pathname === path ? "bg-blue-home text-white" : "text-black";
 
   return (
-    <div className="hidden sm:flex sm:ml-6 space-x-4 items-center">
+    <div className="hidden sm:flex sm:ml-6 space-x-4 items-center font-poppins">
       {["/", "/tutorial", "/eksplorasi"].map((path, index) => (
         <Link
           key={index}

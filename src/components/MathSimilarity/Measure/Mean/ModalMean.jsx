@@ -69,7 +69,7 @@ export default function ModalMean({
       >
         {/* Header / Title */}
         <div className="relative">
-          <h2 className="text-base sm:text-lg md:text-xl font-semibold mb-4 bg-white p-4 pr-12 z-10 shadow-sm">
+          <h2 className="text-base sm:text-lg md:text-xl font-semibold mb-4 bg-white p-4 pr-12 z-10 shadow-sm font-poppins">
             <span>
               Detail Perhitungan Mean nilai Rating {""}
               <span className="italic mr-1">(μ)</span>
@@ -205,7 +205,7 @@ export default function ModalMean({
           <div className="mt-2 w-40 bg-orange-300 rounded-md shadow-sm hover:bg-orange-500 transition-colors ">
             <FullscreenIcon className="text-gray-600 inline-block mr-2" />
             <button
-              className="p-2 font-semibold"
+              className="p-2 font-semibold font-poppins"
               onClick={handleOpenDetailMean}
             >
               Full Page
@@ -217,7 +217,7 @@ export default function ModalMean({
             <InfoIcon className="text-blue-500 mt-1" />
 
             {/* Teks paragraf */}
-            <p className="text-justify">
+            <p className="text-justify font-poppins">
               Untuk mempermudah pemahaman bisa dilihat detail perhitungan untuk
               mencari nilai mean rating dari {""}
               <strong>
@@ -228,7 +228,7 @@ export default function ModalMean({
             </p>
           </div>
           <OnlyDivider />
-          <p className="text-base text-justify sm:text-md md:text-lg lg:text-xl xl:text-2xl font-bold text-gray-700 m-2">
+          <p className="text-base text-justify sm:text-md md:text-lg lg:text-xl xl:text-2xl font-bold text-gray-700 m-2 font-poppins">
             Hasil Mean Rating {capitalize(opsional.split("-")[0])} pada {""}
             {capitalize(opsional.split("-")[0])}-{selectedIndex[0] + 1} yaitu ={" "}
             <span className="bg-green-100 rounded-md p-1 ">
@@ -279,7 +279,7 @@ export default function ModalMean({
         {/* Menampilkan perhitungan manual */}
 
         <button
-          className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
+          className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-sm font-poppins"
           onClick={close} // Menutup modal saat tombol ditekan
         >
           Tutup

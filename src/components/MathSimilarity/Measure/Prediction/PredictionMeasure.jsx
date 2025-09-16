@@ -168,7 +168,7 @@ export default function PredictionMeasure({
                   <InfoIcon className="text-white text-lg sm:text-xl" />
 
                   {/* Tutorial Title */}
-                  <span className="text-white text-sm sm:text-base font-medium">
+                  <span className="text-white text-sm sm:text-base font-medium font-poppins">
                     Tutorial
                   </span>
                 </div>

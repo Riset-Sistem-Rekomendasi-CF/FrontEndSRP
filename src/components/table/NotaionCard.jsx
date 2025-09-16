@@ -5,6 +5,7 @@ import { transposeMatrix } from "../../helper/helper";
 import SwitchToggle from "../Toggle/SwitchToggle";
 import KeyboardCapslockIcon from "@mui/icons-material/KeyboardCapslock";
 import { OnlyDivider } from "../tabelData/DividerHeading";
+import { WarningPage } from "../../pages/ErorrPage/WarningPage";
 
 export const TabelRatingData = ({ data, opsional }) => {
   const initialData = getInitialData(data, opsional);
@@ -160,7 +161,7 @@ export const TabelRatingData = ({ data, opsional }) => {
           <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
             <div className="bg-white p-6 rounded-lg shadow-lg font-poppins max-w-full sm:max-w-lg md:max-w-2xl lg:max-w-3xl">
               <h2 className="text-lg sm:text-xl font-semibold mb-4">
-                Detail Data <i> rating </i> r<sub className={"italic"}>ui</sub>
+                Detail Data rating r<sub className={"italic"}>ui</sub>
               </h2>
               <p className="mb-2 font-semibold text-md text-black">
                 r
@@ -171,9 +172,8 @@ export const TabelRatingData = ({ data, opsional }) => {
                 = {selectedData.value}
               </p>
               <p className="my-2 font-medium text-md text-black">
-                <i>Rating </i> dari <i> user</i>(u) {selectedData.user} untuk
-                <i> item </i>(i) {selectedData.itemIndex + 1} adalah{" "}
-                {selectedData.value}
+                Rating dari user {selectedData.user} untuk item (i){" "}
+                {selectedData.itemIndex + 1} adalah {selectedData.value}
               </p>
               <button
                 className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
@@ -438,21 +438,22 @@ export const NotationCard = ({ data, opsional, id }) => {
             {data && data.length > 0 ? (
               <TabelRatingData data={data} opsional={opsional} />
             ) : (
-              <div className="font-poppins">
-                <p className="text-center text-red-500 font-semibold">
-                  Tidak ada data rating yang tersedia. Mohon masukkan data
-                  terlebih dahulu.
-                </p>
-                <div className="mt-4">
-                  <button
-                    onClick={() => scrollToSectionNotion("data_ratingLatihan")}
-                    className="text-md font-semibold animate-bounce mt-4 text-black rounded-lg hover:underline transition duration-300"
-                  >
-                    <KeyboardCapslockIcon className="mr-2" />
-                    Masukan Data Rating
-                  </button>
-                </div>
-              </div>
+              <>
+                <WarningPage
+                  title="Data Rating Masih Kosong"
+                  children={
+                    <>
+                      <p className="mb-2">
+                        Oppps...., Untuk melanjutkan proses perhitungan, Data
+                        kosong! Harap isi data rating terlebih dahulu untuk
+                        melanjutkan.
+                      </p>
+                    </>
+                  }
+                  onClickId={"data_ratingLatihan"}
+                  buttonText={"Isi Data Rating"}
+                />
+              </>
               // button untuk masuk ke form input data
             )}
           </div>

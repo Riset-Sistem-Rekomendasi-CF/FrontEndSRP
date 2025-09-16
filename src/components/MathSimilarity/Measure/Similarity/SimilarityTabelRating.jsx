@@ -131,7 +131,7 @@ export default function SimilarityTabelRating({
           </tbody>
         </table>
       </div>
-      <div className="mt-4 p-3 bg-purple-100 text-sm text-gray-700 rounded shadow-sm font-poppins">
+      <div className="mt-4 p-3 bg-purple-100 text-sm text-gray-700 rounded shadow-sm  font-medium font-poppins">
         <p>
           <strong className="text-gray-800">Hijau (Irisan):</strong> Data rating
           yang dipakai dalam perhitungan similarity. Irisan adalah sel yang

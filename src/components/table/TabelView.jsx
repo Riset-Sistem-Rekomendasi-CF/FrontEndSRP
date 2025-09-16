@@ -5,6 +5,7 @@ import { useState } from "react";
 import SwitchToggle from "../Toggle/SwitchToggle";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import OnlyTabel from "./OnlyTabel";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
 const TabelView = ({ changeFunny, headers, columns }) => {
   const data = [
@@ -59,8 +60,11 @@ const TabelView = ({ changeFunny, headers, columns }) => {
             </button>
           </div>
         </div>
-        {/* Contain the table in a scrollable wrapper */}
         <OnlyTabel headers={headers} columns={columns} data={data} />
+        {/* <div className=" bg-blue-200 rounded-md shadow-sm border border-black p-2 flex justify-between mt-2 mb-2 hover:bg-blue-600 transition-colors">
+          <p className="font-poppins font-semibold">Animasi Tabel Rating</p>
+          <PlayArrowIcon className="text-gray-600 inline-block mr-2" />
+        </div> */}
 
         {/* Keterangan Section */}
         <div className="mt-6 text-left w-full font-poppins">
@@ -73,7 +77,7 @@ const TabelView = ({ changeFunny, headers, columns }) => {
               <p>
                 Data Sparsity
                 <span
-                  className="p-1 bg-red-200 rounded-md font-bold curosr-pointer hover:bg-red-300 hover:text-black hover:underline "
+                  className="ml-2 p-1 bg-red-200 rounded-md font-bold curosr-pointer hover:bg-red-300 hover:text-black hover:underline "
                   onClick={handleOpenModalSparsity}
                 >
                   23.33%

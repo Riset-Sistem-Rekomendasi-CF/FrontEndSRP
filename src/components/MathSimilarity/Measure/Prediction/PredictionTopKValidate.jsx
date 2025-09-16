@@ -60,7 +60,10 @@ export const PredictionTopKValidate = ({
   return (
     <>
       <div className="my-4 flex flex-col md:flex-row md:items-center gap-2 md:gap-4 ">
-        <label htmlFor="k" className="font-bold text-gray-800 md:mb-0 mb-1">
+        <label
+          htmlFor="k"
+          className="font-bold text-gray-800 md:mb-0 mb-1 font-poppins"
+        >
           Tentukan nilai TopK:
         </label>
 

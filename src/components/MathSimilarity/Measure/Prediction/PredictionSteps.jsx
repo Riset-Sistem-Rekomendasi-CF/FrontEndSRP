@@ -8,7 +8,7 @@ import { getFormulaPrediction } from "../Formula/FormulaPrediction";
 export const PredictionSteps = ({ similarity, opsional }) => {
   const formula = getFormulaPrediction(similarity, opsional);
   return (
-    <div className="text-start sm:ml-5 md:ml-10">
+    <div className="text-start sm:ml-5 md:ml-10 font-poppins">
       <h2 className="font-semibold text-sm sm:text-base md:text-lg ">
         1. Menentukan {opsional} {""}
         target

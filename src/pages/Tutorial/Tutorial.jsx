@@ -24,6 +24,8 @@ import CardsSteps from "../../components/Card/Home/CardSteps.jsx";
 import VidioSection from "../../components/modal/VidioSection.jsx";
 import Toast from "../../components/Toggle/Toast.jsx";
 import Navbar from "../../components/Navigate/Navbar/Navbar.jsx";
+import { ModalTutorialYoutube } from "../../components/modal/ModalTutorialYoutube.jsx";
+import { useExplanationModal } from "../../components/hooks/useExplanationModal.jsx";
 // import Cookies from "js-cookie";
 
 const Tutorial = () => {
@@ -57,10 +59,6 @@ const Tutorial = () => {
     setDescriptionVisible(value);
   }, []);
 
-  const toggleDescription = () => {
-    setDescriptionVisible(!isDescriptionVisible);
-  };
-
   // 2. Baru pakai di useCallback yang lain
   const handleMethodChange = useCallback(
     (method) => {
@@ -77,6 +75,16 @@ const Tutorial = () => {
     },
     [handleTurnDescription]
   );
+
+  // panggi hook
+  const {
+    showModal,
+    dontShowAgain,
+    setShowModal,
+    toggleExplanation,
+    handleContinue,
+    handleCheckboxChange,
+  } = useExplanationModal("hideExplanationModal_Tutorial");
 
   const form = [
     {
@@ -211,7 +219,9 @@ const Tutorial = () => {
 
           <section className="max-w-full mx-auto text-center my-10  pt-10 relative">
             <button
-              onClick={toggleDescription}
+              onClick={() =>
+                toggleExplanation(isDescriptionVisible, setDescriptionVisible)
+              }
               className="max-w-6xl sm:w-auto font-semibold font-poppins bg-blue-home border-2 border-black text-center text-white px-4 py-2 sm:px-6 sm:py-3 rounded-full hover:bg-blue-700 shadow-md flex items-center justify-center mx-auto"
             >
               Cek Hasil Perhitungan
@@ -221,6 +231,15 @@ const Tutorial = () => {
                 <ExpandMoreIcon className="ml-2 text-lg" />
               )}
             </button>
+
+            {showModal && (
+              <ModalTutorialYoutube
+                dontShowAgain={dontShowAgain}
+                handleCheckboxChange={handleCheckboxChange}
+                handleContinue={() => handleContinue(setDescriptionVisible)}
+                onClose={() => setShowModal(false)}
+              />
+            )}
 
             {isDescriptionVisible && (
               <div className="mt-8">

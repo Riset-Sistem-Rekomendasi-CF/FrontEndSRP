@@ -124,7 +124,7 @@ export const getFormulaMeanCenteredValue = (
       : null;
 
   return {
-    formula: `\\[ S2_{(${rowIndex + 1},${
+    formula: `\\[ S_{(${rowIndex + 1},${
       colIndex + 1
     })} = ${selectedValueRating} - ${selectedMeanValue?.toFixed(2)} \\]`,
     result: `\\[ S_{(${rowIndex + 1},${

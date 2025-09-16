@@ -1,5 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
+import { ExplanationSectionScatterPlotFilter } from "./KomponenPlotFilter/ExplanationSectionScatterPlotFilter";
+
+import ZoomInIcon from "@mui/icons-material/ZoomIn";
+import ZoomOutIcon from "@mui/icons-material/ZoomOut";
+import IconButton from "@mui/material/IconButton";
+import { KeteranganScatterPlotFilter } from "./KomponenPlotFilter/KeteranganScatterPlotFilter";
 
 // Fungsi untuk memeriksa apakah titik (x, y) berada dalam elips
 const isPointInEllipse = (x, y, centerX, centerY, radiusX, radiusY, scale) => {
@@ -26,9 +32,9 @@ const calculateEllipseScale = (allPoints, data, xScale, yScale) => {
 
   let scale = 1.5; // Faktor skala awal
 
-  // Periksa apakah ada titik steelblue dalam elips
-  const isSteelBlueInEllipse = data.some((d) => {
-    if (d.fill === "steelblue") {
+  // Periksa apakah ada titik red dalam elips
+  const isredInEllipse = data.some((d) => {
+    if (d.fill === "red") {
       return isPointInEllipse(
         d.x,
         d.y,
@@ -42,33 +48,58 @@ const calculateEllipseScale = (allPoints, data, xScale, yScale) => {
     return false;
   });
 
-  // Jika titik steelblue ada dalam elips, kurangi ukuran elips
-  if (isSteelBlueInEllipse) {
-    scale = 0.8; // Mengurangi skala untuk mencegah titik steelblue masuk
+  // Jika titik red ada dalam elips, kurangi ukuran elips
+  if (isredInEllipse) {
+    scale = 0.8; // Mengurangi skala untuk mencegah titik red masuk
   }
 
   return { centerX, centerY, radiusX, radiusY, scale };
 };
 
-export function ScatterPlotDataFilter({
+export function ScatterPlotFilterData({
   opsional,
   topSimilarities,
   result,
   rowIndex,
   colIndex,
 }) {
+  const [zoomTransform, setZoomTransform] = useState(d3.zoomIdentity);
+  if (!result || !result["reduced-data"]) {
+    return <div>Data tidak tersedia...</div>;
+  }
+  console.log("ini adalh result", result);
   const similarityDataFilter = result["reduced-data"];
-  // console.log("ini adalh reduce data ", similarityDataFilter);
+  console.log("ini adalh reduce data ", similarityDataFilter);
   const PredictionDataSet = result["prediction"];
-  // console.log("ini adalh prediciton in plot", PredictionDataSet);
+  console.log("ini adalh prediciton in plot", PredictionDataSet);
 
   // Mengubah objek menjadi array 2D
   const dataFilterPlot = similarityDataFilter.map((item) => item);
+  // Asumsikan threshold jarak minimum antar titik untuk penggabungan
+  const mergedEllipses = [];
+  const threshold = 0.3; // batas jarak antar titik yang dianggap berdekatan
 
   // console.log("ini array 2d", dataFilterPlot)
   const ScatterPlotFilter = () => {
     const [size, setSize] = useState({ width: 500, height: 500 });
     const margin = { top: 20, right: 20, bottom: 30, left: 40 };
+    const zoomRef = useRef(null);
+    const svgRootRef = useRef(null);
+    const containerRef = useRef(null); // Ref untuk elemen kontainer
+
+    const handleZoom = (scaleFactor) => {
+      if (!zoomRef.current || !svgRootRef.current) return;
+
+      const svg = svgRootRef.current;
+      const currentTransform = d3.zoomTransform(svg.node());
+
+      const newTransform = currentTransform.scale(scaleFactor);
+
+      svg
+        .transition()
+        .duration(500)
+        .call(zoomRef.current.transform, newTransform);
+    };
 
     useEffect(() => {
       // Update size on window resize to make the plot responsive
@@ -100,18 +131,75 @@ export function ScatterPlotDataFilter({
 
     useEffect(() => {
       // Clear previous SVG if present
+
+      // Tambahkan elemen wrapper utama
+      // 1. Hapus SVG lama
       d3.select("#scatterplot").select("svg").remove();
 
-      // Create a new SVG element
-      const svg = d3
+      // 2. Buat SVG baru
+      const svgRoot = d3
         .select("#scatterplot")
         .append("svg")
         .attr("width", size.width)
         .attr("height", size.height)
-        .attr("viewBox", `0 0 ${size.width} ${size.height}`) // make it responsive
-        .attr("preserveAspectRatio", "xMidYMid meet")
+        .attr("viewBox", `0 0 ${size.width} ${size.height}`)
+        .attr("preserveAspectRatio", "xMidYMid meet");
+
+      svgRootRef.current = svgRoot; // Simpan referensi SVG root
+
+      // 3. Tambahkan grup utama untuk margin
+      const svg = svgRoot
         .append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
+
+      const xAxisGroup = svg
+        .append("g")
+        .attr("transform", `translate(0, ${height})`);
+      const yAxisGroup = svg.append("g");
+      const gridGroup = svg.append("g");
+
+      // 4. Buat kontainer grafik (semua elemen visual masuk sini)
+      const container = svg.append("g"); // <<< Gunakan ini untuk transform
+      containerRef.current = container.node(); // Simpan referensi kontainer
+
+      const zoom = d3
+        .zoom()
+        .scaleExtent([0.5, 8])
+        .on("zoom", (event) => {
+          const newXScale = event.transform.rescaleX(xScale);
+          const newYScale = event.transform.rescaleY(yScale);
+
+          xAxisGroup.call(d3.axisBottom(newXScale));
+          yAxisGroup.call(d3.axisLeft(newYScale));
+
+          // Update grid lines
+          gridGroup.selectAll(".grid").remove(); // Clear old grid
+          const xGrid = d3
+            .axisBottom(newXScale)
+            .ticks(10)
+            .tickSize(-height)
+            .tickFormat("");
+          const yGrid = d3
+            .axisLeft(newYScale)
+            .ticks(10)
+            .tickSize(-width)
+            .tickFormat("");
+          gridGroup
+            .append("g")
+            .attr("class", "grid")
+            .attr("transform", `translate(0, ${height})`)
+            .call(xGrid);
+          gridGroup.append("g").attr("class", "grid").call(yGrid);
+
+          container.attr("transform", event.transform); // Zoom di sini
+        });
+
+      // Simpan ke ref agar bisa digunakan di luar useEffect
+      zoomRef.current = zoom;
+      svgRoot.call(zoom);
+
+      // Terapkan zoom
+      svgRoot.call(zoom);
 
       // Function to calculate Euclidean distance
       const calculateDistance = (d1, d2) =>
@@ -156,13 +244,10 @@ export function ScatterPlotDataFilter({
         .range([height, 0]);
 
       // Add X axis
-      svg
-        .append("g")
-        .attr("transform", `translate(0, ${height})`)
-        .call(d3.axisBottom(xScale));
+      xAxisGroup.call(d3.axisBottom(xScale));
 
       // Add Y axis
-      svg.append("g").call(d3.axisLeft(yScale));
+      yAxisGroup.call(d3.axisLeft(yScale));
 
       // Add grid lines
       const xGrid = d3
@@ -177,31 +262,40 @@ export function ScatterPlotDataFilter({
         .tickSize(-width)
         .tickFormat("");
 
-      svg
+      gridGroup
         .append("g")
         .attr("class", "grid")
         .attr("transform", `translate(0, ${height})`)
         .call(xGrid);
 
-      svg.append("g").attr("class", "grid").call(yGrid);
+      gridGroup.append("g").attr("class", "grid").call(yGrid);
 
       // Add circles for data points
-      svg
-        .selectAll("circle")
+      container
+        .selectAll("text.icon")
         .data(data)
         .enter()
-        .append("circle")
-        .attr("cx", (d) => xScale(d.x))
-        .attr("cy", (d) => yScale(d.y))
-        .attr("r", 5)
+        .append("text")
+        .attr("class", "material-icons")
+        .attr("x", (d) => xScale(d.x))
+        .attr("y", (d) => yScale(d.y))
+        .attr("text-anchor", "middle")
+        .attr("alignment-baseline", "middle")
+        .attr("font-size", "24px")
+        .attr("class", (d, i) =>
+          i === selectedUserIndex
+            ? "material-icons user-target"
+            : "material-icons"
+        )
         .attr("fill", (d, i) => {
-          if (i === selectedUserIndex) return "red"; // Color for selected user
-          if (nearestNeighbors.some((n) => n.index === i)) return "green"; // Color for nearest neighbors
-          return "steelblue"; // Default color
+          if (i === selectedUserIndex) return "black";
+          if (nearestNeighbors.some((n) => n.index === i)) return "green";
+          return "red";
         })
-        .on("mouseover", (event, d) => {
-          d3.select(this).attr("fill", "orange"); // Ubah warna saat hover
-          svg
+        .on("mouseover", function (event, d) {
+          d3.select(this).attr("fill", "orange");
+
+          container
             .append("text")
             .attr("x", xScale(d.x) + 10)
             .attr("y", yScale(d.y) - 10)
@@ -209,7 +303,19 @@ export function ScatterPlotDataFilter({
             .text(d.label);
         })
         .on("mouseout", function () {
-          svg.selectAll(".tooltip").remove(); // Hapus tooltip saat mouseout
+          container.selectAll(".tooltip").remove();
+          // Kembalikan warna ikon ke semula (opsional)
+          const i = data.indexOf(d3.select(this).datum());
+          d3.select(this).attr("fill", () => {
+            if (i === selectedUserIndex) return "black";
+            if (nearestNeighbors.some((n) => n.index === i)) return "green";
+            return "red";
+          });
+        })
+        .text((d, i) => {
+          if (i === selectedUserIndex) return "adjust";
+          if (nearestNeighbors.some((n) => n.index === i)) return "location_on";
+          return "location_off";
         });
 
       // Menambahkan garis dari titik origin (0,0) ke setiap titik
@@ -224,18 +330,36 @@ export function ScatterPlotDataFilter({
       //     .attr("stroke-width", 1);
       // });
 
+      // Tambahkan garis dari titik merah ke titik hijau (tetangga terdekat)
+      nearestNeighbors.forEach((neighbor) => {
+        container
+          .append("line")
+          .attr("x1", xScale(data[selectedUserIndex].x))
+          .attr("y1", yScale(data[selectedUserIndex].y))
+          .attr("x2", xScale(data[neighbor.index].x))
+          .attr("y2", yScale(data[neighbor.index].y))
+          .attr("stroke", "gray")
+          .attr("stroke-width", 1.5)
+          .attr("stroke-dasharray", "4 2"); // optional: putar jadi putus-putus
+      });
+
       // Add labels around each point
-      svg
+      // Add clearer labels around each point
+      container
         .selectAll("text.label")
         .data(data)
         .enter()
         .append("text")
         .attr("x", (d) => xScale(d.x))
-        .attr("y", (d) => yScale(d.y) - 10) // Position label slightly above the point
+        .attr("y", (d) => yScale(d.y) - 15) // Sedikit lebih jauh di atas titik
         .attr("class", "label")
-        .attr("text-anchor", "middle") // Horizontal center alignment
-        .attr("font-size", "10px")
+        .attr("text-anchor", "middle")
+        .attr("font-size", "14px") // Lebih besar
+        .attr("font-weight", "bold") // Tebal
         .attr("fill", "black")
+        .style("paint-order", "stroke") // Agar lebih jelas
+        .style("stroke-width", "3px")
+        .style("stroke-linejoin", "round")
         .text((d) => d.label);
 
       // Fungsi untuk memeriksa apakah titik berada dalam ellips
@@ -254,13 +378,14 @@ export function ScatterPlotDataFilter({
         color,
         id = null
       ) => {
-        const ellipse = svg
+        const ellipse = container
           .append("ellipse")
           .attr("cx", xScale(centerX))
           .attr("cy", yScale(centerY))
           .attr("rx", xScale(centerX + radiusX) - xScale(centerX))
           .attr("ry", yScale(centerY - radiusY) - yScale(centerY))
-          .attr("fill", "none")
+          .attr("fill", "red")
+          .attr("fill-opacity", 0.1)
           .attr("stroke", color)
           .attr("stroke-width", 2);
 
@@ -268,18 +393,51 @@ export function ScatterPlotDataFilter({
         return ellipse;
       };
 
-      // ellipse steelBlue
-      const steelbluePoints = data.filter(
+      // ellipse red
+      const redPoints = data.filter(
         (_, i) =>
           !nearestNeighbors.some((n) => n.index === i) &&
           i !== selectedUserIndex
       );
 
-      steelbluePoints.forEach((point, index) => {
-        drawEllipse(point.x, point.y, 0.15, 0.15, "black", `ellipse-${index}`);
+      redPoints.forEach((point) => {
+        // Cek apakah sudah dimerge
+        const closeGroup = mergedEllipses.find((group) =>
+          group.some((p) => calculateDistance(p, point) < threshold)
+        );
+
+        if (closeGroup) {
+          closeGroup.push(point);
+        } else {
+          mergedEllipses.push([point]);
+        }
       });
 
-      const mask = svg.append("defs").append("mask").attr("id", "ellipse-mask");
+      // Gambar 1 ellipse per grup
+      mergedEllipses.forEach((group, index) => {
+        const xMin = d3.min(group, (d) => d.x);
+        const xMax = d3.max(group, (d) => d.x);
+        const yMin = d3.min(group, (d) => d.y);
+        const yMax = d3.max(group, (d) => d.y);
+
+        const centerX = (xMin + xMax) / 2;
+        const centerY = (yMin + yMax) / 2;
+        const radiusX = (xMax - xMin) / 2 + 0.1;
+        const radiusY = (yMax - yMin) / 2 + 0.1;
+
+        drawEllipse(
+          centerX,
+          centerY,
+          radiusX,
+          radiusY,
+          "red",
+          `ellipse-${index}`
+        );
+      });
+      const mask = svgRoot
+        .append("defs")
+        .append("mask")
+        .attr("id", "ellipse-mask");
 
       // Mask background (full visibility)
       mask
@@ -288,8 +446,8 @@ export function ScatterPlotDataFilter({
         .attr("height", size.height)
         .attr("fill", "white");
 
-      // Mask out steelblue ellipses
-      steelbluePoints.forEach((point) => {
+      // Mask out red ellipses
+      redPoints.forEach((point) => {
         mask
           .append("ellipse")
           .attr("cx", xScale(point.x))
@@ -318,147 +476,55 @@ export function ScatterPlotDataFilter({
         const radiusX = (xMax - xMin) / 2 + 0.2;
         const radiusY = (yMax - yMin) / 2 + 0.2;
 
-        yellowEllipse = svg
+        yellowEllipse = container
           .append("ellipse")
           .attr("cx", xScale(centerX))
           .attr("cy", yScale(centerY))
           .attr("rx", xScale(centerX + radiusX) - xScale(centerX))
           .attr("ry", yScale(centerY - radiusY) - yScale(centerY))
-          .attr("fill", "none")
-          .attr("stroke", "black")
+          .attr("fill", "green")
+          .attr("fill-opacity", 0.1)
+          .attr("stroke", "green")
           .attr("stroke-width", 2)
           .attr("mask", "url(#ellipse-mask)");
 
         // Add outline for the "cut-off" regions
-        steelbluePoints.forEach((point) => {
-          svg
+        redPoints.forEach((point) => {
+          container
             .append("ellipse")
             .attr("cx", xScale(point.x))
             .attr("cy", yScale(point.y))
             .attr("rx", xScale(point.x + 0.15) - xScale(point.x))
             .attr("ry", yScale(point.y - 0.15) - yScale(point.y))
             .attr("fill", "none")
-            .attr("stroke", "steelblue")
+            // .attr("stroke", "red")
             .attr("stroke-width", 2);
         });
       }
     }, [size]); // Re-run on size change
     return (
       <>
-        <div id="scatterplot" style={{ margin: "0 auto" }} />
-        <div className="mt-6 text-start w-full">
-          <p className="font-semibold text-lg sm:text-xl mb-4">Keterangan:</p>
-          <ul className="flex flex-col sm:flex-row space-x-0 sm:space-x-4 sm:space-y-0 space-y-4 justify-center px-4">
-            <li className="flex items-center text-sm sm:text-base">
-              <div className="w-5 h-5 rounded-full bg-red-500 border border-1 border-black mr-2"></div>
-              <span> {opsional === "user-based" ? "User" : "Item"} target</span>
-            </li>
-            <li className="flex items-center text-sm sm:text-base">
-              <div className="w-5 h-5 rounded-full bg-green-500 border border-1 border-black mr-2"></div>
-              <span>
-                {opsional === "user-based" ? "User" : "Item"} Tetangga
-              </span>
-            </li>
-            <li className="flex items-center text-sm sm:text-base">
-              <div className="h-1 w-3  border-2 border-black "></div>
-              <p>
-                <span>
-                  Himpunan {opsional === "user-based" ? "User" : "Item"} Top-K{" "}
-                </span>
-              </p>
-            </li>
-            <li className="flex items-center text-sm sm:text-base">
-              <div className="w-5 h-5 rounded-full   border-2 bg-blue-500 border-black mr-2"></div>
-              <p>
-                <span>
-                  Semua {opsional === "user-based" ? "User" : "Item"}{" "}
-                </span>
-              </p>
-            </li>
-          </ul>
+        <div className="relative w-full h-[500px]">
+          <div className="absolute top-2 right-2 flex gap-2 bg-white/80 rounded-lg p-2 z-10">
+            <button onClick={() => handleZoom(1.2)} className="p-1">
+              <ZoomInIcon fontSize="small" />
+            </button>
+            <button onClick={() => handleZoom(0.8)} className="p-1">
+              <ZoomOutIcon fontSize="small" />
+            </button>
+          </div>
+          <div id="scatterplot" className="w-full h-full" />
         </div>
+        <KeteranganScatterPlotFilter opsional={opsional} />
+        {/* <div id="scatterplot" style={{ margin: "0 auto" }} /> */}
       </>
-    );
-  };
-  const ExplanationSectionScatterPlotFilter = () => {
-    return (
-      <div className="mt-6 text-justify max-w-full md:max-w-xl mx-auto px-4">
-        <h2 className="text-xl text-center font-bold mb-3">
-          Cara Membaca Scatter Plot 2D
-        </h2>
-        <p className="text-sm mb-2">
-          Grafik plot ini menunjukkan himpunan{" "}
-          <i>{opsional === "user-based" ? "User" : "Item"} </i> yang diambil
-          dari data kemiripan pengguna. Setiap titik mewakili{" "}
-          <i>{opsional === "user-based" ? "User" : "Item"}</i>, dan posisi titik
-          yang diambil berdasarkan Top-K terdekat dan terdapat 2 kriteria dalam
-          memilih Top-K :
-        </p>
-
-        {/* Tabel untuk Kriteria 1 dan Kriteria 2 */}
-        <div className="overflow-x-auto ">
-          <table className="min-w-full table-auto border-collapse text-center">
-            <thead>
-              <tr className="bg-gray-100">
-                <th className="px-4 py-2 border border-gray-300">Kriteria 1</th>
-                <th className="px-4 py-2 border border-gray-300">Kriteria 2</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td className="font-medium text-sm px-4 py-2 border border-gray-300 hover:bg-blue-200 cursor-pointer">
-                  Pada Kriteria 1, digunakan untuk memilih Top-K berdasarkan
-                  nilai similaritas mirip terhadap{" "}
-                  <i>{opsional === "user-based" ? "User" : "Item"} </i> target.
-                </td>
-                <td className="font-medium text-sm px-4 py-2 border border-gray-300  hover:bg-blue-200 cursor-pointer">
-                  Pada Kriteria 2, dimana{" "}
-                  <i>{opsional === "user-based" ? "User" : "Item"} </i>{" "}
-                  sama-sama telah memberikan rating terhadap{" "}
-                  <i>{opsional === "user-based" ? "Item" : "User"} </i> target.
-                </td>
-              </tr>
-              {/* Baris selanjutnya dapat ditambahkan sesuai kebutuhan */}
-            </tbody>
-          </table>
-        </div>
-      </div>
     );
   };
 
   return (
-    <div className="flex flex-col my-5 font-poppins items-center mx-auto">
+    <div className="flex flex-col my-5 font-poppins items-center mx-auto w-full max-w-full">
       <ScatterPlotFilter />
-      <ExplanationSectionScatterPlotFilter />
+      <ExplanationSectionScatterPlotFilter opsional={opsional} />
     </div>
   );
 }
-
-// Tambahkan lingkaran besar di sekitar kelompok tetangga terdekat
-
-//             // Ambil koordinat x dan y dari tetangga terdekat
-//             const neighborXValues = nearestNeighbors.map(n => data[n.index].x);
-//             const neighborYValues = nearestNeighbors.map(n => data[n.index].y);
-//             const targetPoint = data[selectedUserIndex];
-//
-// // Hitung titik tengah ellipse (center) sebagai rata-rata dari titik-titik tetangga
-//             const ellipseX = d3.mean(neighborXValues);
-//             const ellipseY = d3.mean(neighborYValues);
-//
-// // Hitung radius ellipse berdasarkan sebaran titik-titik tetangga relatif terhadap target
-//             const radiusX = d3.max(neighborXValues.map(x => Math.abs(x - targetPoint.x))) || 1;  // Pastikan radius minimal 1
-//             const radiusY = d3.max(neighborYValues.map(y => Math.abs(y - targetPoint.y))) || 1;  // Pastikan radius minimal 1
-//
-// // Tentukan faktor skala untuk menyesuaikan ukuran ellipse
-//             const scaleFactor = 1.0; // Sesuaikan skala radius sesuai kebutuhan
-//
-// // Menggambar ellipse
-//             svg.append('ellipse')
-//                 .attr('cx', xScale(ellipseX)) // Posisi sumbu X (titik tengah ellipse)
-//                 .attr('cy', yScale(ellipseY)) // Posisi sumbu Y (titik tengah ellipse)
-//                 .attr('rx', xScale(ellipseX + radiusX * scaleFactor) - xScale(ellipseX)) // Radius X yang disesuaikan dengan skala
-//                 .attr('ry', yScale(ellipseY + radiusY * scaleFactor) - yScale(ellipseY)) // Radius Y yang disesuaikan dengan skala
-//                 .attr('fill', 'none') // Tidak ada isian
-//                 .attr('stroke', 'green') // Warna garis hijau untuk ellipse
-//                 .attr('stroke-width', 2) // Ketebalan garis
-//                 .attr('stroke-dasharray', '4,4'); // Opsional: Garis putus-putus (dapat dihilangkan)

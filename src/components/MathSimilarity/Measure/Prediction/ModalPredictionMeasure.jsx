@@ -10,7 +10,7 @@ import { transposeMatrix } from "../../../../helper/helper";
 import LegendTable from "../../../tabelData/LegendTable";
 import { useState } from "react";
 import SwitchToggle from "../../../Toggle/SwitchToggle";
-import { ScatterPlotDataFilter } from "../../../Graph/ScaterPlotFilter";
+
 import MathJaxComponent from "../../../../MathJaxComponent";
 import CloseIcon from "@mui/icons-material/Close";
 import ScatterPlot from "../../../Graph/ChartJsPlot";
@@ -21,6 +21,7 @@ import { PredictionValue } from "./PredictionValue";
 import InfoIcon from "@mui/icons-material/Info";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import { DividerHeading, OnlyDivider } from "../../../tabelData/DividerHeading";
+import { ScatterPlotFilterData } from "../../../Graph/ScatterPlotFilter";
 
 const ModalPredictionMeasure = ({
   dataRating,
@@ -454,7 +455,9 @@ const ModalPredictionMeasure = ({
               pada data toy dataset di atas.
             </p>
           </div>
-          <OnlyDivider />
+          <div className="pl-2 pr-2 ml-2 mr-2">
+            <OnlyDivider />
+          </div>
           <p className="text-base text-justify sm:text-md md:text-lg lg:text-xl xl:text-2xl font-bold text-gray-700 m-2">
             Hasil prediksi {similarity} pada untuk{" "}
             {opsional === "User-Based" ? (
@@ -533,14 +536,15 @@ const ModalPredictionMeasure = ({
             </div>
           </MathJaxContext>
         </div>
-        <OnlyDivider />
+        <div className="p-2 m-2">
+          <OnlyDivider />
+
+          <DividerHeading text={"Grafik Prediksi Data Filter 2D"} />
+        </div>
         <div className="bg-blue-100 p-2 m-2 rounded-md shadow-sm">
-          <h1 className="font-semibold text-xl my-5 underline underline-offset-8 decoration-4 decoration-card_blue_primary">
-            Grafik Prediksi Data Filter
-          </h1>
           {/* PLOT */}
           <div className="flex flex-col justify-center my-3">
-            <ScatterPlotDataFilter
+            <ScatterPlotFilterData
               kValue={kValue}
               result={result}
               opsional={opsional}

@@ -168,7 +168,7 @@ export default function ModalSimilarity({
       >
         {/* Header / Title */}
         <div className="relative">
-          <h2 className="text-center text-base sm:text-lg md:text-xl font-semibold mb-4 bg-white p-4 pr-12 z-10 shadow-sm">
+          <h2 className="text-center text-base sm:text-lg md:text-xl font-semibold mb-4 bg-white p-4 pr-12 z-10 shadow-sm font-poppins">
             <span>Detail Perhitungan Fungsi Similaritas</span>
           </h2>
           <button
@@ -372,7 +372,7 @@ export default function ModalSimilarity({
             <InfoIcon className="text-blue-500 mt-1" />
 
             {/* Teks paragraf */}
-            <p className="text-justify">
+            <p className="text-justify font-poppins">
               Untuk mempermudah pemahaman bisa dilihat detail perhitungan untuk
               mencari nilai simialaritas
               <strong>
@@ -385,7 +385,7 @@ export default function ModalSimilarity({
             </p>
           </div>
           <OnlyDivider />
-          <p className="text-base text-justify sm:text-md md:text-lg lg:text-xl xl:text-2xl font-bold text-gray-700 m-2">
+          <p className="text-base text-justify sm:text-md md:text-lg lg:text-xl xl:text-2xl font-bold text-gray-700 m-2 font-poppins">
             Hasil Similaritas antara {opsional.split("-")[0]}-
             {selectedIndex[0] + 1} {""}
             dengan {opsional.split("-")[0]}-{selectedIndex[1] + 1} ={" "}
@@ -467,7 +467,7 @@ export default function ModalSimilarity({
         {/* MathJax untuk rumus */}
 
         <button
-          className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
+          className="mt-4 bg-blue-500 text-white px-4 py-2 rounded font-poppins"
           onClick={close}
         >
           Tutup
