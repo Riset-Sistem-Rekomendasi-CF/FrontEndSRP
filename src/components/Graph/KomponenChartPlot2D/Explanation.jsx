@@ -189,11 +189,10 @@ export const Explanation = ({ closePairs, opsional }) => {
                 <MathJax>{`$$ = ${selectedPair.distance} $$`}</MathJax>
 
                 <p
-                  className={`mt-2 font-medium max-w-fit items-center bg-blue-200 rounded-md shadow-sm p-2 text-center mx-auto ${
-                    selectedPair.distance <= 0.5
+                  className={`mt-2 font-medium max-w-fit items-center bg-blue-200 rounded-md shadow-sm p-2 text-center mx-auto ${selectedPair.distance <= 0.5
                       ? "text-green-700"
                       : "text-red-600"
-                  }`}
+                    }`}
                 >
                   {selectedPair.distance <= 0.5
                     ? "Karena jarak < 0.5, maka dianggap berdekatan."

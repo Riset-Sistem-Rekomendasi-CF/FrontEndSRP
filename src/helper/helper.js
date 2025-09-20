@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { sum } from "./Measure"
 
 /**
@@ -121,6 +122,16 @@ export const transposeMatrix = data => {
     return data[0].map((col, i) => {
         return data.map(row => row[i])
     })
+}
+
+export const intersection = (data1, data2) => {
+    return data1.filter(val => data2.includes(val))
+}
+
+export const intersectionIndex = (data1, data2) => {
+    return data1
+        .map((val, idx) => data2.includes(val) ? idx : -1)
+        .filter(idx => idx !== -1)
 }
 
 /**

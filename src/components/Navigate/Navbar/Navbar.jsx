@@ -30,30 +30,39 @@ const Navbar = () => {
 
   // Logic hide navbar saat scroll ke bawah
   useEffect(() => {
+    let throttleTimeout = null;
+
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
+      if (throttleTimeout) return;
 
-      // Jangan sembunyikan navbar jika menu mobile sedang terbuka
-      if (!isOpen) {
-        if (currentScrollY > lastScrollY) {
-          setIsVisible(false);
-        } else {
-          setIsVisible(true);
+      throttleTimeout = setTimeout(() => {
+        const currentScrollY = window.scrollY;
+
+        // Jangan sembunyikan navbar jika menu mobile sedang terbuka
+        if (!isOpen) {
+          if (currentScrollY > lastScrollY) {
+            setIsVisible(false);
+          } else {
+            setIsVisible(true);
+          }
+          setLastScrollY(currentScrollY);
         }
-      }
 
-      setLastScrollY(currentScrollY);
+        throttleTimeout = null;
+      }, 1000);
     };
 
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (throttleTimeout) clearTimeout(throttleTimeout);
+    };
   }, [lastScrollY, isOpen]);
 
   return (
     <nav
-      className={`bg-white shadow-sm sticky top-0 z-50 transition-transform ${
-        isVisible ? "transform-none" : "-translate-y-full"
-      }`}
+      className={`bg-white shadow-sm sticky top-0 z-50 transition-transform ${isVisible ? "transform-none" : "-translate-y-full"
+        }`}
     >
       <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">

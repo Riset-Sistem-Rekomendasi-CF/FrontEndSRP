@@ -40,25 +40,21 @@ const ModalPredictionMeasure = ({
 }) => {
   //   console.log("topSimilarities", topSimilarities);
 
-  const resultMean =
-    similarity === "Adjusted Cosine"
-      ? transposeMatrix(result["mean-list"])
-      : result["mean-list"];
+  const resultMean = result["mean-list"];
   // const resultMeanCentered =
   //   similarity === "Adjusted Cosine"
   //     ? transposeMatrix(result["mean-centered-brother"])
   //     : result["mean-centered"];
   const resultMeanCentered =
     similarity === "Adjusted Cosine"
-      ? result["mean-centered"]
-        ? transposeMatrix(result["mean-centered"])
-        : []
+      ? (opsional === "user-based" ? transposeMatrix(result["mean-centered"]) : result["mean-centered"])
       : result["mean-centered"];
 
   const resultMeanCenteredTranspose =
     opsional === "item-based"
-      ? transposeMatrix(resultMeanCentered)
-      : resultMeanCentered;
+      ? similarity === "Adjusted Cosine" ? resultMeanCentered : transposeMatrix(resultMeanCentered)
+      : similarity === "Adjusted Cosine" ? transposeMatrix(resultMeanCentered) : resultMeanCentered
+
 
   console.log("mean-cented", resultMeanCentered);
   const [isNotation, setIsNotation] = useState(false);
@@ -142,14 +138,12 @@ const ModalPredictionMeasure = ({
                       r
                       <sub>
                         {opsional === "item-based"
-                          ? `${
-                              selectedIndex[opsional === "item-based" ? 1 : 0] +
-                              1
-                            }*`
-                          : `*${
-                              selectedIndex[opsional === "item-based" ? 1 : 0] +
-                              1
-                            }`}
+                          ? `${selectedIndex[opsional === "item-based" ? 1 : 0] +
+                          1
+                          }*`
+                          : `*${selectedIndex[opsional === "item-based" ? 1 : 0] +
+                          1
+                          }`}
                       </sub>
                     </th>
                   </tr>
@@ -166,13 +160,12 @@ const ModalPredictionMeasure = ({
                           {!funnyMode
                             ? rowIndex + 1
                             : (opsional === "user-based" ? columns : headers)[
-                                rowIndex
-                              ]}
+                            rowIndex
+                            ]}
                         </td>
                         <td
-                          className={`border border-black px-4 py-2 text-center ${
-                            IsZero ? "bg-red-200" : ""
-                          }`}
+                          className={`border border-black px-4 py-2 text-center ${IsZero ? "bg-red-200" : ""
+                            }`}
                         >
                           {!isNotation ? (
                             row[
@@ -220,8 +213,8 @@ const ModalPredictionMeasure = ({
                           {!funnyMode
                             ? index + 1
                             : (opsional === "user-based" ? columns : headers)[
-                                index
-                              ]}
+                            index
+                            ]}
                         </td>
                         <td className="border border-black px-4 py-2">
                           <div className="text-center">
@@ -260,14 +253,12 @@ const ModalPredictionMeasure = ({
                       S
                       <sub>
                         {opsional === "item-based"
-                          ? `${
-                              selectedIndex[opsional === "item-based" ? 0 : 1] +
-                              1
-                            }*`
-                          : `*${
-                              selectedIndex[opsional === "item-based" ? 0 : 1] +
-                              1
-                            }`}
+                          ? `${selectedIndex[opsional === "item-based" ? 0 : 1] +
+                          1
+                          }*`
+                          : `*${selectedIndex[opsional === "item-based" ? 0 : 1] +
+                          1
+                          }`}
                       </sub>
                     </th>
                   </tr>
@@ -287,13 +278,12 @@ const ModalPredictionMeasure = ({
                           {!funnyMode
                             ? rowIndex + 1
                             : (opsional === "user-based" ? columns : headers)[
-                                rowIndex
-                              ]}
+                            rowIndex
+                            ]}
                         </td>
                         <td
-                          className={`border border-black px-4 py-2 text-center ${
-                            IsZero ? "bg-red-200" : ""
-                          } ${isTopSimilarity ? "bg-green-200" : ""}`}
+                          className={`border border-black px-4 py-2 text-center ${IsZero ? "bg-red-200" : ""
+                            } ${isTopSimilarity ? "bg-green-200" : ""}`}
                         >
                           {!isNotation ? (
                             row[
@@ -304,16 +294,14 @@ const ModalPredictionMeasure = ({
                               S
                               <sub>
                                 {opsional === "item-based"
-                                  ? `${
-                                      selectedIndex[
-                                        opsional === "item-based" ? 0 : 1
-                                      ] + 1
-                                    }${rowIndex + 1}`
-                                  : `${rowIndex + 1}${
-                                      selectedIndex[
-                                        opsional === "item-based" ? 0 : 1
-                                      ] + 1
-                                    }`}
+                                  ? `${selectedIndex[
+                                  opsional === "item-based" ? 0 : 1
+                                  ] + 1
+                                  }${rowIndex + 1}`
+                                  : `${rowIndex + 1}${selectedIndex[
+                                  opsional === "item-based" ? 0 : 1
+                                  ] + 1
+                                  }`}
                               </sub>
                             </span>
                           )}
@@ -327,7 +315,7 @@ const ModalPredictionMeasure = ({
 
             {/* Nilai Similaritas */}
             {selectedIndex[opsional === "user-based" ? 0 : 1] <
-            result["similarity"].length ? (
+              result["similarity"].length ? (
               <div>
                 <DividerHeading text={"Similaritas"} />
                 <table className="border border-black mt-4 mx-auto text-center w-full">
@@ -338,9 +326,8 @@ const ModalPredictionMeasure = ({
                       </th>
                       <th className="border border-black px-4 py-2 italic font-serif">
                         Sim
-                        <sub>{`${
-                          selectedIndex[opsional === "item-based" ? 0 : 1] + 1
-                        }*`}</sub>
+                        <sub>{`${selectedIndex[opsional === "item-based" ? 0 : 1] + 1
+                          }*`}</sub>
                       </th>
                     </tr>
                   </thead>
@@ -355,13 +342,12 @@ const ModalPredictionMeasure = ({
                             {!funnyMode
                               ? colIndex + 1
                               : (opsional === "user-based" ? columns : headers)[
-                                  colIndex
-                                ]}
+                              colIndex
+                              ]}
                           </td>
                           <td
-                            className={`border border-black px-4 py-2 text-center ${
-                              isTopSimilarity ? "bg-green-200" : ""
-                            }`}
+                            className={`border border-black px-4 py-2 text-center ${isTopSimilarity ? "bg-green-200" : ""
+                              }`}
                           >
                             {!isNotation ? (
                               row[
@@ -372,16 +358,14 @@ const ModalPredictionMeasure = ({
                                 Sim
                                 <sub>
                                   {opsional === "item-based"
-                                    ? `${
-                                        selectedIndex[
-                                          opsional === "item-based" ? 0 : 1
-                                        ] + 1
-                                      }${colIndex + 1}`
-                                    : `${colIndex + 1}${
-                                        selectedIndex[
-                                          opsional === "item-based" ? 0 : 1
-                                        ] + 1
-                                      }`}
+                                    ? `${selectedIndex[
+                                    opsional === "item-based" ? 0 : 1
+                                    ] + 1
+                                    }${colIndex + 1}`
+                                    : `${colIndex + 1}${selectedIndex[
+                                    opsional === "item-based" ? 0 : 1
+                                    ] + 1
+                                    }`}
                                 </sub>
                               </span>
                             )}
