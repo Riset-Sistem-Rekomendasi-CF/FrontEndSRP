@@ -137,15 +137,15 @@ export const getFormulaArgMax = (
 ) => {
   switch (opsional) {
     case "user-based":
-      return `\\[  TopK_{${rowIndex + 1}}(${colIndex + 1
-        })=\\ \\begin{matrix}${kValue}\\\\argmax\\ \\\\i \\in I_{${rowIndex + 1
-        }} \\end{matrix}Sim(i,${colIndex + 1})\\ = \\ \\{ ${topSimilarity
+      return `\\[  X_{${colIndex + 1}}(${rowIndex + 1
+        })=\\ \\begin{matrix}${kValue}\\\\argmax\\ \\\\v \\in U_{${colIndex + 1
+        }} \\end{matrix}Sim(${rowIndex + 1},v)\\ = \\ \\{ ${topSimilarity
           .map((sim) => sim.index + 1)
           .join(",")} \\} \\]`;
     case "item-based":
-      return `\\[  TopK_{${colIndex + 1}}(${rowIndex + 1
-        })=\\ \\begin{matrix}${kValue}\\\\argmax\\ \\\\u \\in U_{${colIndex + 1
-        }} \\end{matrix}Sim(${rowIndex + 1},u)\\ = \\{ ${topSimilarity
+      return `\\[  X_{${colIndex + 1}}(${rowIndex + 1
+        })=\\ \\begin{matrix}${kValue}\\\\argmax\\ \\\\u \\in I_{${colIndex + 1
+        }} \\end{matrix}Sim(${colIndex + 1},u)\\ = \\{ ${topSimilarity
           .map((sim) => sim.index + 1)
           .join(",")} \\} \\]`;
     default:
@@ -159,14 +159,8 @@ export const getFormulaPredictionIndex = (
   similarity,
   opsional
 ) => {
-  const opsionalModify =
-    similarity === "Adjusted Cosine"
-      ? opsional === "user-based"
-        ? "item-based"
-        : "user-based"
-      : opsional;
 
-  switch (opsionalModify) {
+  switch (opsional) {
     case "user-based":
       return `\\[ {\\hat{r}_{${rowIndex + 1},${colIndex + 1}}} = \\mu_{${rowIndex + 1
         }} +\\frac{\\sum_{v\\in X_{${rowIndex + 1}}(${colIndex + 1})} Sim_{${rowIndex + 1
@@ -174,8 +168,8 @@ export const getFormulaPredictionIndex = (
         })}\\mid Sim_{${rowIndex + 1}v} \\mid} \\]`;
     case "item-based":
       return `\\[ {\\hat{r}_{${rowIndex + 1},${colIndex + 1}}} = \\mu_{${colIndex + 1
-        }} +\\frac{\\sum_{v\\in X_{${colIndex + 1}}(${rowIndex + 1})} Sim_{v${rowIndex + 1
-        }} * s_{${colIndex + 1}v}}{\\sum_{v \\in X_{${colIndex + 1}}(${rowIndex + 1
+        }} +\\frac{\\sum_{v\\in X_{${colIndex + 1}}(${rowIndex + 1})} Sim_{${colIndex + 1
+        }v} * s_{${rowIndex + 1}v}}{\\sum_{v \\in X_{${colIndex + 1}}(${rowIndex + 1
         })}\\mid Sim_{${rowIndex + 1}v} \\mid} \\]`;
     default:
       return;
@@ -193,7 +187,7 @@ export const getFormulaPredictionValue = (
   isNotation,
   selectedValue
 ) => {
-  const resultMeanCentered = result["mean-centered"]
+  const resultMeanCentered = opsional === "user-based" ? result["mean-centered"] : transposeMatrix(result["mean-centered"])
   const resultDataRating = similarity
   const resultMean = result["mean-list"]
 
@@ -260,9 +254,13 @@ export const getFormulaPredictionValue = (
         similarValues
           .filter((sim) => resultDataRating[sim.index][colIndex] !== 0)
           .map(
-            (sim) =>
-              sim.value.toFixed(4) *
-              resultMeanCentered[sim.index][colIndex].toFixed(2)
+            (sim) => {
+              console.log("sim", sim);
+              console.log("mc", resultMeanCentered);
+
+              return sim.value.toFixed(4) *
+                resultMeanCentered[sim.index][rowIndex].toFixed(2)
+            }
           )
       );
       const denominatorItem = sum(

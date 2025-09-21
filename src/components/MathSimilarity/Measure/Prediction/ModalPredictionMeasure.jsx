@@ -39,6 +39,7 @@ const ModalPredictionMeasure = ({
   funnyMode,
 }) => {
   //   console.log("topSimilarities", topSimilarities);
+  console.log("data ", data);
 
   const resultMean = result["mean-list"];
   // const resultMeanCentered =
@@ -138,12 +139,12 @@ const ModalPredictionMeasure = ({
                       r
                       <sub>
                         {opsional === "item-based"
-                          ? `${selectedIndex[opsional === "item-based" ? 1 : 0] +
+                          ? `*${selectedIndex[opsional === "item-based" ? 1 : 0] +
                           1
-                          }*`
-                          : `*${selectedIndex[opsional === "item-based" ? 1 : 0] +
+                          }`
+                          : `${selectedIndex[opsional === "item-based" ? 1 : 0] +
                           1
-                          }`}
+                          }*`}
                       </sub>
                     </th>
                   </tr>
@@ -169,6 +170,7 @@ const ModalPredictionMeasure = ({
                         >
                           {!isNotation ? (
                             row[
+                              // selectedIndex[opsional === "item-based" ? 0 : 1]
                               selectedIndex[opsional === "item-based" ? 0 : 1]
                             ]?.toFixed(1)
                           ) : (
@@ -196,7 +198,7 @@ const ModalPredictionMeasure = ({
                 <thead>
                   <tr className="bg-gray-200">
                     <th className="border border-black px-4 py-2 italic">U</th>
-                    <th className="border border-black italic px-4 py-2 ">μ</th>
+                    <th className="border border-black italic px-4 py-2 ">μ<sub>{opsional === "user-based" ? "User" : "Item"}</sub></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -253,7 +255,7 @@ const ModalPredictionMeasure = ({
                       S
                       <sub>
                         {opsional === "item-based"
-                          ? `${selectedIndex[opsional === "item-based" ? 0 : 1] +
+                          ? `${selectedIndex[opsional === "item-based" ? 1 : 0] +
                           1
                           }*`
                           : `*${selectedIndex[opsional === "item-based" ? 0 : 1] +
@@ -287,7 +289,7 @@ const ModalPredictionMeasure = ({
                         >
                           {!isNotation ? (
                             row[
-                              selectedIndex[opsional === "item-based" ? 0 : 1]
+                              selectedIndex[opsional === "item-based" ? 1 : 0]
                             ]?.toFixed(2) || "N/A"
                           ) : (
                             <span className="italic font-serif">
@@ -326,7 +328,7 @@ const ModalPredictionMeasure = ({
                       </th>
                       <th className="border border-black px-4 py-2 italic font-serif">
                         Sim
-                        <sub>{`${selectedIndex[opsional === "item-based" ? 0 : 1] + 1
+                        <sub>{`${selectedIndex[opsional === "item-based" ? 1 : 0] + 1
                           }*`}</sub>
                       </th>
                     </tr>
