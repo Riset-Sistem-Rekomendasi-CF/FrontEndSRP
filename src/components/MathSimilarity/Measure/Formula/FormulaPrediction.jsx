@@ -229,15 +229,15 @@ export const getFormulaPredictionValue = (
               .join(" + ")}} \\]`
           : `\\[ {\\hat{r}_{(${rowIndex + 1},${colIndex + 1})}} = {\\mu_{${rowIndex + 1
           }}} + \\frac{${similarValues
-            .filter((sim) => resultDataRating[sim.index][colIndex] !== 0)
+            .filter((sim) => resultDataRating[sim.index][rowIndex] !== 0)
             .map(
               (sim) =>
-                `\\left(Sim_{${sim.index + 1}${colIndex + 1}} * \\left(s_{${sim.index + 1
+                `\\left(Sim_{${rowIndex + 1}${sim.index + 1}} * \\left(s_{${sim.index + 1
                 }${colIndex + 1}}\\right)\\right)`
             )
             .join(" + ")}}{${similarValues
-              .filter((sim) => resultDataRating[sim.index][colIndex] !== 0)
-              .map((sim) => `\\mid Sim_{${sim.index + 1}${colIndex + 1}} \\mid`)
+              .filter((sim) => resultDataRating[sim.index][rowIndex] !== 0)
+              .map((sim) => `\\mid Sim_{${rowIndex + 1}${sim.index + 1}} \\mid`)
               .join(" + ")}} \\]`,
         proses_formula: `\\[ \\hat{r}_{(${rowIndex + 1},${colIndex + 1
           })} = ${resultMean[rowIndex].toFixed(
@@ -288,17 +288,17 @@ export const getFormulaPredictionValue = (
               .filter((sim) => resultDataRating[sim.index][rowIndex] !== 0)
               .map((sim) => `\\mid ${sim.value.toFixed(4)} \\mid`)
               .join(" + ")}} \\]`
-          : `\\[ {\\hat{r_{(${rowIndex + 1},${colIndex + 1})}}} = {\\mu_{${rowIndex + 1
+          : `\\[ {\\hat{r}_{(${rowIndex + 1},${colIndex + 1})}} = {\\mu_{${rowIndex + 1
           }}} + \\frac{${similarValues
             .filter((sim) => resultDataRating[sim.index][colIndex] !== 0)
             .map(
               (sim) =>
-                `\\left(Sim_{${rowIndex + 1}${sim.index + 1}} * \\left(s_{${rowIndex + 1
+                `\\left(Sim_{${colIndex + 1}${sim.index + 1}} * \\left(s_{${rowIndex + 1
                 }${sim.index + 1}}\\right)\\right)`
             )
             .join(" + ")}}{${similarValues
               .filter((sim) => resultDataRating[sim.index][colIndex] !== 0)
-              .map((sim) => `\\mid Sim_{${rowIndex + 1}${sim.index + 1}} \\mid`)
+              .map((sim) => `\\mid Sim_{${colIndex + 1}${sim.index + 1}} \\mid`)
               .join(" + ")}} \\]`,
         proses_formula: `\\[ \\hat{r}_{${rowIndex + 1},${colIndex + 1
           }} = ${resultMean[colIndex].toFixed(

@@ -361,13 +361,13 @@ const ModalPredictionMeasure = ({
                                 <sub>
                                   {opsional === "item-based"
                                     ? `${selectedIndex[
-                                    opsional === "item-based" ? 0 : 1
+                                    opsional === "item-based" ? 1 : 0
                                     ] + 1
                                     }${colIndex + 1}`
-                                    : `${colIndex + 1}${selectedIndex[
-                                    opsional === "item-based" ? 0 : 1
+                                    : `${selectedIndex[
+                                    opsional === "item-based" ? 1 : 0
                                     ] + 1
-                                    }`}
+                                    }${colIndex + 1}`}
                                 </sub>
                               </span>
                             )}

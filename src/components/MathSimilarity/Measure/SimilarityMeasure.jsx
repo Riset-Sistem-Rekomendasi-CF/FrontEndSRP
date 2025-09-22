@@ -56,9 +56,8 @@ const TrTableSimilarity = ({ children }, key) => {
 const TdTableSimilarity = ({ rowIndex, colIndex, onClick, children }, key) => {
   return (
     <td
-      className={`border border-black px-4 py-2 text-center text-xs sm:text-sm cursor-pointer hover:bg-card_green_primary ${
-        rowIndex === colIndex ? "bg-red-200" : ""
-      }`}
+      className={`border border-black px-4 py-2 text-center text-xs sm:text-sm cursor-pointer hover:bg-card_green_primary ${rowIndex === colIndex ? "bg-red-200" : ""
+        }`}
       onClick={onClick}
     >
       {children}
@@ -112,7 +111,7 @@ export default function SimilarityMeasure({
       );
     }
     const numberOfColumnsSim = result["similarity"][0].length;
-    // console.log(result["similarity"]);
+    console.log(result["similarity"]);
 
     if (!result || !result["mean-centered"]) return null;
 
@@ -124,9 +123,8 @@ export default function SimilarityMeasure({
               {Array.from({ length: numberOfColumnsSim }, (_, index) => (
                 <th
                   key={index}
-                  className={`border border-black px-4 py-2 text-xs sm:text-sm ${
-                    opsional === "user-based" ? "bg-blue-200" : ""
-                  }`}
+                  className={`border border-black px-4 py-2 text-xs sm:text-sm ${opsional === "user-based" ? "bg-blue-200" : ""
+                    }`}
                 >
                   {!funnyMode
                     ? index + 1
@@ -138,26 +136,28 @@ export default function SimilarityMeasure({
               {result["similarity"].map((row, rowIndex) => (
                 <TrTableSimilarity key={rowIndex}>
                   <td
-                    className={`border border-black px-4 py-2 ${
-                      opsional === "user-based" ? "bg-blue-200" : "bg-gray-200"
-                    } text-xs sm:text-sm`}
+                    className={`border border-black px-4 py-2 ${opsional === "user-based" ? "bg-blue-200" : "bg-gray-200"
+                      } text-xs sm:text-sm`}
                   >
                     {!funnyMode
                       ? rowIndex + 1
                       : (opsional === "user-based" ? columns : headers)[
-                          rowIndex
-                        ]}
+                      rowIndex
+                      ]}
                   </td>
-                  {row.map((value, colIndex) => (
-                    <TdTableSimilarity
-                      key={colIndex}
-                      rowIndex={rowIndex}
-                      colIndex={colIndex}
-                      onClick={() => handleMeanClick(value, rowIndex, colIndex)}
-                    >
-                      {value.toFixed(4)}
-                    </TdTableSimilarity>
-                  ))}
+                  {row.map((value, colIndex) => {
+                    return (
+                      <TdTableSimilarity
+                        key={colIndex}
+                        rowIndex={rowIndex}
+                        colIndex={colIndex}
+                        onClick={() => handleMeanClick(value, rowIndex, colIndex)}
+                      >
+                        {value.toFixed(4)}
+                      </TdTableSimilarity>
+                    )
+                  }
+                  )}
                 </TrTableSimilarity>
               ))}
             </tbody>
