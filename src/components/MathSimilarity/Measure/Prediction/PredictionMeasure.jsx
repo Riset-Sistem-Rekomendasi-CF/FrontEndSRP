@@ -1,21 +1,16 @@
 import mathjaxConfig from "../../../../mathjax-config";
-import ModalPredictionMeasure from "./ModalPredictionMeasure";
 import { getFormulaPrediction } from "../Formula/FormulaPrediction";
 import { FunctionMeasureDropdown } from "../../DropdownFunction/FunctionMeasureDropdown";
-import React, { memo, useState } from "react";
+import React, { useState } from "react";
 import { AllSimilaritas, getInitialData } from "../../../../api/getDataSet";
 import { MathJaxContext } from "better-react-mathjax";
 import { transposeMatrix } from "../../../../helper/helper";
 import InfoIcon from "@mui/icons-material/Info";
-import PrediksiGif from "../../../../assets/vidioAsset/prediksiGIf.gif";
-import { Button, Input } from "@headlessui/react";
+import PrediksiGif from "../../../../assets/vidioAsset/tutorial_asset/prediksi.gif";
 import MathJaxComponent from "../../../../MathJaxComponent";
-import ScatterPlot, { VisualChartJs } from "../../../Graph/ChartJsPlot";
-import Spinner from "../../../Navigate/Spinner";
 import { TopNPrediction } from "./TopNPrediction";
 import { TutorialModal } from "../../../modal/TutorialModal";
 import { PredictionSteps } from "./PredictionSteps";
-import { RenderTabelPrediksi } from "./RenderTabelPrediksi";
 import { PredictionTopKValidate } from "./PredictionTopKValidate";
 import { DividerHeadingBlue } from "../../../tabelData/DividerHeading";
 
@@ -101,11 +96,6 @@ export default function PredictionMeasure({
     setTopSimilarities(null);
   };
 
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  // Fungsi untuk toggle teks
-  const toggleText = () => setIsExpanded(!isExpanded);
-
   const [showPrediciton, setShowPrediction] = useState(false);
   const toggleShowPrediction = () => setShowPrediction((prev) => !prev);
   return (
@@ -149,7 +139,7 @@ export default function PredictionMeasure({
         </div>
       </MathJaxContext>
       <FunctionMeasureDropdown DetailRumus={formula.detail_formula} />
-      <div className="px-4 sm:px-8 md:px-10 py-5">
+      <div className="px-2 sm:px-4 md:px-6">
         <DividerHeadingBlue
           show={showPrediciton}
           onClick={toggleShowPrediction}

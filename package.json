@@ -16,6 +16,7 @@
     "axios": "^1.7.7",
     "better-react-mathjax": "^2.0.4-beta1",
     "chart.js": "^4.4.7",
+    "chartjs-chart-matrix": "^3.0.0",
     "chartjs-plugin-annotation": "^3.1.0",
     "chartjs-plugin-datalabels": "^2.2.0",
     "chartjs-plugin-zoom": "^2.2.0",

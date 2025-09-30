@@ -11,18 +11,21 @@ export const MeanCenteredIndex = ({
   colIndex,
   opsional,
   similarity,
+  isNotation,
 }) => {
   const expression = getFormulaMeanCenteredIndex(
     rowIndex,
     colIndex,
     opsional,
-    similarity
+    similarity,
+    isNotation
   );
   const getDetailFormulaindex = getDetailFormulaMeanCenterdIndex(
     rowIndex,
     colIndex,
     opsional,
-    similarity
+    similarity,
+    isNotation
   );
 
   // console.log("exp1", expression);

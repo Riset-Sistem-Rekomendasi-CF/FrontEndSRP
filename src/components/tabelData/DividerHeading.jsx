@@ -26,7 +26,8 @@ export const DividerHeading = ({ text }) => (
 );
 
 export const DividerHeadingBlue = ({ text, onClick, show }) => (
-  <div className="flex items-center w-full my-4">
+  <div className="flex items-center w-full my-4 flex-wrap gap-y-2">
+    {/* Kiri */}
     <div
       className="flex-grow border-t border-purple-btn-primary"
       style={{
@@ -35,22 +36,25 @@ export const DividerHeadingBlue = ({ text, onClick, show }) => (
         borderSpacing: "10px",
       }}
     ></div>
+
+    {/* Tengah (Tombol Heading) */}
     <div
-      className="mx-4 px-4 py-2 text-purple-btn-primary font-semibold font-poppins bg-white rounded-full border border-gray-400 cursor-pointer hover:bg-green-50"
+      className="mx-2 sm:mx-4 px-3 sm:px-4 py-1 sm:py-2 text-purple-btn-primary font-semibold font-poppins bg-white rounded-full border border-gray-400 cursor-pointer hover:bg-green-50 text-center"
       onClick={onClick}
     >
-      <div className="flex items-center gap-2 flex-wrap font-poppins">
-        <span className="text-sm sm:text-base md:text-lg lg:text-xl break-words leading-snug">
-          {show ? `Tutup Hasil ${text}` : `Tampilkan Hasil ${text}`}
+      <div className="flex items-center justify-center gap-1 sm:gap-2 flex-wrap min-w-0">
+        <span className="text-xs sm:text-sm md:text-base leading-snug break-words text-center">
+          {show ? `Tutup ${text}` : `Tampilkan  ${text}`}
         </span>
         {show ? (
-          <ExpandLessIcon className="inline-block align-middle ml-1 text-base sm:text-lg md:text-xl" />
+          <ExpandLessIcon className="text-sm sm:text-base md:text-lg" />
         ) : (
-          <ExpandMoreIcon className="inline-block align-middle ml-1 text-base sm:text-lg md:text-xl" />
+          <ExpandMoreIcon className="text-sm sm:text-base md:text-lg" />
         )}
       </div>
     </div>
 
+    {/* Kanan */}
     <div
       className="flex-grow border-t border-purple-btn-primary"
       style={{

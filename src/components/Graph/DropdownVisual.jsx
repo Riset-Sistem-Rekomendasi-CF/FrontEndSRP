@@ -8,10 +8,16 @@ import { ScatterPlotData } from "./SccaterPlotVisual";
 import ChartJsScatter2D from "./ChartJsPlot2D";
 import GrafikForChart from "../../assets/images/grafikDropdown.svg";
 import { OnlyDivider } from "../tabelData/DividerHeading";
+import ChartJsHeatmap from "./ChartJsHeatmap";
 
 const MemoizedHeatMap = memo(({ result, opsional, similarity }) => {
   return (
-    <HeatMapVisualDataSim
+    // <HeatMapVisualDataSim
+    //   result={result}
+    //   opsional={opsional}
+    //   similarity={similarity}
+    // />
+    <ChartJsHeatmap
       result={result}
       opsional={opsional}
       similarity={similarity}

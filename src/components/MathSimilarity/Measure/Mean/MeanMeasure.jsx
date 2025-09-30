@@ -7,7 +7,7 @@ import mathjaxConfig from "../../../../mathjax-config";
 import { FunctionMeasureDropdown } from "../../DropdownFunction/FunctionMeasureDropdown";
 import { AllSimilaritas } from "../../../../api/getDataSet";
 import InfoIcon from "@mui/icons-material/Info";
-import MeanGif from "../../../../assets/vidioAsset/MeanGif.gif";
+import MeanGif from "../../../../assets/vidioAsset/tutorial_asset/mean-rating.gif";
 import MathJaxComponent from "../../../../MathJaxComponent";
 import Spinner from "../../../Navigate/Spinner";
 import { TutorialModal } from "../../../modal/TutorialModal";
@@ -172,7 +172,7 @@ export default function MeanMeasure({
 
         <FunctionMeasureDropdown DetailRumus={meanFormula.formula_detail} />
 
-        <div className="px-4 sm:px-8 md:px-10 py-5 ">
+        <div className="px-2 sm:px-4 md:px-6">
           <DividerHeadingBlue
             show={showMean}
             onClick={toggleShowMean}

@@ -8,7 +8,7 @@ export const Explanation = ({ closePairs, opsional }) => {
   const [selectedPair, setSelectedPair] = useState(null);
 
   return (
-    <div className="text-justify max-w-screen-md mx-auto px-4">
+    <div className="mt-6 text-justify max-w-xl w-full px-4 sm:px-0">
       <h2 className="text-xl text-center font-bold mb-3">
         Cara Membaca Scatter Plot 2D
       </h2>
@@ -44,16 +44,16 @@ export const Explanation = ({ closePairs, opsional }) => {
             untuk mereduksi dimensi data dan memetakan objek ke ruang 2D sambil
             mempertahankan jarak antar objek sebanyak mungkin.
           </p>
-          <div className="mb-4">
+          <div className=" overflow-x-auto whitespace-nowrap overflow-y-hidden mb-4">
             <MathJaxContext config={mathjaxConfig}>
-              <div className="text-base font-medium text-center">
-                <MathJax className="text-base font-medium">
+              <div className="text-[0.75rem] sm:text-sm md:text-base text-center">
+                <MathJax className="text-[0.75rem] sm:text-sm md:text-base">
                   {"$$ d(A, B) = \\sqrt{(x_A - x_B)^2 + (y_A - y_B)^2} $$"}
                 </MathJax>
               </div>
 
               <p className="mt-1 text-sm text-center">
-                <MathJax className="text-base font-medium">
+                <MathJax className="text-[0.75rem] sm:text-sm md:text-base">
                   {/* keteranganm */}
                   {"$$ \\text{Keterangan:} $$"}
                   {
@@ -83,17 +83,23 @@ export const Explanation = ({ closePairs, opsional }) => {
               Maka jarak Euclidean antara titik A dan B adalah:
             </p>
             <div className="text-sm text-center">
-              <MathJax className="text-sm">
-                {"$$ d(A, B) = \\sqrt{(1.0 - 1.3)^2 + (2.0 - 2.4)^2} $$"}
-              </MathJax>
-              <MathJax className="text-sm">
-                {"$$ = \\sqrt{(-0.3)^2 + (-0.4)^2} $$"}
-              </MathJax>
-              <MathJax className="text-sm">
-                {"$$ = \\sqrt{0.09 + 0.16} $$"}
-              </MathJax>
-              <MathJax className="text-sm">{"$$ = \\sqrt{0.25} $$"}</MathJax>
-              <MathJax className="text-sm">{"$$ = 0.5 $$"}</MathJax>
+              <div className="overflow-x-auto whitespace-nowrap overflow-y-hidden mb-4">
+                <MathJax className="text-[0.75rem] sm:text-sm md:text-base">
+                  {"$$ d(A, B) = \\sqrt{(1.0 - 1.3)^2 + (2.0 - 2.4)^2} $$"}
+                </MathJax>
+                <MathJax className="text-[0.75rem] sm:text-sm md:text-base">
+                  {"$$ = \\sqrt{(-0.3)^2 + (-0.4)^2} $$"}
+                </MathJax>
+                <MathJax className="text-[0.75rem] sm:text-sm md:text-base">
+                  {"$$ = \\sqrt{0.09 + 0.16} $$"}
+                </MathJax>
+                <MathJax className="text-[0.75rem] sm:text-sm md:text-base">
+                  {"$$ = \\sqrt{0.25} $$"}
+                </MathJax>
+                <MathJax className="text-[0.75rem] sm:text-sm md:text-base">
+                  {"$$ = 0.5 $$"}
+                </MathJax>
+              </div>
 
               <p className="mt-1 text-sm">
                 Karena jarak 0.5 ini sama dengan threshold, maka titik A dan B
@@ -122,7 +128,10 @@ export const Explanation = ({ closePairs, opsional }) => {
             >
               <span className="flex-1 min-w-0">
                 <b>{pair.label1}</b> dekat dengan <b>{pair.label2}</b> karena
-                jaraknya hanya <b>{pair.distance}</b>
+                jaraknya{" "}
+                <span className="bg-green-200 p-1 rounded-full font-poppins font-semibold text-center">
+                  {pair.distance}
+                </span>
               </span>
               <button
                 className="flex items-center gap-1 text-sm text-gray-700 bg-white/70 hover:bg-white/90 px-2 py-1 rounded-full shadow-sm ml-4 flex-shrink-0"
@@ -131,15 +140,19 @@ export const Explanation = ({ closePairs, opsional }) => {
                 }}
               >
                 <ZoomOutMapIcon fontSize="small" />
-                <span>Lihat Detail</span>
+                <span className="hidden sm:inline">Lihat Detail</span>
               </button>
             </li>
           ))}
         </ul>
       </div>
       {selectedPair && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 overflow-y-auto">
-          <div className="bg-white rounded-lg shadow-lg p-8 w-full sm:w-11/12 md:w-3/4 lg:w-2/3 max-w-6xl mx-4 relative">
+        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-start sm:items-center pt-6 sm:pt-0 z-50 overflow-y-auto">
+          <div
+            className="bg-white p-4 sm:p-6 rounded-lg shadow-lg 
+            w-full max-w-4xl 
+            max-h-[90vh] overflow-y-auto mt-6 ml-4 mr-4 relative"
+          >
             {/* Tombol Close */}
             <button
               className="absolute top-2 right-3 text-gray-500 hover:text-gray-700 text-xl font-bold"
@@ -165,9 +178,12 @@ export const Explanation = ({ closePairs, opsional }) => {
                   {selectedPair.label2}: ({selectedPair.x2}, {selectedPair.y2})
                 </p>
 
-                <MathJax>
-                  {"$$ d = \\sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2} $$"}
-                </MathJax>
+                <div className="overflow-x-auto whitespace-nowrap">
+                  <MathJax>
+                    {"$$ d = \\sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2} $$"}
+                  </MathJax>
+                </div>
+
                 <div className="overflow-x-auto overflow-y-hidden max-w-full">
                   <MathJax>{`$$ = \\sqrt{(${selectedPair.x1.toFixed(
                     6
@@ -189,10 +205,11 @@ export const Explanation = ({ closePairs, opsional }) => {
                 <MathJax>{`$$ = ${selectedPair.distance} $$`}</MathJax>
 
                 <p
-                  className={`mt-2 font-medium max-w-fit items-center bg-blue-200 rounded-md shadow-sm p-2 text-center mx-auto ${selectedPair.distance <= 0.5
+                  className={`mt-2 font-medium max-w-fit items-center bg-blue-200 rounded-md shadow-sm p-2 text-center mx-auto ${
+                    selectedPair.distance <= 0.5
                       ? "text-green-700"
                       : "text-red-600"
-                    }`}
+                  }`}
                 >
                   {selectedPair.distance <= 0.5
                     ? "Karena jarak < 0.5, maka dianggap berdekatan."

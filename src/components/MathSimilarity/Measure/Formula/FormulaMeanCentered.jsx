@@ -120,7 +120,8 @@ export const getFormulaMeanCenteredValue = (
   result,
   opsional,
   selectedValue,
-  similarity
+  similarity,
+  isNotation
 ) => {
   const isAdjustedCosine = similarity === "Adjusted Cosine";
 
@@ -148,9 +149,17 @@ export const getFormulaMeanCenteredValue = (
   const indexLabel = `S_{(i_${i}, u_${u})}`;
 
   return {
-    formula: `\\[ ${indexLabel} = ${selectedValueRating} - ${selectedMeanValue?.toFixed(
-      2
-    )} \\]`,
+    // isNotation
+    formula: !isNotation
+      ? `\\[ ${indexLabel} = ${selectedValueRating} - ${selectedMeanValue?.toFixed(
+          2
+        )} \\]`
+      : `\\[ ${indexLabel} = r_{${
+          isAdjustedCosine ? `i_${i}, u_${u}` : `u_${i}, i_${u}`
+        }} - ${
+          isAdjustedCosine ? `\\mu_{Item(i_${i})}` : `\\mu_{User(u_${i})}`
+        } \\]`,
+
     result: `\\[ ${indexLabel} = ${selectedValue?.toFixed(2)} \\]`,
   };
 };

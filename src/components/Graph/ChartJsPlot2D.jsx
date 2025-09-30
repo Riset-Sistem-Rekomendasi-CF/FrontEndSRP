@@ -291,7 +291,7 @@ export default function ChartJsScatter2D({ result, opsional }) {
   return (
     <div className="flex flex-col my-5 font-poppins items-center relative">
       <div className="w-full h-96 p-4 rounded-lg mb-5 relative">
-        <div className="absolute top-1 right-1 z-10 flex gap-2 bg-white/80 rounded-lg p-1 mr-5">
+        <div className="absolute top-1 right-1 z-10 flex gap-1 sm:gap-2 bg-white/80 rounded-md p-1 sm:p-2 mr-2 sm:mr-5">
           {isZoomed && (
             <IconButton
               size="small"
@@ -303,18 +303,18 @@ export default function ChartJsScatter2D({ result, opsional }) {
                 pointerEvents: isZoomed ? "auto" : "none",
               }}
             >
-              <CenterFocusStrongIcon />
+              <CenterFocusStrongIcon fontSize="small" />
             </IconButton>
           )}
           <IconButton size="small" onClick={handleZoomIn} aria-label="Zoom In">
-            <ZoomInIcon />
+            <ZoomInIcon fontSize="small" />
           </IconButton>
           <IconButton
             size="small"
             onClick={handleZoomOut}
             aria-label="Zoom Out"
           >
-            <ZoomOutIcon />
+            <ZoomOutIcon fontSize="small" />
           </IconButton>
         </div>
 

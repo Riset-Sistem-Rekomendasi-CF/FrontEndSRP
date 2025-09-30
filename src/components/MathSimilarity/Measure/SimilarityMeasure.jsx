@@ -7,7 +7,7 @@ import { getFormulaSimilarity } from "./Formula/FormulaSimilarity.jsx";
 import ModalSimilarity from "./ModalSimilarityMeasure.jsx";
 import DropdownWithDisplay from "../../Graph/DropdownVisual";
 import InfoIcon from "@mui/icons-material/Info";
-import simGif from "../../../assets/vidioAsset/simGif.gif";
+import simGif from "../../../assets/vidioAsset/tutorial_asset/similaritas.gif";
 import MathJaxComponent from "../../../MathJaxComponent.js";
 import Spinner from "../../Navigate/Spinner.jsx";
 import { TutorialModal } from "../../modal/TutorialModal.jsx";
@@ -215,7 +215,7 @@ export default function SimilarityMeasure({
 
       <FunctionMeasureDropdown DetailRumus={FormulaSimilarity.detail_formula} />
 
-      <div className="px-4 sm:px-8 md:px-10 py-5">
+      <div className="px-2 sm:px-4 md:px-6">
         <DividerHeadingBlue
           show={showSimilarity}
           onClick={toogleShowSimilarity}

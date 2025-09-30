@@ -4,6 +4,7 @@ import * as d3 from "d3";
 export default function HeatMapVisualDataSim({ opsional, result, similarity }) {
   const RenderingHeatMap = () => {
     const similarityDataHeatMap = result["similarity"];
+    console.log("similarityDataHeatMap", similarityDataHeatMap);
 
     useEffect(() => {
       d3.select("#heatmap").select("svg").remove();

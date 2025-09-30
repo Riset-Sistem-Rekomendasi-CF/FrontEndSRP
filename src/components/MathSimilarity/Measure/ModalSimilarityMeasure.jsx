@@ -313,8 +313,8 @@ export default function ModalSimilarity({
                                       ? "s"
                                       : "r"}
                                     <sub>
-                                      {colIndex + 1}
                                       {rowIndex + 1}
+                                      {colIndex + 1}
                                     </sub>
                                   </span>
                                 )}

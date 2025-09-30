@@ -6,9 +6,8 @@ import { MathJaxContext } from "better-react-mathjax";
 import mathjaxConfig from "../../../../mathjax-config";
 import { AllSimilaritas } from "../../../../api/getDataSet";
 import { transposeMatrix } from "../../../../helper/helper";
-import { IconButton } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
-import centerdGif from "../../../../assets/vidioAsset/meanCenGif.gif";
+import centerdGif from "../../../../assets/vidioAsset/tutorial_asset/mean-centered.gif";
 import MathJaxComponent from "../../../../MathJaxComponent";
 import Spinner from "../../../Navigate/Spinner";
 import { TutorialModal } from "../../../modal/TutorialModal";
@@ -198,11 +197,11 @@ const MeanCenteredMeasure = ({
       <FunctionMeasureDropdown
         DetailRumus={FormulaMeanCentered.detail_formula}
       />
-      <div className="px-4 sm:px-8 md:px-10 py-5">
+      <div className="px-2 sm:px-4 md:px-6">
         <DividerHeadingBlue
           show={showMeanCentered}
           onClick={toggleShowMeaCentered}
-          text={`Mean-Centered Rating`}
+          text={`Mean-Centered`}
         />
 
         {/* modal mean centered */}
