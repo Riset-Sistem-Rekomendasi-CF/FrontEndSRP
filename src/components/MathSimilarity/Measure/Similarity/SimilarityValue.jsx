@@ -43,8 +43,8 @@ export const SimilarityValue = ({
       ? similarity === "Bhattacharyya Coefficient"
         ? data["probability"]
         : isItemBasedWithTranspose
-        ? transposeMatrix(data["mean-centered"])
-        : data["mean-centered"]
+          ? transposeMatrix(data["mean-centered"])
+          : data["mean-centered"]
       : dataModify;
 
   if (!dataSimilarity || dataSimilarity.length === 0) return null;
@@ -62,33 +62,37 @@ export const SimilarityValue = ({
   const numeratorArrayMeasure =
     similarity !== "Bhattacharyya Coefficient"
       ? sum(
-          dataSimilarityRow.map((val, idx) => {
-            const colVal = dataSimilarityCol[idx];
+        dataSimilarityRow.map((val, idx) => {
+          const colVal = dataSimilarityCol[idx];
+          console.log(`numerator ${val.toFixed(2)}*${colVal.toFixed(2)} = ${Number(val.toFixed(2)) * Number(colVal.toFixed(2))}`);
 
-            if (
-              typeof val === "number" &&
-              typeof colVal === "number" &&
-              !isNaN(val) &&
-              !isNaN(colVal)
-            ) {
-              return Number(val.toFixed(2)) * Number(colVal.toFixed(2));
-            } else {
-              console.warn(`❌ Invalid at index ${idx}:`, val, colVal);
-              return 0; // safe fallback
-            }
-          })
-        )
+          if (
+            typeof val === "number" &&
+            typeof colVal === "number" &&
+            !isNaN(val) &&
+            !isNaN(colVal)
+          ) {
+            return Number(val.toFixed(2)) * Number(colVal.toFixed(2));
+          } else {
+            console.warn(`❌ Invalid at index ${idx}:`, val, colVal);
+            return 0; // safe fallback
+          }
+        })
+      )
       : null;
+  console.log(`numerator result = ${numeratorArrayMeasure.toFixed(2)}`);
+
 
   const denominatorArrayMeasure =
     similarity !== "Bhattacharyya Coefficient"
-      ? Math.sqrt(sum(dataSimilarityRow.map((val, idx) => val ** 2))) *
-        Math.sqrt(sum(dataSimilarityCol.map((val, idx) => val ** 2)))
+      ? Math.sqrt(sum((similarity !== "Cosine" ? dataSimilarityRow : dataOnly[rowIndex]).map((val, idx) => val ** 2))) *
+      Math.sqrt(sum((similarity !== "Cosine" ? dataSimilarityCol : dataOnly[colIndex]).map((val, idx) => val ** 2)))
       : null;
 
   if (!dataSimilarityRow || !dataSimilarityCol) return null;
 
   const formula = FormulaSimilarityValue(
+    dataOnly,
     rowIndex,
     colIndex,
     dataSimilarityRow,
@@ -106,18 +110,18 @@ export const SimilarityValue = ({
     <>
       <MathJaxComponent>{formula.formula}</MathJaxComponent>
       {similarity !== "Bhattacharyya Coefficient" &&
-      (dataSimilarityCol.length !== 0 || dataSimilarityRow.length !== 0) ? (
+        (dataSimilarityCol.length !== 0 || dataSimilarityRow.length !== 0) ? (
         <MathJaxComponent>{formula.process_formula}</MathJaxComponent>
       ) : null}
       <MathJaxComponent>{formula.result_formula}</MathJaxComponent>
       {(intersection.length === 0 || numeratorArrayMeasure === 0) &&
-      (numeratorArrayMeasure !== null || denominatorArrayMeasure !== null) ? (
+        (numeratorArrayMeasure !== null || denominatorArrayMeasure !== null) ? (
         <Warm>
           {intersection.length === 0 &&
-          !(
-            similarity === "Bhattacharyya Coefficient" ||
-            similarity === "Vector Cosine"
-          ) ? (
+            !(
+              similarity === "Bhattacharyya Coefficient" ||
+              similarity === "Vector Cosine"
+            ) ? (
             <>Jika tidak ada index untuk dihitung</>
           ) : denominatorArrayMeasure === 0 ? (
             <>Jika penyebut menghasilkan 0 </>
@@ -126,7 +130,7 @@ export const SimilarityValue = ({
           )}{" "}
           maka, nilai Similaritas akan diisi dengan{" "}
           {similarity === "Bhattacharyya Coefficient" ||
-          similarity === "Vector Cosine"
+            similarity === "Vector Cosine"
             ? 0
             : -10}{" "}
           agar tidak mempengaruhi proses prediksi

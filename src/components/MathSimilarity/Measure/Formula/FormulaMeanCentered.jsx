@@ -98,15 +98,13 @@ export const getFormulaMeanCenteredIndex = (rowIndex, colIndex, opsional) => {
   switch (opsional) {
     case "user-based":
       return `\\[S_{(u_{${rowIndex + 1}}, i_{${colIndex + 1}})} = 
-      r_{u_{${rowIndex + 1}}, i_{${colIndex + 1}}} - \\mu_{User(u_{${
-        rowIndex + 1
-      }})}\\]`;
+      r_{u_{${rowIndex + 1}}, i_{${colIndex + 1}}} - \\mu_{User(u_{${rowIndex + 1
+        }})}\\]`;
 
     case "item-based":
       return `\\[S_{(i_{${rowIndex + 1}}, u_{${colIndex + 1}})} = 
-      r_{i_{${rowIndex + 1}}, u_{${colIndex + 1}}} - \\mu_{Item(i_{${
-        rowIndex + 1
-      }})}\\]`;
+      r_{i_{${rowIndex + 1}}, u_{${colIndex + 1}}} - \\mu_{Item(i_{${rowIndex + 1
+        }})}\\]`;
 
     default:
       return;
@@ -116,41 +114,37 @@ export const getFormulaMeanCenteredIndex = (rowIndex, colIndex, opsional) => {
 export const getFormulaMeanCenteredValue = (
   rowIndex,
   colIndex,
-  data,
+  dataOnly,
   result,
   opsional,
   selectedValue,
-  similarity
+  isNotation
 ) => {
-  const isAdjustedCosine = similarity === "Adjusted Cosine";
 
   // Koreksi indeks berdasarkan apakah data ditranspose
-  const i = isAdjustedCosine ? colIndex + 1 : rowIndex + 1;
-  const u = isAdjustedCosine ? rowIndex + 1 : colIndex + 1;
+  const i = colIndex + 1;
+  const u = rowIndex + 1;
+  // const i = isAdjustedCosine ? colIndex + 1 : rowIndex + 1;
+  // const u = isAdjustedCosine ? rowIndex + 1 : colIndex + 1;
 
   // Ambil nilai rating yang benar dari data (sudah ditranspose sebelumnya)
-  const selectedValueRating =
-    rowIndex !== null && colIndex !== null
-      ? isAdjustedCosine
-        ? data[colIndex][rowIndex] // data sudah ditranspose, jadi ambil dari data[col][row]
-        : data[rowIndex][colIndex]
-      : null;
+  const selectedValueRating = dataOnly[rowIndex][colIndex]
 
   // Ambil mean item jika Adjusted Cosine, lainnya default dari rowIndex
   const selectedMeanValue =
     rowIndex !== null && colIndex !== null
-      ? isAdjustedCosine
+      ? opsional == "item-based"
         ? result["mean-list"][colIndex] // mean item berdasarkan index i
         : result["mean-list"][rowIndex]
       : null;
 
   // Notasi rumus
-  const indexLabel = `S_{(i_${i}, u_${u})}`;
+  const indexLabel = `S_{${opsional.split("-")[0]}(${rowIndex},${colIndex})}`;
 
   return {
-    formula: `\\[ ${indexLabel} = ${selectedValueRating} - ${selectedMeanValue?.toFixed(
+    formula: !isNotation ? `\\[ ${indexLabel} = ${selectedValueRating} - ${selectedMeanValue?.toFixed(
       2
-    )} \\]`,
+    )} \\]` : `\\[ ${indexLabel} = r_{${rowIndex},${colIndex}} - \\mu_{${opsional.split("-")[0]}(${opsional === "user-based" ? rowIndex : colIndex})} \\]`,
     result: `\\[ ${indexLabel} = ${selectedValue?.toFixed(2)} \\]`,
   };
 };

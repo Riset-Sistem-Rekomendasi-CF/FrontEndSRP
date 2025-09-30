@@ -27,22 +27,14 @@ const ModalMeanCenteredMeasure = ({
     similarity === "Adjusted Cosine" ||
     (similarity !== "Adjusted Cosine" && opsional === "item-based");
 
-  const dataModify = shouldTranspose ? transposeMatrix(dataOnly) : dataOnly;
-
-  // const dataModify =
-  //   similarity === "Adjusted Cosine"
-  //     ? opsional === "user-based"
-  //       ? transposeMatrix(dataOnly)
-  //       : transposeMatrix(dataOnly)
-  //     : opsional === "user-based"
-  //     ? dataOnly
-  //     : transposeMatrix(dataOnly);
+  // const dataModify = shouldTranspose ? transposeMatrix(dataOnly) : dataOnly;
 
   // Safety check untuk selectedIndex
   const isValidIndex =
     Array.isArray(selectedIndex) && selectedIndex.length === 2;
 
-  const currentValue = dataModify[selectedIndex[0]][selectedIndex[1]];
+  const currentValue = dataOnly[selectedIndex[0]][selectedIndex[1]];
+  // const currentValue = dataModify[selectedIndex[0]][selectedIndex[1]];
 
   const toggleIsNotation = () => {
     setIsNotation(!isNotation);
@@ -123,7 +115,8 @@ const ModalMeanCenteredMeasure = ({
                       {opsional === "user-based" ? "U/I" : "I/U"}
                     </th>
                     {Array.from(
-                      { length: dataModify[0].length },
+                      { length: dataOnly[0].length },
+                      // { length: dataModify[0].length },
                       (_, index) => (
                         <th
                           key={index}
@@ -140,7 +133,8 @@ const ModalMeanCenteredMeasure = ({
                   </tr>
                 </thead>
                 <tbody>
-                  {dataModify.map((row, rowIndex) => (
+                  {/* {dataModify.map((row, rowIndex) => ( */}
+                  {dataOnly.map((row, rowIndex) => (
                     <tr key={rowIndex + "-data-body"}>
                       <td className="border border-black px-4 py-2 w-14 bg-gray-200">
                         {!funnyMode
@@ -165,11 +159,10 @@ const ModalMeanCenteredMeasure = ({
                         return (
                           <td
                             key={`${rowIndex}-${colIndex}`}
-                            className={`border border-black px-4 py-2 text-center w-14 ${
-                              value === 0 ? "bg-red-200" : ""
-                            } ${isSelected ? "bg-card_green_primary" : ""}`}
+                            className={`border border-black px-4 py-2 text-center w-14 ${value === 0 ? "bg-red-200" : ""
+                              } ${isSelected ? "bg-card_green_primary" : ""}`}
                           >
-                            {value?.toFixed ? value.toFixed(2) : value}
+                            {!isNotation ? (value?.toFixed ? value.toFixed(2) : value) : <><span className="italic font-serif">r<sub>{rowIndex + 1}{colIndex + 1}</sub></span></>}
                           </td>
                         );
                       })}
@@ -197,8 +190,8 @@ const ModalMeanCenteredMeasure = ({
                     const label = !funnyMode
                       ? index + 1
                       : (opsional === "user-based" ? columns : headers)?.[
-                          index
-                        ] ?? index + 1;
+                      index
+                      ] ?? index + 1;
 
                     const isSelected =
                       Array.isArray(selectedIndex) &&
@@ -213,9 +206,8 @@ const ModalMeanCenteredMeasure = ({
                           {label}
                         </td>
                         <td
-                          className={`border border-black px-4 py-2 w-20 text-center ${
-                            isSelected ? "bg-yellow-200" : ""
-                          }`}
+                          className={`border border-black px-4 py-2 w-20 text-center ${isSelected ? "bg-yellow-200" : ""
+                            }`}
                         >
                           <span
                             className="text-center"
@@ -297,12 +289,10 @@ const ModalMeanCenteredMeasure = ({
               <strong>
                 {" "}
                 {similarity === "Adjusted Cosine" && opsional === "user-based"
-                  ? `User-${selectedIndex[0] + 1} terhadap Item-${
-                      selectedIndex[1] + 1
-                    }`
-                  : `${capitalize(opsional.split("-")[0])}-${
-                      selectedIndex[0] + 1
-                    } terhadap ${opposite}-${selectedIndex[1] + 1}`}
+                  ? `User-${selectedIndex[0] + 1} terhadap Item-${selectedIndex[1] + 1
+                  }`
+                  : `${capitalize(opsional.split("-")[0])}-${selectedIndex[0] + 1
+                  } terhadap ${opposite}-${selectedIndex[1] + 1}`}
               </strong>{" "}
               pada data toy dataset di atas.
             </p>
@@ -311,12 +301,10 @@ const ModalMeanCenteredMeasure = ({
           <p className="text-base text-justify sm:text-md md:text-lg lg:text-xl xl:text-2xl font-bold text-gray-700 m-2 font-poppins">
             Hasil dari Mean-Centered rating dari{" "}
             {similarity === "Adjusted Cosine" && opsional === "user-based"
-              ? `User-${selectedIndex[0] + 1} terhadap Item-${
-                  selectedIndex[1] + 1
-                }`
-              : `${capitalize(opsional.split("-")[0])}-${
-                  selectedIndex[0] + 1
-                } terhadap ${opposite}-${selectedIndex[1] + 1}`}{" "}
+              ? `User-${selectedIndex[0] + 1} terhadap Item-${selectedIndex[1] + 1
+              }`
+              : `${capitalize(opsional.split("-")[0])}-${selectedIndex[0] + 1
+              } terhadap ${opposite}-${selectedIndex[1] + 1}`}{" "}
             yaitu ={" "}
             <span className="bg-green-100 rounded-md p-1 ">
               {selectedValue.toFixed(2)}
@@ -340,7 +328,7 @@ const ModalMeanCenteredMeasure = ({
 
           {currentValue !== 0 && (
             <div className="flex justify-center items-center flex-col px-2 sm:px-4">
-              {!isNotation && selectedIndex && (
+              {selectedIndex && (
                 <MeanCenteredIndex
                   rowIndex={selectedIndex[0]}
                   colIndex={selectedIndex[1]}
@@ -348,15 +336,16 @@ const ModalMeanCenteredMeasure = ({
                 />
               )}
 
-              {!isNotation && selectedIndex && (
+              {selectedIndex && (
                 <MeanCenteredValue
                   rowIndex={selectedIndex[0]}
                   colIndex={selectedIndex[1]}
-                  data={dataModify}
+                  dataOnly={dataOnly}
+                  // data={dataModify}
                   result={result}
                   opsional={opsional}
                   selectedValue={selectedValue}
-                  similarity={similarity}
+                  isNotation={isNotation}
                 />
               )}
             </div>

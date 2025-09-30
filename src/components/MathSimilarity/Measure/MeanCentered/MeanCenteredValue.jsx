@@ -4,20 +4,20 @@ import { getFormulaMeanCenteredValue } from "../Formula/FormulaMeanCentered";
 export const MeanCenteredValue = ({
   rowIndex,
   colIndex,
-  data,
+  dataOnly,
   result,
   opsional,
   selectedValue,
-  similarity,
+  isNotation,
 }) => {
   const expression = getFormulaMeanCenteredValue(
     rowIndex,
     colIndex,
-    data,
+    dataOnly,
     result,
     opsional,
     selectedValue,
-    similarity
+    isNotation
   );
 
   const fullFormula = `${expression.formula}`;
