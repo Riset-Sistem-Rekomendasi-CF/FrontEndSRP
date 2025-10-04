@@ -64,6 +64,7 @@ export const SimilarityValue = ({
       ? sum(
           dataSimilarityRow.map((val, idx) => {
             const colVal = dataSimilarityCol[idx];
+            // console.log(`numerator ${val.toFixed(2)}*${colVal.toFixed(2)} = ${Number(val.toFixed(2)) * Number(colVal.toFixed(2))}`);
 
             if (
               typeof val === "number" &&
@@ -79,16 +80,32 @@ export const SimilarityValue = ({
           })
         )
       : null;
+  // console.log(`numerator result = ${numeratorArrayMeasure.toFixed(2)}`);
 
   const denominatorArrayMeasure =
     similarity !== "Bhattacharyya Coefficient"
-      ? Math.sqrt(sum(dataSimilarityRow.map((val, idx) => val ** 2))) *
-        Math.sqrt(sum(dataSimilarityCol.map((val, idx) => val ** 2)))
+      ? Math.sqrt(
+          sum(
+            (similarity !== "Cosine"
+              ? dataSimilarityRow
+              : dataOnly[rowIndex]
+            ).map((val, idx) => val ** 2)
+          )
+        ) *
+        Math.sqrt(
+          sum(
+            (similarity !== "Cosine"
+              ? dataSimilarityCol
+              : dataOnly[colIndex]
+            ).map((val, idx) => val ** 2)
+          )
+        )
       : null;
 
   if (!dataSimilarityRow || !dataSimilarityCol) return null;
 
   const formula = FormulaSimilarityValue(
+    dataOnly,
     rowIndex,
     colIndex,
     dataSimilarityRow,

@@ -12,16 +12,16 @@ import ChartJsHeatmap from "./ChartJsHeatmap";
 
 const MemoizedHeatMap = memo(({ result, opsional, similarity }) => {
   return (
-    // <HeatMapVisualDataSim
-    //   result={result}
-    //   opsional={opsional}
-    //   similarity={similarity}
-    // />
-    <ChartJsHeatmap
+    <HeatMapVisualDataSim
       result={result}
       opsional={opsional}
       similarity={similarity}
     />
+    // <ChartJsHeatmap
+    //   result={result}
+    //   opsional={opsional}
+    //   similarity={similarity}
+    // />
   );
 });
 

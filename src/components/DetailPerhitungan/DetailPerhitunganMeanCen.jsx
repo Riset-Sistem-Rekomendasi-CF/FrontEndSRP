@@ -9,6 +9,7 @@ import mathjaxConfig from "../../mathjax-config";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import InfoIcon from "@mui/icons-material/Info";
 import { DividerHeading, OnlyDivider } from "../tabelData/DividerHeading";
+import { transposeMatrix } from "../../helper/helper";
 
 export default function DetailPerhitunganMeanCen() {
   const [stateData, setStateData] = useState(null);
@@ -40,14 +41,49 @@ export default function DetailPerhitunganMeanCen() {
     headers,
     columns,
     funnyMode,
+    similarity,
   } = stateData;
 
   const toggleIsNotation = () => setIsNotation((prev) => !prev);
   const current = opsional.split("-")[0];
   const opposite = current === "user" ? "item" : "user";
-  const dataModify = dataOnly;
-  const currentValue = dataModify[selectedIndex[0]][selectedIndex[1]];
+  const shouldTranspose =
+    (similarity === "Adjusted Cosine" && opsional !== "user-based") ||
+    ((similarity === "Cosine" ||
+      similarity === "Pearson Correlation Coefficient" ||
+      similarity === "Bhattacharyya Coefficient") &&
+      opsional === "item-based");
 
+  const dataModify = shouldTranspose ? transposeMatrix(dataOnly) : dataOnly;
+
+  const currentValue = dataOnly[selectedIndex[0]][selectedIndex[1]];
+
+  const opsionalModify =
+    opsional === "user-based" && similarity === "Adjusted Cosine"
+      ? "item-based"
+      : opsional;
+
+  const isMeanUserBased = opsionalModify === "user-based";
+
+  const isRatingHeader =
+    opsional === "user-based"
+      ? similarity === "Adjusted Cosine"
+        ? "I/U"
+        : "U/I"
+      : "I/U";
+
+  const isValidIndex =
+    Array.isArray(selectedIndex) && selectedIndex.length === 2;
+
+  const meanList =
+    similarity === "Adjusted Cosine"
+      ? result["mean-list-brother"]
+      : result["mean-list"];
+  // debug
+  // console.log(opsional, similarity);
+  // console.log("israting header", isRatingHeader);
+  // console.log("opsional modify", opsionalModify);
+  // console.log("meanllist", meanList);
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 p-4 max-w-full">
       <h2 className="text-2xl font-bold text-center text-gray-800 mb-8 shadow-sm">
@@ -76,9 +112,9 @@ export default function DetailPerhitunganMeanCen() {
               <tr className="bg-gray-200">
                 <th className="border border-black px-4 py-2">
                   {" "}
-                  {opsional === "user-based" ? "U/I" : "I/U"}
+                  {isRatingHeader}
                 </th>
-                {dataOnly[0].map((_, index) => (
+                {dataModify[0].map((_, index) => (
                   <th key={index} className="border border-black px-4 py-2">
                     {!isNotation ? (
                       funnyMode ? (
@@ -96,32 +132,42 @@ export default function DetailPerhitunganMeanCen() {
               </tr>
             </thead>
             <tbody>
-              {dataOnly.map((row, rowIndex) => (
+              {dataModify.map((row, rowIndex) => (
                 <tr key={rowIndex}>
                   <td className="border border-black bg-gray-100 px-4 py-2">
-                    {!isNotation ? (
-                      funnyMode ? (
-                        columns[rowIndex]
-                      ) : (
-                        rowIndex + 1
-                      )
-                    ) : (
-                      <span className="font-serif">
-                        u<sub>{rowIndex + 1}</sub>
-                      </span>
-                    )}
+                    {!funnyMode
+                      ? rowIndex + 1
+                      : columns?.[rowIndex] || rowIndex + 1}
                   </td>
                   {row.map((value, colIndex) => {
                     const isSelected =
-                      selectedIndex[0] === rowIndex &&
-                      selectedIndex[1] === colIndex;
+                      isValidIndex &&
+                      ((similarity === "Adjusted Cosine" &&
+                        ((opsional === "user-based" &&
+                          rowIndex === selectedIndex[0] &&
+                          colIndex === selectedIndex[1]) ||
+                          (opsional === "item-based" &&
+                            rowIndex === selectedIndex[1] &&
+                            colIndex === selectedIndex[0]))) ||
+                        (similarity !== "Adjusted Cosine" &&
+                          ((opsional === "user-based" &&
+                            rowIndex === selectedIndex[0] &&
+                            colIndex === selectedIndex[1]) ||
+                            (opsional === "item-based" &&
+                              rowIndex === selectedIndex[1] &&
+                              colIndex === selectedIndex[0]))));
+
                     const cellClass = `border border-black px-4 py-2 ${
                       value === 0 ? "bg-red-200" : ""
                     } ${isSelected ? "bg-card_green_primary" : ""}`;
                     return (
-                      <td key={colIndex} className={cellClass}>
+                      <td key={`${rowIndex}-${colIndex}`} className={cellClass}>
                         {!isNotation ? (
-                          value
+                          value?.toFixed ? (
+                            value.toFixed(2)
+                          ) : (
+                            value
+                          )
                         ) : (
                           <span className="font-serif">
                             r
@@ -145,7 +191,7 @@ export default function DetailPerhitunganMeanCen() {
             <thead>
               <tr className="bg-gray-200">
                 <th className="border border-black px-4 py-2 w-10 italic">
-                  {opsional === "user-based" ? "U" : "I"}
+                  {isMeanUserBased ? "U" : "I"}
                 </th>
                 <th className="border border-black italic px-4 py-2 w-14 font-serif">
                   μ
@@ -153,48 +199,53 @@ export default function DetailPerhitunganMeanCen() {
               </tr>
             </thead>
             <tbody>
-              {result["mean-list"].map((mean, index) => (
-                <tr key={index + "mean-body"}>
-                  <td className="border border-black px-4 py-2 w-14">
-                    {!funnyMode
-                      ? index + 1
-                      : (opsional === "user-based" ? columns : headers)[index]}
-                  </td>
-                  <td
-                    className={`border border-black px-4 py-2 w-20 text-center
-                                     ${
-                                       selectedIndex[
-                                         opsional === "user-based" ? 0 : 1
-                                       ] === index
-                                         ? "bg-yellow-200"
-                                         : ""
-                                     }`}
-                  >
-                    <span
-                      className="text-center"
-                      title={
-                        isNotation
-                          ? mean.toFixed
-                            ? mean.toFixed(0)
-                            : mean
-                          : `µ${index + 1}`
-                      }
+              {meanList?.map((mean, index) => {
+                const label = !funnyMode
+                  ? index + 1
+                  : (isMeanUserBased ? columns : headers)?.[index] ?? index + 1;
+
+                const isSelected =
+                  Array.isArray(selectedIndex) &&
+                  selectedIndex.length === 2 &&
+                  (shouldTranspose
+                    ? selectedIndex[1] === index
+                    : selectedIndex[0] === index);
+
+                return (
+                  <tr key={`mean-body-${index}`}>
+                    <td className="border border-black px-4 py-2 w-14">
+                      {label}
+                    </td>
+                    <td
+                      className={`border border-black px-4 py-2 w-20 text-center
+                                     ${isSelected ? "bg-yellow-200" : ""}`}
                     >
-                      {!isNotation ? (
-                        mean.toFixed ? (
-                          mean.toFixed(2)
+                      <span
+                        className="text-center"
+                        title={
+                          isNotation
+                            ? mean.toFixed
+                              ? mean.toFixed(0)
+                              : mean
+                            : `µ${index + 1}`
+                        }
+                      >
+                        {!isNotation ? (
+                          mean.toFixed ? (
+                            mean.toFixed(2)
+                          ) : (
+                            mean
+                          )
                         ) : (
-                          mean
-                        )
-                      ) : (
-                        <span className="font-serif">
-                          μ<sub>{index + 1}</sub>
-                        </span>
-                      )}
-                    </span>
-                  </td>
-                </tr>
-              ))}
+                          <span className="font-serif">
+                            μ<sub>{index + 1}</sub>
+                          </span>
+                        )}
+                      </span>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
@@ -269,22 +320,26 @@ export default function DetailPerhitunganMeanCen() {
         <MathJaxContext options={mathjaxConfig}>
           {currentValue !== 0 && (
             <div className="flex justify-center items-center flex-col px-2 sm:px-4">
-              {!isNotation && selectedIndex && (
+              {selectedIndex && (
                 <MeanCenteredIndex
                   rowIndex={selectedIndex[0]}
                   colIndex={selectedIndex[1]}
                   opsional={opsional}
+                  similarity={similarity}
+                  isNotation={isNotation}
                 />
               )}
 
-              {!isNotation && selectedIndex && (
+              {selectedIndex && (
                 <MeanCenteredValue
                   rowIndex={selectedIndex[0]}
                   colIndex={selectedIndex[1]}
-                  data={dataModify}
+                  dataOnly={dataModify}
                   result={result}
                   opsional={opsional}
                   selectedValue={selectedValue}
+                  similarity={similarity}
+                  isNotation={isNotation}
                 />
               )}
             </div>

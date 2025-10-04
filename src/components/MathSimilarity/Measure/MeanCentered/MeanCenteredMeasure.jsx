@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import ModalMeanCenteredMeasure from "./ModalMeanCenteredMeasure";
 import { getFormulaMeanCentered } from "../Formula/FormulaMeanCentered";
 import { FunctionMeasureDropdown } from "../../DropdownFunction/FunctionMeasureDropdown";
@@ -6,6 +6,7 @@ import { MathJaxContext } from "better-react-mathjax";
 import mathjaxConfig from "../../../../mathjax-config";
 import { AllSimilaritas } from "../../../../api/getDataSet";
 import { transposeMatrix } from "../../../../helper/helper";
+import { IconButton } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import centerdGif from "../../../../assets/vidioAsset/tutorial_asset/mean-centered.gif";
 import MathJaxComponent from "../../../../MathJaxComponent";
@@ -44,21 +45,20 @@ const MeanCenteredMeasure = ({
 
   const { result } = AllSimilaritas(data, similarity);
 
-  const dataModify =
-    similarity === "Adjusted Cosine"
-      ? opsional === "user-based"
-        ? transposeMatrix(dataOnly)
-        : transposeMatrix(dataOnly)
-      : opsional === "user-based"
-      ? dataOnly
-      : transposeMatrix(dataOnly);
-
   const opsionalModify =
     similarity === "Adjusted Cosine"
       ? opsional === "item-based"
         ? "user-based"
         : "item-based"
       : opsional;
+
+  // const opsionalModify =
+  //   opsional === "user-based"
+  //     ? similarity === "Adjusted Cosine"
+  //       ? "user-based"
+  //       : "item-based"
+  //     : opsional;
+
   const FormulaMeanCentered = getFormulaMeanCentered(opsionalModify);
 
   const RenderTabelMeanCentered = () => {
@@ -70,21 +70,10 @@ const MeanCenteredMeasure = ({
       );
     }
 
-    const resultModify =
-      similarity === "Adjusted Cosine"
-        ? opsional === "user-based"
-          ? result["mean-centered"]
-          : transposeMatrix(result["mean-centered"])
-        : opsional === "user-based"
-        ? result["mean-centered"]
-        : transposeMatrix(result["mean-centered"]);
-
-    // const numberOfColumns = resultModify[0].length; // Ambil jumlah kolom dari baris pertama
     const numberOfColumns =
-      resultModify && resultModify[0] ? resultModify[0].length : 0;
-    console.log("result:", result);
-    console.log("result[mean-centered]:", result["mean-centered"]);
-    console.log("resultModify:", resultModify);
+      result["mean-centered"] && result["mean-centered"][0]
+        ? result["mean-centered"][0].length
+        : 0;
 
     return (
       <div className="flex justify-center mt-4">
@@ -109,7 +98,8 @@ const MeanCenteredMeasure = ({
               </tr>
             </thead>
             <tbody>
-              {resultModify.map((row, rowIndex) => (
+              {/* {resultModify.map((row, rowIndex) => ( */}
+              {result["mean-centered"].map((row, rowIndex) => (
                 <tr key={rowIndex}>
                   {/* Kolom pertama (U/I) dengan padding dan lebar responsif */}
                   <td className="border border-black px-4 py-2 bg-gray-200 text-xs sm:text-sm md:text-base w-1/6 min-w-[80px]">
@@ -117,10 +107,11 @@ const MeanCenteredMeasure = ({
                   </td>
 
                   {row.map((value, colIndex) => {
-                    const OriginalValue =
-                      opsional === "user-based"
-                        ? dataOnly[rowIndex][colIndex]
-                        : dataOnly[colIndex][rowIndex];
+                    const OriginalValue = dataOnly[rowIndex][colIndex];
+                    // const OriginalValue =
+                    //   opsional === "user-based"
+                    //     ? dataOnly[rowIndex][colIndex]
+                    //     : dataOnly[colIndex][rowIndex];
 
                     const IsZero = OriginalValue === 0;
 

@@ -325,7 +325,7 @@ export default function ChartJsScatter2D({ result, opsional }) {
           ref={chartRef}
         />
       </div>
-      <Explanation closePairs={closePairs} opsional={opsional} />
+      {/* <Explanation closePairs={closePairs} opsional={opsional} /> */}
     </div>
   );
 }

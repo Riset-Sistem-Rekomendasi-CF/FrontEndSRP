@@ -35,6 +35,7 @@ import DetailPageBox from "../detailPageView/DetailPageBox.jsx";
 import Navbar from "../../components/Navigate/Navbar/Navbar.jsx";
 import { useExplanationModal } from "../../components/hooks/useExplanationModal.jsx";
 import { ModalTutorialYoutube } from "../../components/modal/ModalTutorialYoutube.jsx";
+import { Helmet } from "react-helmet";
 // import Cookies from "js-cookie";
 
 function Eksplorasi() {
@@ -119,6 +120,32 @@ function Eksplorasi() {
   return (
     <>
       <div>
+        <Helmet>
+          <title>KoalaERS-AI | Eksplorasi Fungsi Similaritas</title>
+          <meta
+            name="description"
+            content="Eksplorasi untuk menghitung fungsi similaritas pada sistem rekomendasi berbasis collaborative filtering. Tutorial interaktif dan mudah dipahami."
+          />
+          <meta
+            name="keywords"
+            content="tutorial, sistem rekomendasi, fungsi similaritas, collaborative filtering, mean rating, cosine, PCC"
+          />
+          <meta name="author" content="KoalaERS-AI Team" />
+          <meta
+            property="og:title"
+            content="KoalaERS-AI | Eksplorasi Fungsi Similaritas"
+          />
+          <meta
+            property="og:description"
+            content="Eksplorasi interaktif untuk memahami metode perhitungan sistem rekomendasi."
+          />
+          <meta property="og:image" content="%PUBLIC_URL%/Frame%201.png" />
+          <meta property="og:type" content="website" />
+          <meta
+            property="og:url"
+            content="https://koalaers.trunojoyoan.com/eksplorasi"
+          />
+        </Helmet>
         <Navbar />
         <div>
           {showToast && (

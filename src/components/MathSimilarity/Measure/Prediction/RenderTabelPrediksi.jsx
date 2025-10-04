@@ -34,7 +34,7 @@ export const RenderTabelPrediksi = memo(
     if (!result || !result["prediction"]) {
       return <Spinner />;
     }
-    console.log("K yang digunakan:", kValue); // Harusnya bukan 2 kalau sudah submit
+    // console.log("K yang digunakan:", kValue); // Harusnya bukan 2 kalau sudah submit
 
     return (
       <div className="flex justify-center mt-4">

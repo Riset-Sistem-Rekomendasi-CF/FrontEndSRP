@@ -27,7 +27,7 @@ export default function ModalMean({
 
   // data modify
   const modifiedData = dataModify(data, similarity, opsional);
-  console.log("modified data", modifiedData);
+  // console.log("modified data", modifiedData);
 
   const toggleIsNotation = () => {
     setIsNotation(!isNotation);

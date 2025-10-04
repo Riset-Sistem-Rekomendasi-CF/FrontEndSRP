@@ -148,14 +148,14 @@ export const TopNPrediction = ({
 
   return (
     <div>
-      <div id="topN-section" className="flex items-center my-5">
-        <div className="border-l-4 border-card_blue_primary h-10 mr-4" />
-        <h1 className="font-poppins text-start text-xl font-semibold text-black">
+      <div id="topN-section" className="flex items-center my-4 md:my-5">
+        <div className="border-l-4 border-card_blue_primary h-8 sm:h-10 mr-2 sm:mr-4" />
+        <h1 className="font-poppins text-start text-lg sm:text-xl font-semibold text-black">
           Menghasilkan Top-N Rekomendasi
         </h1>
       </div>
-      <div className="text-start">
-        <p className="text-gray-700 font-medium ml-5 text-justify font-poppins">
+      <div className="text-start px-4 sm:px-5">
+        <p className="text-gray-700 font-medium text-justify font-poppins">
           Rekomendasi Top-N untuk user target dihasilkan dengan cara mengurutkan
           nilai prediksi Rating dari user target terhadap daftar item yang belum
           diberikan rating.
@@ -165,14 +165,14 @@ export const TopNPrediction = ({
           tau item apa saja yang akan direkomendasikan.
         </p>
         {/* user bisa memilih berapa top-n yang ingin */}
-        <p className="font-bold  mt-2 ml-5 text-justify font-poppins">
+        <p className="font-bold mt-2 text-justify font-poppins">
           Pengguna dapat memilih berapa banyak rekomendasi item Top-N yang akan
           ditampilkan dari user target. Tetapi tidak boleh melebihi dari user
           yang belum memberikan rating
         </p>
 
         <MathJaxContext options={mathjaxConfig}>
-          <div className="flex flex-col sm:flex-row my-5 pl-5">
+          <div className="flex flex-col sm:flex-row my-5 sm:pl-5">
             <div className="border-2 border-black rounded-lg w-full sm:w-fit overflow-x-auto overflow-y-hidden sm:overflow-visible px-2 py-2 sm:px-4 sm:py-3 mx-auto sm:mx-0">
               <div className="text-[0.75rem] sm:text-sm md:text-base leading-[1.4] text-center sm:text-left">
                 <MathJaxComponent>{formula.TopN}</MathJaxComponent>
@@ -187,10 +187,10 @@ export const TopNPrediction = ({
 
         <FunctionMeasureDropdown DetailRumus={formula.detailTopN_formula} />
 
-        <div className="m-5 bg-green-200 rounded-md shadow-sm border border-black p-2">
+        <div className="my-5 mx-2 sm:mx-5 bg-green-200 rounded-md shadow-sm border border-black p-3 sm:p-4">
           <div className="flex flex-col md:flex-row md:items-end justify-center gap-4 ">
             {/* Dropdown untuk memilih user */}
-            <div className="w-full max-w-xs">
+            <div className="w-full md:max-w-xs">
               <label
                 htmlFor="user-dropdown"
                 className="font-semibold text-base mb-1 block text-gray-800 font-poppins"
@@ -218,7 +218,7 @@ export const TopNPrediction = ({
             </div>
 
             {/* Input untuk jumlah Top-N */}
-            <div className="w-full max-w-xs">
+            <div className="w-full md:max-w-xs">
               <label
                 htmlFor="top-n-dropdown"
                 className="font-semibold text-base mb-1 block text-gray-800"
@@ -241,21 +241,21 @@ export const TopNPrediction = ({
           {selectedUserTopN !== null && (
             <div className="mt-4 flex justify-center">
               <div className="w-full max-w-4xl">
-                <p className="font-semibold text-lg sm:text-xl mt-5 font-poppins ">
+                <p className="font-semibold text-base sm:text-lg md:text-xl mt-5 font-poppins text-center">
                   Hasil Prediksi rating untuk user target {selectedUserTopN + 1}{" "}
                   :
                 </p>
-                <div className="overflow-x-auto shadow-md sm:rounded-lg">
-                  <table className="min-w-full mt-4 text-sm border-separate border-spacing-0 rounded-md shadow overflow-hidden">
+                <div className="overflow-x-auto shadow-md sm:rounded-lg mt-4">
+                  <table className="min-w-full text-sm border-separate border-spacing-0 rounded-md shadow overflow-hidden">
                     <thead>
                       <tr className="bg-purple-600 text-white font-poppins">
-                        <th className="px-4 py-2 border border-purple-500">
+                        <th className="px-2 sm:px-4 py-2 border border-purple-500">
                           Rank
                         </th>
-                        <th className="px-4 py-2 border border-purple-500">
+                        <th className="px-2 sm:px-4 py-2 border border-purple-500">
                           Nilai r
                         </th>
-                        <th className="px-4 py-2 border border-purple-500">
+                        <th className="px-2 sm:px-4 py-2 border border-purple-500">
                           Prediksi
                         </th>
                       </tr>
@@ -268,10 +268,10 @@ export const TopNPrediction = ({
                             index % 2 === 0 ? "bg-pink-100" : "bg-pink-200"
                           } text-gray-800`}
                         >
-                          <td className="px-4 py-2 text-sm font-poppins font-medium bg-yellow-200 border border-gray-300 text-center">
+                          <td className="px-2 sm:px-4 py-2 text-sm font-poppins font-medium bg-yellow-200 border border-gray-300 text-center">
                             {index + 1}
                           </td>
-                          <td className="px-4 py-2 font-stix border border-gray-300 text-center">
+                          <td className="px-2 sm:px-4 py-2 font-stix border border-gray-300 text-center">
                             {!funnyMode ? (
                               <>
                                 <span className="relative inline-block align-top">
@@ -314,10 +314,10 @@ export const TopNPrediction = ({
             ]}
           />
         </div>
-        <div className="flex flex-wrap items-center m-5">
+        <div className="flex flex-wrap items-center my-5 mx-2 sm:mx-5">
           <DividerHeading text={"Hasil Rangking Top-N Rekomendasi"} />
-          <div className="bg-blue-200 rounded-md shadow-sm p-2 border border-black">
-            <p className="font-semibold text-md sm:text-lg text-justify">
+          <div className="bg-blue-200 rounded-md shadow-sm p-3 sm:p-4 border border-black w-full">
+            <div className="font-semibold text-base sm:text-lg text-justify">
               Oleh karena{" "}
               {displayTopPredictionsRedUser
                 .map((pred, idx) => {
@@ -370,12 +370,12 @@ export const TopNPrediction = ({
                     </p>
                   ))}
               .
-            </p>
+            </div>
           </div>
         </div>
       </div>
       {showToast && (
-        <div className="bg-yellow-100 border border-yellow-400 text-red-700 px-4 py-3 rounded relative mt-2 w-full max-w-xl mx-auto shadow-sm transition-all duration-300 font-poppins">
+        <div className="bg-yellow-100 border border-yellow-400 text-red-700 px-4 py-3 rounded relative mt-2 w-11/12 max-w-xl mx-auto shadow-sm transition-all duration-300 font-poppins text-sm sm:text-base">
           <strong className="font-bold">Peringatan: </strong>
           <span className="block sm:inline">
             Jumlah Top-N tidak boleh melebihi jumlah item yang belum diberi

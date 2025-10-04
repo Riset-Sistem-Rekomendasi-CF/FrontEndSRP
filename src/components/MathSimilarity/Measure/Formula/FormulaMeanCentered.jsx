@@ -39,62 +39,55 @@ export const getDetailFormulaMeanCenterdIndex = (
   opsional,
   similarity
 ) => {
-  const isAdjustedCosine = similarity === "Adjusted Cosine";
+  const isAdjustedCosine =
+    similarity === "Adjusted Cosine" && opsional === "item-based";
 
-  // Tentukan i dan u sesuai aturan transpose dan similarity
   const i = isAdjustedCosine ? colIndex + 1 : rowIndex + 1;
   const u = isAdjustedCosine ? rowIndex + 1 : colIndex + 1;
 
-  switch (opsional) {
-    case "user-based":
-      if (isAdjustedCosine) {
-        // Adjusted Cosine selalu item-user, tapi opsional user-based artinya ambil notasi yg benar sesuai transpose
-        return [
-          `\\[ 
-          \\begin{array}{ll}
-          S_{Item{(i_${i}, u_${u})}} &: \\text{Mean-centered} \\ \\text{pada} \\ \\text{item} \\ ${i} \\ \\text{terhadap} \\ \\text{user} \\ ${u} \\\\
-          r_{i_${i}, u_${u}} &: \\text{Rating pada item } ${i} \\text{ terhadap user } ${u} \\\\
-          \\mu_{Item(i_${i})} &: \\text{Mean rating pada item } ${i} 
-          \\end{array}\\] `,
-        ];
-      } else {
-        return [
-          `\\[ 
-          \\begin{array}{ll}
-          S_{User{(u_${i}, i_${u})}} &: \\text{Mean-centered pada user } ${i} \\text{ terhadap item } ${u} \\\\
-          r_{u_${i}, i_${u}} &: \\text{Rating user } ${i} \\text{ terhadap item } ${u} \\\\
-          \\mu_{User(u_${i})} &: \\text{Mean rating pada user } ${i}
-          \\end{array}\\] `,
-        ];
-      }
+  let symbolLine = "";
+  let ratingLine = "";
+  let meanLine = "";
 
-    case "item-based":
-      if (isAdjustedCosine) {
-        return [
-          `\\[ 
-          \\begin{array}{ll}
-          S_{Item{(i_${i}, u_${u})}} &: \\text{Mean-centered pada item } ${i} \\text{ terhadap user } ${u} \\\\
-          r_{i_${i}, u_${u}} &: \\text{Rating pada item } ${i} \\text{ terhadap user } ${u} \\\\
-          \\mu_{User(u_${u})} &: \\text{Mean rating pada user } ${u} 
-          \\end{array}\\] `,
-        ];
-      } else {
-        return [
-          `\\[ 
-          \\begin{array}{ll}
-          S_{Item{(i_${i}, u_${u})}} &: \\text{Mean-centered pada item } ${i} \\text{ terhadap user } ${u} \\\\
-          r_{i_${i}, u_${u}} &: \\text{Rating pada item } ${i} \\text{ terhadap user } ${u} \\\\
-          \\mu_{Item(i_${i})} &: \\text{Mean rating pada item } ${i} 
-          \\end{array}\\] `,
-        ];
-      }
-
-    default:
-      return;
+  if (isAdjustedCosine) {
+    symbolLine = `S_{(i_${i}, u_${u})} & : \\text{Mean-centered pada item } ${i} \\text{ terhadap user } ${u}`;
+    ratingLine = `r_{i_${i}, u_${u}} & : \\text{Rating item } ${i} \\text{ oleh user } ${u}`;
+    meanLine = `\\mu_{Item(i_${i})} & : \\text{Mean rating pada item } ${i}`;
+  } else if (opsional === "user-based") {
+    symbolLine = `S_{(u_${i}, i_${u})} & : \\text{Mean-centered pada user } ${i} \\text{ terhadap item } ${u}`;
+    ratingLine = `r_{u_${i}, i_${u}} & : \\text{Rating user } ${i} \\text{ terhadap item } ${u}`;
+    meanLine = `\\mu_{User(u_${i})} & : \\text{Mean rating pada user } ${i}`;
+  } else if (opsional === "item-based") {
+    symbolLine = `S_{(i_${i}, u_${u})} & : \\text{Mean-centered pada item } ${i} \\text{ terhadap user } ${u}`;
+    ratingLine = `r_{i_${i}, u_${u}} & : \\text{Rating item } ${i} \\text{ oleh user } ${u}`;
+    meanLine = `\\mu_{Item(i_${i})} & : \\text{Mean rating pada item } ${i}`;
   }
+
+  return [
+    `\\[
+\\begin{array}{ll}
+${symbolLine} \\\\
+${ratingLine} \\\\
+${meanLine}
+\\end{array}
+\\]`,
+  ];
 };
 
-export const getFormulaMeanCenteredIndex = (rowIndex, colIndex, opsional) => {
+export const getFormulaMeanCenteredIndex = (
+  rowIndex,
+  colIndex,
+  opsional,
+  similarity
+) => {
+  // Case khusus untuk Adjusted Cosine + user-based
+  if (opsional === "item-based" && similarity === "Adjusted Cosine") {
+    return `\\[S_{(i_{${colIndex + 1}}, u_{${rowIndex + 1}})} = 
+      r_{i_{${colIndex + 1}}, u_{${rowIndex + 1}}} - \\mu_{Item(i_{${
+      colIndex + 1
+    }})}\\]`;
+  }
+
   switch (opsional) {
     case "user-based":
       return `\\[S_{(u_{${rowIndex + 1}}, i_{${colIndex + 1}})} = 
@@ -109,57 +102,80 @@ export const getFormulaMeanCenteredIndex = (rowIndex, colIndex, opsional) => {
       }})}\\]`;
 
     default:
-      return;
+      return "";
   }
 };
 
 export const getFormulaMeanCenteredValue = (
   rowIndex,
   colIndex,
-  data,
+  dataOnly,
   result,
   opsional,
   selectedValue,
-  similarity,
+  similarity, // Prop ini sekarang diterima
   isNotation
 ) => {
-  const isAdjustedCosine = similarity === "Adjusted Cosine";
+  // FIX: Buat flag untuk mendeteksi kasus khusus
+  const isAdjustedCosineUserBased =
+    (similarity === "Adjusted Cosine" && opsional !== "user-based") ||
+    ((similarity === "Cosine" ||
+      similarity === "Pearson Correlation Coefficient" ||
+      "Bhattacharyya Coefficient") &&
+      opsional === "item-based");
 
-  // Koreksi indeks berdasarkan apakah data ditranspose
-  const i = isAdjustedCosine ? colIndex + 1 : rowIndex + 1;
-  const u = isAdjustedCosine ? rowIndex + 1 : colIndex + 1;
+  // Ambil mean list yang sesuai
+  const meanList =
+    similarity === "Adjusted Cosine"
+      ? result?.["mean-list-brother"]
+      : result?.["mean-list"];
 
-  // Ambil nilai rating yang benar dari data (sudah ditranspose sebelumnya)
-  const selectedValueRating =
-    rowIndex !== null && colIndex !== null
-      ? isAdjustedCosine
-        ? data[colIndex][rowIndex] // data sudah ditranspose, jadi ambil dari data[col][row]
-        : data[rowIndex][colIndex]
-      : null;
+  // FIX: Ambil nilai rating dengan menukar indeks jika kasus khusus
+  const selectedValueRating = isAdjustedCosineUserBased
+    ? dataOnly?.[colIndex]?.[rowIndex] // Indeks ditukar karena dataOnly adalah matriks transpose
+    : dataOnly?.[rowIndex]?.[colIndex];
 
-  // Ambil mean item jika Adjusted Cosine, lainnya default dari rowIndex
-  const selectedMeanValue =
-    rowIndex !== null && colIndex !== null
-      ? isAdjustedCosine
-        ? result["mean-list"][colIndex] // mean item berdasarkan index i
-        : result["mean-list"][rowIndex]
-      : null;
+  // FIX: Ambil nilai mean yang sesuai dengan logika baru
+  const selectedMeanValue = (() => {
+    if (rowIndex == null || colIndex == null || !meanList) return null;
 
-  // Notasi rumus
-  const indexLabel = `S_{(i_${i}, u_${u})}`;
+    if (isAdjustedCosineUserBased) {
+      return meanList[colIndex]; // ✅ pakai colIndex karena mean berdasarkan ITEM
+    }
+
+    return opsional === "item-based" ? meanList[colIndex] : meanList[rowIndex];
+  })();
+
+  // FIX: Siapkan variabel untuk label dan indeks formula secara dinamis
+  const mainEntity = isAdjustedCosineUserBased
+    ? "item"
+    : opsional.split("-")[0];
+
+  const displayItemIndex = colIndex + 1;
+  const displayUserIndex = rowIndex + 1;
+
+  const entity = meanList ? "item" : opsional.split("-")[0];
+  // Untuk Adjusted Cosine User-Based, row merepresentasikan item, col merepresentasikan user
+  const mainIndex = isAdjustedCosineUserBased ? rowIndex + 1 : rowIndex + 1;
+  const secondaryIndex = isAdjustedCosineUserBased
+    ? colIndex + 1
+    : colIndex + 1;
+
+  const indexLabel =
+    similarity === "Adjusted Cosine" && opsional !== "user-based"
+      ? `S_{${mainEntity}(${secondaryIndex},${mainIndex})}`
+      : `S_{${mainEntity}(${mainIndex},${secondaryIndex})}`;
+
+  const ratingLabel = `r_{${mainIndex},${secondaryIndex}}`;
+  const meanLabel = `\\mu_{${entity}(${displayUserIndex})}`;
+
+  const formulaString = `\\[ ${indexLabel} = ${ratingLabel} - ${meanLabel} \\]`;
+  const resultStringWithValue = `\\[ ${indexLabel} = ${selectedValueRating?.toFixed(
+    2
+  )} - ${selectedMeanValue?.toFixed(2)} \\]`;
 
   return {
-    // isNotation
-    formula: !isNotation
-      ? `\\[ ${indexLabel} = ${selectedValueRating} - ${selectedMeanValue?.toFixed(
-          2
-        )} \\]`
-      : `\\[ ${indexLabel} = r_{${
-          isAdjustedCosine ? `i_${i}, u_${u}` : `u_${i}, i_${u}`
-        }} - ${
-          isAdjustedCosine ? `\\mu_{Item(i_${i})}` : `\\mu_{User(u_${i})}`
-        } \\]`,
-
+    formula: !isNotation ? resultStringWithValue : formulaString,
     result: `\\[ ${indexLabel} = ${selectedValue?.toFixed(2)} \\]`,
   };
 };

@@ -1,6 +1,6 @@
 import { transposeMatrix, intersection, intersectionIndex } from "../../helper";
 
-class MatrixMapped {
+export class MatrixMapped {
 
     private __matrix: Array<Array<number>>;
     private __matrixReverse: Array<Array<number>>;

@@ -24,55 +24,66 @@ const ModalMeanCenteredMeasure = ({
 }) => {
   const [isNotation, setIsNotation] = useState(false);
   const shouldTranspose =
-    (similarity === "Adjusted Cosine" && opsional === "user-based") ||
-    ((similarity === "Cosine" || similarity === "Pearson") &&
+    (similarity === "Adjusted Cosine" && opsional !== "user-based") ||
+    ((similarity === "Cosine" ||
+      similarity === "Pearson Correlation Coefficient" ||
+      "Bhattacharyya Coefficient") &&
       opsional === "item-based");
 
   const dataModify = shouldTranspose ? transposeMatrix(dataOnly) : dataOnly;
-  // const dataModify =
-  //   similarity === "Adjusted Cosine"
-  //     ? opsional === "user-based"
-  //       ? transposeMatrix(dataOnly)
-  //       : transposeMatrix(dataOnly)
-  //     : opsional === "user-based"
-  //     ? dataOnly
-  //     : transposeMatrix(dataOnly);
 
   // Safety check untuk selectedIndex
   const isValidIndex =
     Array.isArray(selectedIndex) && selectedIndex.length === 2;
 
+  const currentValue = dataOnly[selectedIndex[0]][selectedIndex[1]];
   // const currentValue = dataModify[selectedIndex[0]][selectedIndex[1]];
-  const currentValue =
-    shouldTranspose && isValidIndex
-      ? dataModify[selectedIndex[1]][selectedIndex[0]]
-      : dataModify[selectedIndex[0]][selectedIndex[1]];
-  // console.log("Current Value:", currentValue);
-  // console.log(
-  //   "From Index:",
-  //   shouldTranspose
-  //     ? `[${selectedIndex[1]}][${selectedIndex[0]}]`
-  //     : `[${selectedIndex[0]}][${selectedIndex[1]}]`
-  // );
 
   const toggleIsNotation = () => {
     setIsNotation(!isNotation);
   };
 
-  // console.log("selectedIndex:", selectedIndex);
-  // console.log("selectedValue:", selectedValue);
-
   // helper untuk heading tabel rating
+
   const isRatingHeader =
-    opsional === "user-based"
-      ? similarity === "Adjusted Cosine"
-        ? "I/U"
-        : "U/I"
+    similarity === "Adjusted Cosine"
+      ? opsional === "user-based"
+        ? "U/I"
+        : "I/U"
+      : opsional === "user-based"
+      ? "U/I"
       : "I/U";
-  // helper untuk uppercase
+
+  // debug
+  // console.log("current value", currentValue);
+  // console.log("value selectedIndex [0]", selectedIndex[0]);
+  // console.log("value selectedIndex [1]", selectedIndex[1]);
+  // console.log("isRatingHeader", isRatingHeader);
+  // console.log(opsional, similarity);
+  // console.log("Should Transpose?", shouldTranspose);
+  // console.log("Data Modify:", dataModify);
+  // console.log("Mean List:", result["mean-list"]);
+
+  // mean-list check
+  const meanList =
+    similarity === "Adjusted Cosine"
+      ? result["mean-list-brother"]
+      : result["mean-list"];
+
   const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
   const current = opsional.split("-")[0]; // "user" atau "item"
   const opposite = current === "user" ? "item" : "user";
+
+  const opsionalModify =
+    opsional === "user-based"
+      ? similarity === "Adjusted Cosine"
+        ? "item-based"
+        : "user-based"
+      : opsional;
+
+  const isMeanUserBased =
+    (similarity === "Adjusted Cosine" && opsional === "item-based") ||
+    opsional === "user-based";
 
   const handleOpenDetailMeanCentered = () => {
     const detailData = {
@@ -85,6 +96,7 @@ const ModalMeanCenteredMeasure = ({
       headers,
       columns,
       funnyMode,
+      similarity,
     };
 
     // simpan ke sessionStorage
@@ -95,7 +107,7 @@ const ModalMeanCenteredMeasure = ({
       const newTab = window.open("/detail-mean-centered", "_blank");
       if (!newTab) {
         alert(
-          "Pastikan pop-up tidak diblokir untuk membuka halaman detail perhitungan."
+          "Pastikan pop-up tidak diblokir untuk membuka halaman detail perhitugan."
         );
       }
     }, 100);
@@ -159,6 +171,7 @@ const ModalMeanCenteredMeasure = ({
                   </tr>
                 </thead>
                 <tbody>
+                  {/* {dataModify.map((row, rowIndex) => ( */}
                   {dataModify.map((row, rowIndex) => (
                     <tr key={rowIndex + "-data-body"}>
                       <td className="border border-black px-4 py-2 w-14 bg-gray-200">
@@ -169,17 +182,22 @@ const ModalMeanCenteredMeasure = ({
                       {row.map((value, colIndex) => {
                         const isSelected =
                           isValidIndex &&
+                          // Adjusted Cosine
                           ((similarity === "Adjusted Cosine" &&
-                            rowIndex === selectedIndex[1] &&
-                            colIndex === selectedIndex[0]) ||
-                            (similarity !== "Adjusted Cosine" &&
-                              opsional === "user-based" &&
+                            ((opsional === "user-based" &&
                               rowIndex === selectedIndex[0] &&
                               colIndex === selectedIndex[1]) ||
+                              (opsional === "item-based" &&
+                                rowIndex === selectedIndex[1] &&
+                                colIndex === selectedIndex[0]))) ||
+                            // Selain Adjusted Cosine
                             (similarity !== "Adjusted Cosine" &&
-                              opsional === "item-based" &&
-                              rowIndex === selectedIndex[0] &&
-                              colIndex === selectedIndex[1]));
+                              ((opsional === "user-based" &&
+                                rowIndex === selectedIndex[0] &&
+                                colIndex === selectedIndex[1]) ||
+                                (opsional === "item-based" &&
+                                  rowIndex === selectedIndex[1] &&
+                                  colIndex === selectedIndex[0]))));
 
                         return (
                           <td
@@ -187,28 +205,23 @@ const ModalMeanCenteredMeasure = ({
                             className={`border border-black px-4 py-2 text-center w-14 ${
                               value === 0 ? "bg-red-200" : ""
                             } ${isSelected ? "bg-card_green_primary" : ""}`}
-                            title={
-                              isNotation
-                                ? value.toFixed
-                                  ? value.toFixed(0)
-                                  : value
-                                : `r${colIndex + 1}${rowIndex + 1}`
-                            }
                           >
                             {!isNotation ? (
-                              value.toFixed ? (
-                                value.toFixed(0)
+                              value?.toFixed ? (
+                                value.toFixed(2)
                               ) : (
                                 value
                               )
                             ) : (
-                              <span className="font-serif">
-                                r
-                                <sub>
-                                  {colIndex + 1}
-                                  {rowIndex + 1}
-                                </sub>
-                              </span>
+                              <>
+                                <span className="italic font-serif">
+                                  r
+                                  <sub>
+                                    {rowIndex + 1}
+                                    {colIndex + 1}
+                                  </sub>
+                                </span>
+                              </>
                             )}
                           </td>
                         );
@@ -225,7 +238,7 @@ const ModalMeanCenteredMeasure = ({
                 <thead>
                   <tr className="bg-gray-200">
                     <th className="border border-black px-4 py-2 w-10 italic">
-                      {opsional === "user-based" ? "U" : "I"}
+                      {isMeanUserBased ? "U" : "I"}
                     </th>
                     <th className="border border-black italic px-4 py-2 w-14 font-serif">
                       μ
@@ -233,12 +246,11 @@ const ModalMeanCenteredMeasure = ({
                   </tr>
                 </thead>
                 <tbody>
-                  {result["mean-list"]?.map((mean, index) => {
+                  {meanList?.map((mean, index) => {
                     const label = !funnyMode
                       ? index + 1
-                      : (opsional === "user-based" ? columns : headers)?.[
-                          index
-                        ] ?? index + 1;
+                      : (isMeanUserBased ? columns : headers)?.[index] ??
+                        index + 1;
 
                     const isSelected =
                       Array.isArray(selectedIndex) &&
@@ -336,10 +348,10 @@ const ModalMeanCenteredMeasure = ({
               mencari nilai mean-centered rating
               <strong>
                 {" "}
-                {similarity === "Adjusted Cosine" && opsional === "user-based"
-                  ? `User-${selectedIndex[0] + 1} terhadap Item-${
-                      selectedIndex[1] + 1
-                    }`
+                {similarity === "Adjusted Cosine" && opsional !== "user-based"
+                  ? `Item-${selectedIndex[1] + 1} terhadap User-${
+                      selectedIndex[0] + 1
+                    }` // <-- Logika dibalik di sini
                   : `${capitalize(opsional.split("-")[0])}-${
                       selectedIndex[0] + 1
                     } terhadap ${opposite}-${selectedIndex[1] + 1}`}
@@ -350,9 +362,9 @@ const ModalMeanCenteredMeasure = ({
           <OnlyDivider />
           <p className="text-base text-justify sm:text-md md:text-lg lg:text-xl xl:text-2xl font-bold text-gray-700 m-2 font-poppins">
             Hasil dari Mean-Centered rating dari{" "}
-            {similarity === "Adjusted Cosine" && opsional === "user-based"
-              ? `User-${selectedIndex[0] + 1} terhadap Item-${
-                  selectedIndex[1] + 1
+            {similarity === "Adjusted Cosine" && opsional !== "user-based"
+              ? `Item-${selectedIndex[1] + 1} terhadap User-${
+                  selectedIndex[0] + 1
                 }`
               : `${capitalize(opsional.split("-")[0])}-${
                   selectedIndex[0] + 1
@@ -385,6 +397,8 @@ const ModalMeanCenteredMeasure = ({
                   rowIndex={selectedIndex[0]}
                   colIndex={selectedIndex[1]}
                   opsional={opsional}
+                  similarity={similarity}
+                  isNotation={isNotation}
                 />
               )}
 
@@ -392,7 +406,8 @@ const ModalMeanCenteredMeasure = ({
                 <MeanCenteredValue
                   rowIndex={selectedIndex[0]}
                   colIndex={selectedIndex[1]}
-                  data={dataModify}
+                  // dataOnly={dataOnly}
+                  dataOnly={dataModify}
                   result={result}
                   opsional={opsional}
                   selectedValue={selectedValue}

@@ -4,7 +4,7 @@ import { getFormulaMeanCenteredValue } from "../Formula/FormulaMeanCentered";
 export const MeanCenteredValue = ({
   rowIndex,
   colIndex,
-  data,
+  dataOnly,
   result,
   opsional,
   selectedValue,
@@ -14,7 +14,7 @@ export const MeanCenteredValue = ({
   const expression = getFormulaMeanCenteredValue(
     rowIndex,
     colIndex,
-    data,
+    dataOnly,
     result,
     opsional,
     selectedValue,

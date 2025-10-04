@@ -1,6 +1,7 @@
 import React from "react";
 import { OnlyDivider } from "../../../tabelData/DividerHeading";
 import FeedbackIcon from "@mui/icons-material/Feedback";
+import { transposeMatrix } from "../../../../helper/helper";
 
 export default function SimilarityTabelRating({
   dataOnly,
@@ -57,20 +58,24 @@ export default function SimilarityTabelRating({
                   )}
                 </td>
                 {row.map((value, colIndex) => {
+
                   const isZero = value === 0;
 
+                  // Memeriksa apakah index sesuai dengan index user atau index item
                   const isMatchingPair =
                     opsional === "user-based"
                       ? rowIndex === selectedIndex[0] ||
-                        rowIndex === selectedIndex[1]
-                      : rowIndex === selectedIndex[0] ||
-                        rowIndex === selectedIndex[1];
+                      rowIndex === selectedIndex[1]
+                      : colIndex === selectedIndex[0] ||
+                      colIndex === selectedIndex[1];
 
+                  // Memeriksa apakah kedua value sama-sama bernilai 0
                   const isBothNotZero = (() => {
                     if (opsional === "user-based") {
                       const userA = selectedIndex[0];
                       const userB = selectedIndex[1];
                       return (
+                        // I_{u}
                         dataOnly[userA][colIndex] !== 0 &&
                         dataOnly[userB][colIndex] !== 0
                       );
@@ -78,8 +83,9 @@ export default function SimilarityTabelRating({
                       const itemA = selectedIndex[0];
                       const itemB = selectedIndex[1];
                       return (
-                        dataOnly[itemA][colIndex] !== 0 &&
-                        dataOnly[itemB][colIndex] !== 0
+                        // U_{}
+                        dataOnly[rowIndex][itemA] !== 0 &&
+                        dataOnly[rowIndex][itemB] !== 0
                       );
                     }
                   })();
@@ -93,8 +99,8 @@ export default function SimilarityTabelRating({
                   const bgColor = isZero
                     ? "bg-red-200"
                     : isIrisan
-                    ? "bg-green-200"
-                    : "bg-gray-50 opacity-50";
+                      ? "bg-green-200"
+                      : "bg-gray-50 opacity-50";
 
                   const cellClass = `border border-black px-4 py-2 text-center w-14 ${bgColor}`;
 
@@ -105,7 +111,7 @@ export default function SimilarityTabelRating({
                       title={
                         isNotation
                           ? value?.toFixed?.(0) ?? value
-                          : `r${colIndex + 1}${rowIndex + 1}`
+                          : `r${rowIndex + 1}${colIndex + 1}`
                       }
                     >
                       {!isNotation ? (
@@ -118,8 +124,8 @@ export default function SimilarityTabelRating({
                         <span className="font-serif">
                           r
                           <sub>
-                            {colIndex + 1}
                             {rowIndex + 1}
+                            {colIndex + 1}
                           </sub>
                         </span>
                       )}

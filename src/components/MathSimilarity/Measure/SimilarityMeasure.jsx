@@ -148,16 +148,20 @@ export default function SimilarityMeasure({
                           rowIndex
                         ]}
                   </td>
-                  {row.map((value, colIndex) => (
-                    <TdTableSimilarity
-                      key={colIndex}
-                      rowIndex={rowIndex}
-                      colIndex={colIndex}
-                      onClick={() => handleMeanClick(value, rowIndex, colIndex)}
-                    >
-                      {value.toFixed(4)}
-                    </TdTableSimilarity>
-                  ))}
+                  {row.map((value, colIndex) => {
+                    return (
+                      <TdTableSimilarity
+                        key={colIndex}
+                        rowIndex={rowIndex}
+                        colIndex={colIndex}
+                        onClick={() =>
+                          handleMeanClick(value, rowIndex, colIndex)
+                        }
+                      >
+                        {value.toFixed(4)}
+                      </TdTableSimilarity>
+                    );
+                  })}
                 </TrTableSimilarity>
               ))}
             </tbody>

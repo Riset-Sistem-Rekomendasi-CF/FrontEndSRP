@@ -157,3 +157,9 @@ export const shuffle = (array) => {
 
     return array
 }
+
+export const isValidIndex = (index, data) => {
+    return (
+        index >= 0 && index < data.length
+    );
+};

@@ -61,10 +61,11 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`bg-white shadow-sm sticky top-0 z-50 transition-transform ${isVisible ? "transform-none" : "-translate-y-full"
-        }`}
+      className={`bg-white shadow-sm sticky top-0 z-50 transition-transform ${
+        isVisible ? "transform-none" : "-translate-y-full"
+      }`}
     >
-      <div className="w-full px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo + Brand */}
           <Link

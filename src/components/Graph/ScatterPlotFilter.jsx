@@ -67,12 +67,12 @@ export function ScatterPlotFilterData({
   if (!result || !result["reduced-data"]) {
     return <div>Data tidak tersedia...</div>;
   }
-  console.log("ini adalh result", result);
   const similarityDataFilter = result["reduced-data"];
-  console.log("ini adalh reduce data ", similarityDataFilter);
   const PredictionDataSet = result["prediction"];
-  console.log("ini adalh prediciton in plot", PredictionDataSet);
 
+  // console.log("ini adalh result", result);
+  // console.log("ini adalh reduce data ", similarityDataFilter);
+  // console.log("ini adalh prediciton in plot", PredictionDataSet);
   // Mengubah objek menjadi array 2D
   const dataFilterPlot = similarityDataFilter.map((item) => item);
   // Asumsikan threshold jarak minimum antar titik untuk penggabungan

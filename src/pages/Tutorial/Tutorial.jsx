@@ -26,6 +26,7 @@ import Toast from "../../components/Toggle/Toast.jsx";
 import Navbar from "../../components/Navigate/Navbar/Navbar.jsx";
 import { ModalTutorialYoutube } from "../../components/modal/ModalTutorialYoutube.jsx";
 import { useExplanationModal } from "../../components/hooks/useExplanationModal.jsx";
+import { Helmet } from "react-helmet";
 // import Cookies from "js-cookie";
 
 const Tutorial = () => {
@@ -157,6 +158,32 @@ const Tutorial = () => {
   return (
     <>
       <div>
+        <Helmet>
+          <title>KoalaERS-AI | Tutorial Fungsi Similaritas</title>
+          <meta
+            name="description"
+            content="Pelajari cara menghitung fungsi similaritas pada sistem rekomendasi berbasis collaborative filtering. Tutorial interaktif dan mudah dipahami."
+          />
+          <meta
+            name="keywords"
+            content="tutorial, sistem rekomendasi, fungsi similaritas, collaborative filtering, mean rating, cosine, PCC"
+          />
+          <meta name="author" content="KoalaERS-AI Team" />
+          <meta
+            property="og:title"
+            content="KoalaERS-AI | Tutorial Fungsi Similaritas"
+          />
+          <meta
+            property="og:description"
+            content="Tutorial interaktif untuk memahami metode perhitungan sistem rekomendasi."
+          />
+          <meta property="og:image" content="%PUBLIC_URL%/Frame%201.png" />
+          <meta property="og:type" content="website" />
+          <meta
+            property="og:url"
+            content="https://koalaers.trunojoyoan.com/tutorial"
+          />
+        </Helmet>
         <Navbar />
         <div className="">
           {showToast && (

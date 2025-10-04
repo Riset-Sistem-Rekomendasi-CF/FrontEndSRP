@@ -76,6 +76,12 @@ export default function MeanMeasure({
   };
 
   const meanFormula = getFormulaMean(opsionalModify, similarity);
+  // debug
+  // console.log(opsional, similarity);
+  // console.log(opsionalModify);
+  // console.log("ini adalah data modify", dataModify);
+
+  // console.log("Mean List:", result["mean-list"]);
 
   const RenderTableMean = () => {
     if (!result || !result["mean-list"]) {
@@ -104,7 +110,9 @@ export default function MeanMeasure({
                   <td className="border border-black px-4 py-2">
                     {!funnyMode
                       ? index + 1
-                      : (opsional === "user-based" ? columns : headers)[index]}
+                      : (dataModify === "user-based" ? columns : headers)[
+                          index
+                        ]}
                   </td>
                   <td className="border border-black px-4 py-2">
                     <div

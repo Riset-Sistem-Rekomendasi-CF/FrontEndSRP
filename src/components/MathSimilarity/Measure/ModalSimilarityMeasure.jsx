@@ -1,6 +1,6 @@
 import { MathJaxContext } from "better-react-mathjax";
 import mathjaxConfig from "../../../mathjax-config";
-import { transposeMatrix } from "../../../helper/helper";
+import { isValidIndex, transposeMatrix } from "../../../helper/helper";
 import { useState } from "react";
 import SwitchToggle from "../../Toggle/SwitchToggle";
 import LegendTable from "../../tabelData/LegendTable";
@@ -28,73 +28,24 @@ export default function ModalSimilarity({
   funnyMode,
 }) {
   const [isNotation, setIsNotation] = useState(false);
-  console.log("📐 mean-centered shape:", {
-    rows: data["mean-centered"]?.length,
-    cols: data["mean-centered"]?.[0]?.length,
-  });
-
-  console.log("mean-centered", data["mean-centered"]);
-
-  console.log("📐 dataOnly shape:", {
-    rows: dataOnly?.length,
-    cols: dataOnly?.[0]?.length,
-  });
-
-  console.log("----------------");
-  console.log("dataOnly original shape:", dataOnly.length, dataOnly[0]?.length);
-  if (similarity !== "Cosine" && opsional === "item-based") {
-    const transposed = transposeMatrix(dataOnly);
-    console.log(
-      "dataOnly after transpose shape:",
-      transposed.length,
-      transposed[0]?.length
-    );
-  }
-
-  console.log("dataOnly length 1111:", dataOnly.length);
-  dataOnly.forEach((row, i) => {
-    console.log(`Row ${i} length 111:`, row.length);
-  });
-
-  console.log("selectedIndex 111:", selectedIndex);
-
-  console.log("similarity", similarity);
-  // const onlyDataModify =
-  //   similarity !== "Cosine" && opsional === "item-based"
-  //     ? transposeMatrix(dataOnly)
-  //     : dataOnly;
-  const onlyDataModify =
-    opsional === "item-based" ? transposeMatrix(dataOnly) : dataOnly;
-
-  console.log("onlyDataModify", onlyDataModify);
 
   const dataModify =
     similarity !== "Cosine"
-      ? opsional === "item-based"
-        ? transposeMatrix(data["mean-centered"])
-        : data["mean-centered"]
+      ? (
+        opsional === "item-based"
+          ? transposeMatrix(data["mean-centered"])
+          : data["mean-centered"]
+      )
       : dataOnly;
 
-  // const dataOnlyModify =
-  //   similarity !== "Cosine" && opsional === "item-based"
-  //     ? transposeMatrix(dataOnly)
-  //     : dataOnly;
+  let dataOnlyModify = opsional === "user-based" ? dataOnly : transposeMatrix(dataOnly);
 
-  let dataOnlyModify = dataOnly;
-
-  if (opsional === "item-based") {
-    dataOnlyModify = transposeMatrix(dataOnly);
-  }
-
-  console.log("data OnlyModify", dataOnlyModify);
-
-  console.log("dataModify", dataModify);
   if (!dataModify || !dataModify.length) {
     return <div>Data tidak tersedia</div>;
   }
+
   // Tentukan jumlah kolom dan rows sesuai dataModify
-  const numberOfColumnsCen = dataModify[0]?.length || 0;
-  const numberOfRowsCen = dataModify.length;
+  const numberOfColumnsCen = dataOnly[0]?.length || 0;
 
   // Saat transpose (Adjusted Cosine atau item-based), kolom = baris asli dan baris = kolom asli
   const colHeaders =
@@ -103,8 +54,8 @@ export default function ModalSimilarity({
         ? columns // kalau user-based, setelah transpose kolom diambil dari columns (user)
         : headers // kalau item-based, setelah transpose kolom diambil dari headers (item)
       : opsional === "user-based"
-      ? headers // bukan transpose, user-based pakai headers (item)
-      : columns; // bukan transpose, item-based pakai columns (user)
+        ? headers // bukan transpose, user-based pakai headers (item)
+        : columns; // bukan transpose, item-based pakai columns (user)
 
   const rowHeaders =
     similarity === "Adjusted Cosine" || opsional === "item-based"
@@ -112,8 +63,8 @@ export default function ModalSimilarity({
         ? headers // setelah transpose, baris = headers (item)
         : columns // setelah transpose, baris = columns (user)
       : opsional === "user-based"
-      ? columns // bukan transpose, baris = columns (user)
-      : headers; // bukan transpose, baris = headers (item)
+        ? columns // bukan transpose, baris = columns (user)
+        : headers; // bukan transpose, baris = headers (item)
 
   const handleIsNotation = () => {
     setIsNotation(!isNotation);
@@ -126,10 +77,6 @@ export default function ModalSimilarity({
     similarity === "Cosine";
 
   const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
-
-  // Emoji
-  // const headers = emoji.GEmot(5, "item")
-  // const columns = emoji.GEmot(5, "user")
 
   // handle new windows
   const handleOpenDetailSimilarity = () => {
@@ -148,6 +95,7 @@ export default function ModalSimilarity({
 
     // simpan ke sessionStorage
     sessionStorage.setItem("similarityDetail", JSON.stringify(detailData));
+
     // buka jendela baru
     setTimeout(() => {
       const newTab = window.open("/detail-similarity", "_blank");
@@ -188,7 +136,7 @@ export default function ModalSimilarity({
           <>
             <DividerHeading text="Data Rating (R)" />
             <SimilarityTabelRating
-              dataOnly={onlyDataModify}
+              dataOnly={dataOnly}
               headers={headers}
               columns={columns}
               opsional={opsional}
@@ -237,7 +185,8 @@ export default function ModalSimilarity({
                       </tr>
                     </thead>
                     <tbody>
-                      {dataModify.map((row, rowIndex) => (
+                      {/* {dataModify.map((row, rowIndex) => ( */}
+                      {dataOnly.map((row, rowIndex) => (
                         <tr key={rowIndex}>
                           <td className="border border-black px-4 py-2 w-20 bg-gray-200">
                             {!isNotation ? (
@@ -256,35 +205,47 @@ export default function ModalSimilarity({
                             // const IsZero =
                             //   dataOnlyModify[rowIndex][colIndex] === 0;
                             const IsZero =
-                              dataOnlyModify[rowIndex] &&
-                              dataOnlyModify[rowIndex][colIndex] !== undefined
-                                ? dataOnlyModify[rowIndex][colIndex] === 0
+                              dataOnly[rowIndex] &&
+                                dataOnly[rowIndex][colIndex] !== undefined
+                                ? dataOnly[rowIndex][colIndex] === 0
                                 : true; // anggap kosong/merah jika tidak ada
-
-                            const isValidIndex = (index) => {
-                              return (
-                                index >= 0 && index < dataOnlyModify.length
-                              );
-                            };
 
                             const isIntersection =
                               opsional === "user-based"
-                                ? isValidIndex(selectedIndex[0]) &&
-                                  isValidIndex(selectedIndex[1]) &&
-                                  (rowIndex === selectedIndex[0] ||
-                                    rowIndex === selectedIndex[1]) &&
-                                  dataOnlyModify[selectedIndex[0]][colIndex] !==
-                                    0 &&
-                                  dataOnlyModify[selectedIndex[1]][colIndex] !==
-                                    0
-                                : isValidIndex(selectedIndex[0]) &&
-                                  isValidIndex(selectedIndex[1]) &&
-                                  (rowIndex === selectedIndex[0] ||
-                                    rowIndex === selectedIndex[1]) &&
-                                  dataOnlyModify[selectedIndex[0]][colIndex] !==
-                                    0 &&
-                                  dataOnlyModify[selectedIndex[1]][colIndex] !==
-                                    0;
+                                ? isValidIndex(selectedIndex[0], dataOnly) &&
+                                isValidIndex(selectedIndex[1], dataOnly) &&
+                                (rowIndex === selectedIndex[0] ||
+                                  rowIndex === selectedIndex[1]) &&
+                                dataOnly[selectedIndex[0]][colIndex] !==
+                                0 &&
+                                dataOnly[selectedIndex[1]][colIndex] !==
+                                0
+                                : isValidIndex(selectedIndex[0], dataOnly) &&
+                                isValidIndex(selectedIndex[1], dataOnly) &&
+                                (colIndex === selectedIndex[0] ||
+                                  colIndex === selectedIndex[1]) &&
+                                dataOnly[rowIndex][selectedIndex[0]] !==
+                                0 &&
+                                dataOnly[rowIndex][selectedIndex[1]] !==
+                                0;
+                            // const isIntersection =
+                            //   opsional === "user-based"
+                            //     ? isValidIndex(selectedIndex[0], dataOnlyModify) &&
+                            //     isValidIndex(selectedIndex[1], dataOnlyModify) &&
+                            //     (rowIndex === selectedIndex[0] ||
+                            //       rowIndex === selectedIndex[1]) &&
+                            //     dataOnlyModify[selectedIndex[0]][colIndex] !==
+                            //     0 &&
+                            //     dataOnlyModify[selectedIndex[1]][colIndex] !==
+                            //     0
+                            //     : isValidIndex(selectedIndex[0], dataOnlyModify) &&
+                            //     isValidIndex(selectedIndex[1], dataOnlyModify) &&
+                            //     (rowIndex === selectedIndex[0] ||
+                            //       rowIndex === selectedIndex[1]) &&
+                            //     dataOnlyModify[selectedIndex[0]][colIndex] !==
+                            //     0 &&
+                            //     dataOnlyModify[selectedIndex[1]][colIndex] !==
+                            //     0;
 
                             return (
                               <td
@@ -296,10 +257,10 @@ export default function ModalSimilarity({
                               >
                                 {!isNotation ? (
                                   typeof value === "number" ? (
-                                    value.toFixed(
+                                    data["mean-centered"][rowIndex][colIndex].toFixed(
                                       similarity !== "Cosine" &&
                                         similarity !==
-                                          "Bhattacharyya Coefficient (BC)"
+                                        "Bhattacharyya Coefficient (BC)"
                                         ? 2
                                         : 0
                                     )
@@ -309,7 +270,7 @@ export default function ModalSimilarity({
                                 ) : (
                                   <span className="font-serif">
                                     {similarity !== "Cosine" &&
-                                    similarity !== "Bhattacharyya Coefficient"
+                                      similarity !== "Bhattacharyya Coefficient"
                                       ? "s"
                                       : "r"}
                                     <sub>
@@ -377,15 +338,13 @@ export default function ModalSimilarity({
 
             {/* Teks paragraf */}
             <p className="text-justify font-poppins">
-              Untuk mempermudah pemahaman bisa dilihat detail perhitungan untuk
-              mencari nilai simialaritas
+              Scroll ke bawah untuk mengetahui detail perhitungan dari nilai similaritas
               <strong>
                 {" "}
                 {capitalize(opsional.split("-")[0])}-{selectedIndex[0] + 1}{" "}
                 dengan {capitalize(opsional.split("-")[0])}-
                 {selectedIndex[1] + 1}
               </strong>{" "}
-              pada data toy dataset di atas.
             </p>
           </div>
           <OnlyDivider />
