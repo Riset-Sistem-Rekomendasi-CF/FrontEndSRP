@@ -24,7 +24,7 @@ const Home = () => {
   return (
     <LayoutHome>
       <Helmet>
-        <title>KoalaERS-AI | Beranda</title>
+        <title>KoalaERS-AI | Home</title>
         <meta
           name="description"
           content="Platform pembelajaran interaktif sistem rekomendasi berbasis user-based dan item-based collaborative filtering."
