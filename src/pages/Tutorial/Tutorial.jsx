@@ -159,19 +159,19 @@ const Tutorial = () => {
     <>
       <div>
         <Helmet>
-          <title>KoalaERS-AI | Tutorial Fungsi Similaritas</title>
+          <title>KoalaERS | Tutorial Fungsi Similaritas</title>
           <meta
             name="description"
             content="Pelajari cara menghitung fungsi similaritas pada sistem rekomendasi berbasis collaborative filtering. Tutorial interaktif dan mudah dipahami."
           />
           <meta
             name="keywords"
-            content="tutorial, sistem rekomendasi, fungsi similaritas, collaborative filtering, mean rating, cosine, PCC"
+            content="KoalaERS, tutorial, sistem rekomendasi, fungsi similaritas, collaborative filtering, mean rating, cosine, PCC"
           />
-          <meta name="author" content="KoalaERS-AI Team" />
+          <meta name="author" content="KoalaERS Team" />
           <meta
             property="og:title"
-            content="KoalaERS-AI | Tutorial Fungsi Similaritas"
+            content="KoalaERS | Tutorial Fungsi Similaritas"
           />
           <meta
             property="og:description"

@@ -22,6 +22,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import { DividerHeading, OnlyDivider } from "../../../tabelData/DividerHeading";
 import { ScatterPlotFilterData } from "../../../Graph/ScatterPlotFilter";
+import { PredictionFormula } from "./PredictionFormula";
 
 const ModalPredictionMeasure = ({
   dataRating,
@@ -523,20 +524,14 @@ const ModalPredictionMeasure = ({
                     <p>No expression selected.</p>
                   )}
                 </div>
-
-                <div className="w-full min-w-[200px] ">
+                <div className="w-full min-w-[200px]">
                   {selectedIndex ? (
                     <div>
-                      <PredictionValue
+                      <PredictionFormula
                         rowIndex={selectedIndex[0]}
                         colIndex={selectedIndex[1]}
-                        similarValues={topSimilarities}
-                        result={result}
-                        dataRating={dataRating}
-                        opsional={opsional}
                         similarity={similarity}
-                        isNotation={isNotation}
-                        selectedValue={selectedValue}
+                        opsional={opsional}
                       />
                     </div>
                   ) : (
@@ -546,6 +541,29 @@ const ModalPredictionMeasure = ({
               </div>
             </div>
           </MathJaxContext>
+          <div className="w-full overflow-x-auto overflow-y-hidden  sm:overflow-x-visible mb-4">
+            <MathJaxContext options={mathjaxConfig}>
+              <div className="w-full min-w-[200px]">
+                {selectedIndex ? (
+                  <div>
+                    <PredictionValue
+                      rowIndex={selectedIndex[0]}
+                      colIndex={selectedIndex[1]}
+                      similarValues={topSimilarities}
+                      result={result}
+                      dataRating={dataRating}
+                      opsional={opsional}
+                      similarity={similarity}
+                      isNotation={isNotation}
+                      selectedValue={selectedValue}
+                    />
+                  </div>
+                ) : (
+                  <p>No expression selected.</p>
+                )}
+              </div>
+            </MathJaxContext>
+          </div>
         </div>
         <div className="p-2 m-2">
           <OnlyDivider />

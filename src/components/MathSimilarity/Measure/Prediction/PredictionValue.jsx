@@ -27,21 +27,9 @@ export const PredictionValue = ({
     isNotation,
     selectedValue
   );
-  // console.log(expression);
-
-  const getFormulaDetail = getFormualDetailIndex(
-    rowIndex,
-    colIndex,
-    opsional,
-    similarity
-  );
 
   return (
     <>
-      <div className="w-full mt-2 rounded-md overflow-x-auto overflow-y-hidden">
-        <FunctionMeasureDropdown DetailRumus={getFormulaDetail} />
-      </div>
-
       <MathJaxComponent>{expression.formula}</MathJaxComponent>
 
       <MathJaxComponent>{expression.proses_formula}</MathJaxComponent>

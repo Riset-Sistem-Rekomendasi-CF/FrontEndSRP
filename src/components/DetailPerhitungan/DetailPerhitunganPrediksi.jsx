@@ -11,6 +11,7 @@ import { DividerHeading, OnlyDivider } from "../tabelData/DividerHeading";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import InfoIcon from "@mui/icons-material/Info";
 import { ScatterPlotFilterData } from "../Graph/ScatterPlotFilter";
+import { PredictionFormula } from "../MathSimilarity/Measure/Prediction/PredictionFormula";
 
 export default function DetailPerhitunganPrediksi() {
   const [stateData, setStateData] = useState(null);
@@ -453,7 +454,7 @@ export default function DetailPerhitunganPrediksi() {
       {/* Perhitungan Manual */}
       <div className="bg-blue-100 p-2 m-2 rounded-md shadow-sm">
         <MathJaxContext options={mathjaxConfig}>
-          <div className="w-full overflow-x-auto overflow-y-hidden mb-4">
+          <div className="w-full overflow-x-auto overflow-y-hidden  sm:overflow-x-visible mb-4">
             <div className="text-[0.75rem] sm:text-sm md:text-base flex justify-center items-center flex-col px-4 sm:px-10">
               {selectedIndex ? (
                 <div>
@@ -473,7 +474,7 @@ export default function DetailPerhitunganPrediksi() {
           </div>
         </MathJaxContext>
 
-        <div>
+        <div className="w-full overflow-x-auto overflow-y-hidden  sm:overflow-x-visible mb-4">
           <MathJaxContext options={mathjaxConfig}>
             <div className="w-full min-w-[200px]">
               {selectedIndex ? (
@@ -490,29 +491,46 @@ export default function DetailPerhitunganPrediksi() {
               )}
             </div>
           </MathJaxContext>
+          <MathJaxContext options={mathjaxConfig}>
+            <div className="w-full min-w-[200px]">
+              {selectedIndex ? (
+                <div>
+                  <PredictionFormula
+                    rowIndex={selectedIndex[0]}
+                    colIndex={selectedIndex[1]}
+                    similarity={similarity}
+                    opsional={opsional}
+                  />
+                </div>
+              ) : (
+                <p>No expression selected.</p>
+              )}
+            </div>
+          </MathJaxContext>
         </div>
-
-        <MathJaxContext options={mathjaxConfig}>
-          <div className="w-full min-w-[200px]">
-            {selectedIndex ? (
-              <div>
-                <PredictionValue
-                  rowIndex={selectedIndex[0]}
-                  colIndex={selectedIndex[1]}
-                  similarValues={topSimilarities}
-                  result={result}
-                  dataRating={dataRating}
-                  opsional={opsional}
-                  similarity={similarity}
-                  isNotation={isNotation}
-                  selectedValue={selectedValue}
-                />
-              </div>
-            ) : (
-              <p>No expression selected.</p>
-            )}
-          </div>
-        </MathJaxContext>
+        <div className="w-full overflow-x-auto overflow-y-hidden  sm:overflow-x-visible mb-4">
+          <MathJaxContext options={mathjaxConfig}>
+            <div className="w-full min-w-[200px]">
+              {selectedIndex ? (
+                <div>
+                  <PredictionValue
+                    rowIndex={selectedIndex[0]}
+                    colIndex={selectedIndex[1]}
+                    similarValues={topSimilarities}
+                    result={result}
+                    dataRating={dataRating}
+                    opsional={opsional}
+                    similarity={similarity}
+                    isNotation={isNotation}
+                    selectedValue={selectedValue}
+                  />
+                </div>
+              ) : (
+                <p>No expression selected.</p>
+              )}
+            </div>
+          </MathJaxContext>
+        </div>
       </div>
 
       <div className="p-2 m-2">

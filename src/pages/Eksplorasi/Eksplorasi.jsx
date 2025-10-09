@@ -121,19 +121,19 @@ function Eksplorasi() {
     <>
       <div>
         <Helmet>
-          <title>KoalaERS-AI | Eksplorasi Fungsi Similaritas</title>
+          <title>KoalaERS | Eksplorasi Fungsi Similaritas</title>
           <meta
             name="description"
             content="Eksplorasi untuk menghitung fungsi similaritas pada sistem rekomendasi berbasis collaborative filtering. Tutorial interaktif dan mudah dipahami."
           />
           <meta
             name="keywords"
-            content="tutorial, sistem rekomendasi, fungsi similaritas, collaborative filtering, mean rating, cosine, PCC"
+            content="KoalaERS, tutorial, sistem rekomendasi, fungsi similaritas, collaborative filtering, mean rating, cosine, PCC"
           />
-          <meta name="author" content="KoalaERS-AI Team" />
+          <meta name="author" content="KoalaERS Team" />
           <meta
             property="og:title"
-            content="KoalaERS-AI | Eksplorasi Fungsi Similaritas"
+            content="KoalaERS | Eksplorasi Fungsi Similaritas"
           />
           <meta
             property="og:description"
