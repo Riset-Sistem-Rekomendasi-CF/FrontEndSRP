@@ -1,5 +1,3 @@
-import { transposeMatrix } from "../../../../helper/helper";
-
 export const getFormulaMeanCentered = (opsional) => {
   switch (opsional) {
     case "user-based":
@@ -121,7 +119,7 @@ export const getFormulaMeanCenteredValue = (
     (similarity === "Adjusted Cosine" && opsional !== "user-based") ||
     ((similarity === "Cosine" ||
       similarity === "Pearson Correlation Coefficient" ||
-      "Bhattacharyya Coefficient") &&
+      similarity === "Bhattacharyya Coefficient") &&
       opsional === "item-based");
 
   // Ambil mean list yang sesuai
@@ -151,15 +149,25 @@ export const getFormulaMeanCenteredValue = (
     ? "item"
     : opsional.split("-")[0];
 
-  const displayItemIndex = colIndex + 1;
-  const displayUserIndex = rowIndex + 1;
-
-  const entity = meanList ? "item" : opsional.split("-")[0];
   // Untuk Adjusted Cosine User-Based, row merepresentasikan item, col merepresentasikan user
   const mainIndex = isAdjustedCosineUserBased ? rowIndex + 1 : rowIndex + 1;
   const secondaryIndex = isAdjustedCosineUserBased
     ? colIndex + 1
     : colIndex + 1;
+
+  // FIX: entity untuk mean label harus sesuai dengan jenis mean yang digunakan
+  const meanEntity = isAdjustedCosineUserBased
+    ? "item"
+    : opsional === "item-based"
+    ? "item"
+    : "user";
+
+  // FIX: meanIndex harus sesuai dengan index yang digunakan untuk mengambil mean
+  const meanIndex = isAdjustedCosineUserBased
+    ? colIndex + 1
+    : opsional === "item-based"
+    ? colIndex + 1
+    : rowIndex + 1;
 
   const indexLabel =
     similarity === "Adjusted Cosine" && opsional !== "user-based"
@@ -167,7 +175,7 @@ export const getFormulaMeanCenteredValue = (
       : `S_{${mainEntity}(${mainIndex},${secondaryIndex})}`;
 
   const ratingLabel = `r_{${mainIndex},${secondaryIndex}}`;
-  const meanLabel = `\\mu_{${entity}(${displayUserIndex})}`;
+  const meanLabel = `\\mu_{${meanEntity}(${meanIndex})}`;
 
   const formulaString = `\\[ ${indexLabel} = ${ratingLabel} - ${meanLabel} \\]`;
   const resultStringWithValue = `\\[ ${indexLabel} = ${selectedValueRating?.toFixed(

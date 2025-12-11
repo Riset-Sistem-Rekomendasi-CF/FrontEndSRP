@@ -2,176 +2,189 @@
 @tailwind components;
 @tailwind utilities;
 
-
 /* jadikan popins based dari font */
 @layer base {
   body {
-    @apply font-sans
+    @apply font-sans bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200;
+  }
+
+  /* Dark mode scrollbar */
+  .dark ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .dark ::-webkit-scrollbar-track {
+    background: #1f2937;
+  }
+
+  .dark ::-webkit-scrollbar-thumb {
+    background: #4b5563;
+    border-radius: 4px;
+  }
+
+  .dark ::-webkit-scrollbar-thumb:hover {
+    background: #6b7280;
   }
 }
 
-
-
- /*styles.css or App.css */
+/*styles.css or App.css */
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .table-cell {
-    opacity: 0; /* Initial opacity for animation */
-    animation: fadeIn 0.5s forwards; /* Apply animation */
+  opacity: 0; /* Initial opacity for animation */
+  animation: fadeIn 0.5s forwards; /* Apply animation */
 }
 
 .table-header {
-    opacity: 0; /* Initial opacity for animation */
-    animation: fadeIn 0.5s forwards; /* Apply animation */
+  opacity: 0; /* Initial opacity for animation */
+  animation: fadeIn 0.5s forwards; /* Apply animation */
 }
-
 
 /*text slider*/
 
 .text-slider {
-    display: inline-block;
-    position: relative;
-    width: fit-content;
+  display: inline-block;
+  position: relative;
+  width: fit-content;
 }
 
 .slide-text {
-    display: inline-block;
-    opacity: 0;
-    transition: opacity 0.5s ease, transform 0.5s ease;
+  display: inline-block;
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
 .text-slider .slide-text:nth-child(1) {
-    opacity: 1;
-    transform: translateX(0);
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .text-slider .slide-text:nth-child(2) {
-    opacity: 0;
-    transform: translateX(-100%);
+  opacity: 0;
+  transform: translateX(-100%);
 }
 
 .text-slider .slide-text:nth-child(1).active {
-    opacity: 0;
-    transform: translateX(100%);
+  opacity: 0;
+  transform: translateX(100%);
 }
 
 .text-slider .slide-text:nth-child(2).active {
-    opacity: 1;
-    transform: translateX(0);
+  opacity: 1;
+  transform: translateX(0);
 }
 
 /*end text sliderr*/
 
-
 /*flip effect */
 
 @layer utilities {
-    .rotate-y-180 {
-        transform: rotateY(180deg);
-    }
-    .backface-hidden {
-        backface-visibility: hidden;
-    }
-    .perspective-[max] {
+  .rotate-y-180 {
+    transform: rotateY(180deg);
+  }
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+  .perspective-[max] {
     perspective: 1000px;
+  }
+  .transform-style-preserve-3d {
+    transform-style: preserve-3d;
+  }
 }
-    .transform-style-preserve-3d {
-        transform-style: preserve-3d;
-    }
-}
-
 
 /*end flip eefect*/
-
-
 
 /* marquee */
 
 /* CSS untuk efek marquee */
 @keyframes marquee {
-    0% {
-      transform: translateX(100%);
-    }
-    100% {
-      transform: translateX(-100%);
-    }
+  0% {
+    transform: translateX(100%);
   }
-  
-  .animate-marquee {
-    animation: marquee 10s linear infinite;
+  100% {
+    transform: translateX(-100%);
   }
+}
+
+.animate-marquee {
+  animation: marquee 10s linear infinite;
+}
 
 /* end marquee */
 
-
-
-
 /* Membuat grid pattern kotak (segi empat) */
 @keyframes gridAnimation {
-    0% {
-      background-position: 0 0;
-    }
-    100% {
-      background-position: 50px 50px;
-    }
+  0% {
+    background-position: 0 0;
   }
-  
-  /* Membuat grid kotak */
-  .bg-box-grid-pattern {
-    background-image: 
-      linear-gradient(to right, rgba(255, 255, 255, 0.1) 1.5px, transparent 1.5px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 1.5px, transparent 1.5px);
-    background-size: 50px 50px; /* Ukuran kotak */
-    background-position: 0 0; /* Posisi awal */
-    animation: gridAnimation 10s linear infinite; /* Animasi bergerak */
+  100% {
+    background-position: 50px 50px;
   }
-  
-  /* Untuk animasi grid kotak berjalan */
-  .animate-grid {
-    animation: gridAnimation 15s ease-in-out infinite;
-  }
+}
 
-  /* Skew effect */
-  .skew-10 {
-    transform: skewY(-10deg);
-  }
-  
-  .skew-20 {
-    transform: skewY(-20deg);
-  }
-  
+/* Membuat grid kotak */
+.bg-box-grid-pattern {
+  background-image: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.1) 1.5px,
+      transparent 1.5px
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.1) 1.5px,
+      transparent 1.5px
+    );
+  background-size: 50px 50px; /* Ukuran kotak */
+  background-position: 0 0; /* Posisi awal */
+  animation: gridAnimation 10s linear infinite; /* Animasi bergerak */
+}
 
+/* Untuk animasi grid kotak berjalan */
+.animate-grid {
+  animation: gridAnimation 15s ease-in-out infinite;
+}
 
+/* Skew effect */
+.skew-10 {
+  transform: skewY(-10deg);
+}
+
+.skew-20 {
+  transform: skewY(-20deg);
+}
 
 .curved-underline {
-    position: relative;
-    display: inline-block;
+  position: relative;
+  display: inline-block;
 }
 
 .curved-underline svg {
-    position: absolute;
-    bottom: -20px; /* Adjust this value to move the underline up or down */
-    left: 0;
-    width: 100%;
-    height: 20px; /* Adjust this value to change the height of the underline */
+  position: absolute;
+  bottom: -20px; /* Adjust this value to move the underline up or down */
+  left: 0;
+  width: 100%;
+  height: 20px; /* Adjust this value to change the height of the underline */
 }
 
 .curved-underline svg path {
-    stroke: var(--underline-color, #077efd); /* Use a CSS variable for the stroke color */
-    stroke-width: 5;
-    fill: none;
+  stroke: var(
+    --underline-color,
+    #077efd
+  ); /* Use a CSS variable for the stroke color */
+  stroke-width: 5;
+  fill: none;
 }
-
-
 
 /* add to mjx container scroll-up down */
 .keterangan-rumus mjx-container {

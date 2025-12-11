@@ -34,7 +34,7 @@ const CardWellcome = ({ heading, detail, image, bgColor }) => {
   };
 
   return (
-    <div className="min-w-full min-h-screen mx-auto items-center p-5 ">
+    <div className="min-w-full min-h-screen mx-auto items-center p-5 dark:bg-gray-900 transition-colors duration-200">
       <div
         className={`font-poppins max-w-5xl mx-auto p-6 ${bgColor} border-2 border-black rounded-[3rem] flex flex-col md:flex-row bg-box-grid-pattern animate-grid z-0`}
       >
@@ -42,7 +42,7 @@ const CardWellcome = ({ heading, detail, image, bgColor }) => {
         <div className="w-full md:w-1/3 mt-6 md:mt-0 md:mr-6">
           <img
             src={image}
-            alt="Card Image"
+            alt="Card"
             className="w-full h-auto object-cover rounded-lg shadow-md hidden md:block" // Gambar disembunyikan pada mobile, muncul di layar medium ke atas
           />
         </div>
@@ -71,33 +71,33 @@ const CardWellcome = ({ heading, detail, image, bgColor }) => {
 
       {/* Method and Similarity Cards */}
       <div className="max-w-5xl mx-auto flex flex-col md:flex-row gap-6 mt-12 font-poppins">
-        <div className="bg-yellow-primary rounded-lg p-6 w-full md:w-1/2 border-2 border-black ">
-          <h3 className="text-2xl font-semibold text-gray-800 mb-2">
+        <div className="bg-yellow-primary dark:bg-gray-800 rounded-lg p-6 w-full md:w-1/2 border-2 border-black dark:border-gray-600">
+          <h3 className="text-2xl font-semibold text-gray-800 dark:text-white mb-2">
             Metode Prediksi
           </h3>
-          <p className="text-black font-medium text-md mb-4">
+          <p className="text-black dark:text-gray-300 font-medium text-md mb-4">
             Metode prediksi yang bisa digunakan dalam Collaborative Filtering.
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* Card 1 */}
             <div
-              className="bg-white rounded-lg p-6 shadow-md text-center border-2 cursor-pointer border-black hover:bg-blue-100 transition duration-300"
+              className="bg-white dark:bg-gray-700 rounded-lg p-6 shadow-md text-center border-2 cursor-pointer border-black dark:border-gray-600 hover:bg-blue-100 dark:hover:bg-gray-600 transition duration-300"
               onClick={() => openModal("User-Based Collaborative Filtering")}
             >
               <div className="text-4xl text-blue-500 mb-4">👤</div>
-              <h4 className="text-lg font-semibold text-gray-800 mb-2">
+              <h4 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">
                 User-Based
               </h4>
             </div>
 
             {/* Card 2 */}
             <div
-              className="bg-white rounded-lg p-6 shadow-md text-center border-2 cursor-pointer border-black hover:bg-blue-100 transition duration-300"
+              className="bg-white dark:bg-gray-700 rounded-lg p-6 shadow-md text-center border-2 cursor-pointer border-black dark:border-gray-600 hover:bg-blue-100 dark:hover:bg-gray-600 transition duration-300"
               onClick={() => openModal("Item-Based Collaborative Filtering")}
             >
               <div className="text-4xl text-green-500 mb-4">📚</div>
-              <h4 className="text-lg font-semibold text-gray-800 mb-2">
+              <h4 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">
                 Item-Based
               </h4>
             </div>
@@ -106,11 +106,11 @@ const CardWellcome = ({ heading, detail, image, bgColor }) => {
 
         {isModalOpen && (
           <div
-            className="py-5 fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50 overflow-y-auto pt-10"
+            className="py-5 fixed inset-0 bg-gray-800 bg-opacity-50 dark:bg-opacity-70 flex justify-center items-center z-50 overflow-y-auto pt-10"
             onClick={closeModal}
           >
             <div
-              className="bg-white rounded-lg m-5 p-8 max-w-2xl w-full relative max-h-screen overflow-y-auto"
+              className="bg-white dark:bg-gray-800 rounded-lg m-5 p-8 max-w-2xl w-full relative max-h-screen overflow-y-auto"
               onClick={(e) => e.stopPropagation()} // Prevent closing modal when clicking inside
             >
               {/* Tombol Close */}
@@ -142,11 +142,11 @@ const CardWellcome = ({ heading, detail, image, bgColor }) => {
         )}
 
         {/* Second Card - Fungsi Similaritas */}
-        <div className="bg-card_purple_secondary rounded-lg p-4 sm:p-6 w-full md:w-1/2 border-2 border-black">
-          <h3 className="text-2xl font-semibold text-gray-800 mb-2">
+        <div className="bg-card_purple_secondary dark:bg-gray-800 rounded-lg p-4 sm:p-6 w-full md:w-1/2 border-2 border-black dark:border-gray-600">
+          <h3 className="text-2xl font-semibold text-gray-800 dark:text-white mb-2">
             Fungsi Similaritas
           </h3>
-          <p className="text-black font-medium text-md mb-4">
+          <p className="text-black dark:text-gray-300 font-medium text-md mb-4">
             Fungsi Similaritas yang bisa digunakan dalam perhitungan prediksi
             pada Collaborative Filtering.
           </p>
@@ -154,11 +154,11 @@ const CardWellcome = ({ heading, detail, image, bgColor }) => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Card 1 */}
             <a href="/pccDetail">
-              <div className="bg-white rounded-lg p-4 sm:p-6 shadow-md text-center border-2 cursor-pointer border-black hover:bg-blue-100 transition duration-300">
+              <div className="bg-white dark:bg-gray-700 rounded-lg p-4 sm:p-6 shadow-md text-center border-2 cursor-pointer border-black dark:border-gray-600 hover:bg-blue-100 dark:hover:bg-gray-600 transition duration-300">
                 <div className="text-4xl text-blue-500 mb-4">
                   <img src={pearson} alt="pearson" className="w-20 mx-auto" />
                 </div>
-                <h4 className="text-lg font-semibold text-gray-800 mb-2">
+                <h4 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">
                   PCC
                 </h4>
               </div>
@@ -166,11 +166,11 @@ const CardWellcome = ({ heading, detail, image, bgColor }) => {
 
             {/* Card 2 */}
             <a href="/cosineDetail">
-              <div className="bg-white rounded-lg p-4 sm:p-6 shadow-md text-center border-2 cursor-pointer border-black hover:bg-blue-100 transition duration-300">
+              <div className="bg-white dark:bg-gray-700 rounded-lg p-4 sm:p-6 shadow-md text-center border-2 cursor-pointer border-black dark:border-gray-600 hover:bg-blue-100 dark:hover:bg-gray-600 transition duration-300">
                 <div className="text-4xl text-green-500 mb-4">
                   <img src={sinus} alt="cosine" className="w-20 mx-auto" />
                 </div>
-                <h4 className="text-lg font-semibold text-gray-800 mb-2">
+                <h4 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">
                   Cosine
                 </h4>
               </div>
@@ -178,11 +178,11 @@ const CardWellcome = ({ heading, detail, image, bgColor }) => {
 
             {/* Card 3 */}
             <a href="/acosDetail">
-              <div className="bg-white rounded-lg p-4 sm:p-6 shadow-md text-center border-2 cursor-pointer border-black hover:bg-blue-100 transition duration-300">
+              <div className="bg-white dark:bg-gray-700 rounded-lg p-4 sm:p-6 shadow-md text-center border-2 cursor-pointer border-black dark:border-gray-600 hover:bg-blue-100 dark:hover:bg-gray-600 transition duration-300">
                 <div className="text-4xl text-green-500 mb-4">
                   <img src={social} alt="acos" className="w-20 mx-auto" />
                 </div>
-                <h4 className="text-lg font-semibold text-gray-800 mb-2">
+                <h4 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">
                   ACos
                 </h4>
               </div>
@@ -190,11 +190,13 @@ const CardWellcome = ({ heading, detail, image, bgColor }) => {
 
             {/* Card 4 */}
             <a href="/bcDetail">
-              <div className="bg-white rounded-lg p-4 sm:p-6 shadow-md text-center border-2 cursor-pointer border-black hover:bg-blue-100 transition duration-300">
+              <div className="bg-white dark:bg-gray-700 rounded-lg p-4 sm:p-6 shadow-md text-center border-2 cursor-pointer border-black dark:border-gray-600 hover:bg-blue-100 dark:hover:bg-gray-600 transition duration-300">
                 <div className="text-4xl text-green-500 mb-4">
                   <img src={probs} alt="bc" className="w-20 mx-auto" />
                 </div>
-                <h4 className="text-lg font-semibold text-gray-800 mb-2">BC</h4>
+                <h4 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">
+                  BC
+                </h4>
               </div>
             </a>
           </div>
@@ -212,10 +214,10 @@ const ContentUserBasedCF = () => {
       <div className=" mx-auto flex flex-col md:flex-row gap-6">
         {/* Left - Text Section */}
         <div className="md:w-2/3">
-          <h2 className="text-3xl font-bold text-gray-800 mb-4">
+          <h2 className="text-3xl font-bold text-gray-800 mb-4 dark:text-white">
             Apa Itu User-Based Collaborative Filtering ?
           </h2>
-          <p className="text-gray-800 text-lg text-justify">
+          <p className="text-gray-800 text-lg text-justify dark:text-white">
             User-Based Collaborative Filtering adalah metode prediksi yang
             dilakukan dengan mempertimbangkan preferensi pengguna yang mirip.
             Metode ini bekerja dengan cara mencari pengguna lain yang memiliki
@@ -229,7 +231,7 @@ const ContentUserBasedCF = () => {
         <div className="md:w-1/3 mt-6 md:mt-0 md:ml-6">
           <img
             src={UserBasedSvg}
-            alt="User-Based CF Image"
+            alt="User-Based CF"
             className="w-full h-auto object-cover rounded-lg shadow-md hidden md:block "
           />
           <a href={UserBasedSvg} target="_blank">
@@ -249,10 +251,10 @@ const ContentItemBasedCF = () => {
       <div className=" mx-auto flex flex-col md:flex-row gap-6">
         {/* Left - Text Section */}
         <div className="md:w-2/3">
-          <h2 className="text-3xl font-bold text-gray-800 mb-4">
+          <h2 className="text-3xl font-bold text-gray-800 mb-4 dark:text-white">
             Apa Itu Item-Based Collaborative Filtering ?
           </h2>
-          <p className="text-gray-800 text-lg text-justify">
+          <p className="text-gray-800 text-lg text-justify dark:text-white">
             Item-Based Collaborative Filtering adalah metode prediksi yang
             dilakukan dengan mempertimbangkan kesamaan antar item. Metode ini
             bekerja dengan cara mencari item lain yang memiliki kesamaan dengan

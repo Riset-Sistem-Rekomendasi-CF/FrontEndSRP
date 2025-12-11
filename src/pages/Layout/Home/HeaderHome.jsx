@@ -85,7 +85,7 @@ const ScrollButton = () => {
 
 const HeaderHome = ({ children }) => {
   return (
-    <section className="relative min-h-screen flex flex-col justify-center items-center px-4 sm:px-8 md:px-16 bg-gradient-to-b from-[#077efd] via-[#077efd] to-white overflow-x-hidden">
+    <section className="relative min-h-screen flex flex-col justify-center items-center px-4 sm:px-8 md:px-16 bg-gradient-to-b from-[#077efd] via-[#077efd] to-white dark:from-[#1e40af] dark:via-[#1e3a8a] dark:to-gray-900 overflow-x-hidden transition-colors duration-200">
       {/* Latar belakang grid kotak */}
       <div className="absolute top-0 left-0 w-full h-full bg-box-grid-pattern animate-grid z-0"></div>
       {/* Konten utama */}

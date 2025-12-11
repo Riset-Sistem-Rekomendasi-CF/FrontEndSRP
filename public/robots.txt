@@ -1,3 +1,23 @@
 # https://www.robotstxt.org/robotstxt.html
+# KoalaERS - Media Pembelajaran Sistem Rekomendasi
+
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /api/
+Disallow: /*.json$
+
+# Google
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+# Bing
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Sitemap
+Sitemap: https://koalaers.trunojoyo.ac.id/sitemap.xml
+
+# Host
+Host: https://koalaers.trunojoyo.ac.id

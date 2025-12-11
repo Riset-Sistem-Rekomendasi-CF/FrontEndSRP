@@ -1,20 +1,21 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { MathJaxContext } from "better-react-mathjax";
-import mathjaxConfig from "../../../mathjax-config.js";
-import { FunctionMeasureDropdown } from "../DropdownFunction/FunctionMeasureDropdown.jsx";
-import { AllSimilaritas } from "../../../api/getDataSet.js";
-import { getFormulaSimilarity } from "./Formula/FormulaSimilarity.jsx";
-import ModalSimilarity from "./ModalSimilarityMeasure.jsx";
-import DropdownWithDisplay from "../../Graph/DropdownVisual";
+import mathjaxConfig from "../../../../mathjax-config.js";
+import { FunctionMeasureDropdown } from "../../DropdownFunction/FunctionMeasureDropdown.jsx";
+import { AllSimilaritas } from "../../../../api/getDataSet.js";
+import { getFormulaSimilarity } from "../Formula/FormulaSimilarity.jsx";
+
+import DropdownWithDisplay from "../../../Graph/DropdownVisual";
 import InfoIcon from "@mui/icons-material/Info";
-import simGif from "../../../assets/vidioAsset/tutorial_asset/similaritas.gif";
-import MathJaxComponent from "../../../MathJaxComponent.js";
-import Spinner from "../../Navigate/Spinner.jsx";
-import { TutorialModal } from "../../modal/TutorialModal.jsx";
+import simGif from "../../../../assets/vidioAsset/tutorial_asset/similaritas.gif";
+import MathJaxComponent from "../../../../MathJaxComponent.js";
+import Spinner from "../../../Navigate/Spinner.jsx";
+import { TutorialModal } from "../../../modal/TutorialModal.jsx";
 import {
   DividerHeading,
   DividerHeadingBlue,
-} from "../../tabelData/DividerHeading.jsx";
+} from "../../../tabelData/DividerHeading.jsx";
+import ModalSimilarity from "./ModalSimilarityMeasure.jsx";
 
 /**
  * |----------------------------------------------------|
@@ -29,7 +30,7 @@ import {
 const TableSimilarity = ({ children }) => {
   return (
     <>
-      <table className="border border-black mt-4 text-xs sm:text-sm md:text-base lg:text-lg min-w-full">
+      <table className="text-xs sm:text-sm md:text-base lg:text-lg min-w-full bg-white">
         {children}
       </table>
     </>
@@ -39,8 +40,14 @@ const TableSimilarity = ({ children }) => {
 const HeadTableSimilarity = ({ children, opsional }) => {
   return (
     <thead>
-      <tr className={opsional === "user-based" ? "bg-blue-200" : "bg-gray-200"}>
-        <th className="border border-black px-4 py-2">
+      <tr
+        className={`${
+          opsional === "user-based"
+            ? "bg-gradient-to-r from-blue-500 to-blue-600"
+            : "bg-gradient-to-r from-gray-500 to-gray-600"
+        } text-white`}
+      >
+        <th className="px-4 py-3 font-semibold border-r border-opacity-30 border-white">
           {opsional === "user-based" ? "U/U" : "I/I"}
         </th>
         {children}
@@ -49,19 +56,21 @@ const HeadTableSimilarity = ({ children, opsional }) => {
   );
 };
 
-const TrTableSimilarity = ({ children }, key) => {
-  return <tr>{children}</tr>;
+const TrTableSimilarity = ({ children }) => {
+  return <tr className="transition-all duration-200">{children}</tr>;
 };
 
-const TdTableSimilarity = ({ rowIndex, colIndex, onClick, children }, key) => {
+const TdTableSimilarity = ({ rowIndex, colIndex, onClick, children }) => {
   return (
     <td
-      className={`border border-black px-4 py-2 text-center text-xs sm:text-sm cursor-pointer hover:bg-card_green_primary ${
-        rowIndex === colIndex ? "bg-red-200" : ""
+      className={`px-4 py-3 text-center text-xs sm:text-sm cursor-pointer transition-all duration-200 hover:bg-green-100 hover:scale-105 border-r border-gray-100 last:border-r-0 ${
+        rowIndex === colIndex
+          ? "bg-red-100 text-red-500 font-medium"
+          : "text-gray-700 hover:text-blue-600"
       }`}
       onClick={onClick}
     >
-      {children}
+      <span className="font-medium">{children}</span>
     </td>
   );
 };
@@ -112,21 +121,18 @@ export default function SimilarityMeasure({
       );
     }
     const numberOfColumnsSim = result["similarity"][0].length;
-    // console.log(result["similarity"]);
 
     if (!result || !result["mean-centered"]) return null;
 
     return (
       <div className="flex justify-center mt-4">
-        <div className="overflow-x-auto w-full">
+        <div className="overflow-x-auto w-full rounded-xl shadow-lg">
           <TableSimilarity>
             <HeadTableSimilarity opsional={opsional}>
               {Array.from({ length: numberOfColumnsSim }, (_, index) => (
                 <th
                   key={index}
-                  className={`border border-black px-4 py-2 text-xs sm:text-sm ${
-                    opsional === "user-based" ? "bg-blue-200" : ""
-                  }`}
+                  className="px-4 py-3 text-xs sm:text-sm font-semibold border-r border-opacity-30 border-white last:border-r-0"
                 >
                   {!funnyMode
                     ? index + 1
@@ -138,9 +144,11 @@ export default function SimilarityMeasure({
               {result["similarity"].map((row, rowIndex) => (
                 <TrTableSimilarity key={rowIndex}>
                   <td
-                    className={`border border-black px-4 py-2 ${
-                      opsional === "user-based" ? "bg-blue-200" : "bg-gray-200"
-                    } text-xs sm:text-sm`}
+                    className={`px-4 py-3 ${
+                      opsional === "user-based"
+                        ? "bg-blue-100 text-blue-700"
+                        : "bg-gray-100 text-gray-700"
+                    } text-xs sm:text-sm font-medium border-r border-gray-200`}
                   >
                     {!funnyMode
                       ? rowIndex + 1
@@ -211,7 +219,7 @@ export default function SimilarityMeasure({
       </div>
       <MathJaxContext options={mathjaxConfig}>
         <div className="w-full max-w-full overflow-x-auto overflow-y-hidden sm:overflow-x-visible">
-          <div className="text-[0.75rem] sm:text-sm md:text-base leading-[1.4] mt-4 text-center sm:text-left">
+          <div className="text-[0.75rem] sm:text-sm md:text-base leading-[1.4] mt-4 text-center sm:text-left text-black">
             <MathJaxComponent>{FormulaSimilarity.formula}</MathJaxComponent>
           </div>
         </div>
@@ -228,7 +236,7 @@ export default function SimilarityMeasure({
 
         {showSimilarity && (
           <>
-            <div className="mt-4 space-y-4">
+            <div className="mt-4 space-y-4 text-black">
               {/* Tombol dengan ikon */}
               <div className="flex justify-center mt-4">
                 <div

@@ -1,4 +1,3 @@
-import React from "react";
 import pearson from "../../../assets/images/people.png";
 import sinus from "../../../assets/images/sinus.png";
 import probs from "../../../assets/images/probability.png";
@@ -20,10 +19,10 @@ const FeatureCard = ({
   };
   return (
     <div
-      className={`${bgColor} shadow-md rounded-lg px-6 py-8 flex flex-col items-center justify-between h-full border-2 border-black bg-box-grid-pattern animate-grid z-0`}
+      className={`${bgColor} shadow-md rounded-lg px-6 py-8 flex flex-col items-center justify-between h-full border-2 border-black dark:border-gray-600 bg-box-grid-pattern animate-grid z-0 transition-colors duration-200`}
     >
       {/* Title */}
-      <h2 className="text-xl font-bold text-gray-800 mb-4 text-center">
+      <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-4 text-center">
         {title}
       </h2>
 
@@ -38,7 +37,7 @@ const FeatureCard = ({
       </div>
 
       {/* Description */}
-      <p className="mt-4 text-black text-justify flex-grow font-medium text-md">
+      <p className="mt-4 text-black dark:text-gray-200 text-justify flex-grow font-medium text-md">
         {description}
       </p>
 
@@ -57,17 +56,17 @@ const FeatureCard = ({
 const CardSimilaritas = () => {
   return (
     <>
-      <div className="min-h-screen mx-auto mt-10 font-poppins">
+      <div className="min-h-screen mx-auto mt-10 font-poppins dark:bg-gray-900 transition-colors duration-200">
         <div className="max-w-7xl p-5 mx-auto text-center ">
           <div className=" mb-10">
             <div className="flex flex-col md:flex-row  mx-auto">
               {/* Heading dengan lebar 3/5 */}
-              <h1 className="w-full md:w-2/4 text-3xl sm:text-xl md:text-2xl lg:text-5xl font-bold text-gray-800 leading-tight text-start">
+              <h1 className="w-full md:w-2/4 text-3xl sm:text-xl md:text-2xl lg:text-5xl font-bold text-gray-800 dark:text-white leading-tight text-start">
                 Fungsi Similaritas pada Collaborative Filtering
               </h1>
 
               {/* Paragraf dengan lebar 2/5 */}
-              <p className="w-full md:w-2/4 font-medium text-gray-600 text-md sm:text-sm md:text-lg text-justify">
+              <p className="w-full md:w-2/4 font-medium text-gray-600 dark:text-gray-300 text-md sm:text-sm md:text-lg text-justify">
                 Website KoalaERS mengajarkan cara menghitung Fungsi Similaritas,
                 baik untuk sistem rekomendasi collaborative filtering berbasis
                 user-based maupun item-based. Melalui website ini, pengguna

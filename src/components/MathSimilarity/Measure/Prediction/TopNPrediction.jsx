@@ -3,12 +3,12 @@ import { AllSimilaritas, getInitialData } from "../../../../api/getDataSet";
 import LegendTable from "../../../tabelData/LegendTable";
 import { MathJaxContext } from "better-react-mathjax";
 import MathJaxComponent from "../../../../MathJaxComponent";
-import warningSvg from "../../../../assets/icons/warning.svg";
+
 import mathjaxConfig from "../../../../mathjax-config";
 import { getFormulaPrediction } from "../Formula/FormulaPrediction";
 import { FunctionMeasureDropdown } from "../../DropdownFunction/FunctionMeasureDropdown";
 import CloseIcon from "@mui/icons-material/Close";
-import { DividerHeading, OnlyDivider } from "../../../tabelData/DividerHeading";
+import { DividerHeading } from "../../../tabelData/DividerHeading";
 
 export const TopNPrediction = ({
   k,
@@ -245,17 +245,17 @@ export const TopNPrediction = ({
                   Hasil Prediksi rating untuk user target {selectedUserTopN + 1}{" "}
                   :
                 </p>
-                <div className="overflow-x-auto shadow-md sm:rounded-lg mt-4">
-                  <table className="min-w-full text-sm border-separate border-spacing-0 rounded-md shadow overflow-hidden">
+                <div className="overflow-x-auto rounded-xl shadow-lg mt-4">
+                  <table className="min-w-full text-sm">
                     <thead>
-                      <tr className="bg-purple-600 text-white font-poppins">
-                        <th className="px-2 sm:px-4 py-2 border border-purple-500">
+                      <tr className="bg-gradient-to-r from-purple-500 to-purple-600 text-white font-poppins">
+                        <th className="px-4 sm:px-6 py-3 font-semibold border-r border-purple-400">
                           Rank
                         </th>
-                        <th className="px-2 sm:px-4 py-2 border border-purple-500">
+                        <th className="px-4 sm:px-6 py-3 font-semibold border-r border-purple-400">
                           Nilai r
                         </th>
-                        <th className="px-2 sm:px-4 py-2 border border-purple-500">
+                        <th className="px-4 sm:px-6 py-3 font-semibold">
                           Prediksi
                         </th>
                       </tr>
@@ -264,14 +264,14 @@ export const TopNPrediction = ({
                       {displayTopPredictionsRedUser.map((pred, index) => (
                         <tr
                           key={index}
-                          className={`${
-                            index % 2 === 0 ? "bg-pink-100" : "bg-pink-200"
+                          className={`transition-all duration-200 hover:bg-purple-100 ${
+                            index % 2 === 0 ? "bg-white" : "bg-gray-50"
                           } text-gray-800`}
                         >
-                          <td className="px-2 sm:px-4 py-2 text-sm font-poppins font-medium bg-yellow-200 border border-gray-300 text-center">
+                          <td className="px-4 sm:px-6 py-3 text-sm font-poppins font-semibold bg-gradient-to-r from-yellow-100 to-yellow-200 text-yellow-800 text-center border-r border-gray-200">
                             {index + 1}
                           </td>
-                          <td className="px-2 sm:px-4 py-2 font-stix border border-gray-300 text-center">
+                          <td className="px-4 sm:px-6 py-3 font-stix text-center border-r border-gray-100 text-gray-700">
                             {!funnyMode ? (
                               <>
                                 <span className="relative inline-block align-top">
@@ -287,7 +287,7 @@ export const TopNPrediction = ({
                               headers[pred.colIndex]
                             )}
                           </td>
-                          <td className="px-4 py-2 font-semibold border border-gray-300 text-center">
+                          <td className="px-4 sm:px-6 py-3 font-semibold text-center text-blue-600">
                             {pred.value.toFixed(3)}
                           </td>
                         </tr>

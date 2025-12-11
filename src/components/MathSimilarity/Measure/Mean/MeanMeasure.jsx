@@ -1,7 +1,7 @@
 import { transposeMatrix } from "../../../../helper/helper";
 import { getFormulaMean } from "../Formula/FormulaMean";
 import ModalMean from "./ModalMean";
-import React, { useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { MathJaxContext } from "better-react-mathjax";
 import mathjaxConfig from "../../../../mathjax-config";
 import { FunctionMeasureDropdown } from "../../DropdownFunction/FunctionMeasureDropdown";
@@ -95,37 +95,44 @@ export default function MeanMeasure({
     return (
       <>
         <div className="flex justify-center mt-4">
-          <table className="border border-black mt-4 text-xs sm:text-sm md:text-base lg:text-lg">
-            <thead>
-              <tr className=" bg-gray-200">
-                <th className="border border-black px-4 py-2 italic">
-                  {opsionalModify === "user-based" ? "U" : "I"}
-                </th>
-                <th className="border border-black px-4 py-2 italic">μ</th>
-              </tr>
-            </thead>
-            <tbody>
-              {result["mean-list"].map((mean, index) => (
-                <tr key={index} className="hover:bg-card_green_primary">
-                  <td className="border border-black px-4 py-2">
-                    {!funnyMode
-                      ? index + 1
-                      : (dataModify === "user-based" ? columns : headers)[
-                          index
-                        ]}
-                  </td>
-                  <td className="border border-black px-4 py-2">
-                    <div
-                      className="text-center cursor-pointer"
-                      onClick={() => handleMeanClick(mean, index)}
-                    >
-                      {mean.toFixed(2)}
-                    </div>
-                  </td>
+          <div className="overflow-hidden rounded-xl shadow-lg">
+            <table className="text-xs sm:text-sm md:text-base lg:text-lg text-black">
+              <thead>
+                <tr className="bg-gradient-to-r from-blue-500 to-blue-600 text-white">
+                  <th className="px-6 py-3 font-semibold italic border-r border-blue-400">
+                    {opsionalModify === "user-based" ? "U" : "I"}
+                  </th>
+                  <th className="px-6 py-3 font-semibold italic">μ</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {result["mean-list"].map((mean, index) => (
+                  <tr
+                    key={index}
+                    className={`transition-all duration-200 hover:bg-green-100 hover:scale-[1.02] ${
+                      index % 2 === 0 ? "bg-white" : "bg-gray-50"
+                    }`}
+                  >
+                    <td className="px-6 py-3 font-medium text-gray-700 border-r border-gray-200 bg-gray-100">
+                      {!funnyMode
+                        ? index + 1
+                        : (dataModify === "user-based" ? columns : headers)[
+                            index
+                          ]}
+                    </td>
+                    <td className="px-6 py-3">
+                      <div
+                        className="text-center cursor-pointer font-medium text-blue-600 hover:text-blue-800 transition-colors duration-200"
+                        onClick={() => handleMeanClick(mean, index)}
+                      >
+                        {mean.toFixed(2)}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
           {/* Modal Card */}
           {showModal && (
             <ModalMean
@@ -172,7 +179,7 @@ export default function MeanMeasure({
         </div>
         <MathJaxContext options={mathjaxConfig}>
           <div className="w-full max-w-full overflow-x-auto overflow-y-hidden sm:overflow-x-visible">
-            <div className="text-[0.75rem] sm:text-sm md:text-base leading-[1.4] mb-4 text-center sm:text-left">
+            <div className="text-[0.75rem] sm:text-sm md:text-base leading-[1.4] mb-4 text-center sm:text-left text-black">
               <MathJaxComponent>{meanFormula.formula}</MathJaxComponent>
             </div>
           </div>

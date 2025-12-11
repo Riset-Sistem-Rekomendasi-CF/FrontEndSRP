@@ -1,20 +1,10 @@
-import {
-  getFormulaArgMax,
-  getFormulaPrediction,
-  getFormulaPredictionIndex,
-  getFormulaPredictionValue,
-} from "../Formula/FormulaPrediction";
 import { MathJaxContext } from "better-react-mathjax";
 import mathjaxConfig from "../../../../mathjax-config";
 import { transposeMatrix } from "../../../../helper/helper";
 import LegendTable from "../../../tabelData/LegendTable";
 import { useState } from "react";
 import SwitchToggle from "../../../Toggle/SwitchToggle";
-
-import MathJaxComponent from "../../../../MathJaxComponent";
 import CloseIcon from "@mui/icons-material/Close";
-import ScatterPlot from "../../../Graph/ChartJsPlot";
-import ScatterPlotChart from "../../../Graph/ChartJsPlot";
 import { ArgMaxNeighbor } from "./PredictionArgMax";
 import { PredictionIndex } from "./PredictionIndex";
 import { PredictionValue } from "./PredictionValue";
@@ -70,9 +60,7 @@ const ModalPredictionMeasure = ({
     setIsNotation(!isNotation);
   };
 
-  const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
-  const current = opsional.split("-")[0]; // "user" atau "item"
-  const opposite = current === "user" ? "item" : "user";
+  // Removed unused variables: capitalize, current, opposite
 
   const handleOpenDetailPrediksi = () => {
     const detailData = {
@@ -109,7 +97,7 @@ const ModalPredictionMeasure = ({
       <div
         className="bg-white p-4 sm:p-6 rounded-lg shadow-lg 
             w-full max-w-4xl 
-            max-h-[90vh] overflow-y-auto mt-6 ml-4 mr-4 relative"
+            max-h-[90vh] overflow-y-auto mt-6 ml-4 mr-4 relative text-black"
       >
         {/* Header / Title */}
         <div className="relative">
@@ -135,200 +123,248 @@ const ModalPredictionMeasure = ({
             {/* Matrik Rating */}
             <div>
               <DividerHeading text={"Data Rating"} />
-              <table className="border border-black mt-4 mx-auto text-center w-full">
-                <thead>
-                  <tr className="bg-gray-200">
-                    <th className="border border-black px-4 py-2">
-                      {opsional === "item-based" ? "I" : "U"}
-                    </th>
-                    <th className="border border-black px-4 py-2 italic font-serif">
-                      r
-                      <sub>
-                        {opsional === "item-based"
-                          ? `*${
-                              selectedIndex[opsional === "item-based" ? 1 : 0] +
-                              1
-                            }`
-                          : `${
-                              selectedIndex[opsional === "item-based" ? 1 : 0] +
-                              1
-                            }*`}
-                      </sub>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.map((row, rowIndex) => {
-                    const IsZero =
-                      opsional === "item-based"
-                        ? data[rowIndex][selectedIndex[0]] === 0
-                        : data[rowIndex][selectedIndex[1]] === 0;
-                    return (
-                      <tr key={rowIndex}>
-                        <td className="border border-black px-4 py-2 bg-gray-200">
-                          {!funnyMode
-                            ? rowIndex + 1
-                            : (opsional === "user-based" ? columns : headers)[
-                                rowIndex
-                              ]}
-                        </td>
-                        <td
-                          className={`border border-black px-4 py-2 text-center ${
-                            IsZero ? "bg-red-200" : ""
-                          }`}
-                        >
-                          {!isNotation ? (
-                            row[
-                              // selectedIndex[opsional === "item-based" ? 0 : 1]
-                              selectedIndex[opsional === "item-based" ? 0 : 1]
-                            ]?.toFixed(1)
-                          ) : (
-                            <span className="italic font-serif">
-                              r
-                              <sub>
-                                {opsional === "user-based"
-                                  ? `${rowIndex + 1}${selectedIndex[0] + 1}`
-                                  : `${selectedIndex[1] + 1}${rowIndex + 1}`}
-                              </sub>
-                            </span>
-                          )}
-                        </td>
+              <div className="overflow-x-auto w-full mt-4">
+                <div className="rounded-xl shadow-lg inline-block min-w-full">
+                  <table className="mx-auto text-center w-full">
+                    <thead>
+                      <tr className="bg-blue-500 text-white">
+                        <th className="px-4 py-3 font-semibold border-r border-blue-400">
+                          {opsional === "item-based" ? "I" : "U"}
+                        </th>
+                        <th className="px-4 py-3 italic font-serif font-semibold">
+                          r
+                          <sub>
+                            {opsional === "item-based"
+                              ? `*${
+                                  selectedIndex[
+                                    opsional === "item-based" ? 1 : 0
+                                  ] + 1
+                                }`
+                              : `${
+                                  selectedIndex[
+                                    opsional === "item-based" ? 1 : 0
+                                  ] + 1
+                                }*`}
+                          </sub>
+                        </th>
                       </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+                    </thead>
+                    <tbody>
+                      {data.map((row, rowIndex) => {
+                        const IsZero =
+                          opsional === "item-based"
+                            ? data[rowIndex][selectedIndex[0]] === 0
+                            : data[rowIndex][selectedIndex[1]] === 0;
+                        return (
+                          <tr
+                            key={rowIndex}
+                            className={`transition-all duration-200 ${
+                              rowIndex % 2 === 0 ? "bg-white" : "bg-gray-50"
+                            }`}
+                          >
+                            <td className="px-4 py-3 bg-gray-100 font-medium text-gray-700 border-r border-gray-200">
+                              {!funnyMode
+                                ? rowIndex + 1
+                                : (opsional === "user-based"
+                                    ? columns
+                                    : headers)[rowIndex]}
+                            </td>
+                            <td
+                              className={`px-4 py-3 text-center transition-all duration-200 ${
+                                IsZero ? "bg-red-100 text-red-600" : ""
+                              }`}
+                            >
+                              {!isNotation ? (
+                                row[
+                                  selectedIndex[
+                                    opsional === "item-based" ? 0 : 1
+                                  ]
+                                ]?.toFixed(1)
+                              ) : (
+                                <span className="italic font-serif">
+                                  r
+                                  <sub>
+                                    {opsional === "user-based"
+                                      ? `${rowIndex + 1}${selectedIndex[0] + 1}`
+                                      : `${selectedIndex[1] + 1}${
+                                          rowIndex + 1
+                                        }`}
+                                  </sub>
+                                </span>
+                              )}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
 
             {/* Matriks Mean-Rating */}
             <div>
               <DividerHeading text={"Mean-Rating"} />
-              <table className="border border-black mt-4 mx-auto text-center w-full">
-                <thead>
-                  <tr className="bg-gray-200">
-                    <th className="border border-black px-4 py-2 italic">U</th>
-                    <th className="border border-black italic px-4 py-2 ">
-                      μ<sub>{opsional === "user-based" ? "User" : "Item"}</sub>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {resultMean.map((mean, index) => {
-                    const isActiveUser =
-                      index ===
-                      selectedIndex[opsional === "user-based" ? 0 : 1];
-                    return (
-                      <tr
-                        key={index}
-                        className={isActiveUser ? "bg-green-200" : ""}
-                      >
-                        <td className="border border-black px-4 py-2">
-                          {!funnyMode
-                            ? index + 1
-                            : (opsional === "user-based" ? columns : headers)[
-                                index
-                              ]}
-                        </td>
-                        <td className="border border-black px-4 py-2">
-                          <div className="text-center">
-                            {!isNotation ? (
-                              mean.toFixed(2)
-                            ) : (
-                              <span className="italic font-serif">
-                                μ<sub>{index + 1}</sub>
-                              </span>
-                            )}
-                          </div>
-                        </td>
+              <div className="overflow-x-auto w-full mt-4">
+                <div className="rounded-xl shadow-lg inline-block min-w-full">
+                  <table className="mx-auto text-center w-full">
+                    <thead>
+                      <tr className="bg-blue-500 text-white">
+                        <th className="px-4 py-3 italic font-semibold border-r border-blue-400">
+                          U
+                        </th>
+                        <th className="px-4 py-3 italic font-semibold">
+                          μ
+                          <sub>
+                            {opsional === "user-based" ? "User" : "Item"}
+                          </sub>
+                        </th>
                       </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+                    </thead>
+                    <tbody>
+                      {resultMean.map((mean, index) => {
+                        const isActiveUser =
+                          index ===
+                          selectedIndex[opsional === "user-based" ? 0 : 1];
+                        return (
+                          <tr
+                            key={index}
+                            className={`transition-all duration-200 ${
+                              index % 2 === 0 ? "bg-white" : "bg-gray-50"
+                            } ${isActiveUser ? "!bg-green-100" : ""}`}
+                          >
+                            <td className="px-4 py-3 bg-gray-100 font-medium text-gray-700 border-r border-gray-200">
+                              {!funnyMode
+                                ? index + 1
+                                : (opsional === "user-based"
+                                    ? columns
+                                    : headers)[index]}
+                            </td>
+                            <td
+                              className={`px-4 py-3 ${
+                                isActiveUser ? "text-green-700 font-medium" : ""
+                              }`}
+                            >
+                              <div className="text-center">
+                                {!isNotation ? (
+                                  mean.toFixed(2)
+                                ) : (
+                                  <span className="italic font-serif">
+                                    μ<sub>{index + 1}</sub>
+                                  </span>
+                                )}
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
 
             {/* Nilai Mean-Centered */}
             <div>
               <DividerHeading text={"Mean-Centered"} />
-              <table className="border border-black mt-4 mx-auto text-center w-full">
-                <thead>
-                  <tr className="bg-gray-200">
-                    <th className="border border-black px-4 py-2">
-                      {
-                        opsional
-                          .replace("-", " ")
-                          .toLowerCase()
-                          .replace(/\b[a-z]/g, (letter) => letter.toUpperCase())
-                          .split(" ")[0]
-                      }
-                    </th>
-                    <th className="border border-black px-4 py-2 italic font-serif">
-                      S
-                      <sub>
-                        {opsional === "item-based"
-                          ? `${
-                              selectedIndex[opsional === "item-based" ? 1 : 0] +
-                              1
-                            }*`
-                          : `*${
-                              selectedIndex[opsional === "item-based" ? 0 : 1] +
-                              1
-                            }`}
-                      </sub>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {resultMeanCenteredTranspose.map((row, rowIndex) => {
-                    const IsZero =
-                      opsional === "item-based"
-                        ? data[rowIndex][selectedIndex[0]] === 0
-                        : data[rowIndex][selectedIndex[1]] === 0;
-                    const isTopSimilarity = topSimilarities.some(
-                      (top) => top.index === rowIndex && !IsZero
-                    );
-                    return (
-                      <tr key={rowIndex}>
-                        <td className="border border-black px-4 py-2 bg-gray-200">
-                          {!funnyMode
-                            ? rowIndex + 1
-                            : (opsional === "user-based" ? columns : headers)[
-                                rowIndex
-                              ]}
-                        </td>
-                        <td
-                          className={`border border-black px-4 py-2 text-center ${
-                            IsZero ? "bg-red-200" : ""
-                          } ${isTopSimilarity ? "bg-green-200" : ""}`}
-                        >
-                          {!isNotation ? (
-                            row[
-                              selectedIndex[opsional === "item-based" ? 1 : 0]
-                            ]?.toFixed(2) || "N/A"
-                          ) : (
-                            <span className="italic font-serif">
-                              S
-                              <sub>
-                                {opsional === "item-based"
-                                  ? `${
-                                      selectedIndex[
-                                        opsional === "item-based" ? 0 : 1
-                                      ] + 1
-                                    }${rowIndex + 1}`
-                                  : `${rowIndex + 1}${
-                                      selectedIndex[
-                                        opsional === "item-based" ? 0 : 1
-                                      ] + 1
-                                    }`}
-                              </sub>
-                            </span>
-                          )}
-                        </td>
+              <div className="overflow-x-auto w-full mt-4">
+                <div className="rounded-xl shadow-lg inline-block min-w-full">
+                  <table className="mx-auto text-center w-full">
+                    <thead>
+                      <tr className="bg-blue-500 text-white">
+                        <th className="px-4 py-3 font-semibold border-r border-blue-400">
+                          {
+                            opsional
+                              .replace("-", " ")
+                              .toLowerCase()
+                              .replace(/\b[a-z]/g, (letter) =>
+                                letter.toUpperCase()
+                              )
+                              .split(" ")[0]
+                          }
+                        </th>
+                        <th className="px-4 py-3 italic font-serif font-semibold">
+                          S
+                          <sub>
+                            {opsional === "item-based"
+                              ? `${
+                                  selectedIndex[
+                                    opsional === "item-based" ? 1 : 0
+                                  ] + 1
+                                }*`
+                              : `*${
+                                  selectedIndex[
+                                    opsional === "item-based" ? 0 : 1
+                                  ] + 1
+                                }`}
+                          </sub>
+                        </th>
                       </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+                    </thead>
+                    <tbody>
+                      {resultMeanCenteredTranspose.map((row, rowIndex) => {
+                        const IsZero =
+                          opsional === "item-based"
+                            ? data[rowIndex][selectedIndex[0]] === 0
+                            : data[rowIndex][selectedIndex[1]] === 0;
+                        const isTopSimilarity = topSimilarities.some(
+                          (top) => top.index === rowIndex && !IsZero
+                        );
+                        return (
+                          <tr
+                            key={rowIndex}
+                            className={`transition-all duration-200 ${
+                              rowIndex % 2 === 0 ? "bg-white" : "bg-gray-50"
+                            }`}
+                          >
+                            <td className="px-4 py-3 bg-gray-100 font-medium text-gray-700 border-r border-gray-200">
+                              {!funnyMode
+                                ? rowIndex + 1
+                                : (opsional === "user-based"
+                                    ? columns
+                                    : headers)[rowIndex]}
+                            </td>
+                            <td
+                              className={`px-4 py-3 text-center transition-all duration-200 ${
+                                IsZero ? "bg-red-100 text-red-600" : ""
+                              } ${
+                                isTopSimilarity
+                                  ? "!bg-green-100 text-green-700 font-medium"
+                                  : ""
+                              }`}
+                            >
+                              {!isNotation ? (
+                                row[
+                                  selectedIndex[
+                                    opsional === "item-based" ? 1 : 0
+                                  ]
+                                ]?.toFixed(2) || "N/A"
+                              ) : (
+                                <span className="italic font-serif">
+                                  S
+                                  <sub>
+                                    {opsional === "item-based"
+                                      ? `${
+                                          selectedIndex[
+                                            opsional === "item-based" ? 0 : 1
+                                          ] + 1
+                                        }${rowIndex + 1}`
+                                      : `${rowIndex + 1}${
+                                          selectedIndex[
+                                            opsional === "item-based" ? 0 : 1
+                                          ] + 1
+                                        }`}
+                                  </sub>
+                                </span>
+                              )}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
 
             {/* Nilai Similaritas */}
@@ -336,67 +372,81 @@ const ModalPredictionMeasure = ({
             result["similarity"].length ? (
               <div>
                 <DividerHeading text={"Similaritas"} />
-                <table className="border border-black mt-4 mx-auto text-center w-full">
-                  <thead>
-                    <tr className="bg-gray-200">
-                      <th className="border border-black px-4 py-2">
-                        {opsional === "item-based" ? "I" : "U"}
-                      </th>
-                      <th className="border border-black px-4 py-2 italic font-serif">
-                        Sim
-                        <sub>{`${
-                          selectedIndex[opsional === "item-based" ? 1 : 0] + 1
-                        }*`}</sub>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {result["similarity"].map((row, colIndex) => {
-                      const isTopSimilarity = topSimilarities.some(
-                        (top) => top.index === colIndex
-                      );
-                      return (
-                        <tr key={colIndex}>
-                          <td className="border border-black px-4 py-2 bg-gray-200">
-                            {!funnyMode
-                              ? colIndex + 1
-                              : (opsional === "user-based" ? columns : headers)[
-                                  colIndex
-                                ]}
-                          </td>
-                          <td
-                            className={`border border-black px-4 py-2 text-center ${
-                              isTopSimilarity ? "bg-green-200" : ""
-                            }`}
-                          >
-                            {!isNotation ? (
-                              row[
-                                selectedIndex[opsional === "user-based" ? 0 : 1]
-                              ]?.toFixed(4) || "N/A"
-                            ) : (
-                              <span className="italic font-serif">
-                                Sim
-                                <sub>
-                                  {opsional === "item-based"
-                                    ? `${
-                                        selectedIndex[
-                                          opsional === "item-based" ? 1 : 0
-                                        ] + 1
-                                      }${colIndex + 1}`
-                                    : `${
-                                        selectedIndex[
-                                          opsional === "item-based" ? 1 : 0
-                                        ] + 1
-                                      }${colIndex + 1}`}
-                                </sub>
-                              </span>
-                            )}
-                          </td>
+                <div className="overflow-x-auto w-full mt-4">
+                  <div className="rounded-xl shadow-lg inline-block min-w-full">
+                    <table className="mx-auto text-center w-full">
+                      <thead>
+                        <tr className="bg-blue-500 text-white">
+                          <th className="px-4 py-3 font-semibold border-r border-blue-400">
+                            {opsional === "item-based" ? "I" : "U"}
+                          </th>
+                          <th className="px-4 py-3 italic font-serif font-semibold">
+                            Sim
+                            <sub>{`${
+                              selectedIndex[opsional === "item-based" ? 1 : 0] +
+                              1
+                            }*`}</sub>
+                          </th>
                         </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
+                      </thead>
+                      <tbody>
+                        {result["similarity"].map((row, colIndex) => {
+                          const isTopSimilarity = topSimilarities.some(
+                            (top) => top.index === colIndex
+                          );
+                          return (
+                            <tr
+                              key={colIndex}
+                              className={`transition-all duration-200 ${
+                                colIndex % 2 === 0 ? "bg-white" : "bg-gray-50"
+                              }`}
+                            >
+                              <td className="px-4 py-3 bg-gray-100 font-medium text-gray-700 border-r border-gray-200">
+                                {!funnyMode
+                                  ? colIndex + 1
+                                  : (opsional === "user-based"
+                                      ? columns
+                                      : headers)[colIndex]}
+                              </td>
+                              <td
+                                className={`px-4 py-3 text-center transition-all duration-200 ${
+                                  isTopSimilarity
+                                    ? "!bg-green-100 text-green-700 font-medium"
+                                    : ""
+                                }`}
+                              >
+                                {!isNotation ? (
+                                  row[
+                                    selectedIndex[
+                                      opsional === "user-based" ? 0 : 1
+                                    ]
+                                  ]?.toFixed(4) || "N/A"
+                                ) : (
+                                  <span className="italic font-serif">
+                                    Sim
+                                    <sub>
+                                      {opsional === "item-based"
+                                        ? `${
+                                            selectedIndex[
+                                              opsional === "item-based" ? 1 : 0
+                                            ] + 1
+                                          }${colIndex + 1}`
+                                        : `${
+                                            selectedIndex[
+                                              opsional === "item-based" ? 1 : 0
+                                            ] + 1
+                                          }${colIndex + 1}`}
+                                    </sub>
+                                  </span>
+                                )}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
               </div>
             ) : (
               <p>Data for this user is not available.</p>
@@ -433,6 +483,145 @@ const ModalPredictionMeasure = ({
               },
             ]}
           />
+
+          {/* Tabel Ringkasan Data yang Digunakan */}
+          <div className="mt-4">
+            <DividerHeading text={"Data yang Digunakan dalam Perhitungan"} />
+            <div className="flex flex-row gap-4 justify-center mt-2 flex-wrap">
+              {/* Tabel Mean User Aktif */}
+              <div className="rounded-xl shadow-lg overflow-hidden">
+                <table className="w-auto">
+                  <thead>
+                    <tr className="bg-yellow-500 text-white">
+                      <th
+                        className="px-4 py-2 font-semibold text-sm"
+                        colSpan={2}
+                      >
+                        Mean {opsional === "user-based" ? "User" : "Item"} Aktif
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="bg-white">
+                      <td className="px-4 py-2 bg-gray-100 font-medium text-gray-700 border-r border-gray-200 text-sm">
+                        μ
+                        <sub>
+                          {selectedIndex[opsional === "user-based" ? 0 : 1] + 1}
+                        </sub>
+                      </td>
+                      <td className="px-4 py-2 text-center bg-yellow-100 text-yellow-700 font-semibold">
+                        {resultMean[
+                          selectedIndex[opsional === "user-based" ? 0 : 1]
+                        ]?.toFixed(2) || "N/A"}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Tabel Top-K Similaritas */}
+              <div className="rounded-xl shadow-lg overflow-hidden">
+                <table className="w-auto">
+                  <thead>
+                    <tr className="bg-blue-500 text-white">
+                      <th
+                        className="px-4 py-2 font-semibold text-sm"
+                        colSpan={4}
+                      >
+                        Top-{kValue} Neighbor (Similaritas & Mean-Centered)
+                      </th>
+                    </tr>
+                    <tr className="bg-blue-100 text-xs">
+                      <td className="px-3 py-1 font-medium text-gray-600 border-r border-blue-200">
+                        {opsional === "user-based" ? "User" : "Item"}
+                      </td>
+                      <td className="px-3 py-1 font-medium text-gray-600 border-r border-blue-200">
+                        Similaritas
+                      </td>
+                      <td className="px-3 py-1 font-medium text-gray-600 border-r border-blue-200">
+                        Mean-Centered
+                      </td>
+                      <td className="px-3 py-1 font-medium text-gray-600">
+                        Sim × MC
+                      </td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {topSimilarities.map((top, idx) => {
+                      const mcValue =
+                        opsional === "user-based"
+                          ? resultMeanCenteredTranspose[top.index]?.[
+                              selectedIndex[1]
+                            ]
+                          : resultMeanCenteredTranspose[top.index]?.[
+                              selectedIndex[0]
+                            ];
+                      return (
+                        <tr
+                          key={idx}
+                          className={idx % 2 === 0 ? "bg-white" : "bg-gray-50"}
+                        >
+                          <td className="px-3 py-2 bg-gray-100 font-medium text-gray-700 border-r border-gray-200 text-sm">
+                            {!funnyMode
+                              ? top.index + 1
+                              : (opsional === "user-based" ? columns : headers)[
+                                  top.index
+                                ]}
+                          </td>
+                          <td className="px-3 py-2 text-center bg-blue-50 text-blue-700 font-medium border-r border-blue-100">
+                            {top.value?.toFixed
+                              ? top.value.toFixed(4)
+                              : top.value}
+                          </td>
+                          <td className="px-3 py-2 text-center bg-green-50 text-green-700 font-medium border-r border-green-100">
+                            {mcValue?.toFixed
+                              ? mcValue.toFixed(2)
+                              : mcValue || "N/A"}
+                          </td>
+                          <td className="px-3 py-2 text-center bg-purple-50 text-purple-700 font-medium">
+                            {top.value && mcValue
+                              ? (top.value * mcValue).toFixed(4)
+                              : "N/A"}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Tabel Hasil Prediksi */}
+              <div className="rounded-xl shadow-lg overflow-hidden">
+                <table className="w-auto">
+                  <thead>
+                    <tr className="bg-purple-500 text-white">
+                      <th
+                        className="px-4 py-2 font-semibold text-sm"
+                        colSpan={2}
+                      >
+                        Hasil Prediksi
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="bg-white">
+                      <td className="px-4 py-2 bg-gray-100 font-medium text-gray-700 border-r border-gray-200 text-sm">
+                        P
+                        <sub>
+                          {selectedIndex[0] + 1},{selectedIndex[1] + 1}
+                        </sub>
+                      </td>
+                      <td className="px-4 py-2 text-center bg-purple-100 text-purple-700 font-semibold">
+                        {selectedValue?.toFixed
+                          ? selectedValue.toFixed(3)
+                          : selectedValue}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
 
           <div className="mt-2 w-40 bg-orange-300 rounded-md shadow-sm hover:bg-orange-500 transition-colors">
             <FullscreenIcon className="text-gray-600 inline-block mr-2" />

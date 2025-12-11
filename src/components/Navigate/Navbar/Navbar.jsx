@@ -10,6 +10,7 @@ import MobileMenu from "./MobileMenu";
 import DesktopMenu from "./DesktopMenu";
 import StepperModal from "../../modal/StepeerModal"; // Pastikan path-nya benar
 import { StepperData } from "./StepperData";
+import ThemeToggle from "../../Toggle/ThemeToggle";
 
 const Navbar = () => {
   const location = useLocation();
@@ -61,7 +62,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`bg-white shadow-sm sticky top-0 z-50 transition-transform ${
+      className={`bg-white dark:bg-gray-800 shadow-sm dark:shadow-gray-700 sticky top-0 z-50 transition-all duration-200 ${
         isVisible ? "transform-none" : "-translate-y-full"
       }`}
     >
@@ -70,7 +71,7 @@ const Navbar = () => {
           {/* Logo + Brand */}
           <Link
             to="/"
-            className="flex items-center space-x-3 text-black text-xl font-semibold"
+            className="flex items-center space-x-3 text-black dark:text-white text-xl font-semibold"
           >
             <img
               src={KoalaPage}
@@ -82,10 +83,11 @@ const Navbar = () => {
           </Link>
 
           {/* Hamburger (Mobile Only) */}
-          <div className="flex sm:hidden">
+          <div className="flex sm:hidden items-center space-x-2">
+            <ThemeToggle />
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-black hover:bg-blue-home hover:text-white"
+              className="inline-flex items-center justify-center p-2 rounded-md text-black dark:text-white hover:bg-blue-home hover:text-white"
             >
               {isOpen ? (
                 <CloseIcon className="h-6 w-6" />
@@ -101,6 +103,7 @@ const Navbar = () => {
               isActive={isActive}
               openModal={() => setIsModalOpen(true)}
             />
+            <ThemeToggle />
           </div>
         </div>
       </div>

@@ -6,10 +6,10 @@ const MobileMenu = ({ isOpen, isActive }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="sm:hidden px-4 pb-4 font-poppins">
+    <div className="sm:hidden px-4 pb-4 font-poppins bg-white dark:bg-gray-800">
       <Link
         to="/"
-        className={`block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-home hover:text-white ${isActive(
+        className={`block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-home hover:text-white dark:text-gray-300 transition-colors duration-200 ${isActive(
           "/"
         )}`}
       >
@@ -17,7 +17,7 @@ const MobileMenu = ({ isOpen, isActive }) => {
       </Link>
       <Link
         to="/tutorial"
-        className={`block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-home hover:text-white ${isActive(
+        className={`block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-home hover:text-white dark:text-gray-300 transition-colors duration-200 ${isActive(
           "/tutorial"
         )}`}
       >
@@ -25,7 +25,7 @@ const MobileMenu = ({ isOpen, isActive }) => {
       </Link>
       <Link
         to="/eksplorasi"
-        className={`block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-home hover:text-white ${isActive(
+        className={`block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-home hover:text-white dark:text-gray-300 transition-colors duration-200 ${isActive(
           "/eksplorasi"
         )}`}
       >

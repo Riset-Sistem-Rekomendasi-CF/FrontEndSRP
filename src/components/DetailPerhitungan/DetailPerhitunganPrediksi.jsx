@@ -10,12 +10,27 @@ import { transposeMatrix } from "../../helper/helper";
 import { DividerHeading, OnlyDivider } from "../tabelData/DividerHeading";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import InfoIcon from "@mui/icons-material/Info";
+import LightModeIcon from "@mui/icons-material/LightMode";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
 import { ScatterPlotFilterData } from "../Graph/ScatterPlotFilter";
 import { PredictionFormula } from "../MathSimilarity/Measure/Prediction/PredictionFormula";
 
 export default function DetailPerhitunganPrediksi() {
   const [stateData, setStateData] = useState(null);
   const [isNotation, setIsNotation] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    const saved = localStorage.getItem("theme");
+    return saved === "dark";
+  });
+
+  useEffect(() => {
+    const root = window.document.documentElement;
+    if (isDarkMode) {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
+  }, [isDarkMode]);
 
   useEffect(() => {
     const saved = sessionStorage.getItem("prediksiDetail");
@@ -23,6 +38,14 @@ export default function DetailPerhitunganPrediksi() {
       setStateData(JSON.parse(saved));
     }
   }, []);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode((prev) => {
+      const newValue = !prev;
+      localStorage.setItem("theme", newValue ? "dark" : "light");
+      return newValue;
+    });
+  };
 
   if (!stateData) {
     return (
@@ -60,17 +83,30 @@ export default function DetailPerhitunganPrediksi() {
   const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
   return (
-    <div className="container mx-auto max-w-full p-4">
-      <h2 className="text-2xl font-bold text-center text-gray-800 mb-8 shadow-sm ">
+    <div className="container mx-auto max-w-full p-4 bg-white dark:bg-gray-900 min-h-screen">
+      <h2 className="text-2xl font-bold text-center text-gray-800 dark:text-gray-100 mb-8 shadow-sm">
         <span>Detail Perhitungan Prediksi</span>
       </h2>
-      <div>
+      <div className="flex justify-between items-center mb-4">
         <button
           onClick={() => window.close()}
-          className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition flex items-center gap-2"
+          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition flex items-center gap-2"
         >
           <ArrowBackIcon className="text-white" />
           Kembali
+        </button>
+        <button
+          onClick={toggleDarkMode}
+          className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200"
+          aria-label={
+            isDarkMode ? "Switch to light mode" : "Switch to dark mode"
+          }
+        >
+          {isDarkMode ? (
+            <LightModeIcon className="text-yellow-400" />
+          ) : (
+            <DarkModeIcon className="text-gray-700" />
+          )}
         </button>
       </div>
 
@@ -84,13 +120,13 @@ export default function DetailPerhitunganPrediksi() {
           {/* Matrik Rating */}
           <div>
             <DividerHeading text={"Data Rating"} />
-            <table className="border border-black mt-4 mx-auto text-center w-full">
+            <table className="border border-black dark:border-gray-600 mt-4 mx-auto text-center w-full">
               <thead>
-                <tr className="bg-gray-200">
-                  <th className="border border-black px-4 py-2">
+                <tr className="bg-gray-200 dark:bg-gray-700">
+                  <th className="border border-black dark:border-gray-600 px-4 py-2 text-gray-800 dark:text-gray-100">
                     {opsional === "item-based" ? "I" : "U"}
                   </th>
-                  <th className="border border-black px-4 py-2 italic font-serif">
+                  <th className="border border-black dark:border-gray-600 px-4 py-2 italic font-serif text-gray-800 dark:text-gray-100">
                     r
                     <sub>
                       {opsional === "item-based"
@@ -112,7 +148,7 @@ export default function DetailPerhitunganPrediksi() {
                       : data[rowIndex][selectedIndex[1]] === 0;
                   return (
                     <tr key={rowIndex}>
-                      <td className="border border-black px-4 py-2 bg-gray-200">
+                      <td className="border border-black dark:border-gray-600 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100">
                         {!funnyMode
                           ? rowIndex + 1
                           : (opsional === "user-based" ? columns : headers)[
@@ -120,8 +156,8 @@ export default function DetailPerhitunganPrediksi() {
                             ]}
                       </td>
                       <td
-                        className={`border border-black px-4 py-2 text-center ${
-                          IsZero ? "bg-red-200" : ""
+                        className={`border border-black dark:border-gray-600 px-4 py-2 text-center text-gray-800 dark:text-gray-100 ${
+                          IsZero ? "bg-red-200 dark:bg-red-900" : ""
                         }`}
                       >
                         {!isNotation ? (
@@ -149,11 +185,15 @@ export default function DetailPerhitunganPrediksi() {
           {/* Matriks Mean-Rating */}
           <div>
             <DividerHeading text={"Data Mean-Rating"} />
-            <table className="border border-black mt-4 mx-auto text-center w-full">
+            <table className="border border-black dark:border-gray-600 mt-4 mx-auto text-center w-full">
               <thead>
-                <tr className="bg-gray-200">
-                  <th className="border border-black px-4 py-2 italic">U</th>
-                  <th className="border border-black italic px-4 py-2 ">μ</th>
+                <tr className="bg-gray-200 dark:bg-gray-700">
+                  <th className="border border-black dark:border-gray-600 px-4 py-2 italic text-gray-800 dark:text-gray-100">
+                    U
+                  </th>
+                  <th className="border border-black dark:border-gray-600 italic px-4 py-2 text-gray-800 dark:text-gray-100">
+                    μ
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -163,16 +203,18 @@ export default function DetailPerhitunganPrediksi() {
                   return (
                     <tr
                       key={index}
-                      className={isActiveUser ? "bg-green-200" : ""}
+                      className={
+                        isActiveUser ? "bg-green-200 dark:bg-green-800" : ""
+                      }
                     >
-                      <td className="border border-black px-4 py-2">
+                      <td className="border border-black dark:border-gray-600 px-4 py-2 text-gray-800 dark:text-gray-100">
                         {!funnyMode
                           ? index + 1
                           : (opsional === "user-based" ? columns : headers)[
                               index
                             ]}
                       </td>
-                      <td className="border border-black px-4 py-2">
+                      <td className="border border-black dark:border-gray-600 px-4 py-2 text-gray-800 dark:text-gray-100">
                         <div className="text-center">
                           {!isNotation ? (
                             mean.toFixed(2)
@@ -193,10 +235,10 @@ export default function DetailPerhitunganPrediksi() {
           {/* Nilai Mean-Centered */}
           <div>
             <DividerHeading text={"Data Mean-Centered"} />
-            <table className="border border-black mt-4 mx-auto text-center w-full">
+            <table className="border border-black dark:border-gray-600 mt-4 mx-auto text-center w-full">
               <thead>
-                <tr className="bg-gray-200">
-                  <th className="border border-black px-4 py-2">
+                <tr className="bg-gray-200 dark:bg-gray-700">
+                  <th className="border border-black dark:border-gray-600 px-4 py-2 text-gray-800 dark:text-gray-100">
                     {
                       opsional
                         .replace("-", " ")
@@ -205,7 +247,7 @@ export default function DetailPerhitunganPrediksi() {
                         .split(" ")[0]
                     }
                   </th>
-                  <th className="border border-black px-4 py-2 italic font-serif">
+                  <th className="border border-black dark:border-gray-600 px-4 py-2 italic font-serif text-gray-800 dark:text-gray-100">
                     S
                     <sub>
                       {opsional === "item-based"
@@ -230,7 +272,7 @@ export default function DetailPerhitunganPrediksi() {
                   );
                   return (
                     <tr key={rowIndex}>
-                      <td className="border border-black px-4 py-2 bg-gray-200">
+                      <td className="border border-black dark:border-gray-600 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100">
                         {!funnyMode
                           ? rowIndex + 1
                           : (opsional === "user-based" ? columns : headers)[
@@ -238,9 +280,13 @@ export default function DetailPerhitunganPrediksi() {
                             ]}
                       </td>
                       <td
-                        className={`border border-black px-4 py-2 text-center ${
-                          IsZero ? "bg-red-200" : ""
-                        } ${isTopSimilarity ? "bg-green-200" : ""}`}
+                        className={`border border-black dark:border-gray-600 px-4 py-2 text-center text-gray-800 dark:text-gray-100 ${
+                          IsZero ? "bg-red-200 dark:bg-red-900" : ""
+                        } ${
+                          isTopSimilarity
+                            ? "bg-green-200 dark:bg-green-800"
+                            : ""
+                        }`}
                       >
                         {!isNotation ? (
                           row[
@@ -277,13 +323,13 @@ export default function DetailPerhitunganPrediksi() {
           result["similarity"].length ? (
             <div>
               <DividerHeading text={"Data Similaritas"} />
-              <table className="border border-black mt-4 mx-auto text-center w-full">
+              <table className="border border-black dark:border-gray-600 mt-4 mx-auto text-center w-full">
                 <thead>
-                  <tr className="bg-gray-200">
-                    <th className="border border-black px-4 py-2">
+                  <tr className="bg-gray-200 dark:bg-gray-700">
+                    <th className="border border-black dark:border-gray-600 px-4 py-2 text-gray-800 dark:text-gray-100">
                       {opsional === "item-based" ? "I" : "U"}
                     </th>
-                    <th className="border border-black px-4 py-2 italic font-serif">
+                    <th className="border border-black dark:border-gray-600 px-4 py-2 italic font-serif text-gray-800 dark:text-gray-100">
                       Sim
                       <sub>{`${
                         selectedIndex[opsional === "item-based" ? 0 : 1] + 1
@@ -298,7 +344,7 @@ export default function DetailPerhitunganPrediksi() {
                     );
                     return (
                       <tr key={colIndex}>
-                        <td className="border border-black px-4 py-2 bg-gray-200">
+                        <td className="border border-black dark:border-gray-600 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100">
                           {!funnyMode
                             ? colIndex + 1
                             : (opsional === "user-based" ? columns : headers)[
@@ -306,8 +352,10 @@ export default function DetailPerhitunganPrediksi() {
                               ]}
                         </td>
                         <td
-                          className={`border border-black px-4 py-2 text-center ${
-                            isTopSimilarity ? "bg-green-200" : ""
+                          className={`border border-black dark:border-gray-600 px-4 py-2 text-center text-gray-800 dark:text-gray-100 ${
+                            isTopSimilarity
+                              ? "bg-green-200 dark:bg-green-800"
+                              : ""
                           }`}
                         >
                           {!isNotation ? (
@@ -410,10 +458,10 @@ export default function DetailPerhitunganPrediksi() {
 
       <div className="flex items-start gap-2 pt-2">
         {/* Icon di pojok kiri atas */}
-        <InfoIcon className="text-blue-500 mt-1" />
+        <InfoIcon className="text-blue-500 dark:text-blue-400 mt-1" />
 
         {/* Teks paragraf */}
-        <p className="text-justify">
+        <p className="text-justify text-gray-800 dark:text-gray-200">
           Untuk mempermudah pemahaman bisa dilihat detail perhitungan untuk
           mencari nilai prediksi rating untuk{" "}
           <strong>
@@ -433,7 +481,7 @@ export default function DetailPerhitunganPrediksi() {
         </p>
       </div>
       <OnlyDivider />
-      <p className="text-base text-justify sm:text-md md:text-lg lg:text-xl xl:text-2xl font-bold text-gray-700 m-2">
+      <p className="text-base text-justify sm:text-md md:text-lg lg:text-xl xl:text-2xl font-bold text-gray-700 dark:text-gray-200 m-2">
         Hasil prediksi {similarity} pada untuk{" "}
         {opsional === "User-Based" ? (
           <>
@@ -447,12 +495,12 @@ export default function DetailPerhitunganPrediksi() {
           </>
         )}{" "}
         adalah:{" "}
-        <span className="bg-green-100 rounded-md p-1 ">
+        <span className="bg-green-100 dark:bg-green-800 rounded-md p-1">
           {selectedValue.toFixed(3)}
         </span>
       </p>
       {/* Perhitungan Manual */}
-      <div className="bg-blue-100 p-2 m-2 rounded-md shadow-sm">
+      <div className="bg-blue-100 dark:bg-gray-800 p-2 m-2 rounded-md shadow-sm">
         <MathJaxContext options={mathjaxConfig}>
           <div className="w-full overflow-x-auto overflow-y-hidden  sm:overflow-x-visible mb-4">
             <div className="text-[0.75rem] sm:text-sm md:text-base flex justify-center items-center flex-col px-4 sm:px-10">
@@ -538,7 +586,7 @@ export default function DetailPerhitunganPrediksi() {
 
         <DividerHeading text={"Grafik Prediksi Data Filter 2D"} />
       </div>
-      <div className="bg-blue-100 p-2 m-2 rounded-md shadow-sm">
+      <div className="bg-blue-100 dark:bg-gray-800 p-2 m-2 rounded-md shadow-sm">
         {/* PLOT */}
         <div className="flex flex-col justify-center my-3">
           <ScatterPlotFilterData

@@ -133,7 +133,7 @@ export default function PredictionMeasure({
       </div>
       <MathJaxContext options={mathjaxConfig}>
         <div className="w-full max-w-full overflow-x-auto overflow-y-hidden sm:overflow-x-visible">
-          <div className="text-[0.75rem] sm:text-sm md:text-base leading-[1.4] mt-4 text-center sm:text-left">
+          <div className="text-[0.75rem] sm:text-sm md:text-base leading-[1.4] mt-4 text-center sm:text-left text-black">
             <MathJaxComponent>{formula.formula}</MathJaxComponent>
           </div>
         </div>
@@ -148,7 +148,7 @@ export default function PredictionMeasure({
 
         {showPrediciton && (
           <>
-            <div className="mt-4 space-y-4">
+            <div className="mt-4 space-y-4 text-black">
               <div className="flex justify-center mt-4">
                 <div
                   className="flex items-center gap-2 px-3 py-2 bg-card_blue_primary rounded-md cursor-pointer hover:bg-blue-500 transition-all shadow-md outline outline-2 outline-white w-fit"

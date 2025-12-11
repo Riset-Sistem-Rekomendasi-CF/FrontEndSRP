@@ -8,7 +8,6 @@ import MeanMeasure from "../../components/MathSimilarity/Measure/Mean/MeanMeasur
 import MeanCenteredMeasure from "../../components/MathSimilarity/Measure/MeanCentered/MeanCenteredMeasure";
 import SimilarityMeasure from "../../components/MathSimilarity/Measure/SimilarityMeasure";
 import PredictionMeasure from "../../components/MathSimilarity/Measure/Prediction/PredictionMeasure";
-import BackToTopButton from "../../components/Navigate/BackToTopNavigate";
 import { checkEmptyRowOrColumn } from "../../helper/helper";
 import KeyboardCapslockIcon from "@mui/icons-material/KeyboardCapslock";
 
@@ -164,7 +163,7 @@ export default function DetailPageBoxLatihan({
           }}
         >
           <section className="max-w-full mx-auto text-center px-4 sm:px-3 md:px-4">
-            <h1 className="text-xl sm:text-md md:text-2xl font-bold font-poppins py-5 leading-snug break-words">
+            <h1 className="text-xl sm:text-md md:text-2xl font-bold font-poppins py-5 leading-snug break-words ">
               Langkah-Langkah Penerapan <i>{method} Collaborative Filtering</i>{" "}
               dengan Metode
               <span className="italic"> {similarity}</span>

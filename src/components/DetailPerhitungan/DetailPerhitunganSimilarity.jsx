@@ -8,6 +8,8 @@ import { SimilarityIndexNonZero } from "../MathSimilarity/Measure/Similarity/Sim
 import { SimilarityValue } from "../MathSimilarity/Measure/Similarity/SimilarityValue";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import InfoIcon from "@mui/icons-material/Info";
+import LightModeIcon from "@mui/icons-material/LightMode";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
 import { DividerHeading, OnlyDivider } from "../tabelData/DividerHeading";
 import SimilarityTabelRating from "../MathSimilarity/Measure/Similarity/SimilarityTabelRating";
 import { transposeMatrix } from "../../helper/helper";
@@ -17,6 +19,19 @@ import BcSimilarityWrapper from "../MathSimilarity/Measure/Similarity/BcSimilari
 export default function DetailPerhitunganSimilarity() {
   const [stateData, setStateData] = useState(null);
   const [isNotation, setIsNotation] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    const saved = localStorage.getItem("theme");
+    return saved === "dark";
+  });
+
+  useEffect(() => {
+    const root = window.document.documentElement;
+    if (isDarkMode) {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
+  }, [isDarkMode]);
 
   useEffect(() => {
     const saved = sessionStorage.getItem("similarityDetail");
@@ -24,6 +39,14 @@ export default function DetailPerhitunganSimilarity() {
       setStateData(JSON.parse(saved));
     }
   }, []);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode((prev) => {
+      const newValue = !prev;
+      localStorage.setItem("theme", newValue ? "dark" : "light");
+      return newValue;
+    });
+  };
 
   if (!stateData) {
     return (
@@ -92,17 +115,30 @@ export default function DetailPerhitunganSimilarity() {
       : headers; // bukan transpose, baris = headers (item)
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8 p-4 max-w-full ">
-      <h2 className="text-2xl font-bold text-center text-gray-800 mb-8 shadow-sm">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 p-4 max-w-full bg-white dark:bg-gray-900 min-h-screen">
+      <h2 className="text-2xl font-bold text-center text-gray-800 dark:text-gray-100 mb-8 shadow-sm">
         <span>Detail Perhitungan Fungsi Similaritas</span>
       </h2>
-      <div>
+      <div className="flex justify-between items-center mb-4">
         <button
           onClick={() => window.close()}
-          className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition flex items-center gap-2"
+          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition flex items-center gap-2"
         >
           <ArrowBackIcon className="text-white" />
           Kembali
+        </button>
+        <button
+          onClick={toggleDarkMode}
+          className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200"
+          aria-label={
+            isDarkMode ? "Switch to light mode" : "Switch to dark mode"
+          }
+        >
+          {isDarkMode ? (
+            <LightModeIcon className="text-yellow-400" />
+          ) : (
+            <DarkModeIcon className="text-gray-700" />
+          )}
         </button>
       </div>
 
@@ -131,10 +167,10 @@ export default function DetailPerhitunganSimilarity() {
             <>
               <DividerHeading text={`Data Tabel Mean-Centered`} />
               <div className="overflow-x-auto mt-4 ">
-                <table className="border border-black mx-auto text-center w-full">
+                <table className="border border-black dark:border-gray-600 mx-auto text-center w-full">
                   <thead>
-                    <tr className="bg-gray-200">
-                      <th className="border border-black px-4 py-2">
+                    <tr className="bg-gray-200 dark:bg-gray-700">
+                      <th className="border border-black dark:border-gray-600 px-4 py-2 text-gray-800 dark:text-gray-100">
                         {opsional === "user-based" ? "U/I" : "I/U"}
                       </th>
                       {Array.from(
@@ -142,7 +178,7 @@ export default function DetailPerhitunganSimilarity() {
                         (_, index) => (
                           <th
                             key={index}
-                            className="border border-black px-4 py-2"
+                            className="border border-black dark:border-gray-600 px-4 py-2 text-gray-800 dark:text-gray-100"
                           >
                             {!isNotation ? (
                               !funnyMode ? (
@@ -163,7 +199,7 @@ export default function DetailPerhitunganSimilarity() {
                   <tbody>
                     {dataModify.map((row, rowIndex) => (
                       <tr key={rowIndex}>
-                        <td className="border border-black px-4 py-2 w-20 bg-gray-200">
+                        <td className="border border-black dark:border-gray-600 px-4 py-2 w-20 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100">
                           {!isNotation ? (
                             !funnyMode ? (
                               rowIndex + 1
@@ -208,9 +244,9 @@ export default function DetailPerhitunganSimilarity() {
                           return (
                             <td
                               key={colIndex}
-                              className={`border border-black px-4 py-2 text-center w-20 
-            ${IsZero ? "bg-red-200" : ""} 
-            ${!IsZero && isIntersection ? "bg-green-200" : ""}
+                              className={`border border-black dark:border-gray-600 px-4 py-2 text-center w-20 text-gray-800 dark:text-gray-100
+            ${IsZero ? "bg-red-200 dark:bg-red-900" : ""} 
+            ${!IsZero && isIntersection ? "bg-green-200 dark:bg-green-800" : ""}
           `}
                             >
                               {!isNotation ? (
@@ -280,10 +316,10 @@ export default function DetailPerhitunganSimilarity() {
       </div>
       <div className="flex items-start gap-2 pt-2">
         {/* Icon di pojok kiri atas */}
-        <InfoIcon className="text-blue-500 mt-1" />
+        <InfoIcon className="text-blue-500 dark:text-blue-400 mt-1" />
 
         {/* Teks paragraf */}
-        <p className="text-justify">
+        <p className="text-justify text-gray-800 dark:text-gray-200">
           Untuk mempermudah pemahaman bisa dilihat detail perhitungan untuk
           mencari nilai simialaritas
           <strong>
@@ -295,15 +331,15 @@ export default function DetailPerhitunganSimilarity() {
         </p>
       </div>
       <OnlyDivider />
-      <p className="text-base text-justify sm:text-md md:text-lg lg:text-xl xl:text-2xl font-bold text-gray-700 m-2">
+      <p className="text-base text-justify sm:text-md md:text-lg lg:text-xl xl:text-2xl font-bold text-gray-700 dark:text-gray-200 m-2">
         Hasil Similaritas antara {opsional.split("-")[0]}-{selectedIndex[0] + 1}{" "}
         {""}
         dengan {opsional.split("-")[0]}-{selectedIndex[1] + 1} ={" "}
-        <span className="bg-green-100 rounded-md p-1 ">
+        <span className="bg-green-100 dark:bg-green-800 rounded-md p-1">
           {selectedMean.toFixed(4)}
         </span>
       </p>
-      <div className="bg-blue-100 p-4 m-2 mt-4 rounded-md shadow-sm">
+      <div className="bg-blue-100 dark:bg-gray-800 p-4 m-2 mt-4 rounded-md shadow-sm">
         {/* MathJax untuk rumus */}
         <MathJaxContext options={mathjaxConfig}>
           <div className="w-full max-w-full overflow-x-auto overflow-y-hidden sm:overflow-x-visible">

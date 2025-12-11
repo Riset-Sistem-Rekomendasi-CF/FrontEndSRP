@@ -2,14 +2,16 @@
 import React from "react";
 
 const CardSteps = ({ icon, title, description, bgColor }) => (
-  <div className="bg-white shadow-lg rounded-[1.5rem] border-2 border-black p-6 font-poppins">
+  <div className="bg-white dark:bg-gray-800 shadow-lg rounded-[1.5rem] border-2 border-black dark:border-gray-600 p-6 font-poppins transition-colors duration-200">
     <div
       className={`text-4xl text-purple-600 mb-4 px-2 py-4 ${bgColor} rounded-lg h-20 w-20`}
     >
       {icon}
     </div>
-    <h3 className="text-start text-lg font-bold text-gray-800 mb-2">{title}</h3>
-    <p className="text-start text-gray-600">{description}</p>
+    <h3 className="text-start text-lg font-bold text-gray-800 dark:text-white mb-2">
+      {title}
+    </h3>
+    <p className="text-start text-gray-600 dark:text-gray-400">{description}</p>
   </div>
 );
 
@@ -62,12 +64,12 @@ export default function CardsSteps() {
   return (
     <>
       <section className="min-h-screen mx-auto font-poppins">
-        <div className="bg-white max-w-5xl mx-auto  flex flex-col items-center justify-center p-6">
+        <div className="bg-white dark:bg-gray-900 max-w-5xl mx-auto flex flex-col items-center justify-center p-6 transition-colors duration-200">
           <div className="text-center mb-10">
-            <h2 className="text-5xl font-bold text-black mb-5">
+            <h2 className="text-5xl font-bold text-black dark:text-white mb-5">
               Informasi Perhitungan Prediksi Collaborative Filtering
             </h2>
-            <p className="text-black font-medium text-xl min-w-lg mx-auto">
+            <p className="text-black dark:text-gray-300 font-medium text-xl min-w-lg mx-auto">
               Berikut adalah informasi Perhitungan Prediksi Colllaborative
               Filtering yang perlu diikuti untuk menghitung Metode Prediksi
               User-Based dan Item-Based Collaborative Filtering:

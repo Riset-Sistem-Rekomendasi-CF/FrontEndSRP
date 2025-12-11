@@ -1,7 +1,5 @@
 import MathJaxComponent from "../../../../MathJaxComponent";
-import { FunctionMeasureDropdown } from "../../DropdownFunction/FunctionMeasureDropdown";
 import {
-  getFormualDetailIndex,
   getFormulaPredictionValue,
 } from "../Formula/FormulaPrediction";
 

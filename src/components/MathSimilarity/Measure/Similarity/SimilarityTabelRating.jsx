@@ -1,7 +1,5 @@
-import React from "react";
 import { OnlyDivider } from "../../../tabelData/DividerHeading";
 import FeedbackIcon from "@mui/icons-material/Feedback";
-import { transposeMatrix } from "../../../../helper/helper";
 
 export default function SimilarityTabelRating({
   dataOnly,
@@ -17,125 +15,129 @@ export default function SimilarityTabelRating({
 
   return (
     <div>
-      <div className="overflow-x-auto">
-        <table className="border border-black mx-auto text-center w-full">
-          <thead>
-            <tr className="bg-gray-200">
-              <th className="border border-black px-4 py-2">
-                {opsional === "user-based" ? "U/I" : "I/U"}
-              </th>
-              {dataOnly[0].map((_, index) => (
-                <th key={index} className="border border-black px-4 py-2">
-                  {!isNotation ? (
-                    !funnyMode ? (
-                      index + 1
-                    ) : (
-                      headers[index]
-                    )
-                  ) : (
-                    <span className="font-serif">
-                      i<sub>{index + 1}</sub>
-                    </span>
-                  )}
+      <div className="overflow-x-auto w-full">
+        <div className="rounded-xl shadow-lg inline-block min-w-full">
+          <table className="mx-auto text-center w-full">
+            <thead>
+              <tr className="bg-gradient-to-r from-blue-500 to-blue-600 text-white">
+                <th className="px-4 py-3 font-semibold border-r border-blue-400">
+                  {opsional === "user-based" ? "U/I" : "I/U"}
                 </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {dataOnly.map((row, rowIndex) => (
-              <tr key={rowIndex}>
-                <td className="border border-black px-4 py-2 w-14 bg-gray-200">
-                  {!isNotation ? (
-                    !funnyMode ? (
-                      rowIndex + 1
-                    ) : (
-                      columns[rowIndex]
-                    )
-                  ) : (
-                    <span className="font-serif">
-                      u<sub>{rowIndex + 1}</sub>
-                    </span>
-                  )}
-                </td>
-                {row.map((value, colIndex) => {
-
-                  const isZero = value === 0;
-
-                  // Memeriksa apakah index sesuai dengan index user atau index item
-                  const isMatchingPair =
-                    opsional === "user-based"
-                      ? rowIndex === selectedIndex[0] ||
-                      rowIndex === selectedIndex[1]
-                      : colIndex === selectedIndex[0] ||
-                      colIndex === selectedIndex[1];
-
-                  // Memeriksa apakah kedua value sama-sama bernilai 0
-                  const isBothNotZero = (() => {
-                    if (opsional === "user-based") {
-                      const userA = selectedIndex[0];
-                      const userB = selectedIndex[1];
-                      return (
-                        // I_{u}
-                        dataOnly[userA][colIndex] !== 0 &&
-                        dataOnly[userB][colIndex] !== 0
-                      );
-                    } else {
-                      const itemA = selectedIndex[0];
-                      const itemB = selectedIndex[1];
-                      return (
-                        // U_{}
-                        dataOnly[rowIndex][itemA] !== 0 &&
-                        dataOnly[rowIndex][itemB] !== 0
-                      );
-                    }
-                  })();
-
-                  // 💡 Logika irisan tergantung similarity
-                  const isIrisan =
-                    similarity === "Bhattacharyya Coefficient"
-                      ? isMatchingPair && !isZero
-                      : isMatchingPair && isBothNotZero;
-
-                  const bgColor = isZero
-                    ? "bg-red-200"
-                    : isIrisan
-                      ? "bg-green-200"
-                      : "bg-gray-50 opacity-50";
-
-                  const cellClass = `border border-black px-4 py-2 text-center w-14 ${bgColor}`;
-
-                  return (
-                    <td
-                      key={colIndex}
-                      className={cellClass}
-                      title={
-                        isNotation
-                          ? value?.toFixed?.(0) ?? value
-                          : `r${rowIndex + 1}${colIndex + 1}`
-                      }
-                    >
-                      {!isNotation ? (
-                        value?.toFixed ? (
-                          value.toFixed(0)
-                        ) : (
-                          value
-                        )
+                {dataOnly[0].map((_, index) => (
+                  <th
+                    key={index}
+                    className="px-4 py-3 font-semibold border-r border-blue-400 last:border-r-0"
+                  >
+                    {!isNotation ? (
+                      !funnyMode ? (
+                        index + 1
                       ) : (
-                        <span className="font-serif">
-                          r
-                          <sub>
-                            {rowIndex + 1}
-                            {colIndex + 1}
-                          </sub>
-                        </span>
-                      )}
-                    </td>
-                  );
-                })}
+                        headers[index]
+                      )
+                    ) : (
+                      <span className="font-serif">
+                        i<sub>{index + 1}</sub>
+                      </span>
+                    )}
+                  </th>
+                ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {dataOnly.map((row, rowIndex) => (
+                <tr
+                  key={rowIndex}
+                  className={`transition-all duration-200 ${
+                    rowIndex % 2 === 0 ? "bg-white" : "bg-gray-50"
+                  }`}
+                >
+                  <td className="px-4 py-3 w-14 bg-gray-100 font-medium text-gray-700 border-r border-gray-200">
+                    {!isNotation ? (
+                      !funnyMode ? (
+                        rowIndex + 1
+                      ) : (
+                        columns[rowIndex]
+                      )
+                    ) : (
+                      <span className="font-serif">
+                        u<sub>{rowIndex + 1}</sub>
+                      </span>
+                    )}
+                  </td>
+                  {row.map((value, colIndex) => {
+                    const isZero = value === 0;
+
+                    const isMatchingPair =
+                      opsional === "user-based"
+                        ? rowIndex === selectedIndex[0] ||
+                          rowIndex === selectedIndex[1]
+                        : colIndex === selectedIndex[0] ||
+                          colIndex === selectedIndex[1];
+
+                    const isBothNotZero = (() => {
+                      if (opsional === "user-based") {
+                        const userA = selectedIndex[0];
+                        const userB = selectedIndex[1];
+                        return (
+                          dataOnly[userA][colIndex] !== 0 &&
+                          dataOnly[userB][colIndex] !== 0
+                        );
+                      } else {
+                        const itemA = selectedIndex[0];
+                        const itemB = selectedIndex[1];
+                        return (
+                          dataOnly[rowIndex][itemA] !== 0 &&
+                          dataOnly[rowIndex][itemB] !== 0
+                        );
+                      }
+                    })();
+
+                    const isIrisan =
+                      similarity === "Bhattacharyya Coefficient"
+                        ? isMatchingPair && !isZero
+                        : isMatchingPair && isBothNotZero;
+
+                    const bgColor = isZero
+                      ? "bg-red-100 text-red-600"
+                      : isIrisan
+                      ? "bg-green-100 text-green-700 font-medium"
+                      : "opacity-50";
+
+                    const cellClass = `px-4 py-3 text-center w-14 transition-all duration-200 border-r border-gray-100 last:border-r-0 ${bgColor}`;
+
+                    return (
+                      <td
+                        key={colIndex}
+                        className={cellClass}
+                        title={
+                          isNotation
+                            ? value?.toFixed?.(0) ?? value
+                            : `r${rowIndex + 1}${colIndex + 1}`
+                        }
+                      >
+                        {!isNotation ? (
+                          value?.toFixed ? (
+                            value.toFixed(0)
+                          ) : (
+                            value
+                          )
+                        ) : (
+                          <span className="font-serif">
+                            r
+                            <sub>
+                              {rowIndex + 1}
+                              {colIndex + 1}
+                            </sub>
+                          </span>
+                        )}
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
       <div className="mt-4 p-3 bg-purple-100 text-sm text-gray-700 rounded shadow-sm  font-medium font-poppins">
         <p>

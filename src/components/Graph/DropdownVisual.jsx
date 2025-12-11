@@ -1,14 +1,12 @@
-import { useState, useCallback, memo, lazy, Suspense } from "react";
+import { useState, useCallback, memo, Suspense } from "react";
 import { Menu } from "@headlessui/react";
 import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
 import FormControl from "@mui/material/FormControl";
 
 import HeatMapVisualDataSim from "./HeatMapVisual";
-import { ScatterPlotData } from "./SccaterPlotVisual";
 import ChartJsScatter2D from "./ChartJsPlot2D";
 import GrafikForChart from "../../assets/images/grafikDropdown.svg";
 import { OnlyDivider } from "../tabelData/DividerHeading";
-import ChartJsHeatmap from "./ChartJsHeatmap";
 
 const MemoizedHeatMap = memo(({ result, opsional, similarity }) => {
   return (
@@ -17,11 +15,6 @@ const MemoizedHeatMap = memo(({ result, opsional, similarity }) => {
       opsional={opsional}
       similarity={similarity}
     />
-    // <ChartJsHeatmap
-    //   result={result}
-    //   opsional={opsional}
-    //   similarity={similarity}
-    // />
   );
 });
 
@@ -32,9 +25,6 @@ const MemoizedScatterPlot = memo(({ result, opsional }) => {
 const DropdownWithDisplay = ({ opsional, result, similarity }) => {
   const [selectedMethod, setSelectedMethod] = useState("Pilih Visualisasi");
   const [visualComponent, setVisualComponent] = useState(null);
-
-  const LazyHeatMap = lazy(() => import("./HeatMapVisual"));
-  const LazyScatterPlot = lazy(() => import("./ChartJsPlot2D"));
 
   // Fungsi handleChange yang lebih ringan dan menggunakan useCallback untuk menghindari pembentukan ulang fungsi setiap kali
   const handleChange = useCallback(

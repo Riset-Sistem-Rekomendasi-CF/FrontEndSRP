@@ -1,13 +1,12 @@
-import React from "react";
-
 const VidioSection = () => {
   return (
-    <div className="min-h-screen bg-blue-100 py-8 bg-box-grid-pattern animate-grid z-0">
+    <div className="min-h-screen bg-blue-100 py-8 bg-box-grid-pattern animate-grid z-0 dark:bg-blue-400">
       <div className="p-8 font-poppins max-w-6xl mx-auto">
         <div className="flex items-center justify-center mb-5">
           <a
             href="https://s.id/GuideBookWebsiteKoalaERS"
             target="_blank"
+            rel="noreferrer"
             className="py-2 px-2 bg-blue-home text-center rounded-full shadow-sm border-2 border-black text-white font-semibold text-md hover:bg-blue-200"
           >
             Guide Book Website KoalaERS

@@ -5,8 +5,6 @@ import { FunctionMeasureDropdown } from "../../DropdownFunction/FunctionMeasureD
 import { MathJaxContext } from "better-react-mathjax";
 import mathjaxConfig from "../../../../mathjax-config";
 import { AllSimilaritas } from "../../../../api/getDataSet";
-import { transposeMatrix } from "../../../../helper/helper";
-import { IconButton } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import centerdGif from "../../../../assets/vidioAsset/tutorial_asset/mean-centered.gif";
 import MathJaxComponent from "../../../../MathJaxComponent";
@@ -78,19 +76,19 @@ const MeanCenteredMeasure = ({
     return (
       <div className="flex justify-center mt-4">
         {/* Wrapper dengan overflow-x-auto untuk scroll horizontal */}
-        <div className="overflow-x-auto w-full">
-          <table className="border border-black mt-4 text-xs sm:text-sm md:text-base lg:text-lg min-w-full">
+        <div className="overflow-x-auto w-full rounded-xl shadow-lg">
+          <table className="text-xs sm:text-sm md:text-base lg:text-lg min-w-full">
             <thead>
-              <tr className="bg-gray-200">
+              <tr className="bg-gradient-to-r from-blue-500 to-blue-600 text-white">
                 {/* Kolom pertama (U/I) dengan lebar yang responsif */}
-                <th className="border border-black px-4 py-2 text-xs sm:text-sm md:text-base w-1/6 min-w-[80px]">
+                <th className="px-4 py-3 text-xs sm:text-sm md:text-base w-1/6 min-w-[80px] font-semibold border-r border-blue-400">
                   {opsional === "user-based" ? "U/I" : "I/U"}
                 </th>
 
                 {Array.from({ length: numberOfColumns }, (_, index) => (
                   <th
                     key={index}
-                    className="border border-black px-4 py-2 text-xs sm:text-sm md:text-base"
+                    className="px-4 py-3 text-xs sm:text-sm md:text-base font-semibold border-r border-blue-400 last:border-r-0"
                   >
                     {!funnyMode ? index + 1 : headers[index]}
                   </th>
@@ -98,34 +96,40 @@ const MeanCenteredMeasure = ({
               </tr>
             </thead>
             <tbody>
-              {/* {resultModify.map((row, rowIndex) => ( */}
               {result["mean-centered"].map((row, rowIndex) => (
-                <tr key={rowIndex}>
+                <tr
+                  key={rowIndex}
+                  className={`transition-all duration-200 ${
+                    rowIndex % 2 === 0 ? "bg-white" : "bg-gray-50"
+                  }`}
+                >
                   {/* Kolom pertama (U/I) dengan padding dan lebar responsif */}
-                  <td className="border border-black px-4 py-2 bg-gray-200 text-xs sm:text-sm md:text-base w-1/6 min-w-[80px]">
+                  <td className="px-4 py-3 bg-gray-100 text-xs sm:text-sm md:text-base w-1/6 min-w-[80px] font-medium text-gray-700 border-r border-gray-200">
                     {!funnyMode ? rowIndex + 1 : columns[rowIndex]}
                   </td>
 
                   {row.map((value, colIndex) => {
                     const OriginalValue = dataOnly[rowIndex][colIndex];
-                    // const OriginalValue =
-                    //   opsional === "user-based"
-                    //     ? dataOnly[rowIndex][colIndex]
-                    //     : dataOnly[colIndex][rowIndex];
 
                     const IsZero = OriginalValue === 0;
 
                     return (
                       <td
                         key={colIndex}
-                        className={`border border-black px-4 py-2 text-center cursor-pointer hover:bg-card_green_primary text-xs sm:text-sm md:text-base ${
-                          IsZero ? "bg-red-200" : ""
+                        className={`px-4 py-3 text-center cursor-pointer transition-all duration-200 hover:bg-green-100 hover:scale-105 text-xs sm:text-sm md:text-base border-r border-gray-100 last:border-r-0 ${
+                          IsZero ? "bg-red-100 text-red-600" : "text-gray-700"
                         }`}
                         onClick={() =>
                           handleMeanClick(value, rowIndex, colIndex)
                         }
                       >
-                        {value.toFixed(2)}
+                        <span
+                          className={`font-medium ${
+                            !IsZero && "hover:text-blue-600"
+                          }`}
+                        >
+                          {value.toFixed(2)}
+                        </span>
                       </td>
                     );
                   })}
@@ -180,7 +184,7 @@ const MeanCenteredMeasure = ({
 
       <MathJaxContext options={mathjaxConfig}>
         <div className="w-full max-w-full overflow-x-auto overflow-y-hidden sm:overflow-x-visible">
-          <div className="text-[0.75rem] sm:text-sm md:text-base leading-[1.4] text-center sm:text-left">
+          <div className="text-[0.75rem] sm:text-sm md:text-base leading-[1.4] text-center sm:text-left text-black">
             <MathJaxComponent>{FormulaMeanCentered.formula}</MathJaxComponent>
           </div>
         </div>
@@ -198,7 +202,7 @@ const MeanCenteredMeasure = ({
         {/* modal mean centered */}
         {showMeanCentered && (
           <>
-            <div className="mt-4 space-y-4">
+            <div className="mt-4 space-y-4 text-black">
               {/* Tombol dengan ikon */}
               <div className="flex justify-center mt-4">
                 <div

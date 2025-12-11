@@ -1,4 +1,3 @@
-import KoalaPage from "../../../assets/icons/KoalaPage.png";
 import GifKoalaPage from "../../../assets/vidioAsset/NewKoala.gif";
 
 const About = () => {

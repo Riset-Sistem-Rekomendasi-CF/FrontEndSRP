@@ -16,7 +16,7 @@ export default function CardBanner({
           <div className="w-full md:w-1/3">
             <img
               src={imgSrc}
-              alt="Image Example"
+              alt="Example"
               className="w-full h-48 md:h-full object-cover"
             />
           </div>

@@ -8,14 +8,28 @@ import { MathJaxContext } from "better-react-mathjax";
 import mathjaxConfig from "../../mathjax-config";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import InfoIcon from "@mui/icons-material/Info";
+import LightModeIcon from "@mui/icons-material/LightMode";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
 import { DividerHeading, OnlyDivider } from "../tabelData/DividerHeading";
 import { transposeMatrix } from "../../helper/helper";
 
 export default function DetailPerhitunganMeanCen() {
   const [stateData, setStateData] = useState(null);
   const [isNotation, setIsNotation] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    const saved = localStorage.getItem("theme");
+    return saved === "dark";
+  });
   const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
-  // const navigate = useNavigate();
+
+  useEffect(() => {
+    const root = window.document.documentElement;
+    if (isDarkMode) {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
+  }, [isDarkMode]);
 
   useEffect(() => {
     const saved = sessionStorage.getItem("meanCenteredDetail");
@@ -23,6 +37,14 @@ export default function DetailPerhitunganMeanCen() {
       setStateData(JSON.parse(saved));
     }
   }, []);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode((prev) => {
+      const newValue = !prev;
+      localStorage.setItem("theme", newValue ? "dark" : "light");
+      return newValue;
+    });
+  };
 
   if (!stateData) {
     return (
@@ -63,7 +85,12 @@ export default function DetailPerhitunganMeanCen() {
       ? "item-based"
       : opsional;
 
-  const isMeanUserBased = opsionalModify === "user-based";
+  // Untuk Adjusted Cosine, mean-list-brother adalah mean per-item
+  // Jadi isMeanUserBased harus false untuk Adjusted Cosine
+  const isMeanUserBased =
+    similarity === "Adjusted Cosine"
+      ? false // Adjusted Cosine selalu menggunakan mean per-item
+      : opsionalModify === "user-based";
 
   const isRatingHeader =
     opsional === "user-based"
@@ -85,17 +112,30 @@ export default function DetailPerhitunganMeanCen() {
   // console.log("opsional modify", opsionalModify);
   // console.log("meanllist", meanList);
   return (
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8 p-4 max-w-full">
-      <h2 className="text-2xl font-bold text-center text-gray-800 mb-8 shadow-sm">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 p-4 max-w-full bg-white dark:bg-gray-900 min-h-screen">
+      <h2 className="text-2xl font-bold text-center text-gray-800 dark:text-gray-100 mb-8 shadow-sm">
         Detail Perhitungan Mean-Centered Rating
       </h2>
-      <div>
+      <div className="flex justify-between items-center mb-4">
         <button
           onClick={() => window.close()}
-          className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition flex items-center gap-2"
+          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition flex items-center gap-2"
         >
           <ArrowBackIcon className="text-white" />
           Kembali
+        </button>
+        <button
+          onClick={toggleDarkMode}
+          className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200"
+          aria-label={
+            isDarkMode ? "Switch to light mode" : "Switch to dark mode"
+          }
+        >
+          {isDarkMode ? (
+            <LightModeIcon className="text-yellow-400" />
+          ) : (
+            <DarkModeIcon className="text-gray-700" />
+          )}
         </button>
       </div>
 
@@ -107,15 +147,18 @@ export default function DetailPerhitunganMeanCen() {
       <div className="grid sm:grid-cols-2 gap-6 justify-center m-3">
         <div className="overflow-x-auto">
           <DividerHeading text={"Data Rating (R)"} />
-          <table className="border border-black mx-auto mt-4 text-center w-full max-w-3xl">
+          <table className="border border-black dark:border-gray-600 mx-auto mt-4 text-center w-full max-w-3xl">
             <thead>
-              <tr className="bg-gray-200">
-                <th className="border border-black px-4 py-2">
+              <tr className="bg-gray-200 dark:bg-gray-700">
+                <th className="border border-black dark:border-gray-600 px-4 py-2 text-gray-800 dark:text-gray-100">
                   {" "}
                   {isRatingHeader}
                 </th>
                 {dataModify[0].map((_, index) => (
-                  <th key={index} className="border border-black px-4 py-2">
+                  <th
+                    key={index}
+                    className="border border-black dark:border-gray-600 px-4 py-2 text-gray-800 dark:text-gray-100"
+                  >
                     {!isNotation ? (
                       funnyMode ? (
                         headers[index]
@@ -134,7 +177,7 @@ export default function DetailPerhitunganMeanCen() {
             <tbody>
               {dataModify.map((row, rowIndex) => (
                 <tr key={rowIndex}>
-                  <td className="border border-black bg-gray-100 px-4 py-2">
+                  <td className="border border-black dark:border-gray-600 bg-gray-100 dark:bg-gray-700 px-4 py-2 text-gray-800 dark:text-gray-100">
                     {!funnyMode
                       ? rowIndex + 1
                       : columns?.[rowIndex] || rowIndex + 1}
@@ -157,9 +200,13 @@ export default function DetailPerhitunganMeanCen() {
                               rowIndex === selectedIndex[1] &&
                               colIndex === selectedIndex[0]))));
 
-                    const cellClass = `border border-black px-4 py-2 ${
-                      value === 0 ? "bg-red-200" : ""
-                    } ${isSelected ? "bg-card_green_primary" : ""}`;
+                    const cellClass = `border border-black dark:border-gray-600 px-4 py-2 text-gray-800 dark:text-gray-100 ${
+                      value === 0 ? "bg-red-200 dark:bg-red-900" : ""
+                    } ${
+                      isSelected
+                        ? "bg-card_green_primary dark:bg-green-800"
+                        : ""
+                    }`;
                     return (
                       <td key={`${rowIndex}-${colIndex}`} className={cellClass}>
                         {!isNotation ? (
@@ -187,13 +234,13 @@ export default function DetailPerhitunganMeanCen() {
         </div>
         <div className="overflow-x-auto">
           <DividerHeading text={"Mean (μ)"} />
-          <table className="border border-black mx-auto mt-4 text-center w-full max-w-3xl">
+          <table className="border border-black dark:border-gray-600 mx-auto mt-4 text-center w-full max-w-3xl">
             <thead>
-              <tr className="bg-gray-200">
-                <th className="border border-black px-4 py-2 w-10 italic">
+              <tr className="bg-gray-200 dark:bg-gray-700">
+                <th className="border border-black dark:border-gray-600 px-4 py-2 w-10 italic text-gray-800 dark:text-gray-100">
                   {isMeanUserBased ? "U" : "I"}
                 </th>
-                <th className="border border-black italic px-4 py-2 w-14 font-serif">
+                <th className="border border-black dark:border-gray-600 italic px-4 py-2 w-14 font-serif text-gray-800 dark:text-gray-100">
                   μ
                 </th>
               </tr>
@@ -213,12 +260,16 @@ export default function DetailPerhitunganMeanCen() {
 
                 return (
                   <tr key={`mean-body-${index}`}>
-                    <td className="border border-black px-4 py-2 w-14">
+                    <td className="border border-black dark:border-gray-600 px-4 py-2 w-14 text-gray-800 dark:text-gray-100">
                       {label}
                     </td>
                     <td
-                      className={`border border-black px-4 py-2 w-20 text-center
-                                     ${isSelected ? "bg-yellow-200" : ""}`}
+                      className={`border border-black dark:border-gray-600 px-4 py-2 w-20 text-center text-gray-800 dark:text-gray-100
+                                     ${
+                                       isSelected
+                                         ? "bg-yellow-200 dark:bg-yellow-700"
+                                         : ""
+                                     }`}
                     >
                       <span
                         className="text-center"
@@ -280,10 +331,10 @@ export default function DetailPerhitunganMeanCen() {
       />
       <div className="flex items-start gap-2 pt-2">
         {/* Icon di pojok kiri atas */}
-        <InfoIcon className="text-blue-500 mt-1" />
+        <InfoIcon className="text-blue-500 dark:text-blue-400 mt-1" />
 
         {/* Teks paragraf */}
-        <p className="text-justify">
+        <p className="text-justify text-gray-800 dark:text-gray-200">
           Untuk mempermudah pemahaman bisa dilihat detail perhitungan untuk
           mencari nilai mean-centered rating
           <strong>
@@ -295,15 +346,15 @@ export default function DetailPerhitunganMeanCen() {
         </p>
       </div>
       <OnlyDivider />
-      <p className="text-base text-justify sm:text-md md:text-lg lg:text-xl xl:text-2xl font-bold text-gray-700 m-2">
+      <p className="text-base text-justify sm:text-md md:text-lg lg:text-xl xl:text-2xl font-bold text-gray-700 dark:text-gray-200 m-2">
         Hasil dari Mean-Centered rating dari {opsional.split("-")[0]}-
         {selectedIndex[0] + 1} terhadap {opposite}-{selectedIndex[1] + 1} yaitu
         ={" "}
-        <span className="bg-green-100 rounded-md p-1 ">
+        <span className="bg-green-100 dark:bg-green-800 rounded-md p-1">
           {selectedValue.toFixed(2)}
         </span>
       </p>
-      <div className="bg-blue-100 p-2 m-2 rounded-md shadow-sm">
+      <div className="bg-blue-100 dark:bg-gray-800 p-2 m-2 rounded-md shadow-sm">
         {currentValue === 0 ? (
           <Warm>
             Catatan jika ada{" "}

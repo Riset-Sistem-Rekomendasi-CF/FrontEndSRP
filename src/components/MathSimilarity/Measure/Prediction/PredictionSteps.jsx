@@ -1,6 +1,5 @@
 import { MathJaxContext } from "better-react-mathjax";
 import mathjaxConfig from "../../../../mathjax-config";
-import { dataModify } from "../Mean/dataModify";
 import MathJaxComponent from "../../../../MathJaxComponent";
 import { FunctionMeasureDropdown } from "../../DropdownFunction/FunctionMeasureDropdown";
 import { getFormulaPrediction } from "../Formula/FormulaPrediction";
@@ -8,7 +7,7 @@ import { getFormulaPrediction } from "../Formula/FormulaPrediction";
 export const PredictionSteps = ({ similarity, opsional }) => {
   const formula = getFormulaPrediction(similarity, opsional);
   return (
-    <div className="text-start sm:ml-5 md:ml-10 font-poppins">
+    <div className="text-start sm:ml-5 md:ml-10 font-poppins text-black">
       <h2 className="font-semibold text-sm sm:text-base md:text-lg ">
         1. Menentukan {opsional} {""}
         target

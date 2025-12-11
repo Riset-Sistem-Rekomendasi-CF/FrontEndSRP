@@ -9,7 +9,7 @@ const BodyHome = ({
 }) => {
   const HeaderElement = ({ heading, children }) => {
     const NameClass =
-      " text-black font-bold font-poppins mb-8 sm:mb-12 md:mb-16 ";
+      " text-black dark:text-white font-bold font-poppins mb-8 sm:mb-12 md:mb-16 ";
     switch (heading) {
       case "1":
         return (
@@ -52,7 +52,7 @@ const BodyHome = ({
   const SubHeaderElement = ({ typeOf, children }) => {
     return (
       <p
-        className={`text-black text-sm font-medium sm:text-base font-poppins ${
+        className={`text-black dark:text-gray-300 text-sm font-medium sm:text-base font-poppins ${
           typeOf === "space" ? "my-4 sm:my-6 md:my-8" : "mb-8"
         }`}
       >
@@ -92,7 +92,7 @@ const BodyHome = ({
   return (
     <section
       id={idName}
-      className={`${bgColor} min-h-screen mx-auto text-center py-10 px-4 sm:px-6 lg:px-8`}
+      className={`${bgColor} dark:bg-gray-900 min-h-screen mx-auto text-center py-10 px-4 sm:px-6 lg:px-8 transition-colors duration-200`}
     >
       <div className="max-w-7xl mx-auto text-center relative px-4 sm:px-6 lg:px-8">
         <HeaderElement heading={hirarki} typeOf={type}>

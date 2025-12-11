@@ -27,7 +27,7 @@ export function FunctionMeasureDropdown({ DetailRumus }) {
 
       {/* Konten Dropdown */}
       {isOpen && (
-        <div className="w-full overflow-x-auto sm:overflow-x-visible mt-4">
+        <div className="w-full overflow-x-auto sm:overflow-x-visible mt-4 text-black">
           {DetailRumus.map((math, index) => (
             <div
               key={index}

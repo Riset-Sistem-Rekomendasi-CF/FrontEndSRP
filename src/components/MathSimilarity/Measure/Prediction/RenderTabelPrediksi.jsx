@@ -38,11 +38,11 @@ export const RenderTabelPrediksi = memo(
 
     return (
       <div className="flex justify-center mt-4">
-        <div className="overflow-x-auto w-full">
-          <table className="border border-black mt-4 text-xs sm:text-sm md:text-base lg:text-lg min-w-full">
+        <div className="overflow-x-auto w-full rounded-xl shadow-lg">
+          <table className="text-xs sm:text-sm md:text-base lg:text-lg min-w-full">
             <thead>
-              <tr className="bg-gray-200">
-                <th className="border border-black px-4 py-2 text-xs sm:text-sm md:text-base w-1/6 min-w-[80px]">
+              <tr className="bg-gradient-to-r from-blue-500 to-blue-600 text-white">
+                <th className="px-4 py-3 text-xs sm:text-sm md:text-base w-1/6 min-w-[80px] font-semibold border-r border-blue-400">
                   U/I
                 </th>
                 {Array.from(
@@ -50,7 +50,7 @@ export const RenderTabelPrediksi = memo(
                   (_, index) => (
                     <th
                       key={index}
-                      className="border border-black px-4 py-2 text-xs sm:text-sm"
+                      className="px-4 py-3 text-xs sm:text-sm font-semibold border-r border-blue-400 last:border-r-0"
                     >
                       {!funnyMode ? index + 1 : headers[index]}
                     </th>
@@ -60,8 +60,13 @@ export const RenderTabelPrediksi = memo(
             </thead>
             <tbody>
               {result["prediction"].map((row, rowIndex) => (
-                <tr key={rowIndex}>
-                  <td className="border border-black px-4 py-2 bg-blue-200 text-xs sm:text-sm">
+                <tr
+                  key={rowIndex}
+                  className={`transition-all duration-200 ${
+                    rowIndex % 2 === 0 ? "bg-white" : "bg-gray-50"
+                  }`}
+                >
+                  <td className="px-4 py-3 bg-blue-100 text-blue-700 text-xs sm:text-sm font-medium border-r border-gray-200">
                     {!funnyMode ? rowIndex + 1 : columns[rowIndex]}
                   </td>
                   {row.map((value, colIndex) => {
@@ -69,10 +74,10 @@ export const RenderTabelPrediksi = memo(
                     return (
                       <td
                         key={colIndex}
-                        className={`border border-black px-4 py-2 text-center text-xs sm:text-sm ${
+                        className={`px-4 py-3 text-center text-xs sm:text-sm transition-all duration-200 border-r border-gray-100 last:border-r-0 ${
                           IsZero
-                            ? "bg-red-200 cursor-pointer hover:bg-card_green_primary"
-                            : ""
+                            ? "bg-red-100 text-red-600 cursor-pointer hover:bg-green-100 hover:scale-105 font-medium"
+                            : "text-gray-700"
                         }`}
                         onClick={
                           IsZero
@@ -80,7 +85,9 @@ export const RenderTabelPrediksi = memo(
                             : undefined
                         }
                       >
-                        {value.toFixed(3)}
+                        <span className={IsZero ? "hover:text-blue-600" : ""}>
+                          {value.toFixed(3)}
+                        </span>
                       </td>
                     );
                   })}

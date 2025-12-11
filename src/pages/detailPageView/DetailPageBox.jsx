@@ -5,10 +5,11 @@ import Container from "@mui/material/Container";
 import { getInitialData } from "../../api/getDataSet";
 import MeanMeasure from "../../components/MathSimilarity/Measure/Mean/MeanMeasure";
 import MeanCenteredMeasure from "../../components/MathSimilarity/Measure/MeanCentered/MeanCenteredMeasure";
-import SimilarityMeasure from "../../components/MathSimilarity/Measure/SimilarityMeasure";
+
 import PredictionMeasure from "../../components/MathSimilarity/Measure/Prediction/PredictionMeasure";
 import { checkEmptyRowOrColumn } from "../../helper/helper";
 import { WarningPage } from "../ErorrPage/WarningPage";
+import SimilarityMeasure from "../../components/MathSimilarity/Measure/Similarity/SimilarityMeasure";
 
 export default function DetailPageBox({
   method,

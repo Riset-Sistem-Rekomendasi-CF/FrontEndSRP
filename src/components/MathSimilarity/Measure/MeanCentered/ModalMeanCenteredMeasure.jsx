@@ -1,5 +1,5 @@
 import SwitchToggle from "../../../Toggle/SwitchToggle";
-import React, { useState } from "react";
+import { useState } from "react";
 import LegendTable from "../../../tabelData/LegendTable";
 import Warm from "../../../Warm/Warm";
 import CloseIcon from "@mui/icons-material/Close";
@@ -27,7 +27,7 @@ const ModalMeanCenteredMeasure = ({
     (similarity === "Adjusted Cosine" && opsional !== "user-based") ||
     ((similarity === "Cosine" ||
       similarity === "Pearson Correlation Coefficient" ||
-      "Bhattacharyya Coefficient") &&
+      similarity === "Bhattacharyya Coefficient") &&
       opsional === "item-based");
 
   const dataModify = shouldTranspose ? transposeMatrix(dataOnly) : dataOnly;
@@ -74,16 +74,12 @@ const ModalMeanCenteredMeasure = ({
   const current = opsional.split("-")[0]; // "user" atau "item"
   const opposite = current === "user" ? "item" : "user";
 
-  const opsionalModify =
-    opsional === "user-based"
-      ? similarity === "Adjusted Cosine"
-        ? "item-based"
-        : "user-based"
-      : opsional;
-
+  // Untuk Adjusted Cosine, mean-list-brother adalah mean per-item
+  // Jadi isMeanUserBased harus false untuk Adjusted Cosine
   const isMeanUserBased =
-    (similarity === "Adjusted Cosine" && opsional === "item-based") ||
-    opsional === "user-based";
+    similarity === "Adjusted Cosine"
+      ? false // Adjusted Cosine selalu menggunakan mean per-item
+      : opsional === "user-based";
 
   const handleOpenDetailMeanCentered = () => {
     const detailData = {
@@ -120,7 +116,7 @@ const ModalMeanCenteredMeasure = ({
       <div
         className="bg-white p-4 sm:p-6 rounded-lg shadow-lg 
             w-full max-w-4xl 
-            max-h-[90vh] overflow-y-auto mt-6 ml-4 mr-4 relative"
+            max-h-[90vh] overflow-y-auto mt-6 ml-4 mr-4 relative text-black"
       >
         {/* Header / Title */}
         <div className="relative">
@@ -142,163 +138,308 @@ const ModalMeanCenteredMeasure = ({
           title={"Tampilkan Notasi"}
         />
         <div className="w-full flex flex-col">
-          <div className="flex flex-row flex-wrap w-full overflow-x-auto">
-            {/* Tabel Data Rating */}
-            <div className="overflow-auto sm:overflow-visible flex-1 mr-2">
+          <div className="flex flex-row gap-4">
+            {/* Tabel Data Rating - bisa scroll horizontal */}
+            <div className="flex-1 min-w-0">
               <DividerHeading text={"Data Rating (R)"} />
-              <table className="border border-black mt-4 mr-3 mx-auto w-full">
-                <thead>
-                  <tr className="bg-gray-200">
-                    <th className="border border-black px-4 py-2">
-                      {/* if user-based ajusted cosine  */}
-                      {isRatingHeader}
-                    </th>
-                    {Array.from(
-                      { length: dataModify[0].length },
-                      (_, index) => (
-                        <th
-                          key={index}
-                          className="border border-black px-4 py-2 w-14"
-                        >
-                          {!funnyMode ? (
-                            <>{index + 1}</>
-                          ) : (
-                            headers?.[index] || index + 1
-                          )}
+              <div className="overflow-x-auto w-full">
+                <div className="rounded-xl shadow-lg inline-block min-w-full ">
+                  <table className="mx-auto w-full">
+                    <thead>
+                      <tr className="bg-blue-500 text-white">
+                        <th className="px-4 py-3 font-semibold border-r border-blue-400">
+                          {isRatingHeader}
                         </th>
-                      )
-                    )}
-                  </tr>
-                </thead>
-                <tbody>
-                  {/* {dataModify.map((row, rowIndex) => ( */}
-                  {dataModify.map((row, rowIndex) => (
-                    <tr key={rowIndex + "-data-body"}>
-                      <td className="border border-black px-4 py-2 w-14 bg-gray-200">
-                        {!funnyMode
-                          ? rowIndex + 1
-                          : columns?.[rowIndex] || rowIndex + 1}
-                      </td>
-                      {row.map((value, colIndex) => {
-                        const isSelected =
-                          isValidIndex &&
-                          // Adjusted Cosine
-                          ((similarity === "Adjusted Cosine" &&
-                            ((opsional === "user-based" &&
-                              rowIndex === selectedIndex[0] &&
-                              colIndex === selectedIndex[1]) ||
-                              (opsional === "item-based" &&
-                                rowIndex === selectedIndex[1] &&
-                                colIndex === selectedIndex[0]))) ||
-                            // Selain Adjusted Cosine
-                            (similarity !== "Adjusted Cosine" &&
-                              ((opsional === "user-based" &&
-                                rowIndex === selectedIndex[0] &&
-                                colIndex === selectedIndex[1]) ||
-                                (opsional === "item-based" &&
-                                  rowIndex === selectedIndex[1] &&
-                                  colIndex === selectedIndex[0]))));
-
-                        return (
-                          <td
-                            key={`${rowIndex}-${colIndex}`}
-                            className={`border border-black px-4 py-2 text-center w-14 ${
-                              value === 0 ? "bg-red-200" : ""
-                            } ${isSelected ? "bg-card_green_primary" : ""}`}
-                          >
-                            {!isNotation ? (
-                              value?.toFixed ? (
-                                value.toFixed(2)
+                        {Array.from(
+                          { length: dataModify[0].length },
+                          (_, index) => (
+                            <th
+                              key={index}
+                              className="px-4 py-3 w-14 font-semibold border-r border-blue-400 last:border-r-0"
+                            >
+                              {!funnyMode ? (
+                                <>{index + 1}</>
                               ) : (
-                                value
-                              )
-                            ) : (
-                              <>
-                                <span className="italic font-serif">
-                                  r
-                                  <sub>
-                                    {rowIndex + 1}
-                                    {colIndex + 1}
-                                  </sub>
-                                </span>
-                              </>
-                            )}
-                          </td>
-                        );
-                      })}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-
-            <div className="mt-4 sm:mt-0 ml-4">
-              <DividerHeading text={"Mean (μ)"} />
-              <table className="border border-black mt-4 w-full sm:w-auto">
-                <thead>
-                  <tr className="bg-gray-200">
-                    <th className="border border-black px-4 py-2 w-10 italic">
-                      {isMeanUserBased ? "U" : "I"}
-                    </th>
-                    <th className="border border-black italic px-4 py-2 w-14 font-serif">
-                      μ
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {meanList?.map((mean, index) => {
-                    const label = !funnyMode
-                      ? index + 1
-                      : (isMeanUserBased ? columns : headers)?.[index] ??
-                        index + 1;
-
-                    const isSelected =
-                      Array.isArray(selectedIndex) &&
-                      selectedIndex.length === 2 &&
-                      (shouldTranspose
-                        ? selectedIndex[1] === index
-                        : selectedIndex[0] === index);
-
-                    return (
-                      <tr key={`mean-body-${index}`}>
-                        <td className="border border-black px-4 py-2 w-14">
-                          {label}
-                        </td>
-                        <td
-                          className={`border border-black px-4 py-2 w-20 text-center ${
-                            isSelected ? "bg-yellow-200" : ""
+                                headers?.[index] || index + 1
+                              )}
+                            </th>
+                          )
+                        )}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {dataModify.map((row, rowIndex) => (
+                        <tr
+                          key={rowIndex + "-data-body"}
+                          className={`transition-all duration-200 ${
+                            rowIndex % 2 === 0 ? "bg-white" : "bg-gray-50"
                           }`}
                         >
-                          <span
-                            className="text-center"
-                            title={
-                              isNotation
-                                ? mean?.toFixed
-                                  ? mean.toFixed(0)
-                                  : mean
-                                : `μ${index + 1}`
-                            }
+                          <td className="px-4 py-3 w-14 bg-gray-100 font-medium text-gray-700 border-r border-gray-200">
+                            {!funnyMode
+                              ? rowIndex + 1
+                              : columns?.[rowIndex] || rowIndex + 1}
+                          </td>
+                          {row.map((value, colIndex) => {
+                            const isSelected =
+                              isValidIndex &&
+                              ((similarity === "Adjusted Cosine" &&
+                                ((opsional === "user-based" &&
+                                  rowIndex === selectedIndex[0] &&
+                                  colIndex === selectedIndex[1]) ||
+                                  (opsional === "item-based" &&
+                                    rowIndex === selectedIndex[1] &&
+                                    colIndex === selectedIndex[0]))) ||
+                                (similarity !== "Adjusted Cosine" &&
+                                  ((opsional === "user-based" &&
+                                    rowIndex === selectedIndex[0] &&
+                                    colIndex === selectedIndex[1]) ||
+                                    (opsional === "item-based" &&
+                                      rowIndex === selectedIndex[1] &&
+                                      colIndex === selectedIndex[0]))));
+
+                            return (
+                              <td
+                                key={`${rowIndex}-${colIndex}`}
+                                className={`px-4 py-3 text-center w-14 transition-all duration-200 border-r border-gray-100 last:border-r-0 ${
+                                  value === 0 ? "bg-red-100 text-red-600" : ""
+                                } ${
+                                  isSelected
+                                    ? "bg-green-100 text-green-700 font-medium"
+                                    : ""
+                                }`}
+                              >
+                                {!isNotation ? (
+                                  value?.toFixed ? (
+                                    value.toFixed(2)
+                                  ) : (
+                                    value
+                                  )
+                                ) : (
+                                  <>
+                                    <span className="italic font-serif">
+                                      r
+                                      <sub>
+                                        {rowIndex + 1}
+                                        {colIndex + 1}
+                                      </sub>
+                                    </span>
+                                  </>
+                                )}
+                              </td>
+                            );
+                          })}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            {/* Tabel Mean - fixed width, tidak perlu scroll */}
+            <div className="flex-shrink-0 w-auto">
+              <DividerHeading text={"Mean (μ)"} />
+              <div className="rounded-xl shadow-lg">
+                <table className="w-auto">
+                  <thead>
+                    <tr className="bg-blue-500 text-white">
+                      <th className="px-4 py-3 w-10 italic font-semibold border-r border-blue-400">
+                        {isMeanUserBased ? "U" : "I"}
+                      </th>
+                      <th className="px-4 py-3 w-14 font-serif italic font-semibold">
+                        μ
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {meanList?.map((mean, index) => {
+                      const label = !funnyMode
+                        ? index + 1
+                        : (isMeanUserBased ? columns : headers)?.[index] ??
+                          index + 1;
+
+                      const isSelected =
+                        Array.isArray(selectedIndex) &&
+                        selectedIndex.length === 2 &&
+                        (shouldTranspose
+                          ? selectedIndex[1] === index
+                          : selectedIndex[0] === index);
+
+                      return (
+                        <tr
+                          key={`mean-body-${index}`}
+                          className={`transition-all duration-200 ${
+                            index % 2 === 0 ? "bg-white" : "bg-gray-50"
+                          }`}
+                        >
+                          <td className="px-4 py-3 w-14 bg-gray-100 font-medium text-gray-700 border-r border-gray-200">
+                            {label}
+                          </td>
+                          <td
+                            className={`px-4 py-3 w-20 text-center transition-all duration-200 ${
+                              isSelected
+                                ? "bg-yellow-100 text-yellow-700 font-medium"
+                                : ""
+                            }`}
                           >
-                            {!isNotation ? (
-                              mean?.toFixed ? (
-                                mean.toFixed(2)
+                            <span
+                              className="text-center"
+                              title={
+                                isNotation
+                                  ? mean?.toFixed
+                                    ? mean.toFixed(0)
+                                    : mean
+                                  : `μ${index + 1}`
+                              }
+                            >
+                              {!isNotation ? (
+                                mean?.toFixed ? (
+                                  mean.toFixed(2)
+                                ) : (
+                                  mean
+                                )
                               ) : (
-                                mean
-                              )
-                            ) : (
-                              <span className="font-serif">
-                                μ<sub>{index + 1}</sub>
-                              </span>
-                            )}
-                          </span>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+                                <span className="font-serif">
+                                  μ<sub>{index + 1}</sub>
+                                </span>
+                              )}
+                            </span>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
+
+          {/* Tabel Ringkasan Data yang Digunakan */}
+          <div className="mt-4">
+            <DividerHeading text={"Data yang Digunakan dalam Perhitungan"} />
+            <div className="flex flex-row gap-4 justify-center mt-2">
+              {/* Tabel Rating yang dipilih */}
+              <div className="rounded-xl shadow-lg overflow-hidden">
+                <table className="w-auto">
+                  <thead>
+                    <tr className="bg-green-500 text-white">
+                      <th
+                        className="px-4 py-2 font-semibold text-sm"
+                        colSpan={2}
+                      >
+                        Rating Terpilih
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="bg-white">
+                      <td className="px-4 py-2 bg-gray-100 font-medium text-gray-700 border-r border-gray-200 text-sm">
+                        {!isNotation ? (
+                          `r${selectedIndex[0] + 1}${selectedIndex[1] + 1}`
+                        ) : (
+                          <span className="italic font-serif">
+                            r
+                            <sub>
+                              {selectedIndex[0] + 1}
+                              {selectedIndex[1] + 1}
+                            </sub>
+                          </span>
+                        )}
+                      </td>
+                      <td className="px-4 py-2 text-center bg-green-100 text-green-700 font-semibold">
+                        {currentValue?.toFixed
+                          ? currentValue.toFixed(2)
+                          : currentValue}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Tabel Mean yang digunakan */}
+              <div className="rounded-xl shadow-lg overflow-hidden">
+                <table className="w-auto">
+                  <thead>
+                    <tr className="bg-yellow-500 text-white">
+                      <th
+                        className="px-4 py-2 font-semibold text-sm"
+                        colSpan={2}
+                      >
+                        Mean Terpilih
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="bg-white">
+                      <td className="px-4 py-2 bg-gray-100 font-medium text-gray-700 border-r border-gray-200 text-sm">
+                        {!isNotation ? (
+                          `μ${
+                            (shouldTranspose
+                              ? selectedIndex[1]
+                              : selectedIndex[0]) + 1
+                          }`
+                        ) : (
+                          <span className="italic font-serif">
+                            μ
+                            <sub>
+                              {(shouldTranspose
+                                ? selectedIndex[1]
+                                : selectedIndex[0]) + 1}
+                            </sub>
+                          </span>
+                        )}
+                      </td>
+                      <td className="px-4 py-2 text-center bg-yellow-100 text-yellow-700 font-semibold">
+                        {meanList?.[
+                          shouldTranspose ? selectedIndex[1] : selectedIndex[0]
+                        ]?.toFixed(2) || "N/A"}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Tabel Hasil Mean-Centered */}
+              <div className="rounded-xl shadow-lg overflow-hidden">
+                <table className="w-auto">
+                  <thead>
+                    <tr className="bg-purple-500 text-white">
+                      <th
+                        className="px-4 py-2 font-semibold text-sm"
+                        colSpan={2}
+                      >
+                        Hasil Mean-Centered
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="bg-white">
+                      <td className="px-4 py-2 bg-gray-100 font-medium text-gray-700 border-r border-gray-200 text-sm">
+                        {!isNotation ? (
+                          `s${selectedIndex[0] + 1}${selectedIndex[1] + 1}`
+                        ) : (
+                          <span className="italic font-serif">
+                            s
+                            <sub>
+                              {selectedIndex[0] + 1}
+                              {selectedIndex[1] + 1}
+                            </sub>
+                          </span>
+                        )}
+                      </td>
+                      <td className="px-4 py-2 text-center bg-purple-100 text-purple-700 font-semibold">
+                        {selectedValue?.toFixed
+                          ? selectedValue.toFixed(2)
+                          : selectedValue}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
           <div>
             <LegendTable
               list={[

@@ -95,15 +95,15 @@ export const PredictionTopKValidate = ({
             </div>
           )}
         </div>
-        <div className="p-2 rounded-lg shadow-sm bg-sky-500 hover:bg-sky-700">
-          <button
-            className="text-white"
-            onClick={handleSubmit}
-            disabled={!!error || kValue === ""}
-          >
+        <button
+          className="text-white"
+          onClick={handleSubmit}
+          disabled={!!error || kValue === ""}
+        >
+          <div className="p-2 rounded-lg shadow-sm bg-sky-500 hover:bg-sky-700">
             <SearchIcon className="text-white" />
-          </button>
-        </div>
+          </div>
+        </button>
       </div>
 
       {finalK && (

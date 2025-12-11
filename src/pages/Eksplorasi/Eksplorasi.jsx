@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 import {
   DropdownMethodBased,
@@ -6,23 +6,12 @@ import {
 } from "../../components/Form/form_Practice";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import Navigator from "../../components/Navigate/Navigator";
 import NotationCard from "../../components/table/NotaionCard.jsx";
 
 import FormMeasure from "../../components/Form/FormMeasure";
-import VidioTutorialModal from "../../components/modal/VidioTutorialModal";
-import {
-  Build,
-  Lightbulb,
-  People,
-  RateReview,
-  ShowChart,
-  Star,
-} from "@mui/icons-material";
+import { Lightbulb, People, ShowChart, Star } from "@mui/icons-material";
 import Chip from "@mui/material/Chip";
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
-import BodyTutorial from "../Layout/Tutorial/BodyTutorial";
-// import Navbar from "../../components/Navigate/NavBar.jsx";
 import KoalaPage from "../../assets/icons/KoalaPage.png";
 import CardWellcome from "../../components/Card/Home/CardWellcome.jsx";
 import ListNavigasiMenu from "../../components/Navigate/ListNavigasiMenu.jsx";
@@ -62,10 +51,6 @@ function Eksplorasi() {
   // Hide toast
   const handleCloseToast = () => {
     setShowToast(false);
-  };
-
-  const toggleDescription = () => {
-    setDescriptionVisible(!isDescriptionVisible);
   };
 
   const [selectedMethod, setSelectedMethod] = useState("");
@@ -119,31 +104,65 @@ function Eksplorasi() {
 
   return (
     <>
-      <div>
+      <div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen transition-colors duration-200">
         <Helmet>
-          <title>KoalaERS | Eksplorasi Fungsi Similaritas</title>
+          <title>
+            Kalkulator Fungsi Similaritas Online - Hitung PCC, Cosine, Adjusted
+            Cosine, BC | KoalaERS
+          </title>
+          <meta
+            name="title"
+            content="Kalkulator Fungsi Similaritas Online - Hitung PCC, Cosine, Adjusted Cosine, BC | KoalaERS"
+          />
           <meta
             name="description"
-            content="Eksplorasi untuk menghitung fungsi similaritas pada sistem rekomendasi berbasis collaborative filtering. Tutorial interaktif dan mudah dipahami."
+            content="Kalkulator online gratis untuk menghitung fungsi similaritas sistem rekomendasi. Input data rating Anda sendiri dan dapatkan hasil perhitungan PCC, Cosine Similarity, Adjusted Cosine, dan Bhattacharyya Coefficient secara otomatis dengan penjelasan lengkap."
           />
           <meta
             name="keywords"
-            content="KoalaERS, tutorial, sistem rekomendasi, fungsi similaritas, collaborative filtering, mean rating, cosine, PCC"
-          />
-          <meta name="author" content="KoalaERS Team" />
-          <meta
-            property="og:title"
-            content="KoalaERS | Eksplorasi Fungsi Similaritas"
+            content="kalkulator similaritas online, hitung PCC online, kalkulator cosine similarity, adjusted cosine calculator, bhattacharyya coefficient calculator, eksplorasi sistem rekomendasi, collaborative filtering calculator, similarity measure calculator, KoalaERS"
           />
           <meta
-            property="og:description"
-            content="Eksplorasi interaktif untuk memahami metode perhitungan sistem rekomendasi."
+            name="author"
+            content="KoalaERS Team - Universitas Trunojoyo Madura"
           />
-          <meta property="og:image" content="%PUBLIC_URL%/Frame%201.png" />
+          <meta name="robots" content="index, follow" />
+          <link
+            rel="canonical"
+            href="https://koalaers.trunojoyo.ac.id/eksplorasi"
+          />
+
           <meta property="og:type" content="website" />
           <meta
             property="og:url"
-            content="https://koalaers.trunojoyoan.com/eksplorasi"
+            content="https://koalaers.trunojoyo.ac.id/eksplorasi"
+          />
+          <meta
+            property="og:title"
+            content="Kalkulator Fungsi Similaritas Online | KoalaERS"
+          />
+          <meta
+            property="og:description"
+            content="Kalkulator online gratis untuk menghitung fungsi similaritas sistem rekomendasi. Input data rating dan dapatkan hasil perhitungan otomatis."
+          />
+          <meta
+            property="og:image"
+            content="https://koalaers.trunojoyo.ac.id/Frame%201.png"
+          />
+          <meta property="og:locale" content="id_ID" />
+
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta
+            name="twitter:title"
+            content="Kalkulator Fungsi Similaritas Online | KoalaERS"
+          />
+          <meta
+            name="twitter:description"
+            content="Kalkulator online gratis untuk menghitung fungsi similaritas sistem rekomendasi collaborative filtering."
+          />
+          <meta
+            name="twitter:image"
+            content="https://koalaers.trunojoyo.ac.id/Frame%201.png"
           />
         </Helmet>
         <Navbar />
@@ -156,23 +175,34 @@ function Eksplorasi() {
             />
           )}
           <ListNavigasiMenu menuVersion={2} scrollToSection={scrollToSection} />
-          <CardWellcome
-            heading={"Eksplorasi Fungsi Similaritas"}
-            bgColor={"bg-card_purple_primary"}
-            detail="Pada Page Eksplorasi Rating pengguna bisa bereksplorasi dan ingin melakukan
-              eksperiment tentang perhitungan  Fungsi Similaritas dengan data rating yang berbeda-beda untuk pemahaman yang
-              lebih lanjut."
-            image={KoalaPage}
-          />
-          <VidioSection />
+          <div data-aos="fade-down">
+            <CardWellcome
+              heading={"Eksplorasi Fungsi Similaritas"}
+              bgColor={"bg-card_purple_primary"}
+              detail="Pada Page Eksplorasi Rating pengguna bisa bereksplorasi dan ingin melakukan
+                eksperiment tentang perhitungan  Fungsi Similaritas dengan data rating yang berbeda-beda untuk pemahaman yang
+                lebih lanjut."
+              image={KoalaPage}
+            />
+          </div>
+          <div data-aos="fade-up" data-aos-delay="100">
+            <VidioSection />
+          </div>
 
-          <section id="cardSteps" className="max-w-5xl mx-auto p-6 text-center">
+          <section
+            id="cardSteps"
+            className="max-w-5xl mx-auto p-6 text-center"
+            data-aos="fade-up"
+            data-aos-delay="200"
+          >
             <CardsSteps />
           </section>
 
           <section
             id="data_ratingLatihan"
             className="max-w-4xl mx-auto text-center py-5"
+            data-aos="fade-up"
+            data-aos-delay="300"
           >
             <h1 className="text-4xl sm:text-5xl font-bold font-poppins py-10 ">
               <span className="curved-underline">
@@ -187,14 +217,7 @@ function Eksplorasi() {
                 </svg>
               </span>
             </h1>
-            <div className="flex flex-row items-center justify-center">
-              <div className="w-10 h-10 font-poppins rounded-full bg-green-500 text-white flex items-center justify-center text-lg">
-                1
-              </div>
-              <h1 className="text-2xl font-bold font-poppins py-5 ml-3">
-                Buat Tabel Rating:
-              </h1>
-            </div>
+           
             <FormMeasure
               onDataChange={handleDataChange}
               onDescriptionChange={handleTurnDescription}
@@ -208,6 +231,8 @@ function Eksplorasi() {
           <section
             id="notasi_ratingLatihan"
             className="max-w-4xl mx-auto text-center py-5"
+            data-aos="fade-up"
+            data-aos-delay="400"
           >
             <h1 className="text-3xl sm:text-4xl font-bold font-poppins   ">
               <span className="curved-underline">
@@ -228,6 +253,8 @@ function Eksplorasi() {
           <section
             id="metode_ratingLatihan"
             className="max-w-6xl mx-auto text-center py-5"
+            data-aos="fade-up"
+            data-aos-delay="500"
           >
             <div className="px-5">
               <h1 className="text-5xl sm:text-6xl font-bold font-poppins py-10">
@@ -250,7 +277,7 @@ function Eksplorasi() {
               <div className="flex flex-col items-center w-full sm:w-auto">
                 <div className="flex flex-row items-center">
                   <div className="w-10 h-10 font-poppins rounded-full bg-green-500 text-white flex items-center justify-center text-lg">
-                    3
+                    1
                   </div>
                   <h1 className="text-xl sm:text-2xl font-bold font-poppins py-5 sm:py-10 px-3">
                     Pilih Metode Prediksi
@@ -266,7 +293,7 @@ function Eksplorasi() {
               <div className="flex flex-col items-center w-full sm:w-auto">
                 <div className="flex flex-row items-center">
                   <div className="w-10 h-10 font-poppins rounded-full bg-green-500 text-white flex items-center justify-center text-lg">
-                    4
+                    2
                   </div>
                   <h1 className="text-xl sm:text-2xl font-bold font-poppins py-5 sm:py-10 px-3">
                     Pilih Fungsi Similaritas

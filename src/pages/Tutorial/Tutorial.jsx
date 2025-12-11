@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import TabelView from "../../components/table/TabelView.jsx";
 import * as emoji from "../../helper/generateEmot";
 
@@ -157,31 +157,65 @@ const Tutorial = () => {
 
   return (
     <>
-      <div>
+      <div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen transition-colors duration-200">
         <Helmet>
-          <title>KoalaERS | Tutorial Fungsi Similaritas</title>
+          <title>
+            Tutorial Fungsi Similaritas Sistem Rekomendasi - PCC, Cosine,
+            Adjusted Cosine, BC | KoalaERS
+          </title>
+          <meta
+            name="title"
+            content="Tutorial Fungsi Similaritas Sistem Rekomendasi - PCC, Cosine, Adjusted Cosine, BC | KoalaERS"
+          />
           <meta
             name="description"
-            content="Pelajari cara menghitung fungsi similaritas pada sistem rekomendasi berbasis collaborative filtering. Tutorial interaktif dan mudah dipahami."
+            content="Tutorial lengkap cara menghitung fungsi similaritas pada sistem rekomendasi: Pearson Correlation Coefficient (PCC), Cosine Similarity, Adjusted Cosine, dan Bhattacharyya Coefficient. Dengan contoh perhitungan step-by-step dan visualisasi interaktif."
           />
           <meta
             name="keywords"
-            content="KoalaERS, tutorial, sistem rekomendasi, fungsi similaritas, collaborative filtering, mean rating, cosine, PCC"
+            content="tutorial fungsi similaritas, cara menghitung PCC, rumus cosine similarity, adjusted cosine tutorial, bhattacharyya coefficient, mean rating, mean centered, prediksi rating, collaborative filtering tutorial, sistem rekomendasi tutorial, KoalaERS"
           />
-          <meta name="author" content="KoalaERS Team" />
+          <meta
+            name="author"
+            content="KoalaERS Team - Universitas Trunojoyo Madura"
+          />
+          <meta name="robots" content="index, follow" />
+          <link
+            rel="canonical"
+            href="https://koalaers.trunojoyo.ac.id/tutorial"
+          />
+
+          <meta property="og:type" content="article" />
+          <meta
+            property="og:url"
+            content="https://koalaers.trunojoyo.ac.id/tutorial"
+          />
           <meta
             property="og:title"
-            content="KoalaERS | Tutorial Fungsi Similaritas"
+            content="Tutorial Fungsi Similaritas Sistem Rekomendasi | KoalaERS"
           />
           <meta
             property="og:description"
-            content="Tutorial interaktif untuk memahami metode perhitungan sistem rekomendasi."
+            content="Tutorial lengkap cara menghitung fungsi similaritas: PCC, Cosine, Adjusted Cosine, dan BC dengan contoh perhitungan step-by-step."
           />
-          <meta property="og:image" content="%PUBLIC_URL%/Frame%201.png" />
-          <meta property="og:type" content="website" />
           <meta
-            property="og:url"
-            content="https://koalaers.trunojoyoan.com/tutorial"
+            property="og:image"
+            content="https://koalaers.trunojoyo.ac.id/Frame%201.png"
+          />
+          <meta property="og:locale" content="id_ID" />
+
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta
+            name="twitter:title"
+            content="Tutorial Fungsi Similaritas Sistem Rekomendasi | KoalaERS"
+          />
+          <meta
+            name="twitter:description"
+            content="Tutorial lengkap cara menghitung fungsi similaritas pada sistem rekomendasi collaborative filtering."
+          />
+          <meta
+            name="twitter:image"
+            content="https://koalaers.trunojoyo.ac.id/Frame%201.png"
           />
         </Helmet>
         <Navbar />
@@ -195,36 +229,49 @@ const Tutorial = () => {
           )}
 
           <ListNavigasiMenu menuVersion={1} scrollToSection={scrollToSection} />
-          <CardWellcome
-            heading={"Tutorial Fungsi Similaritas"}
-            bgColor={"bg-blue-home"}
-            detail="Pada Page Tutorial ini pengguna akan diberikan tutorial tentang
-              perhitungan fungsi similaritas dalam Sistem Rekomendasi. Sehingga
-              pengguna paham tentang perhitungan Metode Prediksi Collaborative Filterin dengan
-              berbagai fungsi similaritas yang berbeda"
-            image={KoalaPage}
-          />
+          <div data-aos="fade-down">
+            <CardWellcome
+              heading={"Tutorial Fungsi Similaritas"}
+              bgColor={"bg-blue-home"}
+              detail="Pada Page Tutorial ini pengguna akan diberikan tutorial tentang
+                perhitungan fungsi similaritas dalam Sistem Rekomendasi. Sehingga
+                pengguna paham tentang perhitungan Metode Prediksi Collaborative Filterin dengan
+                berbagai fungsi similaritas yang berbeda"
+              image={KoalaPage}
+            />
+          </div>
 
-          <VidioSection id="vidio_ratingTutorial" />
+          <div data-aos="fade-up" data-aos-delay="100">
+            <VidioSection id="vidio_ratingTutorial" />
+          </div>
 
-          <section id="cardSteps" className="max-w-6xl mx-auto p-4 text-center">
+          <section
+            id="cardSteps"
+            className="max-w-6xl mx-auto p-4 text-center"
+            data-aos="fade-up"
+            data-aos-delay="200"
+          >
             <CardsSteps />
           </section>
 
-          <BodyTutorial
-            header={TeksHeader}
-            subheader={Tekssubheader}
-            id="data_ratingTutorial"
-          >
-            <TabelView
-              changeFunny={changeFunny}
-              headers={funnyMode ? header : ["1", "2", "3", "4", "5", "6"]}
-              columns={funnyMode ? column : ["1", "2", "3", "4", "5"]}
-            />
-          </BodyTutorial>
+          <div data-aos="fade-up" data-aos-delay="300">
+            <BodyTutorial
+              header={TeksHeader}
+              subheader={Tekssubheader}
+              id="data_ratingTutorial"
+            >
+              <TabelView
+                changeFunny={changeFunny}
+                headers={funnyMode ? header : ["1", "2", "3", "4", "5", "6"]}
+                columns={funnyMode ? column : ["1", "2", "3", "4", "5"]}
+              />
+            </BodyTutorial>
+          </div>
           <section
             id="notasi_ratingTutorial"
             className="max-w-4xl mx-auto text-center py-5"
+            data-aos="fade-up"
+            data-aos-delay="400"
           >
             <h1 className="text-3xl sm:text-4xl font-bold font-poppins   ">
               <span className="curved-underline">
@@ -242,7 +289,9 @@ const Tutorial = () => {
 
             <NotationCard opsional={selectedMethod.toLowerCase()} data={data} />
           </section>
-          <FormLayoutTutorial id="metode_ratingTutorial" data={form} />
+          <div data-aos="fade-up" data-aos-delay="500">
+            <FormLayoutTutorial id="metode_ratingTutorial" data={form} />
+          </div>
 
           <section className="max-w-full mx-auto text-center my-10  pt-10 relative">
             <button

@@ -1,7 +1,7 @@
-import React from "react";
+
 import TouchAppIcon from "@mui/icons-material/TouchApp";
 import ReportProblemIcon from "@mui/icons-material/ReportProblem";
-import CloseIcon from "@mui/icons-material/Close";
+
 
 const ModalHomeFirst = ({ isOpen, onClose }) => {
   return (

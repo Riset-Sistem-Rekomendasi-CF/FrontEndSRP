@@ -94,15 +94,21 @@ export const getFormualDetailIndex = (
       return [
         `\\[ 
         \\begin{array}{ll}
-        S_{User(${rowIndex + 1},${colIndex + 1
-        })} &: \\text{Mean-Centered pada user} \\ ${rowIndex + 1
+        S_{User(${rowIndex + 1},${
+          colIndex + 1
+        })} &: \\text{Mean-Centered pada user} \\ ${
+          rowIndex + 1
         } \\ \\text{terhadap item} \\ ${colIndex + 1} \\\\
-        Sim_{User(${rowIndex + 1
-        },v)} &: \\text{Nilai similarity antara user} \\ ${rowIndex + 1
+        Sim_{User(${
+          rowIndex + 1
+        },v)} &: \\text{Nilai similarity antara user} \\ ${
+          rowIndex + 1
         } \\ \\text{dan user} \\ v \\\\
-        X_{u}(j) &: \\text{Himpunan tetangga (TopK) dari user} \\ ${rowIndex + 1
+        X_{u}(j) &: \\text{Himpunan tetangga (TopK) dari user} \\ ${
+          rowIndex + 1
         } \\ \\text{untuk item} \\ ${colIndex + 1} \\\\
-        \\mu_{User(${rowIndex + 1})} &: \\text{Rata-rata rating dari user} \\ ${rowIndex + 1
+        \\mu_{User(${rowIndex + 1})} &: \\text{Rata-rata rating dari user} \\ ${
+          rowIndex + 1
         } 
       \\end{array}\\]`,
       ];
@@ -110,15 +116,21 @@ export const getFormualDetailIndex = (
       return [
         `\\[ 
         \\begin{array}{ll}
-        S_{Item(${rowIndex + 1},${colIndex + 1
-        })} &: \\text{Mean-Centered pada item} \\ ${colIndex + 1
+        S_{Item(${rowIndex + 1},${
+          colIndex + 1
+        })} &: \\text{Mean-Centered pada item} \\ ${
+          colIndex + 1
         } \\ \\text{terhadap user} \\ ${rowIndex + 1} \\\\
-        Sim_{Item(${colIndex + 1
-        },j)} &: \\text{Nilai similarity antara item} \\ ${colIndex + 1
+        Sim_{Item(${
+          colIndex + 1
+        },j)} &: \\text{Nilai similarity antara item} \\ ${
+          colIndex + 1
         } \\ \\text{dan item} \\ j \\\\
-        X_{i}(j) &: \\text{Himpunan tetangga (TopK) dari item} \\ ${colIndex + 1
+        X_{i}(j) &: \\text{Himpunan tetangga (TopK) dari item} \\ ${
+          colIndex + 1
         } \\ \\text{untuk user} \\ ${rowIndex + 1} \\\\
-        \\mu_{Item(${colIndex + 1})} &: \\text{Rata-rata rating dari item} \\ ${colIndex + 1
+        \\mu_{Item(${colIndex + 1})} &: \\text{Rata-rata rating dari item} \\ ${
+          colIndex + 1
         } 
       \\end{array}\\]`,
       ];
@@ -137,17 +149,21 @@ export const getFormulaArgMax = (
 ) => {
   switch (opsional) {
     case "user-based":
-      return `\\[  X_{${colIndex + 1}}(${rowIndex + 1
-        })=\\ \\begin{matrix}${kValue}\\\\argmax\\ \\\\v \\in U_{${colIndex + 1
-        }} \\end{matrix}Sim(${rowIndex + 1},v)\\ = \\ \\{ ${topSimilarity
-          .map((sim) => sim.index + 1)
-          .join(",")} \\} \\]`;
+      return `\\[  X_{${colIndex + 1}}(${
+        rowIndex + 1
+      })=\\ \\begin{matrix}${kValue}\\\\argmax\\ \\\\v \\in U_{${
+        colIndex + 1
+      }} \\end{matrix}Sim(${rowIndex + 1},v)\\ = \\ \\{ ${topSimilarity
+        .map((sim) => sim.index + 1)
+        .join(",")} \\} \\]`;
     case "item-based":
-      return `\\[  X_{${colIndex + 1}}(${rowIndex + 1
-        })=\\ \\begin{matrix}${kValue}\\\\argmax\\ \\\\u \\in I_{${colIndex + 1
-        }} \\end{matrix}Sim(${colIndex + 1},u)\\ = \\{ ${topSimilarity
-          .map((sim) => sim.index + 1)
-          .join(",")} \\} \\]`;
+      return `\\[  X_{${colIndex + 1}}(${
+        rowIndex + 1
+      })=\\ \\begin{matrix}${kValue}\\\\argmax\\ \\\\u \\in I_{${
+        colIndex + 1
+      }} \\end{matrix}Sim(${colIndex + 1},u)\\ = \\{ ${topSimilarity
+        .map((sim) => sim.index + 1)
+        .join(",")} \\} \\]`;
     default:
       return;
   }
@@ -159,18 +175,23 @@ export const getFormulaPredictionIndex = (
   similarity,
   opsional
 ) => {
-
   switch (opsional) {
     case "user-based":
-      return `\\[ {\\hat{r}_{${rowIndex + 1},${colIndex + 1}}} = \\mu_{${rowIndex + 1
-        }} +\\frac{\\sum_{v\\in X_{${rowIndex + 1}}(${colIndex + 1})} Sim_{${rowIndex + 1
-        }v} * s_{v${colIndex + 1}}}{\\sum_{v \\in X_{${rowIndex + 1}}(${colIndex + 1
-        })}\\mid Sim_{${rowIndex + 1}v} \\mid} \\]`;
+      return `\\[ {\\hat{r}_{${rowIndex + 1},${colIndex + 1}}} = \\mu_{${
+        rowIndex + 1
+      }} +\\frac{\\sum_{v\\in X_{${rowIndex + 1}}(${colIndex + 1})} Sim_{${
+        rowIndex + 1
+      }v} * s_{v${colIndex + 1}}}{\\sum_{v \\in X_{${rowIndex + 1}}(${
+        colIndex + 1
+      })}\\mid Sim_{${rowIndex + 1}v} \\mid} \\]`;
     case "item-based":
-      return `\\[ {\\hat{r}_{${rowIndex + 1},${colIndex + 1}}} = \\mu_{${colIndex + 1
-        }} +\\frac{\\sum_{v\\in X_{${colIndex + 1}}(${rowIndex + 1})} Sim_{${colIndex + 1
-        }v} * s_{${rowIndex + 1}v}}{\\sum_{v \\in X_{${colIndex + 1}}(${rowIndex + 1
-        })}\\mid Sim_{${rowIndex + 1}v} \\mid} \\]`;
+      return `\\[ {\\hat{r}_{${rowIndex + 1},${colIndex + 1}}} = \\mu_{${
+        colIndex + 1
+      }} +\\frac{\\sum_{v\\in X_{${colIndex + 1}}(${rowIndex + 1})} Sim_{${
+        colIndex + 1
+      }v} * s_{${rowIndex + 1}v}}{\\sum_{v \\in X_{${colIndex + 1}}(${
+        rowIndex + 1
+      })}\\mid Sim_{${rowIndex + 1}v} \\mid} \\]`;
     default:
       return;
   }
@@ -187,9 +208,12 @@ export const getFormulaPredictionValue = (
   isNotation,
   selectedValue
 ) => {
-  const resultMeanCentered = opsional === "user-based" ? result["mean-centered"] : transposeMatrix(result["mean-centered"])
-  const resultDataRating = similarity
-  const resultMean = result["mean-list"]
+  const resultMeanCentered =
+    opsional === "user-based"
+      ? result["mean-centered"]
+      : transposeMatrix(result["mean-centered"]);
+  const resultDataRating = dataRating;
+  const resultMean = result["mean-list"];
 
   switch (opsional) {
     case "user-based":
@@ -214,54 +238,58 @@ export const getFormulaPredictionValue = (
       return {
         formula: !isNotation
           ? `\\[ {\\hat{r}_{(${rowIndex + 1},${colIndex + 1})}} = {${resultMean[
-            rowIndex
-          ].toFixed(3)}} + \\frac{${similarValues
-            .filter((sim) => resultDataRating[sim.index][colIndex] !== 0)
-            .map(
-              (sim) =>
-                `\\left(${sim.value.toFixed(4)} * \\left(${resultMeanCentered[
-                  sim.index
-                ][colIndex].toFixed(2)}\\right)\\right)`
-            )
-            .join(" + ")}}{${similarValues
+              rowIndex
+            ].toFixed(3)}} + \\frac{${similarValues
+              .filter((sim) => resultDataRating[sim.index][colIndex] !== 0)
+              .map(
+                (sim) =>
+                  `\\left(${sim.value.toFixed(4)} * \\left(${resultMeanCentered[
+                    sim.index
+                  ][colIndex].toFixed(2)}\\right)\\right)`
+              )
+              .join(" + ")}}{${similarValues
               .filter((sim) => resultDataRating[sim.index][colIndex] !== 0)
               .map((sim) => `\\mid ${sim.value.toFixed(4)} \\mid`)
               .join(" + ")}} \\]`
-          : `\\[ {\\hat{r}_{(${rowIndex + 1},${colIndex + 1})}} = {\\mu_{${rowIndex + 1
-          }}} + \\frac{${similarValues
-            .filter((sim) => resultDataRating[sim.index][rowIndex] !== 0)
-            .map(
-              (sim) =>
-                `\\left(Sim_{${rowIndex + 1}${sim.index + 1}} * \\left(s_{${sim.index + 1
-                }${colIndex + 1}}\\right)\\right)`
-            )
-            .join(" + ")}}{${similarValues
+          : `\\[ {\\hat{r}_{(${rowIndex + 1},${colIndex + 1})}} = {\\mu_{${
+              rowIndex + 1
+            }}} + \\frac{${similarValues
+              .filter((sim) => resultDataRating[sim.index][rowIndex] !== 0)
+              .map(
+                (sim) =>
+                  `\\left(Sim_{${rowIndex + 1}${sim.index + 1}} * \\left(s_{${
+                    sim.index + 1
+                  }${colIndex + 1}}\\right)\\right)`
+              )
+              .join(" + ")}}{${similarValues
               .filter((sim) => resultDataRating[sim.index][rowIndex] !== 0)
               .map((sim) => `\\mid Sim_{${rowIndex + 1}${sim.index + 1}} \\mid`)
               .join(" + ")}} \\]`,
-        proses_formula: `\\[ \\hat{r}_{(${rowIndex + 1},${colIndex + 1
-          })} = ${resultMean[rowIndex].toFixed(
-            3
-          )} + \\frac{${numeratorUser.toFixed(4)}}{${denominatorUser.toFixed(
-            4
-          )}} \\]`,
-        result: `\\[ \\hat{r}_{(${rowIndex + 1},${colIndex + 1
-          })} = ${selectedValue.toFixed(3)} \\]`,
+        proses_formula: `\\[ \\hat{r}_{(${rowIndex + 1},${
+          colIndex + 1
+        })} = ${resultMean[rowIndex].toFixed(
+          3
+        )} + \\frac{${numeratorUser.toFixed(4)}}{${denominatorUser.toFixed(
+          4
+        )}} \\]`,
+        result: `\\[ \\hat{r}_{(${rowIndex + 1},${
+          colIndex + 1
+        })} = ${selectedValue.toFixed(3)} \\]`,
       };
 
     case "item-based":
       const numeratorItem = sum(
         similarValues
           .filter((sim) => resultDataRating[sim.index][colIndex] !== 0)
-          .map(
-            (sim) => {
-              console.log("sim", sim);
-              console.log("mc", resultMeanCentered);
+          .map((sim) => {
+            console.log("sim", sim);
+            console.log("mc", resultMeanCentered);
 
-              return sim.value.toFixed(4) *
-                resultMeanCentered[sim.index][rowIndex].toFixed(2)
-            }
-          )
+            return (
+              sim.value.toFixed(4) *
+              resultMeanCentered[sim.index][rowIndex].toFixed(2)
+            );
+          })
       );
       const denominatorItem = sum(
         similarValues
@@ -275,39 +303,43 @@ export const getFormulaPredictionValue = (
       return {
         formula: !isNotation
           ? `\\[ {\\hat{r}_{(${rowIndex + 1},${colIndex + 1})}} = {${resultMean[
-            colIndex
-          ].toFixed(3)}} + \\frac{${similarValues
-            .filter((sim) => resultDataRating[sim.index][rowIndex] !== 0)
-            .map(
-              (sim) =>
-                `\\left(${sim.value.toFixed(4)} * \\left(${resultMeanCentered[
-                  sim.index
-                ][rowIndex].toFixed(2)}\\right)\\right)`
-            )
-            .join(" + ")}}{${similarValues
+              colIndex
+            ].toFixed(3)}} + \\frac{${similarValues
+              .filter((sim) => resultDataRating[sim.index][rowIndex] !== 0)
+              .map(
+                (sim) =>
+                  `\\left(${sim.value.toFixed(4)} * \\left(${resultMeanCentered[
+                    sim.index
+                  ][rowIndex].toFixed(2)}\\right)\\right)`
+              )
+              .join(" + ")}}{${similarValues
               .filter((sim) => resultDataRating[sim.index][rowIndex] !== 0)
               .map((sim) => `\\mid ${sim.value.toFixed(4)} \\mid`)
               .join(" + ")}} \\]`
-          : `\\[ {\\hat{r}_{(${rowIndex + 1},${colIndex + 1})}} = {\\mu_{${rowIndex + 1
-          }}} + \\frac{${similarValues
-            .filter((sim) => resultDataRating[sim.index][colIndex] !== 0)
-            .map(
-              (sim) =>
-                `\\left(Sim_{${colIndex + 1}${sim.index + 1}} * \\left(s_{${rowIndex + 1
-                }${sim.index + 1}}\\right)\\right)`
-            )
-            .join(" + ")}}{${similarValues
+          : `\\[ {\\hat{r}_{(${rowIndex + 1},${colIndex + 1})}} = {\\mu_{${
+              rowIndex + 1
+            }}} + \\frac{${similarValues
+              .filter((sim) => resultDataRating[sim.index][colIndex] !== 0)
+              .map(
+                (sim) =>
+                  `\\left(Sim_{${colIndex + 1}${sim.index + 1}} * \\left(s_{${
+                    rowIndex + 1
+                  }${sim.index + 1}}\\right)\\right)`
+              )
+              .join(" + ")}}{${similarValues
               .filter((sim) => resultDataRating[sim.index][colIndex] !== 0)
               .map((sim) => `\\mid Sim_{${colIndex + 1}${sim.index + 1}} \\mid`)
               .join(" + ")}} \\]`,
-        proses_formula: `\\[ \\hat{r}_{${rowIndex + 1},${colIndex + 1
-          }} = ${resultMean[colIndex].toFixed(
-            3
-          )} + \\frac{${numeratorItem.toFixed(4)}}{${denominatorItem.toFixed(
-            4
-          )}} \\]`,
-        result: `\\[ \\hat{r}_{${rowIndex + 1},${colIndex + 1
-          }} = ${selectedValue.toFixed(3)} \\]`,
+        proses_formula: `\\[ \\hat{r}_{${rowIndex + 1},${
+          colIndex + 1
+        }} = ${resultMean[colIndex].toFixed(
+          3
+        )} + \\frac{${numeratorItem.toFixed(4)}}{${denominatorItem.toFixed(
+          4
+        )}} \\]`,
+        result: `\\[ \\hat{r}_{${rowIndex + 1},${
+          colIndex + 1
+        }} = ${selectedValue.toFixed(3)} \\]`,
       };
 
     default:
