@@ -1,73 +1,210 @@
-# Getting Started with Create React App
+# 🐨 KoalaERS - Media Pembelajaran Sistem Rekomendasi Collaborative Filtering
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![React](https://img.shields.io/badge/React-18.3.1-61DAFB?style=flat-square&logo=react)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.4.11-38B2AC?style=flat-square&logo=tailwind-css)
+![MUI](https://img.shields.io/badge/MUI-6.1.0-007FFF?style=flat-square&logo=mui)
+![License](https://img.shields.io/badge/License-Private-red?style=flat-square)
 
-## Available Scripts
+<p align="center">
+  <img src="public/img1.png" alt="KoalaERS Banner" width="600"/>
+</p>
 
-In the project directory, you can run:
+**KoalaERS** adalah aplikasi web interaktif untuk mempelajari dan menghitung fungsi similaritas pada Sistem Rekomendasi berbasis Collaborative Filtering. Aplikasi ini menyediakan tutorial lengkap dan kalkulator untuk berbagai metode similaritas.
 
-### `npm start`
+## ✨ Fitur Utama
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- 📚 **Tutorial Interaktif** - Pembelajaran step-by-step tentang fungsi similaritas
+- 🧮 **Kalkulator Similaritas** - Hitung PCC, Cosine, Adjusted Cosine, dan Bhattacharyya Coefficient
+- 📊 **Visualisasi Data** - Heatmap dan grafik interaktif untuk memahami hasil perhitungan
+- 🌙 **Dark Mode** - Tampilan gelap untuk kenyamanan mata
+- 📱 **Responsive Design** - Dapat diakses dari berbagai perangkat
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🔢 Metode yang Didukung
 
-### `npm test`
+| Metode Prediksi | Fungsi Similaritas                    |
+| --------------- | ------------------------------------- |
+| User-Based      | Pearson Correlation Coefficient (PCC) |
+| Item-Based      | Cosine Similarity                     |
+|                 | Adjusted Cosine Similarity            |
+|                 | Bhattacharyya Coefficient (BC)        |
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 📁 Struktur Project
 
-### `npm run build`
+```
+FrontEndSRP/
+├── public/                     # Static files
+│   ├── index.html
+│   ├── favicon.ico
+│   └── ...
+├── src/
+│   ├── api/                    # API calls & data fetching
+│   │   ├── api.js
+│   │   └── getDataSet.js
+│   ├── assets/                 # Images, icons, videos
+│   │   ├── icons/
+│   │   ├── images/
+│   │   └── vidioAsset/
+│   ├── components/             # Reusable components
+│   │   ├── Card/               # Card components
+│   │   ├── DetailPerhitungan/  # Calculation detail components
+│   │   ├── FloatingCalculator/ # Floating calculator
+│   │   ├── Form/               # Form components
+│   │   ├── Graph/              # Chart & visualization
+│   │   ├── hooks/              # Custom React hooks
+│   │   ├── Loading/            # Loading components
+│   │   ├── MathSimilarity/     # Math formula components
+│   │   ├── modal/              # Modal components
+│   │   ├── Navigate/           # Navigation components
+│   │   ├── table/              # Table components
+│   │   └── Toggle/             # Toggle & switch components
+│   ├── context/                # React Context (Theme)
+│   ├── helper/                 # Helper functions & formulas
+│   │   ├── Formula/
+│   │   ├── generateEmot.js
+│   │   ├── helper.js
+│   │   └── Measure.js
+│   ├── pages/                  # Page components
+│   │   ├── About/
+│   │   ├── detailPageView/
+│   │   ├── ErorrPage/
+│   │   ├── Exploration/
+│   │   ├── Home/
+│   │   ├── Layout/
+│   │   └── Tutorial/
+│   ├── styles/                 # CSS styles
+│   ├── App.js                  # Main App component
+│   ├── index.js                # Entry point
+│   └── index.css               # Global styles
+├── .env                        # Environment variables
+├── package.json
+├── tailwind.config.js
+└── README.md
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🚀 Getting Started
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Prerequisites
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Node.js >= 16.x
+- npm >= 8.x atau yarn
 
-### `npm run eject`
+### Installation
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. **Clone repository**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+   ```bash
+   git clone https://github.com/username/FrontEndSRP.git
+   cd FrontEndSRP
+   ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+2. **Install dependencies**
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+   ```bash
+   npm install
+   # atau
+   yarn install
+   ```
 
-## Learn More
+3. **Setup environment variables**
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+   ```bash
+   cp .env.example .env
+   # Edit .env sesuai kebutuhan
+   ```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+4. **Jalankan development server**
 
-### Code Splitting
+   ```bash
+   npm start
+   # atau
+   yarn start
+   ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+5. **Buka browser**
+   ```
+   http://localhost:3000
+   ```
 
-### Analyzing the Bundle Size
+## 📜 Available Scripts
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+| Command         | Description                 |
+| --------------- | --------------------------- |
+| `npm start`     | Jalankan development server |
+| `npm run build` | Build untuk production      |
+| `npm test`      | Jalankan unit tests         |
+| `npm run eject` | Eject dari Create React App |
 
-### Making a Progressive Web App
+## 🤝 Contributing
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Kami menerima kontribusi! Berikut cara untuk berkontribusi:
 
-### Advanced Configuration
+1. **Fork repository ini**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+2. **Clone fork kamu**
 
-### Deployment
+   ```bash
+   git clone https://github.com/username-kamu/FrontEndSRP.git
+   ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+3. **Buat branch baru**
 
-### `npm run build` fails to minify
+   ```bash
+   git checkout -b feature/nama-fitur
+   ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# media-pembelajaran-srp
+4. **Lakukan perubahan dan commit**
 
+   ```bash
+   git add .
+   git commit -m "feat: deskripsi perubahan"
+   ```
 
+5. **Push ke fork kamu**
+
+   ```bash
+   git push origin feature/nama-fitur
+   ```
+
+6. **Buat Pull Request**
+   - Buka repository original di GitHub
+   - Klik "New Pull Request"
+   - Pilih branch kamu dan submit PR
+
+### Commit Convention
+
+Gunakan format commit message berikut:
+
+- `feat:` - Fitur baru
+- `fix:` - Bug fix
+- `docs:` - Dokumentasi
+- `style:` - Formatting, styling
+- `refactor:` - Code refactoring
+- `test:` - Testing
+- `chore:` - Maintenance
+
+## 🛠️ Tech Stack
+
+- **Frontend Framework:** React 18
+- **Styling:** TailwindCSS, MUI (Material-UI)
+- **State Management:** Zustand
+- **Charts:** Chart.js, D3.js
+- **Math Rendering:** MathJax
+- **Routing:** React Router DOM
+- **Animation:** AOS (Animate On Scroll)
+
+## 👥 Tim Pengembang
+
+**KoalaERS Team - Universitas Trunojoyo Madura**
+
+- [@alfinur](https://github.com/alfiiinur) (Alfinur Danialin)
+- [@dimasdliyaur](https://github.com/DimasDliyaurR) (Dimas Dliyaur Rahman)
+
+## 📄 License
+
+Project ini bersifat private dan dikembangkan untuk keperluan akademik.
+
+---
+
+<p align="center">
+  Made with ❤️ by KoalaERS Team
+</p>
