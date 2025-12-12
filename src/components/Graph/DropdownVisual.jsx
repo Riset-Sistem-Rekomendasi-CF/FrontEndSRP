@@ -1,14 +1,14 @@
-import React, { useState, useCallback } from "react";
+import { useState, useCallback, memo, Suspense } from "react";
 import { Menu } from "@headlessui/react";
 import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
 import FormControl from "@mui/material/FormControl";
 
 import HeatMapVisualDataSim from "./HeatMapVisual";
-import { ScatterPlotData } from "./SccaterPlotVisual";
 import ChartJsScatter2D from "./ChartJsPlot2D";
+import GrafikForChart from "../../assets/images/grafikDropdown.svg";
+import { OnlyDivider } from "../tabelData/DividerHeading";
 
-// Membungkus komponen visualisasi dengan React.memo agar tidak di-render ulang secara tidak perlu
-const MemoizedHeatMap = React.memo(({ result, opsional, similarity }) => {
+const MemoizedHeatMap = memo(({ result, opsional, similarity }) => {
   return (
     <HeatMapVisualDataSim
       result={result}
@@ -18,7 +18,7 @@ const MemoizedHeatMap = React.memo(({ result, opsional, similarity }) => {
   );
 });
 
-const MemoizedScatterPlot = React.memo(({ result, opsional }) => {
+const MemoizedScatterPlot = memo(({ result, opsional }) => {
   return <ChartJsScatter2D result={result} opsional={opsional} />;
 });
 
@@ -33,16 +33,20 @@ const DropdownWithDisplay = ({ opsional, result, similarity }) => {
       switch (method) {
         case "HeatMap":
           setVisualComponent(
-            <MemoizedHeatMap
-              result={result}
-              opsional={opsional}
-              similarity={similarity}
-            />
+            <Suspense fallbac={<div>Loading...</div>}>
+              <MemoizedHeatMap
+                result={result}
+                opsional={opsional}
+                similarity={similarity}
+              />
+            </Suspense>
           );
           break;
         case "Plot Visual 2D":
           setVisualComponent(
-            <MemoizedScatterPlot result={result} opsional={opsional} />
+            <Suspense fallbac={<div>Loading...</div>}>
+              <MemoizedScatterPlot result={result} opsional={opsional} />
+            </Suspense>
           );
           break;
         default:
@@ -54,7 +58,18 @@ const DropdownWithDisplay = ({ opsional, result, similarity }) => {
   );
 
   return (
-    <div className="container mx-auto py-4">
+    <div className="container mx-auto max-w-full py-4 bg-green-200 rounded-md shadow-sm border border-black">
+      <div>
+        <h1 className="text-base sm:text-lg md:text-xl font-semibold font-poppins">
+          Silahkan Pilih Visualisasi Yang Anda Inginkan{" "}
+        </h1>
+        <OnlyDivider colorBorder="border-gray-600" />
+        <img
+          src={GrafikForChart}
+          alt="Grafik Illustration"
+          className="mx-auto mb-4 w-40 h-32"
+        />
+      </div>
       <FormControl>
         <Menu as="div" className="relative inline-block text-left w-full">
           <div>
@@ -64,7 +79,7 @@ const DropdownWithDisplay = ({ opsional, result, similarity }) => {
             </Menu.Button>
           </div>
 
-          <Menu.Items className="absolute right-0 z-10 mt-2 w-full sm:w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none">
+          <Menu.Items className="font-medium text-md absolute right-0 z-10 mt-2 w-full sm:w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none font-poppins">
             <div className="py-1">
               <Menu.Item>
                 {({ active }) => (

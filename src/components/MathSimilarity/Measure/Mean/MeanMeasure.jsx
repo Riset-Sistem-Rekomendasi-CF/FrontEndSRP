@@ -1,39 +1,63 @@
 import { transposeMatrix } from "../../../../helper/helper";
 import { getFormulaMean } from "../Formula/FormulaMean";
 import ModalMean from "./ModalMean";
-import React, { useState } from "react";
+import { useState, useMemo } from "react";
 import { MathJaxContext } from "better-react-mathjax";
 import mathjaxConfig from "../../../../mathjax-config";
 import { FunctionMeasureDropdown } from "../../DropdownFunction/FunctionMeasureDropdown";
 import { AllSimilaritas } from "../../../../api/getDataSet";
-import { IconButton } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
-import MeanGif from "../../../../assets/vidioAsset/MeanGif.gif";
+import MeanGif from "../../../../assets/vidioAsset/tutorial_asset/mean-rating.gif";
 import MathJaxComponent from "../../../../MathJaxComponent";
-import CloseIcon from "@mui/icons-material/Close";
 import Spinner from "../../../Navigate/Spinner";
+import { TutorialModal } from "../../../modal/TutorialModal";
+import { DividerHeadingBlue } from "../../../tabelData/DividerHeading";
 
-export default function MeanMeasure({ opsional, similarity, initialData, headers, columns, funnyMode }) {
+export default function MeanMeasure({
+  opsional,
+  similarity,
+  initialData,
+  headers,
+  columns,
+  funnyMode,
+}) {
   const [data] = useState(initialData);
 
   const [dataOnly] = useState(initialData.data);
 
   const { result } = AllSimilaritas(data, similarity);
 
-  const opsionalModify =
-    similarity === "Adjusted Cosine"
-      ? opsional === "user-based"
-        ? "item-based"
-        : "user-based"
-      : opsional;
-  const dataModify =
-    similarity === "Adjusted Cosine"
-      ? opsional === "item-based"
-        ? dataOnly
-        : transposeMatrix(dataOnly)
-      : opsional === "item-based"
-        ? transposeMatrix(dataOnly)
-        : dataOnly;
+  // const opsionalModify =
+  //   similarity === "Adjusted Cosine"
+  //     ? opsional === "user-based"
+  //       ? "item-based"
+  //       : "user-based"
+  //     : opsional;
+  // const dataModify =
+  //   similarity === "Adjusted Cosine"
+  //     ? opsional === "item-based"
+  //       ? dataOnly
+  //       : transposeMatrix(dataOnly)
+  //     : opsional === "item-based"
+  //     ? transposeMatrix(dataOnly)
+  //     : dataOnly;
+
+  // use memo
+  const opsionalModify = useMemo(() => {
+    if (similarity === "Adjusted Cosine") {
+      return opsional === "user-based" ? "item-based" : "user-based";
+    }
+    return opsional;
+  }, [similarity, opsional]);
+
+  const dataModify = useMemo(() => {
+    if (similarity === "Adjusted Cosine") {
+      return opsional === "item-based" ? dataOnly : transposeMatrix(dataOnly);
+    } else if (opsional === "item-based") {
+      return transposeMatrix(dataOnly);
+    }
+    return dataOnly;
+  }, [similarity, opsional, dataOnly]);
 
   const [selectedMean, setSelectedMean] = useState(null); // State untuk menyimpan mean yang dipilih
   const [selectedIndex, setSelectedIndex] = useState([]); // State untuk menyimpan user yang dipilih
@@ -52,6 +76,12 @@ export default function MeanMeasure({ opsional, similarity, initialData, headers
   };
 
   const meanFormula = getFormulaMean(opsionalModify, similarity);
+  // debug
+  // console.log(opsional, similarity);
+  // console.log(opsionalModify);
+  // console.log("ini adalah data modify", dataModify);
+
+  // console.log("Mean List:", result["mean-list"]);
 
   const RenderTableMean = () => {
     if (!result || !result["mean-list"]) {
@@ -65,33 +95,44 @@ export default function MeanMeasure({ opsional, similarity, initialData, headers
     return (
       <>
         <div className="flex justify-center mt-4">
-          <table className="border border-black mt-4 ">
-            <thead>
-              <tr className=" bg-gray-200">
-                <th className="border border-black px-4 py-2 italic">
-                  {opsionalModify === "user-based" ? "U" : "I"}
-                </th>
-                <th className="border border-black px-4 py-2 italic">μ</th>
-              </tr>
-            </thead>
-            <tbody>
-              {result["mean-list"].map((mean, index) => (
-                <tr key={index} className="hover:bg-card_green_primary">
-                  <td className="border border-black px-4 py-2">
-                    {!funnyMode ? (index + 1) : (opsional == "user-based" ? columns : headers)[index]}
-                  </td>
-                  <td className="border border-black px-4 py-2">
-                    <div
-                      className="text-center cursor-pointer"
-                      onClick={() => handleMeanClick(mean, index)}
-                    >
-                      {mean.toFixed(2)}
-                    </div>
-                  </td>
+          <div className="overflow-hidden rounded-xl shadow-lg">
+            <table className="text-xs sm:text-sm md:text-base lg:text-lg text-black">
+              <thead>
+                <tr className="bg-gradient-to-r from-blue-500 to-blue-600 text-white">
+                  <th className="px-6 py-3 font-semibold italic border-r border-blue-400">
+                    {opsionalModify === "user-based" ? "U" : "I"}
+                  </th>
+                  <th className="px-6 py-3 font-semibold italic">μ</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {result["mean-list"].map((mean, index) => (
+                  <tr
+                    key={index}
+                    className={`transition-all duration-200 hover:bg-green-100 hover:scale-[1.02] ${
+                      index % 2 === 0 ? "bg-white" : "bg-gray-50"
+                    }`}
+                  >
+                    <td className="px-6 py-3 font-medium text-gray-700 border-r border-gray-200 bg-gray-100">
+                      {!funnyMode
+                        ? index + 1
+                        : (dataModify === "user-based" ? columns : headers)[
+                            index
+                          ]}
+                    </td>
+                    <td className="px-6 py-3">
+                      <div
+                        className="text-center cursor-pointer font-medium text-blue-600 hover:text-blue-800 transition-colors duration-200"
+                        onClick={() => handleMeanClick(mean, index)}
+                      >
+                        {mean.toFixed(2)}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
           {/* Modal Card */}
           {showModal && (
             <ModalMean
@@ -111,6 +152,9 @@ export default function MeanMeasure({ opsional, similarity, initialData, headers
     );
   };
 
+  const [showMean, setShowMean] = useState(false);
+  const toggleShowMean = () => setShowMean((prev) => !prev);
+
   return (
     <>
       {/* <div className="h-[5rem]"></div> */}
@@ -123,92 +167,65 @@ export default function MeanMeasure({ opsional, similarity, initialData, headers
         >
           <div className="border-l-4 border-card_blue_primary h-10 mr-4" />
           <div className="flex items-center flex-wrap">
-            <div className="w-8 h-8 flex items-center justify-center bg-blue-500 text-white rounded-full text-lg font-semibold mr-3 sm:w-10 sm:h-10 sm:text-xl md:w-12 md:h-12 md:text-2xl">
+            <div className="flex items-center justify-center w-8 h-8 text-lg sm:w-10 sm:h-10 sm:text-xl md:w-12 md:h-12 md:text-2xl lg:w-14 lg:h-14 lg:text-3xl bg-blue-500 text-white rounded-full font-semibold mr-3">
               1
             </div>
 
-            <h1 className="font-poppins capitalize text-base sm:text-lg md:text-xl lg:text-2xl font-semibold text-black text-start">
-              Mencari <i>Mean Rating </i> <i>{opsional}</i>
+            <h1 className="font-poppins capitalize text-sm sm:text-sm md:text-base lg:text-lg font-semibold text-black text-start">
+              Mencari Mean Rating {""}
+              {opsional}
             </h1>
           </div>
         </div>
-
         <MathJaxContext options={mathjaxConfig}>
-          <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full ">
-            {/* Membungkus MathJax dengan overflow dan responsif */}
-            <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
-              <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
-                {meanFormula.formula}
-              </MathJaxComponent>
+          <div className="w-full max-w-full overflow-x-auto overflow-y-hidden sm:overflow-x-visible">
+            <div className="text-[0.75rem] sm:text-sm md:text-base leading-[1.4] mb-4 text-center sm:text-left text-black">
+              <MathJaxComponent>{meanFormula.formula}</MathJaxComponent>
             </div>
           </div>
         </MathJaxContext>
 
         <FunctionMeasureDropdown DetailRumus={meanFormula.formula_detail} />
 
-        <div className="px-4 sm:px-8 md:px-10 py-5 ">
-          <h1 className="text-base sm:text-lg md:text-xl font-semibold font-poppins underline underline-offset-8 decoration-4 decoration-card_blue_primary">
-            Hasil <i>Mean Rating</i>{" "}
-            <i>
-              {opsionalModify
-                .toLowerCase()
-                .replace(/\b[a-z]/g, (letter) => letter.toUpperCase())}
-            </i>
-          </h1>
+        <div className="px-2 sm:px-4 md:px-6">
+          <DividerHeadingBlue
+            show={showMean}
+            onClick={toggleShowMean}
+            text={`Mean Rating`}
+          />
 
-          {/* Tombol dengan ikon */}
-          <div
-            className="flex items-center justify-end my-4 bg-card_blue_primary p-4 rounded-lg cursor-pointer hover:bg-blue-500 transition-all w-[130px] h-[35px] shadow-md outline outline-2 outline-white"
-            onClick={() => setShowModalTutorial(true)}
-          >
-            {/* Info Button */}
-            <IconButton
-              className="text-white hover:text-green-500 transition-colors duration-300"
-              aria-label="Info"
-            >
-              <InfoIcon className="text-white hover:text-green-500" />
-            </IconButton>
+          {/* modal hasil */}
+          {showMean && (
+            <>
+              <div className="mt-4 space-y-4">
+                <div className="flex justify-center mt-4">
+                  <div
+                    className="flex items-center gap-2 px-3 py-2 bg-card_blue_primary rounded-md cursor-pointer hover:bg-blue-500 transition-all shadow-md outline outline-2 outline-white w-fit"
+                    onClick={() => setShowModalTutorial(true)}
+                  >
+                    {/* Info Icon */}
+                    <InfoIcon className="text-white text-lg sm:text-xl" />
 
-            {/* Tutorial Title */}
-            <h1 className="text-md font-medium text-white">Tutorial</h1>
-          </div>
+                    {/* Tutorial Title */}
+                    <span className="text-white text-sm sm:text-base font-medium font-poppins">
+                      Tutorial
+                    </span>
+                  </div>
+                </div>
 
-          {/* Tabel mean rating */}
-          <RenderTableMean />
+                {/* Tabel mean rating */}
+                <RenderTableMean />
+              </div>
+            </>
+          )}
 
           {/* Modal pop-up */}
           {showModalTutorial && (
-            <div className="fixed inset-0  bg-black bg-opacity-50 flex justify-center items-center z-50">
-              <div className=" bg-white rounded-lg p-4 md:p-6 shadow-lg w-[90%] sm:w-[600px] relative">
-                <button
-                  onClick={() => setShowModalTutorial(false)}
-                  className="absolute top-3 right-3 text-3xl text-gray-600 hover:text-gray-800 focus:outline-none"
-                >
-                  <CloseIcon />{" "}
-                  {/* Pastikan CloseIcon adalah komponen atau ikon yang benar */}
-                </button>
-                <h2 className="text-xl font-semibold mb-6 sm:mb-4">
-                  Tutorial rata-rata Measure
-                </h2>
-                <img
-                  src={MeanGif}
-                  alt="Video Tutorial Cover"
-                  className="w-full h-auto object-cover rounded-md"
-                />
-                <p className="text-gray-700 text-justify font-semibold my-2">
-                  Ini adalah tutorial untuk memberikan informasi tambahan
-                  terkait rata-rata <i>Rating</i> cara perhitungan.
-                </p>
-                <div className="mt-6 flex justify-end">
-                  <button
-                    className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-                    onClick={() => setShowModalTutorial(false)}
-                  >
-                    Tutup
-                  </button>
-                </div>
-              </div>
-            </div>
+            <TutorialModal
+              title={"Mean"}
+              content={MeanGif}
+              onClose={() => setShowModalTutorial(false)}
+            />
           )}
         </div>
       </div>

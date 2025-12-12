@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import TabelView from "../../components/table/TabelView.jsx";
+import * as emoji from "../../helper/generateEmot";
+
 import {
   DropdownMethodBased,
   DropdownSimilarityMeasure,
@@ -12,45 +14,29 @@ import FormLayoutTutorial from "../Layout/Tutorial/FormTutorial.jsx";
 import NotationCard from "../../components/table/NotaionCard.jsx";
 import Chip from "@mui/material/Chip";
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
-import {
-  Star,
-  ShowChart,
-  People,
-  Lightbulb,
-} from "@mui/icons-material";
+import { Star, ShowChart, People, Lightbulb } from "@mui/icons-material";
 
-import Navbar from "../../components/Navigate/NavBar.jsx";
+// import Navbar from "../../components/Navigate/NavBar.jsx";
 import KoalaPage from "../../assets/icons/KoalaPage.png";
-import CardWelcome from "../../components/Card/Home/CardWelcome.jsx";
+import CardWellcome from "../../components/Card/Home/CardWellcome.jsx";
 import ListNavigasiMenu from "../../components/Navigate/ListNavigasiMenu.jsx";
 import CardsSteps from "../../components/Card/Home/CardSteps.jsx";
 import VidioSection from "../../components/modal/VidioSection.jsx";
 import Toast from "../../components/Toggle/Toast.jsx";
-import * as emoji from "../../helper/GenerateEmoji.js"
+import Navbar from "../../components/Navigate/Navbar/Navbar.jsx";
+import { ModalTutorialYoutube } from "../../components/modal/ModalTutorialYoutube.jsx";
+import { useExplanationModal } from "../../components/hooks/useExplanationModal.jsx";
+import { Helmet } from "react-helmet";
+// import Cookies from "js-cookie";
 
 const Tutorial = () => {
-
   const [isDescriptionVisible, setDescriptionVisible] = useState(false);
+
   // Toast state
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState("success");
-
-  const [selectedMethod, setSelectedMethod] = useState("");
-  const [selectedSimilarity, setSelectedSimilarity] = useState("");
-
-  const [funnyMode, setFunnyMode] = useState(false)
-
-  const [data] = useState([
-    [5, 0, 4, 3, 5, 4],
-    [4, 5, 0, 3, 2, 3],
-    [0, 3, 0, 2, 1, 0],
-    [1, 2, 2, 0, 3, 4],
-    [1, 0, 1, 2, 3, 3],
-  ]);
-
-  const header = emoji.GEmot(5, "item")
-  const column = emoji.GEmot(5, "user")
+  const [funnyMode, setFunnyMode] = useState(false);
 
   // show toast
   useEffect(() => {
@@ -64,28 +50,50 @@ const Tutorial = () => {
     setShowToast(false);
   };
 
-  const toggleDescription = () => {
-    setDescriptionVisible(!isDescriptionVisible);
-  };
-
-  const handleTurnDescription = (condition) => {
-    setDescriptionVisible(condition);
-  };
-
+  // Toggle funny mode
   const changeFunny = () => {
-    setFunnyMode(!funnyMode)
-  }
+    setFunnyMode(!funnyMode);
+  };
+
+  // definisikan handleTurnDescription
+  const handleTurnDescription = useCallback((value) => {
+    setDescriptionVisible(value);
+  }, []);
+
+  // 2. Baru pakai di useCallback yang lain
+  const handleMethodChange = useCallback(
+    (method) => {
+      setSelectedMethod(method);
+      handleTurnDescription(false);
+    },
+    [handleTurnDescription]
+  );
+
+  const handleSimilarityChange = useCallback(
+    (similarity) => {
+      setSelectedSimilarity(similarity);
+      handleTurnDescription(false);
+    },
+    [handleTurnDescription]
+  );
+
+  // panggi hook
+  const {
+    showModal,
+    dontShowAgain,
+    setShowModal,
+    toggleExplanation,
+    handleContinue,
+    handleCheckboxChange,
+  } = useExplanationModal("hideExplanationModal_Tutorial");
 
   const form = [
     {
       header: "Pilih Metode Prediksi",
       element: (
         <DropdownMethodBased
-          turnDescription={setDescriptionVisible}
-          onChange={(method) => {
-            setSelectedMethod(method);
-            handleTurnDescription(false);
-          }}
+          onChange={handleMethodChange}
+          turnDescription={handleTurnDescription}
         />
       ),
     },
@@ -93,15 +101,26 @@ const Tutorial = () => {
       header: "Pilih Fungsi Similaritas",
       element: (
         <DropdownSimilarityMeasure
-          turnDescription={setDescriptionVisible}
-          onChange={(similaritas) => {
-            setSelectedSimilarity(similaritas);
-            handleTurnDescription(false);
-          }}
+          onChange={handleSimilarityChange}
+          turnDescription={handleTurnDescription}
         />
       ),
     },
   ];
+
+  const [data] = useState([
+    [5, 0, 4, 3, 5, 4],
+    [4, 5, 0, 3, 2, 3],
+    [0, 3, 0, 2, 1, 0],
+    [1, 2, 2, 0, 3, 4],
+    [1, 0, 1, 2, 3, 3],
+  ]);
+
+  const header = emoji.GEmot(5, "item");
+  const column = emoji.GEmot(5, "user");
+
+  const [selectedMethod, setSelectedMethod] = useState("");
+  const [selectedSimilarity, setSelectedSimilarity] = useState("");
 
   const scrollToSection = (sectionId) => {
     // Mencari elemen berdasarkan ID dan melakukan scroll halus
@@ -114,20 +133,91 @@ const Tutorial = () => {
   const TeksHeader = (
     <span>
       <h1>
-        Data <i>Rating</i> Yang Digunakan
+        {" "}
+        <span className="curved-underline">
+          Data Rating Yang Digunakan
+          <svg viewBox="0 0 100 20" preserveAspectRatio="none">
+            <path
+              d="M0 20 Q 50 0, 100 20"
+              stroke="white"
+              strokeWidth="4"
+              fill="none"
+            />
+          </svg>
+        </span>
       </h1>
     </span>
   );
-  const TeksSubHeader = (
+  const Tekssubheader = (
     <span>
-      Data <i>rating</i> yaitu suatu kumpulan data yang telah diberikan{" "}
-      <i>rating</i> pada <i>item</i> tertentu oleh <i>user</i>.
+      Data Rating yaitu suatu kumpulan data yang telah diberikan Rating pada
+      item tertentu oleh user.
     </span>
   );
 
   return (
     <>
-      <div>
+      <div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen transition-colors duration-200">
+        <Helmet>
+          <title>
+            Tutorial Fungsi Similaritas Sistem Rekomendasi - PCC, Cosine,
+            Adjusted Cosine, BC | KoalaERS
+          </title>
+          <meta
+            name="title"
+            content="Tutorial Fungsi Similaritas Sistem Rekomendasi - PCC, Cosine, Adjusted Cosine, BC | KoalaERS"
+          />
+          <meta
+            name="description"
+            content="Tutorial lengkap cara menghitung fungsi similaritas pada sistem rekomendasi: Pearson Correlation Coefficient (PCC), Cosine Similarity, Adjusted Cosine, dan Bhattacharyya Coefficient. Dengan contoh perhitungan step-by-step dan visualisasi interaktif."
+          />
+          <meta
+            name="keywords"
+            content="tutorial fungsi similaritas, cara menghitung PCC, rumus cosine similarity, adjusted cosine tutorial, bhattacharyya coefficient, mean rating, mean centered, prediksi rating, collaborative filtering tutorial, sistem rekomendasi tutorial, KoalaERS"
+          />
+          <meta
+            name="author"
+            content="KoalaERS Team - Universitas Trunojoyo Madura"
+          />
+          <meta name="robots" content="index, follow" />
+          <link
+            rel="canonical"
+            href="https://koalaers.trunojoyo.ac.id/tutorial"
+          />
+
+          <meta property="og:type" content="article" />
+          <meta
+            property="og:url"
+            content="https://koalaers.trunojoyo.ac.id/tutorial"
+          />
+          <meta
+            property="og:title"
+            content="Tutorial Fungsi Similaritas Sistem Rekomendasi | KoalaERS"
+          />
+          <meta
+            property="og:description"
+            content="Tutorial lengkap cara menghitung fungsi similaritas: PCC, Cosine, Adjusted Cosine, dan BC dengan contoh perhitungan step-by-step."
+          />
+          <meta
+            property="og:image"
+            content="https://koalaers.trunojoyo.ac.id/Frame%201.png"
+          />
+          <meta property="og:locale" content="id_ID" />
+
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta
+            name="twitter:title"
+            content="Tutorial Fungsi Similaritas Sistem Rekomendasi | KoalaERS"
+          />
+          <meta
+            name="twitter:description"
+            content="Tutorial lengkap cara menghitung fungsi similaritas pada sistem rekomendasi collaborative filtering."
+          />
+          <meta
+            name="twitter:image"
+            content="https://koalaers.trunojoyo.ac.id/Frame%201.png"
+          />
+        </Helmet>
         <Navbar />
         <div className="">
           {showToast && (
@@ -139,58 +229,93 @@ const Tutorial = () => {
           )}
 
           <ListNavigasiMenu menuVersion={1} scrollToSection={scrollToSection} />
-          <CardWelcome
-            heading={"Tutorial Fungsi Similaritas"}
-            bgColor={"bg-blue-home"}
-            detail="Pada Page Tutorial ini pengguna akan diberikan tutorial tentang
-              perhitungan fungsi similaritas dalam Sistem Rekomendasi. Sehingga
-              pengguna paham tentang perhitungan Metode Prediksi Collaborative Filterin dengan
-              berbagai fungsi similaritas yang berbeda"
-            image={KoalaPage}
-          />
+          <div data-aos="fade-down">
+            <CardWellcome
+              heading={"Tutorial Fungsi Similaritas"}
+              bgColor={"bg-blue-home"}
+              detail="Pada Page Tutorial ini pengguna akan diberikan tutorial tentang
+                perhitungan fungsi similaritas dalam Sistem Rekomendasi. Sehingga
+                pengguna paham tentang perhitungan Metode Prediksi Collaborative Filterin dengan
+                berbagai fungsi similaritas yang berbeda"
+              image={KoalaPage}
+            />
+          </div>
 
-          <VidioSection id="vidio_ratingTutorial" />
+          <div data-aos="fade-up" data-aos-delay="100">
+            <VidioSection id="vidio_ratingTutorial" />
+          </div>
 
-          <section id="cardSteps" className="max-w-6xl mx-auto p-4 text-center">
+          <section
+            id="cardSteps"
+            className="max-w-6xl mx-auto p-4 text-center"
+            data-aos="fade-up"
+            data-aos-delay="200"
+          >
             <CardsSteps />
           </section>
 
-          <BodyTutorial
-            header={TeksHeader}
-            subheader={TeksSubHeader}
-            id="data_ratingTutorial"
-          >
-            <TabelView
-              changeFunny={changeFunny}
-              headers={funnyMode ? header : ["1", "2", "3", "4", "5", "6"]}
-              columns={funnyMode ? column : ["1", "2", "3", "4", "5"]} />
-          </BodyTutorial>
+          <div data-aos="fade-up" data-aos-delay="300">
+            <BodyTutorial
+              header={TeksHeader}
+              subheader={Tekssubheader}
+              id="data_ratingTutorial"
+            >
+              <TabelView
+                changeFunny={changeFunny}
+                headers={funnyMode ? header : ["1", "2", "3", "4", "5", "6"]}
+                columns={funnyMode ? column : ["1", "2", "3", "4", "5"]}
+              />
+            </BodyTutorial>
+          </div>
           <section
             id="notasi_ratingTutorial"
             className="max-w-4xl mx-auto text-center py-5"
+            data-aos="fade-up"
+            data-aos-delay="400"
           >
             <h1 className="text-3xl sm:text-4xl font-bold font-poppins   ">
-              Notasi dan Penjelasan Data Rating
+              <span className="curved-underline">
+                Notasi dan Penjelasan Data Rating
+                <svg viewBox="0 0 100 20" preserveAspectRatio="none">
+                  <path
+                    d="M0 20 Q 50 0, 100 20"
+                    stroke="white"
+                    strokeWidth="4"
+                    fill="none"
+                  />
+                </svg>
+              </span>
             </h1>
 
             <NotationCard opsional={selectedMethod.toLowerCase()} data={data} />
           </section>
-          <FormLayoutTutorial id="metode_ratingTutorial" data={form} />
+          <div data-aos="fade-up" data-aos-delay="500">
+            <FormLayoutTutorial id="metode_ratingTutorial" data={form} />
+          </div>
 
-          <section className="max-w-6xl mx-auto text-center my-10 p-10 relative">
-            <div className="p-5">
-              <button
-                onClick={toggleDescription}
-                className="w-full sm:w-auto font-semibold font-poppins bg-blue-home border-2 border-black text-center text-white px-4 py-2 sm:px-6 sm:py-3 rounded-full hover:bg-blue-700 shadow-md flex items-center justify-center mx-auto"
-              >
-                Cek Hasil Perhitungan Metode Prediksi dan Fungsi Similaritas
-                {isDescriptionVisible ? (
-                  <ExpandLessIcon className="ml-2 text-lg" />
-                ) : (
-                  <ExpandMoreIcon className="ml-2 text-lg" />
-                )}
-              </button>
-            </div>
+          <section className="max-w-full mx-auto text-center my-10  pt-10 relative">
+            <button
+              onClick={() =>
+                toggleExplanation(isDescriptionVisible, setDescriptionVisible)
+              }
+              className="max-w-6xl sm:w-auto font-semibold font-poppins bg-blue-home border-2 border-black text-center text-white px-4 py-2 sm:px-6 sm:py-3 rounded-full hover:bg-blue-700 shadow-md flex items-center justify-center mx-auto"
+            >
+              Cek Hasil Perhitungan
+              {isDescriptionVisible ? (
+                <ExpandLessIcon className="ml-2 text-lg" />
+              ) : (
+                <ExpandMoreIcon className="ml-2 text-lg" />
+              )}
+            </button>
+
+            {showModal && (
+              <ModalTutorialYoutube
+                dontShowAgain={dontShowAgain}
+                handleCheckboxChange={handleCheckboxChange}
+                handleContinue={() => handleContinue(setDescriptionVisible)}
+                onClose={() => setShowModal(false)}
+              />
+            )}
 
             {isDescriptionVisible && (
               <div className="mt-8">

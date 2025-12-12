@@ -1,148 +1,331 @@
-import React from "react";
+import React, { useRef, useMemo, useState } from "react";
 import { Scatter } from "react-chartjs-2";
 import { Chart as ChartJS, defaults } from "chart.js/auto";
-import annotationPlugin from "chartjs-plugin-annotation"; // Import plugin
-import { lab } from "d3";
+import annotationPlugin from "chartjs-plugin-annotation";
+import zoomPlugin from "chartjs-plugin-zoom";
+import ChartDataLabels from "chartjs-plugin-datalabels";
+
+import IconButton from "@mui/material/IconButton";
+import ZoomInIcon from "@mui/icons-material/ZoomIn";
+import ZoomOutIcon from "@mui/icons-material/ZoomOut";
+import CenterFocusStrongIcon from "@mui/icons-material/CenterFocusStrong";
+import { Explanation } from "./KomponenChartPlot2D/Explanation";
+import { AreaColors } from "./KomponenChartPlot2D/AreaColors";
 
 defaults.maintainAspectRatio = false;
 defaults.responsive = true;
 
-ChartJS.register(annotationPlugin);
+ChartJS.register(annotationPlugin, zoomPlugin, ChartDataLabels);
 
 export default function ChartJsScatter2D({ result, opsional }) {
+  const chartRef = useRef(null);
   const similarityData = result["reduced-data"];
+  // for zoom reset
+  const [isZoomed, setIsZoomed] = useState(false);
 
-  // Data untuk scatter plot (titik-titik), memastikan titik pertama adalah (0, 0)
-  const scatterPoints = [
-    ...similarityData.map((row, index) => ({
+  const scatterPoints = useMemo(() => {
+    return similarityData.map((row, index) => ({
       x: row[0],
       y: row[1],
-      label: `${opsional === "user-based" ? "user" : "item"}-${index + 1}`,
-    })),
-  ];
+      id: index + 1,
+      label: `${opsional === "user-based" ? "User" : "Item"}-${index + 1}`,
+    }));
+  }, [similarityData, opsional]);
 
-  // // Data untuk garis dari titik (0, 0)
-  // const lineData = [
-  //   { x: 0, y: 0 }, // Titik awal (0,0)
-  //   ...scatterPoints, // Hubungkan ke titik-titik scatter setelah titik (0, 0)
-  // ];
+  const closePointIds = useMemo(() => {
+    const threshold = 0.5;
+    const closeIds = new Set();
 
-  // Menghitung min/max untuk x dan y agar lebih besar +1
-  const xMin = Math.min(...scatterPoints.map((d) => d.x)) - 1;
-  const xMax = Math.max(...scatterPoints.map((d) => d.x)) + 1;
+    for (let i = 0; i < scatterPoints.length; i++) {
+      for (let j = i + 1; j < scatterPoints.length; j++) {
+        const dx = scatterPoints[i].x - scatterPoints[j].x;
+        const dy = scatterPoints[i].y - scatterPoints[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < threshold) {
+          closeIds.add(scatterPoints[i].id);
+          closeIds.add(scatterPoints[j].id);
+        }
+      }
+    }
+    return closeIds;
+  }, [scatterPoints]);
 
-  const yMin = Math.min(...scatterPoints.map((d) => d.y)) - 1;
-  const yMax = Math.max(...scatterPoints.map((d) => d.y)) + 1;
+  const sortPointsClockwise = (points) => {
+    const center = {
+      x: points.reduce((sum, p) => sum + p.x, 0) / points.length,
+      y: points.reduce((sum, p) => sum + p.y, 0) / points.length,
+    };
 
-  const data = {
-    datasets: [
-      {
-        label: `Kumpulan ${opsional === "user-based" ? "User" : "Item"}`,
-        data: scatterPoints,
-        backgroundColor: "rgba(255, 99, 132, 0.6)",
-        borderColor: "rgba(255, 99, 132, 1)",
-        borderWidth: 1,
-        pointRadius: 5,
-      },
-      // {
-      //   label: "Connections",
-      //   data: lineData,
-      //   borderColor: "red",
-      //   borderWidth: 2,
-      //   fill: false,
-      //   showLine: true,
-      //   pointRadius: 0, // Jangan tampilkan titik untuk garis
-      // },
-    ],
+    return [...points].sort((a, b) => {
+      const angleA = Math.atan2(a.y - center.y, a.x - center.x);
+      const angleB = Math.atan2(b.y - center.y, b.x - center.x);
+      return angleA - angleB;
+    });
   };
 
-  const options = {
-    responsive: true,
-    scales: {
-      x: {
-        type: "linear",
-        position: "bottom",
-        min: xMin,
-        max: xMax,
-        ticks: {
-          callback: function (value) {
-            // Custom x-axis ticks untuk menampilkan user/item
-            return `${value}`;
+  const clusterAreas = useMemo(() => {
+    // untuk trehold 0.5
+    // Union-Find
+    const threshold = 0.5;
+    const clusters = [];
+    const visited = new Set();
+
+    for (let i = 0; i < scatterPoints.length; i++) {
+      if (visited.has(i)) continue;
+
+      const cluster = [scatterPoints[i]];
+      visited.add(i);
+
+      for (let j = i + 1; j < scatterPoints.length; j++) {
+        if (visited.has(j)) continue;
+        const dx = scatterPoints[i].x - scatterPoints[j].x;
+        const dy = scatterPoints[i].y - scatterPoints[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < threshold) {
+          cluster.push(scatterPoints[j]);
+          visited.add(j);
+        }
+      }
+
+      if (cluster.length > 1) {
+        const ordered = sortPointsClockwise(cluster);
+        ordered.push(ordered[0]); // close loop
+        clusters.push(ordered);
+      }
+    }
+
+    return clusters;
+  }, [scatterPoints]);
+
+  const xMin = Math.min(...scatterPoints.map((p) => p.x)) - 1;
+  const xMax = Math.max(...scatterPoints.map((p) => p.x)) + 1;
+  const yMin = Math.min(...scatterPoints.map((p) => p.y)) - 1;
+  const yMax = Math.max(...scatterPoints.map((p) => p.y)) + 1;
+
+  const data = useMemo(
+    () => ({
+      datasets: [
+        // 🔵 Main points (User atau Item)
+        {
+          label: `Kumpulan ${opsional === "user-based" ? "User" : "Item"}`,
+          data: scatterPoints,
+          backgroundColor: (ctx) => {
+            const point = ctx.raw;
+            return closePointIds.has(point.id)
+              ? "rgba(54, 162, 235, 0.9)" // Warna lebih cerah untuk highlight
+              : "rgba(255, 99, 132, 0.6)"; // Warna default
+          },
+          borderColor: (ctx) => {
+            const point = ctx.raw;
+            return closePointIds.has(point.id)
+              ? "rgba(54, 162, 235, 1)" // Border biru untuk highlight
+              : "rgba(255, 99, 132, 1)"; // Border merah untuk lainnya
+          },
+          borderWidth: 2,
+          pointRadius: 7,
+          pointHoverRadius: 10,
+          datalabels: {
+            align: "top",
+            anchor: "end",
+            color: "#111",
+            font: {
+              size: 11,
+              weight: "bold",
+            },
+            formatter: (value) => value.label,
+          },
+        },
+
+        // 🟨 Cluster area (filled polygon)
+        ...clusterAreas.map((cluster, idx) => ({
+          label: `Area ${idx + 1}`,
+          data: cluster,
+          type: "line",
+          borderColor: AreaColors[idx % AreaColors.length].border,
+          backgroundColor: AreaColors[idx % AreaColors.length].background,
+          borderWidth: 3,
+          fill: true, // bikin area tertutup
+          pointRadius: 0,
+          tension: 0.3,
+          clip: false,
+          datalabels: {
+            display: false,
+          },
+        })),
+
+        // 🔷 Highlight titik yang berdekatan (overlay dengan border lebih besar)
+        {
+          label: "Titik Terdekat",
+          data: scatterPoints.filter((p) => closePointIds.has(p.id)),
+          backgroundColor: "rgba(54, 162, 235, 0.4)", // semi transparan biru muda
+          borderColor: "rgba(54, 162, 235, 1)", // border biru tegas
+          borderWidth: 3,
+          pointRadius: 10,
+          pointHoverRadius: 14,
+          showLine: false,
+          datalabels: {
+            display: false,
+          },
+        },
+      ],
+    }),
+    [scatterPoints, closePointIds, clusterAreas, opsional]
+  );
+
+  const closePairs = useMemo(() => {
+    const pairs = [];
+    const threshold = 0.5;
+
+    for (let i = 0; i < scatterPoints.length; i++) {
+      for (let j = i + 1; j < scatterPoints.length; j++) {
+        const pointA = scatterPoints[i];
+        const pointB = scatterPoints[j];
+
+        const dx = pointA.x - pointB.x;
+        const dy = pointA.y - pointB.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < threshold) {
+          pairs.push({
+            label1: pointA.label,
+            label2: pointB.label,
+            distance: dist.toFixed(3),
+            x1: pointA.x,
+            y1: pointA.y,
+            x2: pointB.x,
+            y2: pointB.y,
+          });
+        }
+      }
+    }
+
+    return pairs;
+  }, [scatterPoints]);
+
+  const options = useMemo(
+    () => ({
+      responsive: true,
+      scales: {
+        x: { type: "linear", position: "bottom", min: xMin, max: xMax },
+        y: { type: "linear", position: "left", min: yMin, max: yMax },
+      },
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: function (tooltipItem) {
+              const label =
+                data.datasets[tooltipItem.datasetIndex].data[
+                  tooltipItem.dataIndex
+                ].label;
+              return `${label} - (${tooltipItem.raw.x.toFixed(
+                2
+              )}, ${tooltipItem.raw.y.toFixed(2)})`;
+            },
+          },
+        },
+        legend: {
+          display: true,
+          position: "top",
+          labels: {
+            filter: (legendItem) =>
+              legendItem.text !== "Nearby Points Highlight",
+          },
+        },
+
+        datalabels: {
+          display: true,
+          align: "right",
+          anchor: "end",
+          color: "black",
+          font: {
+            size: 10,
+            weight: "bold",
+          },
+          formatter: (value) => value.label,
+        },
+        zoom: {
+          zoom: {
+            wheel: { enabled: true },
+            pinch: { enabled: true },
+            mode: "xy",
+          },
+          pan: {
+            enabled: true,
+            mode: "xy",
+          },
+          limits: {
+            x: { min: xMin, max: xMax },
+            y: { min: yMin, max: yMax },
+          },
+          onZoomComplete: ({ chart }) => {
+            setIsZoomed(true); // ✅ Selalu aktifkan saat zoom
+          },
+          onPanComplete: ({ chart }) => {
+            setIsZoomed(true); // ✅ Pan juga trigger zoom aktif
           },
         },
       },
-      y: {
-        type: "linear",
-        position: "left",
-        min: yMin,
-        max: yMax,
-        ticks: {
-          callback: function (value) {
-            // Custom y-axis ticks untuk menampilkan user/item
-            return `${value}`;
-          },
-        },
-      },
-    },
-    plugins: {
-      tooltip: {
-        callbacks: {
-          label: (tooltipItem) => {
-            const i = tooltipItem.dataIndex;
-            return `${opsional === "user-based" ? "user" : "item"} - ${
-              i + 1
-            }: (${tooltipItem.raw.x}, ${tooltipItem.raw.y})`;
-          },
-        },
-      },
-    },
+    }),
+    [xMin, xMax, yMin, yMax, data]
+  );
+
+  const handleZoomIn = () => {
+    const chart = chartRef.current;
+    if (chart) chart.zoom(1.2);
   };
 
-  const PenjelasanScatter = () => {
-    return (
-      <>
-        {/* Explanation Section */}
-        <div className="mt-6 text-justify max-w-full md:max-w-xl mx-auto px-4">
-          <h2 className="text-xl text-center font-bold mb-3">
-            Cara Membaca Scatter Plot 2D
-          </h2>
-          <p className={`text-sm mb-2`}>
-            Plot ini menggunakan{" "}
-            <b>
-              <a
-                className="no-underline hover:underline text-card_blue_primary decoration-card_blue_primary "
-                href="https://scikit-learn.org/stable/modules/generated/sklearn.manifold.MDS.html"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Multidimensional Scaling (MDS)
-              </a>
-            </b>
-            , yaitu teknik reduksi dimensi yang mengubah data kompleks ke dalam
-            dimensi lebih rendah (misalnya 2D atau 3D) sambil mempertahankan
-            jarak antar objek. MDS membantu memvisualisasikan kemiripan antar
-            objek, sehingga memudahkan analisis hubungan antar <i>user</i>.
-          </p>
-          <p className={`text-sm mb-2`}>
-            Scatter plot ini menunjukkan hubungan antara dua variabel yang
-            diambil dari data kemiripan pengguna. Setiap titik mewakili{" "}
-            <i>user</i>, dan posisi titik tersebut menunjukkan posisi dari
-            variabel yang dipilih.
-          </p>
-        </div>
-      </>
-    );
+  const handleZoomOut = () => {
+    const chart = chartRef.current;
+    if (chart) chart.zoom(0.8);
+  };
+
+  const handleResetZoom = () => {
+    const chart = chartRef.current;
+    if (chart) {
+      chart.resetZoom();
+      setIsZoomed(false);
+    }
   };
 
   return (
-    <>
-      <div className="flex flex-col my-5 font-poppins items-center">
-        <div className="w-full h-96 p-4 rounded-lg mb-5">
-          {/* Scatter Plot */}
-          <Scatter data={data} options={options} />
+    <div className="flex flex-col my-5 font-poppins items-center relative">
+      <div className="w-full h-96 p-4 rounded-lg mb-5 relative">
+        <div className="absolute top-1 right-1 z-10 flex gap-1 sm:gap-2 bg-white/80 rounded-md p-1 sm:p-2 mr-2 sm:mr-5">
+          {isZoomed && (
+            <IconButton
+              size="small"
+              onClick={handleResetZoom}
+              aria-label="Reset Zoom"
+              title="Reset Zoom"
+              style={{
+                opacity: isZoomed ? 1 : 0.3,
+                pointerEvents: isZoomed ? "auto" : "none",
+              }}
+            >
+              <CenterFocusStrongIcon fontSize="small" />
+            </IconButton>
+          )}
+          <IconButton size="small" onClick={handleZoomIn} aria-label="Zoom In">
+            <ZoomInIcon fontSize="small" />
+          </IconButton>
+          <IconButton
+            size="small"
+            onClick={handleZoomOut}
+            aria-label="Zoom Out"
+          >
+            <ZoomOutIcon fontSize="small" />
+          </IconButton>
         </div>
-        <PenjelasanScatter />
+
+        <Scatter
+          key={JSON.stringify(scatterPoints)}
+          data={data}
+          options={options}
+          ref={chartRef}
+        />
       </div>
-    </>
+      {/* <Explanation closePairs={closePairs} opsional={opsional} /> */}
+    </div>
   );
 }

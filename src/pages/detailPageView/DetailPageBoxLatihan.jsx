@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useEffect } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -12,17 +11,14 @@ import PredictionMeasure from "../../components/MathSimilarity/Measure/Predictio
 import { checkEmptyRowOrColumn } from "../../helper/helper";
 import KeyboardCapslockIcon from "@mui/icons-material/KeyboardCapslock";
 
-export default function DetailPageBoxLatihan({ method, similarity, data, headers, columns, funnyMode }) {
-
-  useEffect(() => {
-    const element = document.getElementById("pageBox");
-    console.log(element);
-
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [])
-
+export default function DetailPageBoxLatihan({
+  method,
+  similarity,
+  data,
+  headers,
+  columns,
+  funnyMode,
+}) {
   const scrollToSectionDetail = (sectionIdDetail) => {
     const element = document.getElementById(sectionIdDetail);
     if (element) {
@@ -30,6 +26,8 @@ export default function DetailPageBoxLatihan({ method, similarity, data, headers
     }
   };
   const renderContent = () => {
+    // console.log("detailPage", data);
+    // console.log("detailPage", data.length === 0);
 
     if (!method) {
       return (
@@ -147,25 +145,25 @@ export default function DetailPageBoxLatihan({ method, similarity, data, headers
         {/* Set maxWidth to "xl" or "false" for maximum width */}
         <Box
           sx={{
-            bgcolor: "#ffd25d",
+            bgcolor: "#FDF9ED",
             minHeight: "100vh",
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            border: "2px solid black",
-            borderRadius: 10,
+            border: "1px solid black",
+            borderRadius: 1,
             margin: { xs: 1, sm: 2, md: 3 }, // Adjust margin based on screen size
             padding: { xs: 1, sm: 2, md: 4 }, // Responsive padding
-            boxShadow: 1,
+            boxShadow: 3,
             width: "100%", // Make the Box take full width
             maxWidth: { xs: "100%", md: "100%" }, // Constrain max width on larger
             // screens
             overflow: "hidden",
           }}
         >
-          <section id="pageBox" className="max-w-full mx-auto text-center px-4 sm:px-3 md:px-4">
-            <h1 className="text-xl sm:text-md md:text-2xl font-bold font-poppins py-5 leading-snug break-words">
+          <section className="max-w-full mx-auto text-center px-4 sm:px-3 md:px-4">
+            <h1 className="text-xl sm:text-md md:text-2xl font-bold font-poppins py-5 leading-snug break-words ">
               Langkah-Langkah Penerapan <i>{method} Collaborative Filtering</i>{" "}
               dengan Metode
               <span className="italic"> {similarity}</span>

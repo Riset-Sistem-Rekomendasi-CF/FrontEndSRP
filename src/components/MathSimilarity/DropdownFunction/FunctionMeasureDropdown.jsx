@@ -11,13 +11,13 @@ export function FunctionMeasureDropdown({ DetailRumus }) {
   };
 
   return (
-    <div className="px-4 sm:px-6 md:px-10 w-full">
+    <div className="px-2 sm:px-3 md:px-5 w-full">
       {/* Tombol Keterangan */}
       <button
         onClick={toggleDropdown}
-        className="flex items-center text-start font-semibold font-poppins text-red-500 mt-4 focus:outline-none text-sm sm:text-base"
+        className="flex items-start text-start font-semibold font-poppins text-white mt-2 focus:outline-none text-sm sm:text-base bg-purple-btn-primary p-2 rounded-md shadow-sm"
       >
-        Keterangan
+        Keterangan Rumus
         {isOpen ? (
           <ExpandLessIcon className="ml-2" />
         ) : (
@@ -27,18 +27,17 @@ export function FunctionMeasureDropdown({ DetailRumus }) {
 
       {/* Konten Dropdown */}
       {isOpen && (
-        <div className="flex justify-start items-start flex-col px-2 sm:px-6 md:px-8 mt-2 w-full">
-          {/* Menampilkan rumus dengan ukuran font responsif */}
-          <div className="w-full overflow-x-auto sm:overflow-x-visible">
-            {DetailRumus.map((math, index) => (
-              <MathJaxComponent
-                key={index}
-                className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left"
-              >
-                {math}
-              </MathJaxComponent>
-            ))}
-          </div>
+        <div className="w-full overflow-x-auto sm:overflow-x-visible mt-4 text-black">
+          {DetailRumus.map((math, index) => (
+            <div
+              key={index}
+              className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 text-left"
+            >
+              <div className="keterangan-rumus text-[0.75rem] sm:text-sm md:text-base leading-[1.4] *:leading-relaxed">
+                <MathJaxComponent>{math}</MathJaxComponent>
+              </div>
+            </div>
+          ))}
         </div>
       )}
     </div>

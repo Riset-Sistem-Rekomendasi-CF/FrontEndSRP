@@ -142,6 +142,7 @@ const StepperModal = ({ isOpen, onClose, stepsContent }) => {
 };
 
 export default StepperModal;
+
 export const StepRow = () => {
   return (
     <div className="flex flex-col sm:flex-row items-center justify-center mt-6 space-y-4 sm:space-x-4 sm:space-y-0 text-lg font-medium">

@@ -1,6 +1,7 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "KoalaERS",
+  "name": "KoalaERS - Media Pembelajaran Sistem Rekomendasi Collaborative Filtering",
+  "description": "Platform edukasi interaktif untuk mempelajari sistem rekomendasi dengan metode Collaborative Filtering User-Based dan Item-Based",
   "icons": [
     {
       "src": "favicon.ico",
@@ -10,16 +11,23 @@
     {
       "src": "logo192.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "192x192",
+      "purpose": "any maskable"
     },
     {
       "src": "logo512.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "512x512",
+      "purpose": "any maskable"
     }
   ],
-  "start_url": ".",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#3B82F6",
+  "background_color": "#ffffff",
+  "orientation": "portrait-primary",
+  "lang": "id-ID",
+  "categories": ["education", "productivity"],
+  "prefer_related_applications": false
 }

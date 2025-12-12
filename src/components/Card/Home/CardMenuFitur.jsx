@@ -15,13 +15,15 @@ const CardMenuFitur = ({
   };
   return (
     <div
-      className={`flex flex-col md:flex-row items-center justify-between h-full ${bgColor} shadow-lg rounded-[30px] border-2 border-black p-6 space-y-4 md:space-y-0 md:space-x-6 hover:${bgColor} hover:shadow-xl  bg-box-grid-pattern animate-grid z-0`}
+      className={`flex flex-col md:flex-row items-center justify-between h-full ${bgColor} shadow-lg rounded-[30px] border-2 border-black dark:border-gray-600 p-6 space-y-4 md:space-y-0 md:space-x-6 hover:${bgColor} hover:shadow-xl bg-box-grid-pattern animate-grid z-0 transition-colors duration-200`}
     >
       {/* Left side with text and button */}
       <div className="flex-1 flex flex-col justify-between text-center md:text-left">
         <div>
-          <h2 className="text-3xl font-bold text-black mb-2">{Heading}</h2>
-          <p className="text-black font-medium text-md mb-4 flex-grow">
+          <h2 className="text-3xl font-bold text-black dark:text-white mb-2">
+            {Heading}
+          </h2>
+          <p className="text-black dark:text-gray-200 font-medium text-md mb-4 flex-grow">
             {children}
           </p>
         </div>

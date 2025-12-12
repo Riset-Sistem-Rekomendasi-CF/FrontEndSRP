@@ -232,7 +232,7 @@ export default function OverViewRekomendasi() {
 
     return (
       <section className="mt-[4rem] sm:mt-0 relative flex items-center justify-center">
-        <h1 className="font-bold font-poppins mb-5 md:mb-8 text-3xl sm:text-4xl md:text-5xl text-gray-800">
+        <h1 className="font-bold font-poppins mb-5 md:mb-8 text-3xl sm:text-4xl md:text-5xl text-gray-800 dark:text-white">
           <span className="text-slider inline-block">
             <span className="slide-text">{`Bagaimana Sistem Rekomendasi Bekerja di ${currentText} ?`}</span>
           </span>

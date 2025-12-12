@@ -1,51 +1,40 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 import {
   DropdownMethodBased,
   DropdownSimilarityMeasure,
-} from "../../components/Form/form_Practice.jsx";
+} from "../../components/Form/form_Practice";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import NotationCard from "../../components/table/NotaionCard.jsx";
 
-import FormMeasure from "../../components/Form/FormMeasure.jsx";
-import {
-  Lightbulb,
-  People,
-  ShowChart,
-  Star,
-} from "@mui/icons-material";
+import FormMeasure from "../../components/Form/FormMeasure";
+import { Lightbulb, People, ShowChart, Star } from "@mui/icons-material";
 import Chip from "@mui/material/Chip";
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
-
-import DetailPageBoxLatihan from "../detailPageView/DetailPageBoxLatihan.jsx";
-import Navbar from "../../components/Navigate/NavBar.jsx";
 import KoalaPage from "../../assets/icons/KoalaPage.png";
-import CardWelcome from "../../components/Card/Home/CardWelcome.jsx";
+import CardWellcome from "../../components/Card/Home/CardWellcome.jsx";
 import ListNavigasiMenu from "../../components/Navigate/ListNavigasiMenu.jsx";
 import CardsSteps from "../../components/Card/Home/CardSteps.jsx";
 import VidioSection from "../../components/modal/VidioSection.jsx";
 import Toast from "../../components/Toggle/Toast.jsx";
-import * as Emoji from "../../helper/GenerateEmoji.js"
+import * as Emoji from "../../helper/generateEmot.js";
 import { transposeMatrix } from "../../helper/helper.js";
+import DetailPageBox from "../detailPageView/DetailPageBox.jsx";
+import Navbar from "../../components/Navigate/Navbar/Navbar.jsx";
+import { useExplanationModal } from "../../components/hooks/useExplanationModal.jsx";
+import { ModalTutorialYoutube } from "../../components/modal/ModalTutorialYoutube.jsx";
+import { Helmet } from "react-helmet";
 // import Cookies from "js-cookie";
 
-function Exploration() {
+function Eksplorasi() {
   const [isDescriptionVisible, setDescriptionVisible] = useState(false);
 
   // Toast State
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState("success");
-
-  const [funnyMode, setFunnyMode] = useState(false)
-
-  const [selectedMethod, setSelectedMethod] = useState("");
-  const [selectedSimilarity, setSelectedSimilarity] = useState("");
-  const [data, setData] = useState([]);
-
-  const headers = data.length > 0 ? Emoji.GEmot(transposeMatrix(data).length + 1, "item") : null
-  const columns = data.length > 0 ? Emoji.GEmot((data).length + 1, "user") : null
+  const [funnyMode, setFunnyMode] = useState(false);
 
   // show toast
   useEffect(() => {
@@ -56,18 +45,27 @@ function Exploration() {
 
   // Toggle funny mode
   const changeFunny = () => {
-    setFunnyMode(!funnyMode)
-  }
+    setFunnyMode(!funnyMode);
+  };
 
   // Hide toast
   const handleCloseToast = () => {
     setShowToast(false);
   };
 
-  const toggleDescription = () => {
-    setDescriptionVisible(!isDescriptionVisible);
-  };
+  const [selectedMethod, setSelectedMethod] = useState("");
+  const [selectedSimilarity, setSelectedSimilarity] = useState("");
+  const [data, setData] = useState([]);
 
+  const headers =
+    data.length > 0
+      ? Emoji.GEmot(transposeMatrix(data).length + 1, "item")
+      : null;
+  const columns = data.length > 0 ? Emoji.GEmot(data.length + 1, "user") : null;
+
+  // console.log(data.length, data, headers);
+  // console.log(data.length, data, columns);
+  // console.log(funnyMode);
 
   const handleMethodChange = (method) => {
     setSelectedMethod(method);
@@ -95,9 +93,78 @@ function Exploration() {
     }
   };
 
+  const {
+    showModal,
+    dontShowAgain,
+    setShowModal,
+    toggleExplanation,
+    handleContinue,
+    handleCheckboxChange,
+  } = useExplanationModal("hideExplanationModal_Eksplorasi");
+
   return (
     <>
-      <div>
+      <div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen transition-colors duration-200">
+        <Helmet>
+          <title>
+            Kalkulator Fungsi Similaritas Online - Hitung PCC, Cosine, Adjusted
+            Cosine, BC | KoalaERS
+          </title>
+          <meta
+            name="title"
+            content="Kalkulator Fungsi Similaritas Online - Hitung PCC, Cosine, Adjusted Cosine, BC | KoalaERS"
+          />
+          <meta
+            name="description"
+            content="Kalkulator online gratis untuk menghitung fungsi similaritas sistem rekomendasi. Input data rating Anda sendiri dan dapatkan hasil perhitungan PCC, Cosine Similarity, Adjusted Cosine, dan Bhattacharyya Coefficient secara otomatis dengan penjelasan lengkap."
+          />
+          <meta
+            name="keywords"
+            content="kalkulator similaritas online, hitung PCC online, kalkulator cosine similarity, adjusted cosine calculator, bhattacharyya coefficient calculator, eksplorasi sistem rekomendasi, collaborative filtering calculator, similarity measure calculator, KoalaERS"
+          />
+          <meta
+            name="author"
+            content="KoalaERS Team - Universitas Trunojoyo Madura"
+          />
+          <meta name="robots" content="index, follow" />
+          <link
+            rel="canonical"
+            href="https://koalaers.trunojoyo.ac.id/eksplorasi"
+          />
+
+          <meta property="og:type" content="website" />
+          <meta
+            property="og:url"
+            content="https://koalaers.trunojoyo.ac.id/eksplorasi"
+          />
+          <meta
+            property="og:title"
+            content="Kalkulator Fungsi Similaritas Online | KoalaERS"
+          />
+          <meta
+            property="og:description"
+            content="Kalkulator online gratis untuk menghitung fungsi similaritas sistem rekomendasi. Input data rating dan dapatkan hasil perhitungan otomatis."
+          />
+          <meta
+            property="og:image"
+            content="https://koalaers.trunojoyo.ac.id/Frame%201.png"
+          />
+          <meta property="og:locale" content="id_ID" />
+
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta
+            name="twitter:title"
+            content="Kalkulator Fungsi Similaritas Online | KoalaERS"
+          />
+          <meta
+            name="twitter:description"
+            content="Kalkulator online gratis untuk menghitung fungsi similaritas sistem rekomendasi collaborative filtering."
+          />
+          <meta
+            name="twitter:image"
+            content="https://koalaers.trunojoyo.ac.id/Frame%201.png"
+          />
+        </Helmet>
         <Navbar />
         <div>
           {showToast && (
@@ -108,35 +175,49 @@ function Exploration() {
             />
           )}
           <ListNavigasiMenu menuVersion={2} scrollToSection={scrollToSection} />
-          <CardWelcome
-            heading={"Eksplorasi Fungsi Similaritas"}
-            bgColor={"bg-card_purple_primary"}
-            detail="Pada Page Eksplorasi Rating pengguna bisa bereksplorasi dan ingin melakukan
-              eksperiment tentang perhitungan  Fungsi Similaritas dengan data rating yang berbeda-beda untuk pemahaman yang
-              lebih lanjut."
-            image={KoalaPage}
-          />
-          <VidioSection />
+          <div data-aos="fade-down">
+            <CardWellcome
+              heading={"Eksplorasi Fungsi Similaritas"}
+              bgColor={"bg-card_purple_primary"}
+              detail="Pada Page Eksplorasi Rating pengguna bisa bereksplorasi dan ingin melakukan
+                eksperiment tentang perhitungan  Fungsi Similaritas dengan data rating yang berbeda-beda untuk pemahaman yang
+                lebih lanjut."
+              image={KoalaPage}
+            />
+          </div>
+          <div data-aos="fade-up" data-aos-delay="100">
+            <VidioSection />
+          </div>
 
-          <section id="cardSteps" className="max-w-5xl mx-auto p-6 text-center">
+          <section
+            id="cardSteps"
+            className="max-w-5xl mx-auto p-6 text-center"
+            data-aos="fade-up"
+            data-aos-delay="200"
+          >
             <CardsSteps />
           </section>
 
           <section
             id="data_ratingLatihan"
             className="max-w-4xl mx-auto text-center py-5"
+            data-aos="fade-up"
+            data-aos-delay="300"
           >
             <h1 className="text-4xl sm:text-5xl font-bold font-poppins py-10 ">
-              Buat Tabel Data Rating Yang Akan Digunakan
+              <span className="curved-underline">
+                Buat Tabel Data Rating Yang Akan Digunakan
+                <svg viewBox="0 0 100 20" preserveAspectRatio="none">
+                  <path
+                    d="M0 20 Q 50 0, 100 20"
+                    stroke="white"
+                    strokeWidth="4"
+                    fill="none"
+                  />
+                </svg>
+              </span>
             </h1>
-            <div className="flex flex-row items-center justify-center">
-              <div className="w-10 h-10 font-poppins rounded-full bg-green-500 text-white flex items-center justify-center text-lg">
-                1
-              </div>
-              <h1 className="text-2xl font-bold font-poppins py-5 ml-3">
-                Buat Tabel Rating:
-              </h1>
-            </div>
+           
             <FormMeasure
               onDataChange={handleDataChange}
               onDescriptionChange={handleTurnDescription}
@@ -150,9 +231,21 @@ function Exploration() {
           <section
             id="notasi_ratingLatihan"
             className="max-w-4xl mx-auto text-center py-5"
+            data-aos="fade-up"
+            data-aos-delay="400"
           >
-            <h1 className="text-3xl sm:text-4xl font-bold font-poppins  ">
-              Notasi dan Penjelasan Data Rating
+            <h1 className="text-3xl sm:text-4xl font-bold font-poppins   ">
+              <span className="curved-underline">
+                Notasi dan Penjelasan Data Rating
+                <svg viewBox="0 0 100 20" preserveAspectRatio="none">
+                  <path
+                    d="M0 20 Q 50 0, 100 20"
+                    stroke="white"
+                    strokeWidth="4"
+                    fill="none"
+                  />
+                </svg>
+              </span>
             </h1>
             <NotationCard opsional={selectedMethod.toLowerCase()} data={data} />
           </section>
@@ -160,10 +253,22 @@ function Exploration() {
           <section
             id="metode_ratingLatihan"
             className="max-w-6xl mx-auto text-center py-5"
+            data-aos="fade-up"
+            data-aos-delay="500"
           >
             <div className="px-5">
               <h1 className="text-5xl sm:text-6xl font-bold font-poppins py-10">
-                Pilih Metode Prediksi dan Fungsi Similaritas
+                <span className="curved-underline">
+                  Pilih Metode Prediksi dan Fungsi Similaritas
+                  <svg viewBox="0 0 100 20" preserveAspectRatio="none">
+                    <path
+                      d="M0 20 Q 50 0, 100 20"
+                      stroke="white"
+                      strokeWidth="4"
+                      fill="none"
+                    />
+                  </svg>
+                </span>
               </h1>
             </div>
 
@@ -172,7 +277,7 @@ function Exploration() {
               <div className="flex flex-col items-center w-full sm:w-auto">
                 <div className="flex flex-row items-center">
                   <div className="w-10 h-10 font-poppins rounded-full bg-green-500 text-white flex items-center justify-center text-lg">
-                    3
+                    1
                   </div>
                   <h1 className="text-xl sm:text-2xl font-bold font-poppins py-5 sm:py-10 px-3">
                     Pilih Metode Prediksi
@@ -188,7 +293,7 @@ function Exploration() {
               <div className="flex flex-col items-center w-full sm:w-auto">
                 <div className="flex flex-row items-center">
                   <div className="w-10 h-10 font-poppins rounded-full bg-green-500 text-white flex items-center justify-center text-lg">
-                    4
+                    2
                   </div>
                   <h1 className="text-xl sm:text-2xl font-bold font-poppins py-5 sm:py-10 px-3">
                     Pilih Fungsi Similaritas
@@ -202,87 +307,104 @@ function Exploration() {
             </div>
           </section>
 
-          <section className="max-w-6xl mx-auto text-center my-10 p-10 ">
+          <section className="max-w-full mx-auto text-center my-10 pt-10 relative">
             <button
-              onClick={toggleDescription}
-              className=" w-70 font-semibold font-poppins bg-blue-home border-2 border-black text-center text-white px-6 py-3 rounded-full hover:bg-blue-700 shadow-md"
+              onClick={() =>
+                toggleExplanation(isDescriptionVisible, setDescriptionVisible)
+              }
+              // className="w-full sm:w-auto font-semibold font-poppins bg-blue-home border-2 border-black text-center text-white px-4 py-2 sm:px-6 sm:py-3 rounded-full hover:bg-blue-700 shadow-md flex items-center justify-center mx-auto"
+              className="max-w-6xl sm:w-auto font-semibold font-poppins bg-blue-home border-2 border-black text-center text-white px-4 py-2 sm:px-6 sm:py-3 rounded-full hover:bg-blue-700 shadow-md flex items-center justify-center mx-auto"
             >
-              Cek Hasil Perhitungan Metode Prediksi dan Fungsi Similaritas
+              Cek Hasil Perhitungan
               {isDescriptionVisible ? (
                 <ExpandLessIcon className="ml-2 text-lg" />
               ) : (
                 <ExpandMoreIcon className="ml-2 text-lg" />
               )}
             </button>
+
+            {showModal && (
+              <ModalTutorialYoutube
+                dontShowAgain={dontShowAgain}
+                handleCheckboxChange={handleCheckboxChange}
+                handleContinue={() => handleContinue(setDescriptionVisible)}
+                onClose={() => setShowModal(false)}
+              />
+            )}
+
             {isDescriptionVisible && (
-              <section className="max-w-6xl mx-auto text-center my-10 py-10">
-                <h1
-                  id="topMenuSim"
-                  className="text-4xl sm:text-3xl md:text-4xl lg:text-5xl font-bold font-poppins py-5 sm:py-6 md:py-8 lg:py-10"
-                >
-                  Hasil dan Pembahasan :
-                </h1>
-                {/* Flex container for chips */}
-                <div className="flex flex-wrap justify-center gap-2 font-poppins">
-                  <h1 className="text-lg justify-center font-semibold underline underline-offset-4 decoration-3 decoration-card_blue_primary">
-                    Daftar Isi :{" "}
+              <div className="mt-8">
+                <section className="max-w-6xl mx-auto text-center py-10">
+                  <h1
+                    id="topMenuSim"
+                    className="text-4xl sm:text-3xl md:text-4xl lg:text-5xl font-bold font-poppins py-5 sm:py-6 md:py-8 lg:py-10"
+                  >
+                    Hasil dan Pembahasan :
                   </h1>
-                  {/* Chip components */}
-                  <Chip
-                    label="Mean Rating"
-                    icon={<Star />}
-                    onClick={() => scrollToSection("mean-rating-section")}
-                    color="success"
-                    variant="outlined"
-                    clickable
-                    className="cursor-pointer w-full sm:w-auto sm:rounded-md rounded-full sm:flex sm:items-center sm:justify-center flex items-center justify-center"
-                  />
-                  <Chip
-                    label="Mean-Centered"
-                    icon={<ShowChart />}
-                    onClick={() => scrollToSection("mean-cen-section")}
-                    color="primary"
-                    variant="outlined"
-                    clickable
-                    className="cursor-pointer w-full sm:w-auto sm:rounded-md rounded-full sm:flex sm:items-center sm:justify-center flex items-center justify-center"
-                  />
-                  <Chip
-                    label="Similaritas"
-                    icon={<People />}
-                    onClick={() => scrollToSection("sim-section")}
-                    color="warning"
-                    variant="outlined"
-                    clickable
-                    className="cursor-pointer w-full sm:w-auto sm:rounded-md rounded-full sm:flex sm:items-center sm:justify-center flex items-center justify-center"
-                  />
-                  <Chip
-                    label="Prediksi"
-                    icon={<Lightbulb />}
-                    onClick={() => scrollToSection("pred-section")}
-                    color="success"
-                    variant="outlined"
-                    clickable
-                    className="cursor-pointer w-full sm:w-auto sm:rounded-md rounded-full sm:flex sm:items-center sm:justify-center flex items-center justify-center"
-                  />
-                  <Chip
-                    label="Top-N"
-                    icon={<AssignmentTurnedInIcon />}
-                    onClick={() => scrollToSection("topN-section")}
-                    color="secondary"
-                    variant="outlined"
-                    clickable
-                    className="cursor-pointer w-full sm:w-auto sm:rounded-md rounded-full sm:flex sm:items-center sm:justify-center flex items-center justify-center"
-                  />
-                </div>
-                <DetailPageBoxLatihan
-                  method={selectedMethod}
-                  similarity={selectedSimilarity}
-                  data={data}
-                  headers={headers}
-                  columns={columns}
-                  funnyMode={funnyMode}
-                />
-              </section>
+                  {/* Flex container for chips */}
+                  <div className="p-5 flex flex-wrap justify-center gap-2 font-poppins">
+                    <h1 className="text-lg justify-center font-semibold underline underline-offset-4 decoration-3 decoration-card_blue_primary">
+                      Daftar Isi :{" "}
+                    </h1>
+                    {/* Chip components */}
+                    <Chip
+                      label="Mean Rating"
+                      icon={<Star />}
+                      onClick={() => scrollToSection("mean-rating-section")}
+                      color="success"
+                      variant="outlined"
+                      clickable
+                      className="cursor-pointer w-full sm:w-auto sm:rounded-md rounded-full sm:flex sm:items-center sm:justify-center flex items-center justify-center"
+                    />
+                    <Chip
+                      label="Mean-Centered"
+                      icon={<ShowChart />}
+                      onClick={() => scrollToSection("mean-cen-section")}
+                      color="primary"
+                      variant="outlined"
+                      clickable
+                      className="cursor-pointer w-full sm:w-auto sm:rounded-md rounded-full sm:flex sm:items-center sm:justify-center flex items-center justify-center"
+                    />
+                    <Chip
+                      label="Similaritas"
+                      icon={<People />}
+                      onClick={() => scrollToSection("sim-section")}
+                      color="warning"
+                      variant="outlined"
+                      clickable
+                      className="cursor-pointer w-full sm:w-auto sm:rounded-md rounded-full sm:flex sm:items-center sm:justify-center flex items-center justify-center"
+                    />
+                    <Chip
+                      label="Prediksi"
+                      icon={<Lightbulb />}
+                      onClick={() => scrollToSection("pred-section")}
+                      color="success"
+                      variant="outlined"
+                      clickable
+                      className="cursor-pointer w-full sm:w-auto sm:rounded-md rounded-full sm:flex sm:items-center sm:justify-center flex items-center justify-center"
+                    />
+                    <Chip
+                      label="Top-N"
+                      icon={<AssignmentTurnedInIcon />}
+                      onClick={() => scrollToSection("topN-section")}
+                      color="secondary"
+                      variant="outlined"
+                      clickable
+                      className="cursor-pointer w-full sm:w-auto sm:rounded-md rounded-full sm:flex sm:items-center sm:justify-center flex items-center justify-center"
+                    />
+                  </div>
+                  <div className="mt-8">
+                    <DetailPageBox
+                      method={selectedMethod}
+                      similarity={selectedSimilarity}
+                      data={data}
+                      headers={headers}
+                      columns={columns}
+                      funnyMode={funnyMode}
+                    />
+                  </div>
+                </section>
+              </div>
             )}
           </section>
         </div>
@@ -291,4 +413,4 @@ function Exploration() {
   );
 }
 
-export default Exploration;
+export default Eksplorasi;

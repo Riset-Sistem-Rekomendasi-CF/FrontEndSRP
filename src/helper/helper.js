@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { sum } from "./Measure"
 
 /**
@@ -123,6 +124,16 @@ export const transposeMatrix = data => {
     })
 }
 
+export const intersection = (data1, data2) => {
+    return data1.filter(val => data2.includes(val))
+}
+
+export const intersectionIndex = (data1, data2) => {
+    return data1
+        .map((val, idx) => data2.includes(val) ? idx : -1)
+        .filter(idx => idx !== -1)
+}
+
 /**
  * 
  * @see https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
@@ -133,7 +144,7 @@ export const shuffle = (array) => {
     let currentIndex = array.length;
 
     // While there remain elements to shuffle...
-    while (currentIndex != 0) {
+    while (currentIndex !== 0) {
 
         // Pick a remaining element...
         let randomIndex = Math.floor(Math.random() * currentIndex);
@@ -146,3 +157,9 @@ export const shuffle = (array) => {
 
     return array
 }
+
+export const isValidIndex = (index, data) => {
+    return (
+        index >= 0 && index < data.length
+    );
+};

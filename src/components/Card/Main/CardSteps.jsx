@@ -1,4 +1,4 @@
-import { FaArrowRight } from "react-icons/fa"; // Import icon untuk button
+import { FaArrowRight } from "react-icons/fa"; // 
 
 function CardSteps({ heading, description, icon, sectionId }) {
   // Fungsi untuk melakukan scroll ke section tertentu

@@ -8,7 +8,8 @@ const BodyHome = ({
   bgColor,
 }) => {
   const HeaderElement = ({ heading, children }) => {
-    const NameClass = " text-black font-bold font-poppins mb-10 md:mb-20 ";
+    const NameClass =
+      " text-black dark:text-white font-bold font-poppins mb-8 sm:mb-12 md:mb-16 ";
     switch (heading) {
       case "1":
         return (
@@ -51,8 +52,8 @@ const BodyHome = ({
   const SubHeaderElement = ({ typeOf, children }) => {
     return (
       <p
-        className={`text-black text-sm font-medium sm:text-base font-poppins ${
-          typeOf === `space` ? `my-6 sm:my-10` : ``
+        className={`text-black dark:text-gray-300 text-sm font-medium sm:text-base font-poppins ${
+          typeOf === "space" ? "my-4 sm:my-6 md:my-8" : "mb-8"
         }`}
       >
         {children}
@@ -67,13 +68,13 @@ const BodyHome = ({
     switch (typeOf) {
       case "grid":
         return (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 my-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 sm:gap-8 my-8 sm:my-10">
             {children}
           </div>
         );
       case "gridAnggota":
         return (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 my-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 my-8 sm:my-10">
             {children}
           </div>
         );
@@ -90,10 +91,10 @@ const BodyHome = ({
 
   return (
     <section
-      id="mulai"
-      className={`${bgColor} min-h-screen mx-auto text-center py-10 px-4`}
+      id={idName}
+      className={`${bgColor} dark:bg-gray-900 min-h-screen mx-auto text-center py-10 px-4 sm:px-6 lg:px-8 transition-colors duration-200`}
     >
-      <div className="max-w-7xl mx-auto text-center relative ">
+      <div className="max-w-7xl mx-auto text-center relative px-4 sm:px-6 lg:px-8">
         <HeaderElement heading={hirarki} typeOf={type}>
           {header}
         </HeaderElement>

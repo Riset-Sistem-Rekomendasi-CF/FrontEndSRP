@@ -1,9 +1,6 @@
-import React from "react";
-import GifTut from "../../assets/vidioAsset/tutorialGif.gif";
+
 import InfoIcon from "@mui/icons-material/Info";
 
-import Img3 from "../../assets/images/img3.png";
-import Img4 from "../../assets/images/img4.png";
 
 const VideoTutorialModal = ({ id }) => {
   return (

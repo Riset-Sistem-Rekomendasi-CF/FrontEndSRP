@@ -2,8 +2,6 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import PlayCircleFilledWhiteIcon from "@mui/icons-material/PlayCircleFilledWhite";
-import ModalHomeFirst from "../../../components/modal/ModalHomeFirst";
 
 const ScrollButton = () => {
   const [isHovered, setIsHovered] = useState(false);
@@ -68,8 +66,8 @@ const ScrollButton = () => {
         </Link>
       </div>
 
-      {/* Tutorial Button */}
-      <div>
+      {/* Link Pengujian Button */}
+      {/* <div>
         <button
           onClick={() => setIsModalOpenHome(true)}
           className="mr-2 font-bold font-poppins border-2 bg-card_yellow_primary text-black px-8 py-4 rounded-full shadow-md hover:bg-yellow-50 flex items-center justify-center transition-colors duration-200"
@@ -80,28 +78,18 @@ const ScrollButton = () => {
         {isModalOpenHome && (
           <ModalHomeFirst isOpen={isModalOpenHome} onClose={closeModal} />
         )}
-      </div>
+      </div> */}
     </div>
   );
 };
 
 const HeaderHome = ({ children }) => {
   return (
-    <section className="relative min-h-screen flex flex-col justify-center items-center px-4 sm:px-8 md:px-16 bg-gradient-to-b from-[#077efd] via-[#077efd] to-white overflow-x-hidden">
+    <section className="relative min-h-screen flex flex-col justify-center items-center px-4 sm:px-8 md:px-16 bg-gradient-to-b from-[#077efd] via-[#077efd] to-white dark:from-[#1e40af] dark:via-[#1e3a8a] dark:to-gray-900 overflow-x-hidden transition-colors duration-200">
       {/* Latar belakang grid kotak */}
       <div className="absolute top-0 left-0 w-full h-full bg-box-grid-pattern animate-grid z-0"></div>
-
       {/* Konten utama */}
       <div className="max-w-7xl  relative z-10 px-4 sm:px-8 md:px-16 pt-20 sm:pt-32 md:pt-40">
-        {/* Tempatkan gambar di sekitar H1 */}
-        {/* <div className="absolute top-10 left-4 sm:left-16 z-20">
-          <img src={Img1} alt="Gambar Kiri" className="w-24 sm:w-32 lg:w-40" />
-        </div>
-
-        <div className="absolute top-10 right-4 sm:right-16 z-20">
-          <img src={Img7} alt="Gambar Kanan" className="w-24 sm:w-32 lg:w-40" />
-        </div> */}
-
         {/* Judul */}
         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-poppins text-white mb-6 relative animate__animated animate__fadeIn animate__delay-1s">
           {children}
@@ -109,8 +97,8 @@ const HeaderHome = ({ children }) => {
 
         {/* Deskripsi */}
         <p className="mt-6 sm:mt-10 font-medium text-lg sm:text-xl lg:text-2xl font-poppins text-white opacity-90 mb-8 max-w-4xl mx-auto leading-relaxed tracking-wide">
-          KoalaERS adalah platform pembelajaran berbasis website yang dirancang
-          untuk meningkatkan pemahaman pengguna mengenai perhitungan fungsi
+          KoalaERS adalah media pembelajaran berbasis website yang dirancang
+          untuk mempermudah pemahaman pengguna mengenai cara perhitungan fungsi
           similaritas pada sistem rekomendasi berbasis Collaborative Filtering.
         </p>
 

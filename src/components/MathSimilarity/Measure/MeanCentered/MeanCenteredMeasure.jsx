@@ -1,18 +1,25 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import ModalMeanCenteredMeasure from "./ModalMeanCenteredMeasure";
 import { getFormulaMeanCentered } from "../Formula/FormulaMeanCentered";
 import { FunctionMeasureDropdown } from "../../DropdownFunction/FunctionMeasureDropdown";
 import { MathJaxContext } from "better-react-mathjax";
 import mathjaxConfig from "../../../../mathjax-config";
 import { AllSimilaritas } from "../../../../api/getDataSet";
-import { transposeMatrix } from "../../../../helper/helper";
-import { IconButton } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
-import centerdGif from "../../../../assets/vidioAsset/meanCenGif.gif";
+import centerdGif from "../../../../assets/vidioAsset/tutorial_asset/mean-centered.gif";
 import MathJaxComponent from "../../../../MathJaxComponent";
 import Spinner from "../../../Navigate/Spinner";
+import { TutorialModal } from "../../../modal/TutorialModal";
+import { DividerHeadingBlue } from "../../../tabelData/DividerHeading";
 
-const MeanCenteredMeasure = ({ opsional, similarity, initialData, headers, columns, funnyMode }) => {
+const MeanCenteredMeasure = ({
+  opsional,
+  similarity,
+  initialData,
+  headers,
+  columns,
+  funnyMode,
+}) => {
   const [selectedValue, setSelectedValue] = useState(null); // State untuk menyimpan user yang dipilih
   const [showModal, setShowModal] = useState(false); // State untuk menampilkan modal
   const [selectedIndex, setSelectedIndex] = useState(null);
@@ -36,20 +43,20 @@ const MeanCenteredMeasure = ({ opsional, similarity, initialData, headers, colum
 
   const { result } = AllSimilaritas(data, similarity);
 
-  const dataModify =
-    similarity === "Adjusted Cosine"
-      ? opsional === "user-based"
-        ? transposeMatrix(dataOnly)
-        : transposeMatrix(dataOnly)
-      : opsional === "user-based"
-        ? dataOnly
-        : transposeMatrix(dataOnly);
   const opsionalModify =
     similarity === "Adjusted Cosine"
       ? opsional === "item-based"
         ? "user-based"
         : "item-based"
       : opsional;
+
+  // const opsionalModify =
+  //   opsional === "user-based"
+  //     ? similarity === "Adjusted Cosine"
+  //       ? "user-based"
+  //       : "item-based"
+  //     : opsional;
+
   const FormulaMeanCentered = getFormulaMeanCentered(opsionalModify);
 
   const RenderTabelMeanCentered = () => {
@@ -61,67 +68,68 @@ const MeanCenteredMeasure = ({ opsional, similarity, initialData, headers, colum
       );
     }
 
-    const resultModify =
-      similarity === "Adjusted Cosine"
-        ? transposeMatrix(result["mean-centered"])
-        : opsional === "user-based"
-          ? result["mean-centered"]
-          : transposeMatrix(result["mean-centered"]);
-
-    const numberOfColumns = resultModify[0].length; // Ambil jumlah kolom dari baris pertama
+    const numberOfColumns =
+      result["mean-centered"] && result["mean-centered"][0]
+        ? result["mean-centered"][0].length
+        : 0;
 
     return (
       <div className="flex justify-center mt-4">
         {/* Wrapper dengan overflow-x-auto untuk scroll horizontal */}
-        <div className="overflow-x-auto w-full">
-          <table className="border border-black mt-4 min-w-full">
+        <div className="overflow-x-auto w-full rounded-xl shadow-lg">
+          <table className="text-xs sm:text-sm md:text-base lg:text-lg min-w-full">
             <thead>
-              <tr className="bg-gray-200">
+              <tr className="bg-gradient-to-r from-blue-500 to-blue-600 text-white">
                 {/* Kolom pertama (U/I) dengan lebar yang responsif */}
-                <th className="border border-black px-4 py-2 text-xs sm:text-sm md:text-base w-1/6 min-w-[80px]">
-                  U/I
+                <th className="px-4 py-3 text-xs sm:text-sm md:text-base w-1/6 min-w-[80px] font-semibold border-r border-blue-400">
+                  {opsional === "user-based" ? "U/I" : "I/U"}
                 </th>
 
                 {Array.from({ length: numberOfColumns }, (_, index) => (
                   <th
                     key={index}
-                    className="border border-black px-4 py-2 text-xs sm:text-sm md:text-base"
+                    className="px-4 py-3 text-xs sm:text-sm md:text-base font-semibold border-r border-blue-400 last:border-r-0"
                   >
-                    {!funnyMode ? (index + 1) : (headers)[index]}
+                    {!funnyMode ? index + 1 : headers[index]}
                   </th>
                 ))}
               </tr>
             </thead>
             <tbody>
-              {resultModify.map((row, rowIndex) => (
-                <tr key={rowIndex}>
+              {result["mean-centered"].map((row, rowIndex) => (
+                <tr
+                  key={rowIndex}
+                  className={`transition-all duration-200 ${
+                    rowIndex % 2 === 0 ? "bg-white" : "bg-gray-50"
+                  }`}
+                >
                   {/* Kolom pertama (U/I) dengan padding dan lebar responsif */}
-                  <td className="border border-black px-4 py-2 bg-gray-200 text-xs sm:text-sm md:text-base w-1/6 min-w-[80px]">
-                    {!funnyMode ? (rowIndex + 1) : (columns)[rowIndex]}
+                  <td className="px-4 py-3 bg-gray-100 text-xs sm:text-sm md:text-base w-1/6 min-w-[80px] font-medium text-gray-700 border-r border-gray-200">
+                    {!funnyMode ? rowIndex + 1 : columns[rowIndex]}
                   </td>
 
                   {row.map((value, colIndex) => {
-                    const OriginalValue =
-                      similarity === "Adjusted Cosine"
-                        ? opsional === "user-based"
-                          ? dataModify[colIndex][rowIndex]
-                          : dataModify[colIndex][rowIndex]
-                        : opsional === "user-based"
-                          ? dataModify[rowIndex][colIndex]
-                          : dataModify[colIndex][rowIndex];
+                    const OriginalValue = dataOnly[rowIndex][colIndex];
 
                     const IsZero = OriginalValue === 0;
 
                     return (
                       <td
                         key={colIndex}
-                        className={`border border-black px-4 py-2 text-center cursor-pointer hover:bg-card_green_primary text-xs sm:text-sm md:text-base ${IsZero ? "bg-red-200" : ""
-                          }`}
+                        className={`px-4 py-3 text-center cursor-pointer transition-all duration-200 hover:bg-green-100 hover:scale-105 text-xs sm:text-sm md:text-base border-r border-gray-100 last:border-r-0 ${
+                          IsZero ? "bg-red-100 text-red-600" : "text-gray-700"
+                        }`}
                         onClick={() =>
                           handleMeanClick(value, rowIndex, colIndex)
                         }
                       >
-                        {value.toFixed(2)}
+                        <span
+                          className={`font-medium ${
+                            !IsZero && "hover:text-blue-600"
+                          }`}
+                        >
+                          {value.toFixed(2)}
+                        </span>
                       </td>
                     );
                   })}
@@ -150,98 +158,78 @@ const MeanCenteredMeasure = ({ opsional, similarity, initialData, headers, colum
     );
   };
 
+  const [showMeanCentered, setShowMeanCentered] = useState(false);
+  const toggleShowMeaCentered = () => setShowMeanCentered((prev) => !prev);
+
   return (
     <div className="mt-5 bg-yellow-secondary shadow-md p-5 rounded-md outline outline-2 outline-black">
-      <div className="flex items-center">
+      <div className="flex items-center justify-start mb-4">
         <div
           id="mean-cen-section"
           className="border-l-4 border-card_blue_primary h-10 mr-4"
         />
         {/* Vertical Line */}
         <div className="flex items-center flex-wrap">
-          <div className="w-8 h-8 flex items-center justify-center bg-blue-500 text-white rounded-full text-lg font-semibold mr-3 sm:w-10 sm:h-10 sm:text-xl md:w-12 md:h-12 md:text-2xl">
+          <div className="flex items-center justify-center w-8 h-8 text-lg sm:w-10 sm:h-10 sm:text-xl md:w-12 md:h-12 md:text-2xl lg:w-14 lg:h-14 lg:text-3xl bg-blue-500 text-white rounded-full font-semibold mr-3">
             2
           </div>
-
-          <h1 className="font-poppins text-xl text-start font-semibold text-black">
-            Mencari Mean-Centered <i> Rating </i>{" "}
-            <span className="italic">
-              {opsional
-                .toLowerCase()
-                .replace(/\b[a-z]/g, (letter) => letter.toUpperCase())}
-            </span>
+          <h1 className="font-poppins capitalize text-sm sm:text-sm md:text-base lg:text-lg font-semibold text-black text-start">
+            Mencari Mean-Centered Rating {""}
+            {opsional
+              .toLowerCase()
+              .replace(/\b[a-z]/g, (letter) => letter.toUpperCase())}
           </h1>
         </div>
       </div>
 
       <MathJaxContext options={mathjaxConfig}>
-        <div className="flex justify-start items-start text-start flex-col px-4 sm:px-8 md:px-10 w-full">
-          {/* Membungkus MathJax dengan overflow dan responsif */}
-          <div className="w-full max-w-full overflow-x-auto sm:overflow-x-visible">
-            <MathJaxComponent className="text-xs sm:text-sm md:text-base leading-relaxed mb-4 break-words text-center sm:text-left md:text-left">
-              {FormulaMeanCentered.formula}
-            </MathJaxComponent>
+        <div className="w-full max-w-full overflow-x-auto overflow-y-hidden sm:overflow-x-visible">
+          <div className="text-[0.75rem] sm:text-sm md:text-base leading-[1.4] text-center sm:text-left text-black">
+            <MathJaxComponent>{FormulaMeanCentered.formula}</MathJaxComponent>
           </div>
         </div>
       </MathJaxContext>
       <FunctionMeasureDropdown
         DetailRumus={FormulaMeanCentered.detail_formula}
       />
-      <div className="px-4 sm:px-8 md:px-10 py-5">
-        <h1 className="text-lg font-semibold font-poppins underline underline-offset-8 decoration-4 decoration-card_blue_primary">
-          Hasil Mean-Centered{" "}
-          <span className="italic">
-            {opsional
-              .toLowerCase()
-              .replace(/\b[a-z]/g, (letter) => letter.toUpperCase())}
-          </span>
-        </h1>
+      <div className="px-2 sm:px-4 md:px-6">
+        <DividerHeadingBlue
+          show={showMeanCentered}
+          onClick={toggleShowMeaCentered}
+          text={`Mean-Centered`}
+        />
 
-        {/* Tombol dengan ikon */}
-        <div
-          className="flex items-center justify-end my-4 bg-card_blue_primary p-4 rounded-lg cursor-pointer hover:bg-blue-500 transition-all w-[130px] h-[35px] shadow-md outline outline-2 outline-white"
-          onClick={() => setShowModalTutorial(true)}
-        >
-          {/* Info Button */}
-          <IconButton
-            className="text-white hover:text-green-500 transition-colors duration-300"
-            aria-label="Info"
-          >
-            <InfoIcon className="text-white hover:text-green-500" />
-          </IconButton>
+        {/* modal mean centered */}
+        {showMeanCentered && (
+          <>
+            <div className="mt-4 space-y-4 text-black">
+              {/* Tombol dengan ikon */}
+              <div className="flex justify-center mt-4">
+                <div
+                  className="flex items-center gap-2 px-3 py-2 bg-card_blue_primary rounded-md cursor-pointer hover:bg-blue-500 transition-all shadow-md outline outline-2 outline-white w-fit"
+                  onClick={() => setShowModalTutorial(true)}
+                >
+                  {/* Info Icon */}
+                  <InfoIcon className="text-white text-lg sm:text-xl" />
 
-          {/* Tutorial Title */}
-          <h1 className="text-md font-medium text-white">Tutorial</h1>
-        </div>
-        {/* Tabel mean-centerd rating */}
-        <RenderTabelMeanCentered />
-
+                  {/* Tutorial Title */}
+                  <span className="text-white text-sm sm:text-base font-medium font-poppins">
+                    Tutorial
+                  </span>
+                </div>
+              </div>
+              {/* Tabel mean-centerd rating */}
+              <RenderTabelMeanCentered />
+            </div>
+          </>
+        )}
         {/* Modal pop-up */}
         {showModalTutorial && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-            <div className="bg-white rounded-lg p-6 shadow-lg w-[600px]">
-              <h2 className="text-xl font-semibold mb-4">
-                Tutorial Mean-Centered
-              </h2>
-              <img
-                src={centerdGif}
-                alt="Video Tutorial Cover"
-                className="w-full h-full object-cover"
-              />
-              <p className="text-gray-700 text-justify font-semibold my-2">
-                Ini adalah tutorial untuk memberikan informasi tambahan terkait
-                Mean-Centerd <i> Rating </i> cara perhitungan.
-              </p>
-              <div className="mt-6 flex justify-end">
-                <button
-                  className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-                  onClick={() => setShowModalTutorial(false)}
-                >
-                  Tutup
-                </button>
-              </div>
-            </div>
-          </div>
+          <TutorialModal
+            title={"Mean-Centered Rating"}
+            content={centerdGif}
+            onClose={() => setShowModalTutorial(false)}
+          />
         )}
       </div>
     </div>
