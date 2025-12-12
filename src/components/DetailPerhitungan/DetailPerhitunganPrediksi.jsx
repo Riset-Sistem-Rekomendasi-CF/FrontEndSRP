@@ -115,207 +115,258 @@ export default function DetailPerhitunganPrediksi() {
         changeToggle={toggleIsNotation}
       />
 
-      <div className="overflow-x-auto  mt-4">
+      <div className="mt-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Matrik Rating */}
           <div>
             <DividerHeading text={"Data Rating"} />
-            <table className="border border-black dark:border-gray-600 mt-4 mx-auto text-center w-full">
-              <thead>
-                <tr className="bg-gray-200 dark:bg-gray-700">
-                  <th className="border border-black dark:border-gray-600 px-4 py-2 text-gray-800 dark:text-gray-100">
-                    {opsional === "item-based" ? "I" : "U"}
-                  </th>
-                  <th className="border border-black dark:border-gray-600 px-4 py-2 italic font-serif text-gray-800 dark:text-gray-100">
-                    r
-                    <sub>
-                      {opsional === "item-based"
-                        ? `${
-                            selectedIndex[opsional === "item-based" ? 1 : 0] + 1
-                          }*`
-                        : `*${
-                            selectedIndex[opsional === "item-based" ? 1 : 0] + 1
-                          }`}
-                    </sub>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {data.map((row, rowIndex) => {
-                  const IsZero =
-                    opsional === "item-based"
-                      ? data[rowIndex][selectedIndex[0]] === 0
-                      : data[rowIndex][selectedIndex[1]] === 0;
-                  return (
-                    <tr key={rowIndex}>
-                      <td className="border border-black dark:border-gray-600 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100">
-                        {!funnyMode
-                          ? rowIndex + 1
-                          : (opsional === "user-based" ? columns : headers)[
-                              rowIndex
-                            ]}
-                      </td>
-                      <td
-                        className={`border border-black dark:border-gray-600 px-4 py-2 text-center text-gray-800 dark:text-gray-100 ${
-                          IsZero ? "bg-red-200 dark:bg-red-900" : ""
-                        }`}
-                      >
-                        {!isNotation ? (
-                          row[
-                            selectedIndex[opsional === "item-based" ? 0 : 1]
-                          ]?.toFixed(1)
-                        ) : (
-                          <span className="italic font-serif">
-                            r
-                            <sub>
-                              {opsional === "user-based"
-                                ? `${rowIndex + 1}${selectedIndex[0] + 1}`
-                                : `${selectedIndex[1] + 1}${rowIndex + 1}`}
-                            </sub>
-                          </span>
-                        )}
-                      </td>
+            <div className="flex justify-center mt-4">
+              <div className="overflow-hidden rounded-xl shadow-lg">
+                <table className="text-xs sm:text-sm md:text-base lg:text-lg">
+                  <thead>
+                    <tr className="bg-gradient-to-r from-blue-500 to-blue-600 text-white">
+                      <th className="px-4 py-3 font-semibold border-r border-blue-400">
+                        {opsional === "item-based" ? "I" : "U"}
+                      </th>
+                      <th className="px-4 py-3 italic font-serif font-semibold">
+                        r
+                        <sub>
+                          {opsional === "item-based"
+                            ? `${
+                                selectedIndex[
+                                  opsional === "item-based" ? 1 : 0
+                                ] + 1
+                              }*`
+                            : `*${
+                                selectedIndex[
+                                  opsional === "item-based" ? 1 : 0
+                                ] + 1
+                              }`}
+                        </sub>
+                      </th>
                     </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+                  </thead>
+                  <tbody>
+                    {data.map((row, rowIndex) => {
+                      const IsZero =
+                        opsional === "item-based"
+                          ? data[rowIndex][selectedIndex[0]] === 0
+                          : data[rowIndex][selectedIndex[1]] === 0;
+                      return (
+                        <tr
+                          key={rowIndex}
+                          className={`transition-all duration-200 ${
+                            rowIndex % 2 === 0
+                              ? "bg-white dark:bg-gray-800"
+                              : "bg-gray-50 dark:bg-gray-700"
+                          }`}
+                        >
+                          <td className="px-4 py-3 font-medium text-gray-700 dark:text-gray-200 border-r border-gray-200 dark:border-gray-600 bg-gray-100 dark:bg-gray-700">
+                            {!funnyMode
+                              ? rowIndex + 1
+                              : (opsional === "user-based" ? columns : headers)[
+                                  rowIndex
+                                ]}
+                          </td>
+                          <td
+                            className={`px-4 py-3 text-center transition-all duration-200 text-gray-800 dark:text-gray-200 ${
+                              IsZero
+                                ? "bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300"
+                                : ""
+                            }`}
+                          >
+                            {!isNotation ? (
+                              row[
+                                selectedIndex[opsional === "item-based" ? 0 : 1]
+                              ]?.toFixed(1)
+                            ) : (
+                              <span className="italic font-serif">
+                                r
+                                <sub>
+                                  {opsional === "user-based"
+                                    ? `${rowIndex + 1}${selectedIndex[0] + 1}`
+                                    : `${selectedIndex[1] + 1}${rowIndex + 1}`}
+                                </sub>
+                              </span>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
 
           {/* Matriks Mean-Rating */}
           <div>
             <DividerHeading text={"Data Mean-Rating"} />
-            <table className="border border-black dark:border-gray-600 mt-4 mx-auto text-center w-full">
-              <thead>
-                <tr className="bg-gray-200 dark:bg-gray-700">
-                  <th className="border border-black dark:border-gray-600 px-4 py-2 italic text-gray-800 dark:text-gray-100">
-                    U
-                  </th>
-                  <th className="border border-black dark:border-gray-600 italic px-4 py-2 text-gray-800 dark:text-gray-100">
-                    μ
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {resultMean.map((mean, index) => {
-                  const isActiveUser =
-                    index === selectedIndex[opsional === "user-based" ? 0 : 1];
-                  return (
-                    <tr
-                      key={index}
-                      className={
-                        isActiveUser ? "bg-green-200 dark:bg-green-800" : ""
-                      }
-                    >
-                      <td className="border border-black dark:border-gray-600 px-4 py-2 text-gray-800 dark:text-gray-100">
-                        {!funnyMode
-                          ? index + 1
-                          : (opsional === "user-based" ? columns : headers)[
-                              index
-                            ]}
-                      </td>
-                      <td className="border border-black dark:border-gray-600 px-4 py-2 text-gray-800 dark:text-gray-100">
-                        <div className="text-center">
-                          {!isNotation ? (
-                            mean.toFixed(2)
-                          ) : (
-                            <span className="italic font-serif">
-                              μ<sub>{index + 1}</sub>
-                            </span>
-                          )}
-                        </div>
-                      </td>
+            <div className="flex justify-center mt-4">
+              <div className="overflow-hidden rounded-xl shadow-lg">
+                <table className="text-xs sm:text-sm md:text-base lg:text-lg">
+                  <thead>
+                    <tr className="bg-gradient-to-r from-blue-500 to-blue-600 text-white">
+                      <th className="px-4 py-3 italic font-semibold border-r border-blue-400">
+                        U
+                      </th>
+                      <th className="px-4 py-3 italic font-semibold">μ</th>
                     </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+                  </thead>
+                  <tbody>
+                    {resultMean.map((mean, index) => {
+                      const isActiveUser =
+                        index ===
+                        selectedIndex[opsional === "user-based" ? 0 : 1];
+                      return (
+                        <tr
+                          key={index}
+                          className={`transition-all duration-200 ${
+                            index % 2 === 0
+                              ? "bg-white dark:bg-gray-800"
+                              : "bg-gray-50 dark:bg-gray-700"
+                          } ${
+                            isActiveUser
+                              ? "!bg-green-100 dark:!bg-green-800"
+                              : ""
+                          }`}
+                        >
+                          <td className="px-4 py-3 font-medium text-gray-700 dark:text-gray-200 border-r border-gray-200 dark:border-gray-600 bg-gray-100 dark:bg-gray-700">
+                            {!funnyMode
+                              ? index + 1
+                              : (opsional === "user-based" ? columns : headers)[
+                                  index
+                                ]}
+                          </td>
+                          <td
+                            className={`px-4 py-3 text-center text-gray-800 dark:text-gray-200 ${
+                              isActiveUser
+                                ? "text-green-700 dark:text-green-300 font-medium"
+                                : ""
+                            }`}
+                          >
+                            <div className="text-center">
+                              {!isNotation ? (
+                                mean.toFixed(2)
+                              ) : (
+                                <span className="italic font-serif">
+                                  μ<sub>{index + 1}</sub>
+                                </span>
+                              )}
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
 
           {/* Nilai Mean-Centered */}
           <div>
             <DividerHeading text={"Data Mean-Centered"} />
-            <table className="border border-black dark:border-gray-600 mt-4 mx-auto text-center w-full">
-              <thead>
-                <tr className="bg-gray-200 dark:bg-gray-700">
-                  <th className="border border-black dark:border-gray-600 px-4 py-2 text-gray-800 dark:text-gray-100">
-                    {
-                      opsional
-                        .replace("-", " ")
-                        .toLowerCase()
-                        .replace(/\b[a-z]/g, (letter) => letter.toUpperCase())
-                        .split(" ")[0]
-                    }
-                  </th>
-                  <th className="border border-black dark:border-gray-600 px-4 py-2 italic font-serif text-gray-800 dark:text-gray-100">
-                    S
-                    <sub>
-                      {opsional === "item-based"
-                        ? `${
-                            selectedIndex[opsional === "item-based" ? 0 : 1] + 1
-                          }*`
-                        : `*${
-                            selectedIndex[opsional === "item-based" ? 0 : 1] + 1
-                          }`}
-                    </sub>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {resultMeanCentered.map((row, rowIndex) => {
-                  const IsZero =
-                    opsional === "item-based"
-                      ? data[rowIndex][selectedIndex[0]] === 0
-                      : data[rowIndex][selectedIndex[1]] === 0;
-                  const isTopSimilarity = topSimilarities.some(
-                    (top) => top.index === rowIndex && !IsZero
-                  );
-                  return (
-                    <tr key={rowIndex}>
-                      <td className="border border-black dark:border-gray-600 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100">
-                        {!funnyMode
-                          ? rowIndex + 1
-                          : (opsional === "user-based" ? columns : headers)[
-                              rowIndex
-                            ]}
-                      </td>
-                      <td
-                        className={`border border-black dark:border-gray-600 px-4 py-2 text-center text-gray-800 dark:text-gray-100 ${
-                          IsZero ? "bg-red-200 dark:bg-red-900" : ""
-                        } ${
-                          isTopSimilarity
-                            ? "bg-green-200 dark:bg-green-800"
-                            : ""
-                        }`}
-                      >
-                        {!isNotation ? (
-                          row[
-                            selectedIndex[opsional === "item-based" ? 0 : 1]
-                          ]?.toFixed(2) || "N/A"
-                        ) : (
-                          <span className="italic font-serif">
-                            S
-                            <sub>
-                              {opsional === "item-based"
-                                ? `${
-                                    selectedIndex[
-                                      opsional === "item-based" ? 0 : 1
-                                    ] + 1
-                                  }${rowIndex + 1}`
-                                : `${rowIndex + 1}${
-                                    selectedIndex[
-                                      opsional === "item-based" ? 0 : 1
-                                    ] + 1
-                                  }`}
-                            </sub>
-                          </span>
-                        )}
-                      </td>
+            <div className="flex justify-center mt-4">
+              <div className="overflow-hidden rounded-xl shadow-lg">
+                <table className="text-xs sm:text-sm md:text-base lg:text-lg">
+                  <thead>
+                    <tr className="bg-gradient-to-r from-blue-500 to-blue-600 text-white">
+                      <th className="px-4 py-3 font-semibold border-r border-blue-400">
+                        {
+                          opsional
+                            .replace("-", " ")
+                            .toLowerCase()
+                            .replace(/\b[a-z]/g, (letter) =>
+                              letter.toUpperCase()
+                            )
+                            .split(" ")[0]
+                        }
+                      </th>
+                      <th className="px-4 py-3 italic font-serif font-semibold">
+                        S
+                        <sub>
+                          {opsional === "item-based"
+                            ? `${
+                                selectedIndex[
+                                  opsional === "item-based" ? 0 : 1
+                                ] + 1
+                              }*`
+                            : `*${
+                                selectedIndex[
+                                  opsional === "item-based" ? 0 : 1
+                                ] + 1
+                              }`}
+                        </sub>
+                      </th>
                     </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+                  </thead>
+                  <tbody>
+                    {resultMeanCentered.map((row, rowIndex) => {
+                      const IsZero =
+                        opsional === "item-based"
+                          ? data[rowIndex][selectedIndex[0]] === 0
+                          : data[rowIndex][selectedIndex[1]] === 0;
+                      const isTopSimilarity = topSimilarities.some(
+                        (top) => top.index === rowIndex && !IsZero
+                      );
+                      return (
+                        <tr
+                          key={rowIndex}
+                          className={`transition-all duration-200 ${
+                            rowIndex % 2 === 0
+                              ? "bg-white dark:bg-gray-800"
+                              : "bg-gray-50 dark:bg-gray-700"
+                          }`}
+                        >
+                          <td className="px-4 py-3 font-medium text-gray-700 dark:text-gray-200 border-r border-gray-200 dark:border-gray-600 bg-gray-100 dark:bg-gray-700">
+                            {!funnyMode
+                              ? rowIndex + 1
+                              : (opsional === "user-based" ? columns : headers)[
+                                  rowIndex
+                                ]}
+                          </td>
+                          <td
+                            className={`px-4 py-3 text-center transition-all duration-200 text-gray-800 dark:text-gray-200 ${
+                              IsZero
+                                ? "bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300"
+                                : ""
+                            } ${
+                              isTopSimilarity
+                                ? "!bg-green-100 dark:!bg-green-800 text-green-700 dark:text-green-300 font-medium"
+                                : ""
+                            }`}
+                          >
+                            {!isNotation ? (
+                              row[
+                                selectedIndex[opsional === "item-based" ? 0 : 1]
+                              ]?.toFixed(2) || "N/A"
+                            ) : (
+                              <span className="italic font-serif">
+                                S
+                                <sub>
+                                  {opsional === "item-based"
+                                    ? `${
+                                        selectedIndex[
+                                          opsional === "item-based" ? 0 : 1
+                                        ] + 1
+                                      }${rowIndex + 1}`
+                                    : `${rowIndex + 1}${
+                                        selectedIndex[
+                                          opsional === "item-based" ? 0 : 1
+                                        ] + 1
+                                      }`}
+                                </sub>
+                              </span>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
 
           {/* Nilai Similaritas */}
@@ -323,69 +374,82 @@ export default function DetailPerhitunganPrediksi() {
           result["similarity"].length ? (
             <div>
               <DividerHeading text={"Data Similaritas"} />
-              <table className="border border-black dark:border-gray-600 mt-4 mx-auto text-center w-full">
-                <thead>
-                  <tr className="bg-gray-200 dark:bg-gray-700">
-                    <th className="border border-black dark:border-gray-600 px-4 py-2 text-gray-800 dark:text-gray-100">
-                      {opsional === "item-based" ? "I" : "U"}
-                    </th>
-                    <th className="border border-black dark:border-gray-600 px-4 py-2 italic font-serif text-gray-800 dark:text-gray-100">
-                      Sim
-                      <sub>{`${
-                        selectedIndex[opsional === "item-based" ? 0 : 1] + 1
-                      }*`}</sub>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {result["similarity"].map((row, colIndex) => {
-                    const isTopSimilarity = topSimilarities.some(
-                      (top) => top.index === colIndex
-                    );
-                    return (
-                      <tr key={colIndex}>
-                        <td className="border border-black dark:border-gray-600 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100">
-                          {!funnyMode
-                            ? colIndex + 1
-                            : (opsional === "user-based" ? columns : headers)[
-                                colIndex
-                              ]}
-                        </td>
-                        <td
-                          className={`border border-black dark:border-gray-600 px-4 py-2 text-center text-gray-800 dark:text-gray-100 ${
-                            isTopSimilarity
-                              ? "bg-green-200 dark:bg-green-800"
-                              : ""
-                          }`}
-                        >
-                          {!isNotation ? (
-                            row[
-                              selectedIndex[opsional === "user-based" ? 0 : 1]
-                            ]?.toFixed(4) || "N/A"
-                          ) : (
-                            <span className="italic font-serif">
-                              Sim
-                              <sub>
-                                {opsional === "item-based"
-                                  ? `${
-                                      selectedIndex[
-                                        opsional === "item-based" ? 0 : 1
-                                      ] + 1
-                                    }${colIndex + 1}`
-                                  : `${colIndex + 1}${
-                                      selectedIndex[
-                                        opsional === "item-based" ? 0 : 1
-                                      ] + 1
-                                    }`}
-                              </sub>
-                            </span>
-                          )}
-                        </td>
+              <div className="flex justify-center mt-4">
+                <div className="overflow-hidden rounded-xl shadow-lg">
+                  <table className="text-xs sm:text-sm md:text-base lg:text-lg">
+                    <thead>
+                      <tr className="bg-gradient-to-r from-blue-500 to-blue-600 text-white">
+                        <th className="px-4 py-3 font-semibold border-r border-blue-400">
+                          {opsional === "item-based" ? "I" : "U"}
+                        </th>
+                        <th className="px-4 py-3 italic font-serif font-semibold">
+                          Sim
+                          <sub>{`${
+                            selectedIndex[opsional === "item-based" ? 0 : 1] + 1
+                          }*`}</sub>
+                        </th>
                       </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+                    </thead>
+                    <tbody>
+                      {result["similarity"].map((row, colIndex) => {
+                        const isTopSimilarity = topSimilarities.some(
+                          (top) => top.index === colIndex
+                        );
+                        return (
+                          <tr
+                            key={colIndex}
+                            className={`transition-all duration-200 ${
+                              colIndex % 2 === 0
+                                ? "bg-white dark:bg-gray-800"
+                                : "bg-gray-50 dark:bg-gray-700"
+                            }`}
+                          >
+                            <td className="px-4 py-3 font-medium text-gray-700 dark:text-gray-200 border-r border-gray-200 dark:border-gray-600 bg-gray-100 dark:bg-gray-700">
+                              {!funnyMode
+                                ? colIndex + 1
+                                : (opsional === "user-based"
+                                    ? columns
+                                    : headers)[colIndex]}
+                            </td>
+                            <td
+                              className={`px-4 py-3 text-center transition-all duration-200 text-gray-800 dark:text-gray-200 ${
+                                isTopSimilarity
+                                  ? "!bg-green-100 dark:!bg-green-800 text-green-700 dark:text-green-300 font-medium"
+                                  : ""
+                              }`}
+                            >
+                              {!isNotation ? (
+                                row[
+                                  selectedIndex[
+                                    opsional === "user-based" ? 0 : 1
+                                  ]
+                                ]?.toFixed(4) || "N/A"
+                              ) : (
+                                <span className="italic font-serif">
+                                  Sim
+                                  <sub>
+                                    {opsional === "item-based"
+                                      ? `${
+                                          selectedIndex[
+                                            opsional === "item-based" ? 0 : 1
+                                          ] + 1
+                                        }${colIndex + 1}`
+                                      : `${colIndex + 1}${
+                                          selectedIndex[
+                                            opsional === "item-based" ? 0 : 1
+                                          ] + 1
+                                        }`}
+                                  </sub>
+                                </span>
+                              )}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
           ) : (
             <p>Data for this user is not available.</p>
@@ -431,6 +495,143 @@ export default function DetailPerhitunganPrediksi() {
             },
           ]}
         />
+      </div>
+
+      {/* Tabel Ringkasan Data yang Digunakan */}
+      <div className="mt-4 px-2">
+        <DividerHeading text={"Data yang Digunakan dalam Perhitungan"} />
+        <div className="flex flex-row gap-4 justify-center items-start mt-2 flex-wrap overflow-x-auto">
+          {/* Tabel Mean User Aktif */}
+          <div className="rounded-xl shadow-lg overflow-hidden h-fit">
+            <table className="w-auto">
+              <thead>
+                <tr className="bg-yellow-500 dark:bg-yellow-600 text-white">
+                  <th className="px-4 py-2 font-semibold text-sm" colSpan={2}>
+                    Mean {opsional === "user-based" ? "User" : "Item"} Aktif
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="bg-white dark:bg-gray-800">
+                  <td className="px-4 py-2 bg-gray-100 dark:bg-gray-700 font-medium text-gray-700 dark:text-gray-200 border-r border-gray-200 dark:border-gray-600 text-sm">
+                    μ
+                    <sub>
+                      {selectedIndex[opsional === "user-based" ? 0 : 1] + 1}
+                    </sub>
+                  </td>
+                  <td className="px-4 py-2 text-center bg-yellow-100 dark:bg-yellow-900 text-yellow-700 dark:text-yellow-300 font-semibold">
+                    {resultMean[
+                      selectedIndex[opsional === "user-based" ? 0 : 1]
+                    ]?.toFixed(2) || "N/A"}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          {/* Tabel Top-K Similaritas */}
+          <div className="w-full lg:w-auto overflow-x-auto">
+            <div className="inline-block min-w-full lg:min-w-0">
+              <div className="rounded-xl shadow-lg overflow-hidden">
+                <table className="w-auto">
+                  <thead>
+                    <tr className="bg-blue-500 dark:bg-blue-600 text-white">
+                      <th
+                        className="px-4 py-2 font-semibold text-sm"
+                        colSpan={4}
+                      >
+                        Top-{kValue} Neighbor (Similaritas & Mean-Centered)
+                      </th>
+                    </tr>
+                    <tr className="bg-blue-100 dark:bg-blue-800 text-xs">
+                      <td className="px-3 py-1 font-medium text-gray-600 dark:text-gray-200 border-r border-blue-200 dark:border-blue-600">
+                        {opsional === "user-based" ? "User" : "Item"}
+                      </td>
+                      <td className="px-3 py-1 font-medium text-gray-600 dark:text-gray-200 border-r border-blue-200 dark:border-blue-600">
+                        Similaritas
+                      </td>
+                      <td className="px-3 py-1 font-medium text-gray-600 dark:text-gray-200 border-r border-blue-200 dark:border-blue-600">
+                        Mean-Centered
+                      </td>
+                      <td className="px-3 py-1 font-medium text-gray-600 dark:text-gray-200">
+                        Sim × MC
+                      </td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {topSimilarities.map((top, idx) => {
+                      const mcValue =
+                        opsional === "user-based"
+                          ? resultMeanCentered[top.index]?.[selectedIndex[1]]
+                          : resultMeanCentered[top.index]?.[selectedIndex[0]];
+                      return (
+                        <tr
+                          key={idx}
+                          className={
+                            idx % 2 === 0
+                              ? "bg-white dark:bg-gray-800"
+                              : "bg-gray-50 dark:bg-gray-700"
+                          }
+                        >
+                          <td className="px-3 py-2 bg-gray-100 dark:bg-gray-700 font-medium text-gray-700 dark:text-gray-200 border-r border-gray-200 dark:border-gray-600 text-sm">
+                            {!funnyMode
+                              ? top.index + 1
+                              : (opsional === "user-based" ? columns : headers)[
+                                  top.index
+                                ]}
+                          </td>
+                          <td className="px-3 py-2 text-center bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300 font-medium border-r border-blue-100 dark:border-blue-700">
+                            {top.value?.toFixed
+                              ? top.value.toFixed(4)
+                              : top.value}
+                          </td>
+                          <td className="px-3 py-2 text-center bg-green-50 dark:bg-green-900 text-green-700 dark:text-green-300 font-medium border-r border-green-100 dark:border-green-700">
+                            {mcValue?.toFixed
+                              ? mcValue.toFixed(2)
+                              : mcValue || "N/A"}
+                          </td>
+                          <td className="px-3 py-2 text-center bg-purple-50 dark:bg-purple-900 text-purple-700 dark:text-purple-300 font-medium">
+                            {top.value && mcValue
+                              ? (top.value * mcValue).toFixed(4)
+                              : "N/A"}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          {/* Tabel Hasil Prediksi */}
+          <div className="rounded-xl shadow-lg overflow-hidden h-fit">
+            <table className="w-auto">
+              <thead>
+                <tr className="bg-purple-500 dark:bg-purple-600 text-white">
+                  <th className="px-4 py-2 font-semibold text-sm" colSpan={2}>
+                    Hasil Prediksi
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="bg-white dark:bg-gray-800">
+                  <td className="px-4 py-2 bg-gray-100 dark:bg-gray-700 font-medium text-gray-700 dark:text-gray-200 border-r border-gray-200 dark:border-gray-600 text-sm">
+                    P
+                    <sub>
+                      {selectedIndex[0] + 1},{selectedIndex[1] + 1}
+                    </sub>
+                  </td>
+                  <td className="px-4 py-2 text-center bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300 font-semibold">
+                    {selectedValue?.toFixed
+                      ? selectedValue.toFixed(3)
+                      : selectedValue}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
       {/* PLOT */}
       {/* <h1 className="font-semibold text-xl my-5 underline underline-offset-8 decoration-4 decoration-card_blue_primary">

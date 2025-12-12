@@ -18,7 +18,7 @@ import { Star, ShowChart, People, Lightbulb } from "@mui/icons-material";
 
 // import Navbar from "../../components/Navigate/NavBar.jsx";
 import KoalaPage from "../../assets/icons/KoalaPage.png";
-import CardWellcome from "../../components/Card/Home/CardWellcome.jsx";
+import CardWelcome from "../../components/Card/Home/CardWelcome.jsx";
 import ListNavigasiMenu from "../../components/Navigate/ListNavigasiMenu.jsx";
 import CardsSteps from "../../components/Card/Home/CardSteps.jsx";
 import VidioSection from "../../components/modal/VidioSection.jsx";
@@ -230,7 +230,7 @@ const Tutorial = () => {
 
           <ListNavigasiMenu menuVersion={1} scrollToSection={scrollToSection} />
           <div data-aos="fade-down">
-            <CardWellcome
+            <CardWelcome
               heading={"Tutorial Fungsi Similaritas"}
               bgColor={"bg-blue-home"}
               detail="Pada Page Tutorial ini pengguna akan diberikan tutorial tentang

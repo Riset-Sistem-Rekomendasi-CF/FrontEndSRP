@@ -127,96 +127,106 @@ export default function DetailPerhitunganMean() {
         <div className="flex flex-col justify-center m-3 overflow-x-auto">
           <div className="overflow-x-auto">
             <DividerHeading text="Data Rating (R)" />
-            <table className="border border-black dark:border-gray-600 mt-4 mx-auto text-center w-full bg-white">
-              <thead>
-                <tr className="bg-gray-200 dark:bg-gray-700">
-                  <th className="border border-black dark:border-gray-600 px-4 py-2 text-gray-800 dark:text-gray-100">
-                    U/I
-                  </th>
-                  {Array.from(
-                    { length: modifiedData[0].length },
-                    (_, index) => (
-                      <th
-                        key={index}
-                        className="border border-black dark:border-gray-600 px-4 py-2 text-gray-800 dark:text-gray-100"
-                      >
-                        {!isNotation ? (
-                          !funnyMode ? (
-                            index + 1
-                          ) : (
-                            headers[index]
-                          )
-                        ) : (
-                          <span className="font-serif">
-                            i<sub>{index + 1}</sub>
-                          </span>
-                        )}
+            <div className="flex justify-center mt-4">
+              <div className="overflow-hidden rounded-xl shadow-lg">
+                <table className="text-xs sm:text-sm md:text-base lg:text-lg">
+                  <thead>
+                    <tr className="bg-gradient-to-r from-blue-500 to-blue-600 text-white">
+                      <th className="px-4 py-3 font-semibold border-r border-blue-400">
+                        U/I
                       </th>
-                    )
-                  )}
-                </tr>
-              </thead>
-              <tbody>
-                {modifiedData.map((row, rowIndex) => (
-                  <tr key={rowIndex}>
-                    <td className="border border-black dark:border-gray-600 px-4 py-2 w-14 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100">
-                      {!isNotation ? (
-                        !funnyMode ? (
-                          rowIndex + 1
-                        ) : (
-                          columns[rowIndex]
-                        )
-                      ) : (
-                        <span className="font-serif">
-                          u<sub>{rowIndex + 1}</sub>
-                        </span>
-                      )}
-                    </td>
-                    {row.map((value, colIndex) => {
-                      const cellClass =
-                        value === 0
-                          ? "border border-black dark:border-gray-600 px-4 py-2 text-center w-14 bg-red-200 text-gray-800 dark:text-gray-100"
-                          : "border border-black dark:border-gray-600 px-4 py-2 text-center w-14 text-gray-800 ";
-                      const indicator = selIdx.includes(
-                        opsional === "user-based" ? rowIndex : colIndex
-                      )
-                        ? "bg-green-200 "
-                        : "";
-
-                      return (
-                        <td
-                          key={colIndex}
-                          className={`${indicator} ${cellClass}`}
-                          title={
-                            isNotation
-                              ? value.toFixed
-                                ? value.toFixed(0)
-                                : value
-                              : `r${colIndex + 1}${rowIndex + 1}`
-                          }
-                        >
-                          {!isNotation ? (
-                            value.toFixed ? (
-                              value.toFixed(0)
+                      {Array.from(
+                        { length: modifiedData[0].length },
+                        (_, index) => (
+                          <th
+                            key={index}
+                            className="px-4 py-3 font-semibold border-r border-blue-400 last:border-r-0"
+                          >
+                            {!isNotation ? (
+                              !funnyMode ? (
+                                index + 1
+                              ) : (
+                                headers[index]
+                              )
                             ) : (
-                              value
+                              <span className="font-serif">
+                                i<sub>{index + 1}</sub>
+                              </span>
+                            )}
+                          </th>
+                        )
+                      )}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {modifiedData.map((row, rowIndex) => (
+                      <tr
+                        key={rowIndex}
+                        className={`transition-all duration-200 ${
+                          rowIndex % 2 === 0 ? "bg-white" : "bg-gray-50"
+                        }`}
+                      >
+                        <td className="px-4 py-3 font-medium text-gray-700 border-r border-gray-200 bg-gray-100">
+                          {!isNotation ? (
+                            !funnyMode ? (
+                              rowIndex + 1
+                            ) : (
+                              columns[rowIndex]
                             )
                           ) : (
                             <span className="font-serif">
-                              r
-                              <sub>
-                                {colIndex + 1}
-                                {rowIndex + 1}
-                              </sub>
+                              u<sub>{rowIndex + 1}</sub>
                             </span>
                           )}
                         </td>
-                      );
-                    })}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                        {row.map((value, colIndex) => {
+                          const isZero = value === 0;
+                          const isSelected = selIdx.includes(
+                            opsional === "user-based" ? rowIndex : colIndex
+                          );
+
+                          return (
+                            <td
+                              key={colIndex}
+                              className={`px-4 py-3 text-center transition-all duration-200 border-r border-gray-100 last:border-r-0 ${
+                                isZero ? "bg-red-100 text-red-600" : ""
+                              } ${
+                                isSelected && !isZero
+                                  ? "bg-green-100 text-green-700 font-medium"
+                                  : ""
+                              }`}
+                              title={
+                                isNotation
+                                  ? value.toFixed
+                                    ? value.toFixed(0)
+                                    : value
+                                  : `r${colIndex + 1}${rowIndex + 1}`
+                              }
+                            >
+                              {!isNotation ? (
+                                value.toFixed ? (
+                                  value.toFixed(0)
+                                ) : (
+                                  value
+                                )
+                              ) : (
+                                <span className="font-serif">
+                                  r
+                                  <sub>
+                                    {colIndex + 1}
+                                    {rowIndex + 1}
+                                  </sub>
+                                </span>
+                              )}
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
 
           <LegendTable
@@ -231,6 +241,106 @@ export default function DetailPerhitunganMean() {
               },
             ]}
           />
+
+          {/* Data yang Digunakan dalam Perhitungan */}
+          <div className="mt-4">
+            <DividerHeading text={"Data yang Digunakan dalam Perhitungan"} />
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-start mt-4 overflow-x-auto">
+              {/* Tabel Rating yang digunakan */}
+              <div className="rounded-xl shadow-lg overflow-hidden">
+                <table className="w-auto">
+                  <thead>
+                    <tr className="bg-green-500 text-white">
+                      <th
+                        className="px-4 py-2 font-semibold text-sm"
+                        colSpan={2}
+                      >
+                        Rating {capitalize(opsional.split("-")[0])}-
+                        {selIdx[0] + 1}
+                      </th>
+                    </tr>
+                    <tr className="bg-green-100 text-xs">
+                      <td className="px-3 py-1 font-medium text-gray-600 border-r border-green-200">
+                        {opsional === "user-based" ? "Item" : "User"}
+                      </td>
+                      <td className="px-3 py-1 font-medium text-gray-600">
+                        Rating
+                      </td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {modifiedData[selIdx[0]]?.map(
+                      (value, idx) =>
+                        value !== 0 && (
+                          <tr
+                            key={idx}
+                            className={
+                              idx % 2 === 0 ? "bg-white" : "bg-gray-50"
+                            }
+                          >
+                            <td className="px-3 py-2 bg-gray-100 font-medium text-gray-700 border-r border-gray-200 text-sm">
+                              {!funnyMode
+                                ? idx + 1
+                                : (opsional === "user-based"
+                                    ? headers
+                                    : columns)[idx]}
+                            </td>
+                            <td className="px-3 py-2 text-center bg-green-50 text-green-700 font-medium">
+                              {value}
+                            </td>
+                          </tr>
+                        )
+                    )}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Tabel Hasil Mean */}
+              <div className="rounded-xl shadow-lg overflow-hidden h-fit">
+                <table className="w-auto">
+                  <thead>
+                    <tr className="bg-purple-500 text-white">
+                      <th
+                        className="px-4 py-2 font-semibold text-sm"
+                        colSpan={2}
+                      >
+                        Hasil Mean Rating
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="bg-white">
+                      <td className="px-4 py-2 bg-gray-100 font-medium text-gray-700 border-r border-gray-200 text-sm">
+                        μ<sub>{selIdx[0] + 1}</sub>
+                      </td>
+                      <td className="px-4 py-2 text-center bg-purple-100 text-purple-700 font-semibold">
+                        {selectedMean.toFixed(2)}
+                      </td>
+                    </tr>
+                    <tr className="bg-gray-50">
+                      <td className="px-4 py-2 bg-gray-100 font-medium text-gray-700 border-r border-gray-200 text-sm">
+                        Jumlah Rating
+                      </td>
+                      <td className="px-4 py-2 text-center text-gray-700 font-medium">
+                        {modifiedData[selIdx[0]]?.filter((v) => v !== 0).length}
+                      </td>
+                    </tr>
+                    <tr className="bg-white">
+                      <td className="px-4 py-2 bg-gray-100 font-medium text-gray-700 border-r border-gray-200 text-sm">
+                        Total Rating
+                      </td>
+                      <td className="px-4 py-2 text-center text-gray-700 font-medium">
+                        {modifiedData[selIdx[0]]
+                          ?.filter((v) => v !== 0)
+                          .reduce((a, b) => a + b, 0)}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
           <div className="flex items-start gap-2 pt-2">
             {/* Icon di pojok kiri atas */}
             <InfoIcon className="text-blue-500 dark:text-blue-400 mt-1" />

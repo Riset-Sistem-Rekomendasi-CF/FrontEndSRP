@@ -82,7 +82,7 @@ const CardSimilaritas = () => {
               description="Pearson Coefficient Correlation atau (PCC) digunakan untuk menentukan sejauh mana dua variabel memiliki hubungan linear."
               svgPath={pearson}
               buttonText="Baca Lebih Detail"
-              anchor={"/detail/pcc"}
+              anchor={"/pccDetail"}
               bgColor={"bg-blue-400"}
             />
             <FeatureCard
@@ -90,7 +90,7 @@ const CardSimilaritas = () => {
               description="Cosine digunakan untuk digunakan untuk membandingkan kesamaan antara preferensi."
               svgPath={sinus}
               buttonText="Baca Lebih Detail"
-              anchor={"/detail/cosine"}
+              anchor={"/cosineDetail"}
               bgColor={"bg-green-400"}
             />
             <FeatureCard
@@ -98,7 +98,7 @@ const CardSimilaritas = () => {
               description="ACos menghitung kesamaan tanpa terpengaruh oleh perbedaan skala rating yang digunakan oleh masing-masing pengguna."
               svgPath={social}
               buttonText="Baca Lebih Detail"
-              anchor={"/detail/acosine"}
+              anchor={"/acosDetail"}
               bgColor={"bg-yellow-400"}
             />
             <FeatureCard
@@ -106,7 +106,7 @@ const CardSimilaritas = () => {
               description="perhitungan BC digunakan untuk membandingkan dua distribusi data yang dihasilkan dari penilaian pengguna terhadap item."
               svgPath={probs}
               buttonText="Baca Lebih Detail"
-              anchor={"/detail/bc"}
+              anchor={"/bcDetail"}
               bgColor={"bg-red-400"}
             />
           </div>

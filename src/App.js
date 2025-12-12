@@ -7,16 +7,19 @@ import Home from "./pages/Home/Home";
 import Tutorial from "./pages/Tutorial/Tutorial";
 
 import NotFoundPage from "./pages/ErorrPage/NotFoundPage";
-import DetailPagePCC from "./pages/detailPageView/DetailPagePCC";
-import DetailPageCosine from "./pages/detailPageView/DetailPageCosine";
-import DetailPageACos from "./pages/detailPageView/DetailPageACos";
-import DetailPageBC from "./pages/detailPageView/DetailPageBC";
-import Eksplorasi from "./pages/Eksplorasi/Eksplorasi";
+import {
+  DetailPagePCC,
+  DetailPageCosine,
+  DetailPageACos,
+  DetailPageBC,
+} from "./pages/DetailSimilarity";
+
 import DetailPerhitunganMean from "./components/DetailPerhitungan/DetailPerhitunganMean";
 import DetailPerhitunganMeanCen from "./components/DetailPerhitungan/DetailPerhitunganMeanCen";
 import DetailPerhitunganSimilarity from "./components/DetailPerhitungan/DetailPerhitunganSimilarity";
 import DetailPerhitunganPrediksi from "./components/DetailPerhitungan/DetailPerhitunganPrediksi";
 import FloatingCalculator from "./components/FloatingCalculator/FloatingCalculator";
+import Eksplorasi from "./pages/Exploration/Exploration";
 
 function App() {
   useEffect(() => {
