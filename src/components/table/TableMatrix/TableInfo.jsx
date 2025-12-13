@@ -7,7 +7,7 @@ export default function TableInfo({ data }) {
     <div className="mt-6 mx-4 font-poppins">
       <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl shadow-md p-4">
         <p className="font-bold text-lg mb-3 text-gray-700">
-          📊 Informasi Tabel:
+          Informasi Tabel Data Rating:
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {/* Ukuran Tabel */}

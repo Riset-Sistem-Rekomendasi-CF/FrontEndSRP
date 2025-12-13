@@ -153,86 +153,100 @@ export default function ModalSimilarity({
             similarity !== "Cosine" && (
               <>
                 <DividerHeading text={`Data Tabel Mean-Centered`} />
-                <div className="overflow-x-auto mt-4 w-full">
-                  <div className="rounded-xl shadow-lg inline-block min-w-full">
-                    <table className="mx-auto text-center w-full">
-                      <thead>
-                        <tr className="bg-blue-500 text-white">
-                          <th className="px-4 py-3 font-semibold border-r border-blue-400">
-                            {opsional === "user-based" ? "U/I" : "I/U"}
-                          </th>
-                          {Array.from(
-                            { length: numberOfColumnsCen },
-                            (_, index) => (
-                              <th
-                                key={index}
-                                className="px-4 py-3 font-semibold border-r border-blue-400 last:border-r-0"
-                              >
+                <div className="w-full overflow-x-auto mt-4">
+                  <div className="inline-block min-w-full">
+                    <div className="overflow-hidden rounded-xl shadow-lg">
+                      <table className="text-xs sm:text-sm md:text-base lg:text-lg">
+                        <thead>
+                          <tr className="bg-gradient-to-r from-blue-500 to-blue-600 text-white">
+                            <th className="px-4 py-3 font-semibold border-r border-blue-400">
+                              {opsional === "user-based" ? "U/I" : "I/U"}
+                            </th>
+                            {Array.from(
+                              { length: numberOfColumnsCen },
+                              (_, index) => (
+                                <th
+                                  key={index}
+                                  className="px-4 py-3 font-semibold border-r border-blue-400 last:border-r-0"
+                                >
+                                  {!isNotation ? (
+                                    !funnyMode ? (
+                                      index + 1
+                                    ) : (
+                                      colHeaders[index] || index + 1
+                                    )
+                                  ) : (
+                                    <span className="font-serif">
+                                      i<sub>{index + 1}</sub>
+                                    </span>
+                                  )}
+                                </th>
+                              )
+                            )}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {dataOnly.map((row, rowIndex) => (
+                            <tr
+                              key={rowIndex}
+                              className={`transition-all duration-200 ${
+                                rowIndex % 2 === 0 ? "bg-white" : "bg-gray-50"
+                              }`}
+                            >
+                              <td className="px-4 py-3 bg-gray-100 font-medium text-gray-700 border-r border-gray-200">
                                 {!isNotation ? (
                                   !funnyMode ? (
-                                    index + 1
+                                    rowIndex + 1
                                   ) : (
-                                    colHeaders[index] || index + 1
+                                    rowHeaders[rowIndex] || rowIndex + 1
                                   )
                                 ) : (
                                   <span className="font-serif">
-                                    i<sub>{index + 1}</sub>
+                                    u<sub>{rowIndex + 1}</sub>
                                   </span>
                                 )}
-                              </th>
-                            )
-                          )}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {dataOnly.map((row, rowIndex) => (
-                          <tr
-                            key={rowIndex}
-                            className={`transition-all duration-200 ${
-                              rowIndex % 2 === 0 ? "bg-white" : "bg-gray-50"
-                            }`}
-                          >
-                            <td className="px-4 py-3 w-20 bg-gray-100 font-medium text-gray-700 border-r border-gray-200">
-                              {!isNotation ? (
-                                !funnyMode ? (
-                                  rowIndex + 1
-                                ) : (
-                                  rowHeaders[rowIndex] || rowIndex + 1
-                                )
-                              ) : (
-                                <span className="font-serif">
-                                  u<sub>{rowIndex + 1}</sub>
-                                </span>
-                              )}
-                            </td>
-                            {row.map((value, colIndex) => {
-                              const IsZero =
-                                dataOnly[rowIndex] &&
-                                dataOnly[rowIndex][colIndex] !== undefined
-                                  ? dataOnly[rowIndex][colIndex] === 0
-                                  : true;
+                              </td>
+                              {row.map((value, colIndex) => {
+                                const IsZero =
+                                  dataOnly[rowIndex] &&
+                                  dataOnly[rowIndex][colIndex] !== undefined
+                                    ? dataOnly[rowIndex][colIndex] === 0
+                                    : true;
 
-                              const isIntersection =
-                                opsional === "user-based"
-                                  ? isValidIndex(selectedIndex[0], dataOnly) &&
-                                    isValidIndex(selectedIndex[1], dataOnly) &&
-                                    (rowIndex === selectedIndex[0] ||
-                                      rowIndex === selectedIndex[1]) &&
-                                    dataOnly[selectedIndex[0]][colIndex] !==
-                                      0 &&
-                                    dataOnly[selectedIndex[1]][colIndex] !== 0
-                                  : isValidIndex(selectedIndex[0], dataOnly) &&
-                                    isValidIndex(selectedIndex[1], dataOnly) &&
-                                    (colIndex === selectedIndex[0] ||
-                                      colIndex === selectedIndex[1]) &&
-                                    dataOnly[rowIndex][selectedIndex[0]] !==
-                                      0 &&
-                                    dataOnly[rowIndex][selectedIndex[1]] !== 0;
+                                const isIntersection =
+                                  opsional === "user-based"
+                                    ? isValidIndex(
+                                        selectedIndex[0],
+                                        dataOnly
+                                      ) &&
+                                      isValidIndex(
+                                        selectedIndex[1],
+                                        dataOnly
+                                      ) &&
+                                      (rowIndex === selectedIndex[0] ||
+                                        rowIndex === selectedIndex[1]) &&
+                                      dataOnly[selectedIndex[0]][colIndex] !==
+                                        0 &&
+                                      dataOnly[selectedIndex[1]][colIndex] !== 0
+                                    : isValidIndex(
+                                        selectedIndex[0],
+                                        dataOnly
+                                      ) &&
+                                      isValidIndex(
+                                        selectedIndex[1],
+                                        dataOnly
+                                      ) &&
+                                      (colIndex === selectedIndex[0] ||
+                                        colIndex === selectedIndex[1]) &&
+                                      dataOnly[rowIndex][selectedIndex[0]] !==
+                                        0 &&
+                                      dataOnly[rowIndex][selectedIndex[1]] !==
+                                        0;
 
-                              return (
-                                <td
-                                  key={colIndex}
-                                  className={`px-4 py-3 text-center w-20 transition-all duration-200 border-r border-gray-100 last:border-r-0
+                                return (
+                                  <td
+                                    key={colIndex}
+                                    className={`px-4 py-3 text-center transition-all duration-200 border-r border-gray-100 last:border-r-0
                                   ${IsZero ? "bg-red-100 text-red-600" : ""} 
                                   ${
                                     !IsZero && isIntersection
@@ -240,40 +254,42 @@ export default function ModalSimilarity({
                                       : ""
                                   }
                                 `}
-                                >
-                                  {!isNotation ? (
-                                    typeof value === "number" ? (
-                                      data["mean-centered"][rowIndex][
-                                        colIndex
-                                      ].toFixed(
-                                        similarity !== "Cosine" &&
-                                          similarity !==
-                                            "Bhattacharyya Coefficient (BC)"
-                                          ? 2
-                                          : 0
+                                  >
+                                    {!isNotation ? (
+                                      typeof value === "number" ? (
+                                        data["mean-centered"][rowIndex][
+                                          colIndex
+                                        ].toFixed(
+                                          similarity !== "Cosine" &&
+                                            similarity !==
+                                              "Bhattacharyya Coefficient (BC)"
+                                            ? 2
+                                            : 0
+                                        )
+                                      ) : (
+                                        "N/A"
                                       )
                                     ) : (
-                                      "N/A"
-                                    )
-                                  ) : (
-                                    <span className="font-serif">
-                                      {similarity !== "Cosine" &&
-                                      similarity !== "Bhattacharyya Coefficient"
-                                        ? "s"
-                                        : "r"}
-                                      <sub>
-                                        {rowIndex + 1}
-                                        {colIndex + 1}
-                                      </sub>
-                                    </span>
-                                  )}
-                                </td>
-                              );
-                            })}
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                                      <span className="font-serif">
+                                        {similarity !== "Cosine" &&
+                                        similarity !==
+                                          "Bhattacharyya Coefficient"
+                                          ? "s"
+                                          : "r"}
+                                        <sub>
+                                          {rowIndex + 1}
+                                          {colIndex + 1}
+                                        </sub>
+                                      </span>
+                                    )}
+                                  </td>
+                                );
+                              })}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
                 {/* Tabel Legend */}
@@ -303,7 +319,7 @@ export default function ModalSimilarity({
           {/* Tabel Ringkasan Data yang Digunakan */}
           <div className="mt-4">
             <DividerHeading text={"Data yang Digunakan dalam Perhitungan"} />
-            <div className="flex flex-row gap-4 justify-center mt-2 flex-wrap">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-start mt-2 overflow-x-auto">
               {/* Tabel Data Irisan */}
               <div className="rounded-xl shadow-lg overflow-hidden">
                 <table className="w-auto">
@@ -427,7 +443,7 @@ export default function ModalSimilarity({
               </div>
 
               {/* Tabel Hasil Similaritas */}
-              <div className="rounded-xl shadow-lg overflow-hidden">
+              <div className="rounded-xl shadow-lg overflow-hidden h-fit">
                 <table className="w-auto">
                   <thead>
                     <tr className="bg-purple-500 text-white">

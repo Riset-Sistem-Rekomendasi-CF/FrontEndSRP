@@ -13,7 +13,7 @@ import { Lightbulb, People, ShowChart, Star } from "@mui/icons-material";
 import Chip from "@mui/material/Chip";
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 import KoalaPage from "../../assets/icons/KoalaPage.png";
-import CardWellcome from "../../components/Card/Home/CardWellcome.jsx";
+import CardWelcome from "../../components/Card/Home/CardWelcome.jsx";
 import ListNavigasiMenu from "../../components/Navigate/ListNavigasiMenu.jsx";
 import CardsSteps from "../../components/Card/Home/CardSteps.jsx";
 import VidioSection from "../../components/modal/VidioSection.jsx";
@@ -176,7 +176,7 @@ function Eksplorasi() {
           )}
           <ListNavigasiMenu menuVersion={2} scrollToSection={scrollToSection} />
           <div data-aos="fade-down">
-            <CardWellcome
+            <CardWelcome
               heading={"Eksplorasi Fungsi Similaritas"}
               bgColor={"bg-card_purple_primary"}
               detail="Pada Page Eksplorasi Rating pengguna bisa bereksplorasi dan ingin melakukan
@@ -217,7 +217,7 @@ function Eksplorasi() {
                 </svg>
               </span>
             </h1>
-           
+
             <FormMeasure
               onDataChange={handleDataChange}
               onDescriptionChange={handleTurnDescription}

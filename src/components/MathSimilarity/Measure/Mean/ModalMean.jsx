@@ -198,7 +198,7 @@ export default function ModalMean({
           {/* Tabel Ringkasan Data yang Digunakan */}
           <div className="mt-4">
             <DividerHeading text={"Data yang Digunakan dalam Perhitungan"} />
-            <div className="flex flex-row gap-4 justify-center mt-2 flex-wrap">
+            <div className="flex flex-row gap-4 justify-center items-start mt-2 flex-wrap">
               {/* Tabel Rating yang digunakan */}
               <div className="rounded-xl shadow-lg overflow-hidden">
                 <table className="w-auto">
@@ -264,7 +264,7 @@ export default function ModalMean({
               </div>
 
               {/* Tabel Hasil Mean */}
-              <div className="rounded-xl shadow-lg overflow-hidden">
+              <div className="rounded-xl shadow-lg overflow-hidden h-fit">
                 <table className="w-auto">
                   <thead>
                     <tr className="bg-purple-500 text-white">
