@@ -66,33 +66,32 @@ const Navbar = () => {
         isVisible ? "transform-none" : "-translate-y-full"
       }`}
     >
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
+      <div className="w-full px-2 sm:px-4 md:container md:mx-auto">
+        <div className="flex items-center justify-between h-14 sm:h-16">
           {/* Logo + Brand */}
           <Link
             to="/"
-            className="flex items-center space-x-3 text-black dark:text-white text-xl font-semibold"
+            className="flex items-center space-x-2 sm:space-x-3 text-black dark:text-white text-lg sm:text-xl font-semibold"
           >
             <img
               src={KoalaPage}
               alt="Koala Icon"
-              className="w-10 h-10 object-cover rounded-full"
+              className="w-8 h-8 sm:w-10 sm:h-10 object-cover rounded-full"
             />
-            <span className="hidden sm:inline">KoalaERS</span>{" "}
-            {/* Sembunyi di <sm */}
+            <span className="hidden sm:inline">KoalaERS</span>
           </Link>
 
           {/* Hamburger (Mobile Only) */}
-          <div className="flex sm:hidden items-center space-x-2">
+          <div className="flex sm:hidden items-center space-x-1 sm:space-x-2">
             <ThemeToggle />
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-black dark:text-white hover:bg-blue-home hover:text-white"
+              className="inline-flex items-center justify-center p-1.5 sm:p-2 rounded-md text-black dark:text-white hover:bg-blue-home hover:text-white"
             >
               {isOpen ? (
-                <CloseIcon className="h-6 w-6" />
+                <CloseIcon className="h-5 w-5 sm:h-6 sm:w-6" />
               ) : (
-                <MenuIcon className="h-6 w-6" />
+                <MenuIcon className="h-5 w-5 sm:h-6 sm:w-6" />
               )}
             </button>
           </div>

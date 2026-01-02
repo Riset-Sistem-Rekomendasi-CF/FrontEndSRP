@@ -4,7 +4,7 @@ export default function CardStepper({ steps }) {
   return (
     <div className="w-full p-4 md:p-8 bg-white dark:bg-gray-900 transition-colors duration-200">
       {/* Main Content */}
-      <main className="w-full border border-gray-300 dark:border-gray-700 rounded-lg shadow-lg overflow-hidden">
+      <main className="w-full boverflow-hidden">
         {steps.map((step, index) => (
           <section
             key={step.id || index}

@@ -144,7 +144,7 @@ const ModalMeanCenteredMeasure = ({
               <DividerHeading text={"Data Rating (R)"} />
               <div className="overflow-x-auto mt-4">
                 <div className="inline-block min-w-full lg:min-w-0">
-                  <div className="overflow-hidden rounded-xl shadow-lg">
+                  <div className="overflow-hidden rounded-xl">
                     <table className="text-xs sm:text-sm md:text-base lg:text-lg">
                       <thead>
                         <tr className="bg-gradient-to-r from-blue-500 to-blue-600 text-white">
@@ -177,9 +177,18 @@ const ModalMeanCenteredMeasure = ({
                             }`}
                           >
                             <td className="px-4 py-3 bg-gray-100 font-medium text-gray-700 border-r border-gray-200">
-                              {!funnyMode
-                                ? rowIndex + 1
-                                : columns?.[rowIndex] || rowIndex + 1}
+                              {!isNotation ? (
+                                !funnyMode ? (
+                                  rowIndex + 1
+                                ) : (
+                                  columns?.[rowIndex] || rowIndex + 1
+                                )
+                              ) : (
+                                <span className="italic font-serif">
+                                  {opsional === "user-based" ? "u" : "i"}
+                                  <sub>{rowIndex + 1}</sub>
+                                </span>
+                              )}
                             </td>
                             {row.map((value, colIndex) => {
                               const isSelected =
@@ -244,7 +253,7 @@ const ModalMeanCenteredMeasure = ({
               <DividerHeading text={"Mean (μ)"} />
               <div className="overflow-x-auto mt-4">
                 <div className="inline-block min-w-full lg:min-w-0">
-                  <div className="overflow-hidden rounded-xl shadow-lg">
+                  <div className="overflow-hidden rounded-xl">
                     <table className="text-xs sm:text-sm md:text-base lg:text-lg">
                       <thead>
                         <tr className="bg-gradient-to-r from-blue-500 to-blue-600 text-white">
@@ -278,7 +287,14 @@ const ModalMeanCenteredMeasure = ({
                               }`}
                             >
                               <td className="px-4 py-3 bg-gray-100 font-medium text-gray-700 border-r border-gray-200">
-                                {label}
+                                {!isNotation ? (
+                                  label
+                                ) : (
+                                  <span className="italic font-serif">
+                                    {isMeanUserBased ? "u" : "i"}
+                                    <sub>{index + 1}</sub>
+                                  </span>
+                                )}
                               </td>
                               <td
                                 className={`px-4 py-3 text-center transition-all duration-200 ${
@@ -326,7 +342,7 @@ const ModalMeanCenteredMeasure = ({
             <DividerHeading text={"Data yang Digunakan dalam Perhitungan"} />
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-start mt-2 overflow-x-auto">
               {/* Tabel Rating yang dipilih */}
-              <div className="rounded-xl shadow-lg overflow-hidden h-fit">
+              <div className="rounded-xl overflow-hidden h-fit">
                 <table className="w-auto">
                   <thead>
                     <tr className="bg-green-500 text-white">
@@ -364,7 +380,7 @@ const ModalMeanCenteredMeasure = ({
               </div>
 
               {/* Tabel Mean yang digunakan */}
-              <div className="rounded-xl shadow-lg overflow-hidden h-fit">
+              <div className="rounded-xl overflow-hidden h-fit">
                 <table className="w-auto">
                   <thead>
                     <tr className="bg-yellow-500 text-white">
@@ -407,7 +423,7 @@ const ModalMeanCenteredMeasure = ({
               </div>
 
               {/* Tabel Hasil Mean-Centered */}
-              <div className="rounded-xl shadow-lg overflow-hidden h-fit">
+              <div className="rounded-xl overflow-hidden h-fit">
                 <table className="w-auto">
                   <thead>
                     <tr className="bg-purple-500 text-white">

@@ -3,7 +3,10 @@ import MathJaxComponent from "../../../MathJaxComponent";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 
-export function FunctionMeasureDropdown({ DetailRumus }) {
+export function FunctionMeasureDropdown({
+  DetailRumus,
+  title = "Keterangan Rumus",
+}) {
   const [isOpen, setIsOpen] = useState(true);
 
   const toggleDropdown = () => {
@@ -17,7 +20,7 @@ export function FunctionMeasureDropdown({ DetailRumus }) {
         onClick={toggleDropdown}
         className="flex items-start text-start font-semibold font-poppins text-white mt-2 focus:outline-none text-sm sm:text-base bg-purple-btn-primary p-2 rounded-md shadow-sm"
       >
-        Keterangan Rumus
+        {title}
         {isOpen ? (
           <ExpandLessIcon className="ml-2" />
         ) : (

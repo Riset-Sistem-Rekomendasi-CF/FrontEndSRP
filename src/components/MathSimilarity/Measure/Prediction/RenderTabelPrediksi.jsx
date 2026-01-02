@@ -38,7 +38,7 @@ export const RenderTabelPrediksi = memo(
 
     return (
       <div className="flex justify-center mt-4">
-        <div className="overflow-x-auto w-full rounded-xl shadow-lg">
+        <div className="overflow-x-auto w-full rounded-xl">
           <table className="text-xs sm:text-sm md:text-base lg:text-lg min-w-full">
             <thead>
               <tr className="bg-gradient-to-r from-blue-500 to-blue-600 text-white">

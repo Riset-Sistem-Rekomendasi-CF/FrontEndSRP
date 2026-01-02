@@ -245,7 +245,7 @@ export const TopNPrediction = ({
                   Hasil Prediksi rating untuk user target {selectedUserTopN + 1}{" "}
                   :
                 </p>
-                <div className="overflow-x-auto rounded-xl shadow-lg mt-4">
+                <div className="overflow-x-auto rounded-xl mt-4">
                   <table className="min-w-full text-sm">
                     <thead>
                       <tr className="bg-gradient-to-r from-purple-500 to-purple-600 text-white font-poppins">

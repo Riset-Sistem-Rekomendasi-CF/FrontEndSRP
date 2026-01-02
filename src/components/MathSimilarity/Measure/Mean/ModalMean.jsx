@@ -95,7 +95,7 @@ export default function ModalMean({
             <DividerHeading text="Data Rating (R)" />
 
             <div className="overflow-x-auto w-full">
-              <div className="rounded-xl shadow-lg inline-block min-w-full">
+              <div className="rounded-xl inline-block min-w-full">
                 <table className="mx-auto text-center w-full">
                   <thead>
                     <tr className="bg-blue-500 text-white">
@@ -200,7 +200,7 @@ export default function ModalMean({
             <DividerHeading text={"Data yang Digunakan dalam Perhitungan"} />
             <div className="flex flex-row gap-4 justify-center items-start mt-2 flex-wrap">
               {/* Tabel Rating yang digunakan */}
-              <div className="rounded-xl shadow-lg overflow-hidden">
+              <div className="rounded-xl overflow-hidden">
                 <table className="w-auto">
                   <thead>
                     <tr className="bg-green-500 text-white">
@@ -264,7 +264,7 @@ export default function ModalMean({
               </div>
 
               {/* Tabel Hasil Mean */}
-              <div className="rounded-xl shadow-lg overflow-hidden h-fit">
+              <div className="rounded-xl overflow-hidden h-fit">
                 <table className="w-auto">
                   <thead>
                     <tr className="bg-purple-500 text-white">

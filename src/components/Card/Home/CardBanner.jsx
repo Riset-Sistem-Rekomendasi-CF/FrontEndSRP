@@ -10,7 +10,7 @@ export default function CardBanner({
       <div className="container mx-auto px-4 rounded-xl">
         {/* Card Container */}
         <div
-          className={`max-w-7xl mx-auto ${bgColor} shadow-lg rounded-lg flex flex-col md:flex-row overflow-hidden`}
+          className={`max-w-7xl mx-auto ${bgColor}  flex flex-col md:flex-row overflow-hidden`}
         >
           {/* Image Section (Left) */}
           <div className="w-full md:w-1/3">

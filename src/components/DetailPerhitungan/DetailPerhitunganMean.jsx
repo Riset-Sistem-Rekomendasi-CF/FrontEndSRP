@@ -128,7 +128,7 @@ export default function DetailPerhitunganMean() {
           <div className="overflow-x-auto">
             <DividerHeading text="Data Rating (R)" />
             <div className="flex justify-center mt-4">
-              <div className="overflow-hidden rounded-xl shadow-lg">
+              <div className="overflow-hidden rounded-xl">
                 <table className="text-xs sm:text-sm md:text-base lg:text-lg">
                   <thead>
                     <tr className="bg-gradient-to-r from-blue-500 to-blue-600 text-white">
@@ -247,7 +247,7 @@ export default function DetailPerhitunganMean() {
             <DividerHeading text={"Data yang Digunakan dalam Perhitungan"} />
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-start mt-4 overflow-x-auto">
               {/* Tabel Rating yang digunakan */}
-              <div className="rounded-xl shadow-lg overflow-hidden">
+              <div className="rounded-xl overflow-hidden">
                 <table className="w-auto">
                   <thead>
                     <tr className="bg-green-500 text-white">
@@ -296,7 +296,7 @@ export default function DetailPerhitunganMean() {
               </div>
 
               {/* Tabel Hasil Mean */}
-              <div className="rounded-xl shadow-lg overflow-hidden h-fit">
+              <div className="rounded-xl overflow-hidden h-fit">
                 <table className="w-auto">
                   <thead>
                     <tr className="bg-purple-500 text-white">

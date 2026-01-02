@@ -20,6 +20,8 @@ const FormulaBCItem = {
   detail_formula: [
     `\\[ a = \\text{mewakili semua nilai dalam distribusi atau seluruh nilai } \\textit{rating } \\]`,
     `\\[ P = \\text{Menghitung probabilitas} \\]`,
+    `\\[ r_{*i} = \\text{Seluruh nilai } \\textit{rating } \\text{ yang diberikan oleh semua } \\textit{user } \\text{ pada } \\textit{item } \\ i \\]`,
+    `\\[ r_{*j} = \\text{Seluruh nilai } \\textit{rating } \\text{ yang diberikan oleh semua } \\textit{user } \\text{ pada } \\textit{item } \\ j \\]`,
   ],
 };
 
@@ -236,7 +238,16 @@ export const StepsBC = [
             </MathJaxContext>
           </div>
         </div>
-        <FunctionMeasureDropdown DetailRumus={FormulaBCUser.detail_formula} />
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <FunctionMeasureDropdown
+            DetailRumus={FormulaBCUser.detail_formula}
+            title="Keterangan User-Based"
+          />
+          <FunctionMeasureDropdown
+            DetailRumus={FormulaBCItem.detail_formula}
+            title="Keterangan Item-Based"
+          />
+        </div>
       </>
     ),
   },
@@ -283,9 +294,212 @@ export const StepsBC = [
             </MathJaxContext>
           </div>
         </div>
-        <FunctionMeasureDropdown
-          DetailRumus={FormulaPredictionUser.detail_formula}
-        />
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <FunctionMeasureDropdown
+            DetailRumus={FormulaPredictionUser.detail_formula}
+            title="Keterangan User-Based"
+          />
+          <FunctionMeasureDropdown
+            DetailRumus={FormulaPredictionItem.detail_formula}
+            title="Keterangan Item-Based"
+          />
+        </div>
+      </>
+    ),
+  },
+  {
+    title: "Contoh Perhitungan Similaritas BC",
+    description: "Langkah-langkah menghitung similaritas BC dengan data contoh",
+    content: (
+      <>
+        <div className="space-y-4">
+          <p className="font-semibold">
+            Data Rating (- = belum memberi rating):
+          </p>
+          <div className="overflow-x-auto">
+            <table className="table-auto border-collapse border border-gray-300 text-sm w-full max-w-md mx-auto">
+              <thead>
+                <tr className="bg-blue-100">
+                  <th className="border border-gray-300 px-2 py-1">U/I</th>
+                  <th className="border border-gray-300 px-2 py-1">i1</th>
+                  <th className="border border-gray-300 px-2 py-1">i2</th>
+                  <th className="border border-gray-300 px-2 py-1">i3</th>
+                  <th className="border border-gray-300 px-2 py-1">i4</th>
+                  <th className="border border-gray-300 px-2 py-1">i5</th>
+                  <th className="border border-gray-300 px-2 py-1">i6</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="border border-gray-300 px-2 py-1 font-semibold">
+                    u1
+                  </td>
+                  <td className="border border-gray-300 px-2 py-1">5</td>
+                  <td className="border border-gray-300 px-2 py-1">-</td>
+                  <td className="border border-gray-300 px-2 py-1">4</td>
+                  <td className="border border-gray-300 px-2 py-1">3</td>
+                  <td className="border border-gray-300 px-2 py-1">5</td>
+                  <td className="border border-gray-300 px-2 py-1">4</td>
+                </tr>
+                <tr>
+                  <td className="border border-gray-300 px-2 py-1 font-semibold">
+                    u2
+                  </td>
+                  <td className="border border-gray-300 px-2 py-1">4</td>
+                  <td className="border border-gray-300 px-2 py-1">5</td>
+                  <td className="border border-gray-300 px-2 py-1">-</td>
+                  <td className="border border-gray-300 px-2 py-1">3</td>
+                  <td className="border border-gray-300 px-2 py-1">2</td>
+                  <td className="border border-gray-300 px-2 py-1">3</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+            <p className="font-semibold text-yellow-800 mb-2">
+              Contoh: Hitung BC(u1, u2) - User-Based
+            </p>
+
+            <p className="mb-2">
+              <strong>Step 1:</strong> Hitung frekuensi rating untuk setiap user
+              (rating 1-5)
+            </p>
+            <div className="overflow-x-auto mb-3">
+              <table className="table-auto border-collapse border border-gray-300 text-sm mx-auto">
+                <thead>
+                  <tr className="bg-yellow-100">
+                    <th className="border border-gray-300 px-2 py-1">Rating</th>
+                    <th className="border border-gray-300 px-2 py-1">1</th>
+                    <th className="border border-gray-300 px-2 py-1">2</th>
+                    <th className="border border-gray-300 px-2 py-1">3</th>
+                    <th className="border border-gray-300 px-2 py-1">4</th>
+                    <th className="border border-gray-300 px-2 py-1">5</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td className="border border-gray-300 px-2 py-1">
+                      u1 freq
+                    </td>
+                    <td className="border border-gray-300 px-2 py-1">0</td>
+                    <td className="border border-gray-300 px-2 py-1">0</td>
+                    <td className="border border-gray-300 px-2 py-1">1</td>
+                    <td className="border border-gray-300 px-2 py-1">2</td>
+                    <td className="border border-gray-300 px-2 py-1">2</td>
+                  </tr>
+                  <tr>
+                    <td className="border border-gray-300 px-2 py-1">
+                      u2 freq
+                    </td>
+                    <td className="border border-gray-300 px-2 py-1">0</td>
+                    <td className="border border-gray-300 px-2 py-1">1</td>
+                    <td className="border border-gray-300 px-2 py-1">2</td>
+                    <td className="border border-gray-300 px-2 py-1">1</td>
+                    <td className="border border-gray-300 px-2 py-1">1</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <p className="mb-2">
+              <strong>Step 2:</strong> Hitung probabilitas P(r=a) untuk setiap
+              rating
+            </p>
+            <MathJaxContext options={mathjaxConfig}>
+              <MathJaxComponent>{`\\[ P(r_{u1}=3) = \\frac{1}{5} = 0.2, \\quad P(r_{u1}=4) = \\frac{2}{5} = 0.4, \\quad P(r_{u1}=5) = \\frac{2}{5} = 0.4 \\]`}</MathJaxComponent>
+              <MathJaxComponent>{`\\[ P(r_{u2}=2) = \\frac{1}{5} = 0.2, \\quad P(r_{u2}=3) = \\frac{2}{5} = 0.4, \\quad P(r_{u2}=4) = \\frac{1}{5} = 0.2, \\quad P(r_{u2}=5) = \\frac{1}{5} = 0.2 \\]`}</MathJaxComponent>
+            </MathJaxContext>
+
+            <p className="mb-2">
+              <strong>Step 3:</strong> Hitung BC dengan menjumlahkan √(P_u1 ×
+              P_u2) untuk setiap rating
+            </p>
+            <MathJaxContext options={mathjaxConfig}>
+              <MathJaxComponent>{`\\[ BC(u1,u2) = \\sqrt{0 \\times 0} + \\sqrt{0 \\times 0.2} + \\sqrt{0.2 \\times 0.4} + \\sqrt{0.4 \\times 0.2} + \\sqrt{0.4 \\times 0.2} \\]`}</MathJaxComponent>
+              <MathJaxComponent>{`\\[ = 0 + 0 + \\sqrt{0.08} + \\sqrt{0.08} + \\sqrt{0.08} \\]`}</MathJaxComponent>
+              <MathJaxComponent>{`\\[ = 0 + 0 + 0.283 + 0.283 + 0.283 = 0.849 \\]`}</MathJaxComponent>
+            </MathJaxContext>
+
+            <p className="mt-3 text-green-700 font-semibold">
+              Hasil: BC(u1, u2) ≈ 0.85 (cukup mirip)
+            </p>
+          </div>
+        </div>
+      </>
+    ),
+  },
+  {
+    title: "Contoh Perhitungan Prediksi BC",
+    description: "Langkah-langkah menghitung prediksi rating dengan BC",
+    content: (
+      <>
+        <div className="space-y-4">
+          <div className="bg-green-50 p-4 rounded-lg border border-green-200">
+            <p className="font-semibold text-green-800 mb-2">
+              Contoh: Prediksi rating u1 untuk item i2 (User-Based)
+            </p>
+            <p className="text-sm mb-3">
+              Misalkan kita sudah menghitung similarity BC dan memilih top-2
+              neighbors:
+            </p>
+
+            <div className="overflow-x-auto mb-3">
+              <table className="table-auto border-collapse border border-gray-300 text-sm mx-auto">
+                <thead>
+                  <tr className="bg-green-100">
+                    <th className="border border-gray-300 px-3 py-1">
+                      Neighbor
+                    </th>
+                    <th className="border border-gray-300 px-3 py-1">
+                      BC(u1, v)
+                    </th>
+                    <th className="border border-gray-300 px-3 py-1">
+                      r(v, i2)
+                    </th>
+                    <th className="border border-gray-300 px-3 py-1">
+                      s(v, i2)
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td className="border border-gray-300 px-3 py-1">u2</td>
+                    <td className="border border-gray-300 px-3 py-1">0.85</td>
+                    <td className="border border-gray-300 px-3 py-1">5</td>
+                    <td className="border border-gray-300 px-3 py-1">1.6</td>
+                  </tr>
+                  <tr>
+                    <td className="border border-gray-300 px-3 py-1">u4</td>
+                    <td className="border border-gray-300 px-3 py-1">0.72</td>
+                    <td className="border border-gray-300 px-3 py-1">2</td>
+                    <td className="border border-gray-300 px-3 py-1">-0.4</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <p className="mb-2">
+              <strong>Step 1:</strong> Gunakan rumus prediksi (μ_u1 = 4.2)
+            </p>
+            <MathJaxContext options={mathjaxConfig}>
+              <MathJaxComponent>{`\\[ \\widetilde{r}_{u1,i2} = \\mu_{u1} + \\frac{\\sum_{v} BC(u1,v) \\cdot s_{v,i2}}{\\sum_{v} |BC(u1,v)|} \\]`}</MathJaxComponent>
+            </MathJaxContext>
+
+            <p className="mb-2">
+              <strong>Step 2:</strong> Substitusi nilai
+            </p>
+            <MathJaxContext options={mathjaxConfig}>
+              <MathJaxComponent>{`\\[ \\widetilde{r}_{u1,i2} = 4.2 + \\frac{(0.85)(1.6) + (0.72)(-0.4)}{|0.85| + |0.72|} \\]`}</MathJaxComponent>
+              <MathJaxComponent>{`\\[ = 4.2 + \\frac{1.36 - 0.288}{1.57} = 4.2 + \\frac{1.072}{1.57} \\]`}</MathJaxComponent>
+              <MathJaxComponent>{`\\[ = 4.2 + 0.683 = 4.88 \\]`}</MathJaxComponent>
+            </MathJaxContext>
+
+            <p className="mt-3 text-green-700 font-semibold">
+              Hasil: Prediksi rating u1 untuk i2 ≈ 4.88
+            </p>
+          </div>
+        </div>
       </>
     ),
   },

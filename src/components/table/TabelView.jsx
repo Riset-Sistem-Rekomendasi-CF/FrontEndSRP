@@ -3,19 +3,12 @@ import { createPortal } from "react-dom"; //
 import SwitchToggle from "../Toggle/SwitchToggle";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import OnlyTabel from "./OnlyTabel";
+import { tutorialRatingData, tutorialSparsityInfo } from "../../data";
 
 const TabelView = ({ changeFunny, headers, columns }) => {
-  const data = [
-    ["5", "?", "4", "3", "5", "4"],
-    ["4", "5", "?", "3", "2", "3"],
-    ["?", "3", "?", "2", "1", "?"],
-    ["1", "2", "2", "?", "3", "4"],
-    ["1", "?", "1", "2", "3", "3"],
-  ];
+  const data = tutorialRatingData;
 
-  const numerator = 7;
-  const denominator = 30;
-  const percentage = ((numerator / denominator) * 100).toFixed(2);
+  const { numerator, denominator, percentage } = tutorialSparsityInfo;
 
   const [isModalSparsityOpen, setIsModalSparsityOpen] = useState(false);
   const [isFullPageOpen, setIsFullPageOpen] = useState(false);
