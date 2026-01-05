@@ -25,7 +25,6 @@ export const TopNPrediction = ({
   const { result } = AllSimilaritas(data, similarity);
   const [selectedUserTopN, setSelectedUserTopN] = useState(null);
   const [topNCount, setTopNCount] = useState(1); // Nilai default untuk Top-N
-  const [redCells, setRedCells] = useState([]);
   const [showToast, setShowToast] = useState(false);
   const [maxPrediksiKosong, setMaxPrediksiKosong] = useState(0);
 
@@ -84,14 +83,7 @@ export const TopNPrediction = ({
     setTopNCount(Math.max(1, value));
   };
 
-  // Menyaring Top-N berdasarkan jumlah yang diinginkan
   // const displayTopPredictions = topNPredictions.slice(0, topNCount);
-
-  // Menangani klik pada sel yang memiliki nilai 0 (bg-red-200)
-  const handleMeanClick = (value, rowIndex, colIndex) => {
-    // Menyimpan informasi tentang sel yang memiliki bg-red-200
-    setRedCells((prevCells) => [...prevCells, { rowIndex, colIndex, value }]);
-  };
 
   // Fungsi untuk mengambil semua nilai yang memiliki bg-red-200, dikelompokkan berdasarkan user (rowIndex)
   const getRedCellsGroupedByUser = () => {
@@ -134,11 +126,6 @@ export const TopNPrediction = ({
     0,
     topNCount
   );
-
-  // Mengambil index item berdasarkan nilai yang diambil
-  const itemIndexes = displayTopPredictionsRedUser.map((pred) => pred.colIndex);
-
-  // console.log(itemIndexes); // Menampilkan index item yang dipilih berdasarkan urutan nilai terbesar
 
   // Mengatur dropdown untuk memilih user
   const handleUserSelectionChange = (e) => {
@@ -188,7 +175,7 @@ export const TopNPrediction = ({
         <FunctionMeasureDropdown DetailRumus={formula.detailTopN_formula} />
 
         <div className="my-5 mx-2 sm:mx-5 bg-green-200 rounded-md shadow-sm border border-black p-3 sm:p-4">
-          <div className="flex flex-col md:flex-row md:items-end justify-center gap-4 ">
+          <div className="flex flex-col md:flex-row md:items-start justify-center gap-4">
             {/* Dropdown untuk memilih user */}
             <div className="w-full md:max-w-xs">
               <label
@@ -215,6 +202,8 @@ export const TopNPrediction = ({
                   </option>
                 ))}
               </select>
+              {/* Placeholder untuk menjaga tinggi sejajar */}
+              <div className="h-5 mt-1"></div>
             </div>
 
             {/* Input untuk jumlah Top-N */}
@@ -235,7 +224,59 @@ export const TopNPrediction = ({
                 max={topNPredictions.length}
                 placeholder="Masukkan jumlah Top-N"
               />
+              {/* Keterangan max TopN untuk user yang dipilih */}
+              <p className="text-xs sm:text-sm text-gray-600 mt-1 h-5">
+                {selectedUserTopN !== null ? (
+                  (redCellsGroupedByUser[selectedUserTopN]?.length || 0) > 0 ? (
+                    <>
+                      Max:{" "}
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                        {redCellsGroupedByUser[selectedUserTopN]?.length}
+                      </span>{" "}
+                      item
+                    </>
+                  ) : (
+                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                      Data sudah di rating semua
+                    </span>
+                  )
+                ) : (
+                  <span className="text-gray-400">
+                    Pilih user terlebih dahulu
+                  </span>
+                )}
+              </p>
             </div>
+          </div>
+
+          {/* Badge info max TopN untuk semua user */}
+          <div className="mt-4 flex flex-wrap items-center gap-2 justify-center">
+            <span className="text-sm font-medium text-gray-700">
+              Max Top-N per User:
+            </span>
+            {result["prediction"].map((_, index) => {
+              const maxItems = redCellsGroupedByUser[index]?.length || 0;
+              return (
+                <span
+                  key={index}
+                  className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold ${
+                    selectedUserTopN === index
+                      ? "bg-purple-500 text-white ring-2 ring-purple-300"
+                      : maxItems === 0
+                      ? "bg-green-100 text-green-700 hover:bg-green-200"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  } transition-all cursor-pointer`}
+                  onClick={() => setSelectedUserTopN(index)}
+                  title={
+                    maxItems === 0
+                      ? `User ${index + 1} sudah memiliki rating semua`
+                      : `Klik untuk memilih User ${index + 1}`
+                  }
+                >
+                  U{index + 1}: {maxItems === 0 ? "✓" : maxItems}
+                </span>
+              );
+            })}
           </div>
 
           {selectedUserTopN !== null && (
@@ -248,7 +289,7 @@ export const TopNPrediction = ({
                 <div className="overflow-x-auto rounded-xl mt-4">
                   <table className="min-w-full text-sm">
                     <thead>
-                      <tr className="bg-gradient-to-r from-purple-500 to-purple-600 text-white font-poppins">
+                      <tr className="bg-blue-500 text-white font-poppins">
                         <th className="px-4 sm:px-6 py-3 font-semibold border-r border-purple-400">
                           Rank
                         </th>
@@ -268,7 +309,7 @@ export const TopNPrediction = ({
                             index % 2 === 0 ? "bg-white" : "bg-gray-50"
                           } text-gray-800`}
                         >
-                          <td className="px-4 sm:px-6 py-3 text-sm font-poppins font-semibold bg-gradient-to-r from-yellow-100 to-yellow-200 text-yellow-800 text-center border-r border-gray-200">
+                          <td className="px-4 sm:px-6 py-3 text-sm font-poppins font-semibold bg-blue-100 text-blue-600 text-center border-r border-gray-200">
                             {index + 1}
                           </td>
                           <td className="px-4 sm:px-6 py-3 font-stix text-center border-r border-gray-100 text-gray-700">
