@@ -204,7 +204,7 @@ export default function TableMatrix({
 
       <div className="flex flex-col items-center justify-center p-4">
         <div className="overflow-x-auto w-full">
-          <div className="rounded-xl shadow-lg inline-block min-w-full">
+          <div className="rounded-xl inline-block min-w-full">
             <table className="min-w-full">
               <thead>
                 <tr className="bg-gradient-to-r from-blue-500 to-blue-600 text-white">

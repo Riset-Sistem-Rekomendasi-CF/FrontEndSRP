@@ -47,46 +47,51 @@ export default function BcSimilarityFrequency({
   return (
     <>
       <DividerHeading text="Frekuensi" />
-      <div className="bg-green-200 rounded-sm shadow-md border border-black p-2">
-        <div className="flex flex-wrap gap-4 justify-around items-start mb-2">
+      <div className="bg-green-500 rounded-xl p-4">
+        <div className="flex flex-wrap gap-4 justify-center items-start">
           {filteredData.map(({ index, ratings }) => {
             const { frequency, total } = getRatingFrequencies(ratings);
 
             return (
               <div
                 key={index}
-                className="border border-gray-400 rounded-md bg-white shadow-sm"
+                className="overflow-hidden rounded-xl shadow-md bg-white"
               >
-                <table className="text-sm border border-black w-40 text-center">
-                  <thead className="bg-gray-200 font-semibold">
-                    <tr>
-                      <th colSpan={2} className="border-b border-black">
+                <table className="text-sm w-44 text-center">
+                  <thead>
+                    <tr className="bg-blue-500 text-white">
+                      <th colSpan={2} className="px-4 py-2 font-semibold">
                         {opsional === "user-based"
                           ? `User ${index + 1}`
                           : `Item ${index + 1}`}
                       </th>
                     </tr>
-                    <tr>
-                      <th className="border-r border-black">
+                    <tr className="bg-green-100 text-green-800">
+                      <th className="px-3 py-2 font-medium border-r border-green-200">
                         {isNotation ? "rᵢ" : "Rating"}
                       </th>
-                      <th>Frekuensi</th>
+                      <th className="px-3 py-2 font-medium">Frekuensi</th>
                     </tr>
                   </thead>
                   <tbody>
                     {frequency.map((freq, idx) => (
-                      <tr key={idx}>
-                        <td className="border border-black px-2 py-1">
+                      <tr
+                        key={idx}
+                        className={`transition-all duration-200 ${
+                          idx % 2 === 0 ? "bg-white" : "bg-gray-50"
+                        }`}
+                      >
+                        <td className="px-3 py-2 text-gray-700 border-r border-gray-100">
                           {idx + 1}
                         </td>
-                        <td className="border border-black px-2 py-1">
-                          {freq}
-                        </td>
+                        <td className="px-3 py-2 text-gray-600">{freq}</td>
                       </tr>
                     ))}
-                    <tr className="bg-orange-300 font-semibold">
-                      <td className="border border-black px-2 py-1">Total</td>
-                      <td className="border border-black px-2 py-1">{total}</td>
+                    <tr className="bg-orange-500 text-white font-semibold">
+                      <td className="px-3 py-2 border-r border-orange-300">
+                        Total
+                      </td>
+                      <td className="px-3 py-2">{total}</td>
                     </tr>
                   </tbody>
                 </table>

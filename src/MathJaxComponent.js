@@ -27,12 +27,11 @@
 
 // export default MathJaxComponent;
 
-
 // export default MathJaxComponent;
 
-import React, { useEffect, useState } from 'react';
-import { MathJax, MathJaxContext } from 'better-react-mathjax';
-import mathjaxConfig from './mathjax-config';
+import React, { useEffect, useState } from "react";
+import { MathJax, MathJaxContext } from "better-react-mathjax";
+import mathjaxConfig from "./mathjax-config";
 
 const MathJaxComponent = ({ children, className }) => {
   const [ready, setReady] = useState(false);
@@ -44,7 +43,7 @@ const MathJaxComponent = ({ children, className }) => {
     return () => clearTimeout(timeout);
   }, [children]);
 
-  if (!children || typeof children !== 'string') return null;
+  if (!children || typeof children !== "string") return null;
 
   return (
     <MathJaxContext version={3} config={mathjaxConfig}>
@@ -54,15 +53,11 @@ const MathJaxComponent = ({ children, className }) => {
         </div>
       ) : (
         <div className={className}>
-          <MathJax dynamic inline>
-            {children}
-          </MathJax>
+          <MathJax dynamic>{children}</MathJax>
         </div>
       )}
     </MathJaxContext>
   );
 };
 
-
 export default MathJaxComponent;
-

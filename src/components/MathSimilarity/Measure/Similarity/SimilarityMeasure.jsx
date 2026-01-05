@@ -126,7 +126,7 @@ export default function SimilarityMeasure({
 
     return (
       <div className="flex justify-center mt-4">
-        <div className="overflow-x-auto w-full rounded-xl shadow-lg">
+        <div className="overflow-x-auto w-full rounded-xl">
           <TableSimilarity>
             <HeadTableSimilarity opsional={opsional}>
               {Array.from({ length: numberOfColumnsSim }, (_, index) => (

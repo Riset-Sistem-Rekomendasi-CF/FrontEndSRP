@@ -1,7 +1,7 @@
 const OnlyTabel = ({ headers, columns, data }) => {
   return (
     <div className="overflow-x-auto w-full mt-5">
-      <div className="rounded-xl shadow-lg overflow-hidden">
+      <div className="rounded-xl overflow-hidden">
         <table className="min-w-full text-sm sm:text-base">
           <thead>
             <tr className="bg-blue-500 text-white">

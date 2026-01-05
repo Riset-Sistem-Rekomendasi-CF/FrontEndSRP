@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import TabelView from "../../components/table/TabelView.jsx";
 import * as emoji from "../../helper/generateEmot";
+import { tutorialNumericData } from "../../data";
 
 import {
   DropdownMethodBased,
@@ -108,13 +109,7 @@ const Tutorial = () => {
     },
   ];
 
-  const [data] = useState([
-    [5, 0, 4, 3, 5, 4],
-    [4, 5, 0, 3, 2, 3],
-    [0, 3, 0, 2, 1, 0],
-    [1, 2, 2, 0, 3, 4],
-    [1, 0, 1, 2, 3, 3],
-  ]);
+  const [data] = useState(tutorialNumericData);
 
   const header = emoji.GEmot(5, "item");
   const column = emoji.GEmot(5, "user");

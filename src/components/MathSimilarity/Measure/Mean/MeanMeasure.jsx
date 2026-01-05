@@ -95,7 +95,7 @@ export default function MeanMeasure({
     return (
       <>
         <div className="flex justify-center mt-4">
-          <div className="overflow-hidden rounded-xl shadow-lg">
+          <div className="overflow-hidden rounded-xl">
             <table className="text-xs sm:text-sm md:text-base lg:text-lg text-black">
               <thead>
                 <tr className="bg-gradient-to-r from-blue-500 to-blue-600 text-white">

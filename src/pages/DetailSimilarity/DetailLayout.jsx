@@ -54,7 +54,7 @@ export default function DetailLayout({
         <meta name="twitter:description" content={metaDescription} />
       </Helmet>
 
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors duration-300">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
         <Navbar />
 
         {/* Hero Section */}
@@ -83,7 +83,6 @@ export default function DetailLayout({
                 <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold bg-gradient-to-r from-gray-800 via-gray-700 to-gray-600 dark:from-white dark:via-gray-200 dark:to-gray-300 bg-clip-text text-transparent pb-2">
                   {pageTitle}
                 </h1>
-                <div className="h-1 w-24 sm:w-32 md:w-40 mx-auto bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-full mt-2" />
               </div>
               <p className="mt-4 text-sm sm:text-base text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
                 Pelajari konsep dan implementasi {pageTitle} dalam sistem
@@ -114,16 +113,7 @@ export default function DetailLayout({
               data-aos-delay="200"
               className="mt-8 sm:mt-12 lg:mt-16"
             >
-              <div className="text-center mb-6 sm:mb-8">
-                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 dark:text-white">
-                  📚 Langkah-langkah Perhitungan
-                </h2>
-                <p className="mt-2 text-sm sm:text-base text-gray-500 dark:text-gray-400">
-                  Ikuti panduan step-by-step berikut untuk memahami perhitungan
-                </p>
-              </div>
-
-              <div className="bg-white dark:bg-gray-800 rounded-2xl sm:rounded-3xl shadow-xl p-4 sm:p-6 lg:p-8 border border-gray-100 dark:border-gray-700">
+              <div className="bg-white dark:bg-gray-800 ">
                 <CardStepper steps={steps} />
               </div>
             </div>

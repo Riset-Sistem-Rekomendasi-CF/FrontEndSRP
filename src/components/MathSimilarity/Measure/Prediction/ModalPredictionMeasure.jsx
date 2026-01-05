@@ -124,7 +124,7 @@ const ModalPredictionMeasure = ({
             <div>
               <DividerHeading text={"Data Rating"} />
               <div className="flex justify-center mt-4">
-                <div className="overflow-hidden rounded-xl shadow-lg">
+                <div className="overflow-hidden rounded-xl">
                   <table className="text-xs sm:text-sm md:text-base lg:text-lg">
                     <thead>
                       <tr className="bg-gradient-to-r from-blue-500 to-blue-600 text-white">
@@ -163,11 +163,20 @@ const ModalPredictionMeasure = ({
                             }`}
                           >
                             <td className="px-4 py-3 bg-gray-100 font-medium text-gray-700 border-r border-gray-200">
-                              {!funnyMode
-                                ? rowIndex + 1
-                                : (opsional === "user-based"
+                              {!isNotation ? (
+                                !funnyMode ? (
+                                  rowIndex + 1
+                                ) : (
+                                  (opsional === "user-based"
                                     ? columns
-                                    : headers)[rowIndex]}
+                                    : headers)[rowIndex]
+                                )
+                              ) : (
+                                <span className="italic font-serif">
+                                  {opsional === "user-based" ? "u" : "i"}
+                                  <sub>{rowIndex + 1}</sub>
+                                </span>
+                              )}
                             </td>
                             <td
                               className={`px-4 py-3 text-center transition-all duration-200 ${
@@ -206,7 +215,7 @@ const ModalPredictionMeasure = ({
             <div>
               <DividerHeading text={"Mean-Rating"} />
               <div className="flex justify-center mt-4">
-                <div className="overflow-hidden rounded-xl shadow-lg">
+                <div className="overflow-hidden rounded-xl">
                   <table className="text-xs sm:text-sm md:text-base lg:text-lg">
                     <thead>
                       <tr className="bg-gradient-to-r from-blue-500 to-blue-600 text-white">
@@ -234,11 +243,20 @@ const ModalPredictionMeasure = ({
                             } ${isActiveUser ? "!bg-green-100" : ""}`}
                           >
                             <td className="px-4 py-3 bg-gray-100 font-medium text-gray-700 border-r border-gray-200">
-                              {!funnyMode
-                                ? index + 1
-                                : (opsional === "user-based"
+                              {!isNotation ? (
+                                !funnyMode ? (
+                                  index + 1
+                                ) : (
+                                  (opsional === "user-based"
                                     ? columns
-                                    : headers)[index]}
+                                    : headers)[index]
+                                )
+                              ) : (
+                                <span className="italic font-serif">
+                                  {opsional === "user-based" ? "u" : "i"}
+                                  <sub>{index + 1}</sub>
+                                </span>
+                              )}
                             </td>
                             <td
                               className={`px-4 py-3 text-center ${
@@ -268,7 +286,7 @@ const ModalPredictionMeasure = ({
             <div>
               <DividerHeading text={"Mean-Centered"} />
               <div className="flex justify-center mt-4">
-                <div className="overflow-hidden rounded-xl shadow-lg">
+                <div className="overflow-hidden rounded-xl">
                   <table className="text-xs sm:text-sm md:text-base lg:text-lg">
                     <thead>
                       <tr className="bg-gradient-to-r from-blue-500 to-blue-600 text-white">
@@ -318,11 +336,20 @@ const ModalPredictionMeasure = ({
                             }`}
                           >
                             <td className="px-4 py-3 bg-gray-100 font-medium text-gray-700 border-r border-gray-200">
-                              {!funnyMode
-                                ? rowIndex + 1
-                                : (opsional === "user-based"
+                              {!isNotation ? (
+                                !funnyMode ? (
+                                  rowIndex + 1
+                                ) : (
+                                  (opsional === "user-based"
                                     ? columns
-                                    : headers)[rowIndex]}
+                                    : headers)[rowIndex]
+                                )
+                              ) : (
+                                <span className="italic font-serif">
+                                  {opsional === "user-based" ? "u" : "i"}
+                                  <sub>{rowIndex + 1}</sub>
+                                </span>
+                              )}
                             </td>
                             <td
                               className={`px-4 py-3 text-center transition-all duration-200 ${
@@ -373,7 +400,7 @@ const ModalPredictionMeasure = ({
               <div>
                 <DividerHeading text={"Similaritas"} />
                 <div className="flex justify-center mt-4">
-                  <div className="overflow-hidden rounded-xl shadow-lg">
+                  <div className="overflow-hidden rounded-xl">
                     <table className="text-xs sm:text-sm md:text-base lg:text-lg">
                       <thead>
                         <tr className="bg-gradient-to-r from-blue-500 to-blue-600 text-white">
@@ -402,11 +429,20 @@ const ModalPredictionMeasure = ({
                               }`}
                             >
                               <td className="px-4 py-3 bg-gray-100 font-medium text-gray-700 border-r border-gray-200">
-                                {!funnyMode
-                                  ? colIndex + 1
-                                  : (opsional === "user-based"
+                                {!isNotation ? (
+                                  !funnyMode ? (
+                                    colIndex + 1
+                                  ) : (
+                                    (opsional === "user-based"
                                       ? columns
-                                      : headers)[colIndex]}
+                                      : headers)[colIndex]
+                                  )
+                                ) : (
+                                  <span className="italic font-serif">
+                                    {opsional === "user-based" ? "u" : "i"}
+                                    <sub>{colIndex + 1}</sub>
+                                  </span>
+                                )}
                               </td>
                               <td
                                 className={`px-4 py-3 text-center transition-all duration-200 ${
@@ -489,7 +525,7 @@ const ModalPredictionMeasure = ({
             <DividerHeading text={"Data yang Digunakan dalam Perhitungan"} />
             <div className="flex flex-row gap-4 justify-center items-start mt-2 flex-wrap">
               {/* Tabel Mean User Aktif */}
-              <div className="rounded-xl shadow-lg overflow-hidden h-fit">
+              <div className="rounded-xl overflow-hidden h-fit">
                 <table className="w-auto">
                   <thead>
                     <tr className="bg-yellow-500 text-white">
@@ -520,7 +556,7 @@ const ModalPredictionMeasure = ({
               </div>
 
               {/* Tabel Top-K Similaritas */}
-              <div className="rounded-xl shadow-lg overflow-hidden">
+              <div className="rounded-xl overflow-hidden">
                 <table className="w-auto">
                   <thead>
                     <tr className="bg-blue-500 text-white">
@@ -591,7 +627,7 @@ const ModalPredictionMeasure = ({
               </div>
 
               {/* Tabel Hasil Prediksi */}
-              <div className="rounded-xl shadow-lg overflow-hidden h-fit">
+              <div className="rounded-xl overflow-hidden h-fit">
                 <table className="w-auto">
                   <thead>
                     <tr className="bg-purple-500 text-white">
